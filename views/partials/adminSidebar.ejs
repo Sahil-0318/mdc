@@ -1,0 +1,93 @@
+<div class="sidebar pe-4 pb-3">
+    <nav class="navbar bg-light navbar-light">
+        <a href="/" class="navbar-brand mx-4 mb-3">
+            <h3 class="text-primary">BD College</h3>
+        </a>
+        <div class="d-flex align-items-center ms-4 mb-4">
+            <div class="position-relative">
+                <!-- <img class="rounded-circle" src="../images/user.jpg" alt="" style="width: 40px; height: 40px;"> -->
+                <div
+                    class="bg-primary text-white rounded-circle border border-2 border-white p-1 d-flex align-items-center justify-content-center"  style="width: 40px; height: 40px;">
+                    <%= locals.user.fullName.slice(0, 1)%>
+                </div>
+            </div>
+            <div class="ms-3">
+                <h6 class="mb-0"><%= locals.user.fullName%></h6>
+                <% if(locals.user.isAdmin){ %>
+                    <span>Admin</span>
+                <% } else {%>
+                    <span>User</span>
+                <% }%>
+
+            </div>
+        </div>
+        <div class="navbar-nav w-100">
+            <div class="nav-item dropdown">
+                <a href="/adminPage" class="nav-link"><i class="fa-solid fa-home me-2"></i>Dashboard</a>
+            </div>
+
+            <div class="nav-item dropdown">
+                <a href="/admissionFormList" class="nav-link"><i class="fa-solid fa-file-lines me-2"></i>Admission List</a>
+            </div>
+            
+            <!-- <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                        class=" fa-solid fa-graduation-cap me-2"></i>Academic</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="#" class="dropdown-item">Pre Admission</a>
+                    <a href="#" class="dropdown-item">Transaction</a>
+                    <a href="#" class="dropdown-item">Student Reports</a>
+                    <a href="#" class="dropdown-item">Fee Reports</a>
+                    <a href="#" class="dropdown-item">Tally Integration</a>
+                    <a href="#" class="dropdown-item">Setting</a>
+                    <a href="#" class="dropdown-item">Graphical Report</a>
+                    <a href="#" class="dropdown-item">JD Reports</a>
+                    <a href="#" class="dropdown-item">Import Excell Data</a>
+                </div>
+            </div> -->
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                        class="fa-solid fa-certificate me-2"></i>Certificates</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="/clcList" class="dropdown-item">CLC</a>
+                    <!-- <a href="/user/clc" class="dropdown-item">No Dues Form</a>
+                    <a href="/user/clc" class="dropdown-item">Miscleneous Recipt</a>
+                    <a href="/user/clc" class="dropdown-item">Admission Recipt</a>
+                    <a href="/user/clc" class="dropdown-item">Bonafied</a>
+                    <a href="/user/clc" class="dropdown-item">Transfer Certificate</a>
+                    <a href="/user/clc" class="dropdown-item">Salary Statement</a> -->
+                </div>
+            </div>
+            <!-- <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                        class="fa-solid fa-book me-2"></i>Library</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="#" class="dropdown-item">Sign In</a>
+                    <a href="#" class="dropdown-item">Sign Up</a>
+                    <a href="#" class="dropdown-item">404 Error</a>
+                    <a href="#" class="dropdown-item">Blank Page</a>
+                </div>
+            </div> -->
+            <!-- <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                        class="far fa-file-alt me-2"></i>Test Prep</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="#" class="dropdown-item">Sign In</a>
+                    <a href="#" class="dropdown-item">Sign Up</a>
+                    <a href="#" class="dropdown-item">404 Error</a>
+                    <a href="#" class="dropdown-item">Blank Page</a>
+                </div>
+            </div> -->
+            <!-- <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                        class="fa fa-solid fa-user-plus me-2"></i>Authorization</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="chart.ejs" class="dropdown-item">Master</a>
+                </div>
+            </div> -->
+            <!-- <div class="nav-item dropdown">
+                <a href="#" class="nav-link"><i class="fa-solid fa-key me-2"></i>Password Reset</a>
+            </div> -->
+        </div>
+    </nav>
+</div>

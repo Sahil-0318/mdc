@@ -1,0 +1,146 @@
+<%- include('./partials/header.ejs') %>
+
+        <!-- Sidebar Start -->
+        <%- include('./partials/sidebar.ejs')%>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <%- include('./partials/navbar.ejs')%>
+            <!-- Navbar End -->
+
+
+            <!-- Blank Start -->
+
+
+            <div class="container-fluid pt-4 px-4">
+                <% if(locals.submitted){ %>
+                    <div id="submitPopUp">
+                      <div class="alert alert-success" role="alert">
+                        <%= locals.submitted %>
+                      </div>
+                    </div>
+                    <% }%>
+        
+        
+                      <% if(locals.alreadysubmitted){ %>
+                        <div id="submitPopUp">
+                          <div class="alert alert-danger" role="alert">
+                            <%= locals.alreadysubmitted %>
+                          </div>
+                        </div>
+                        <% }%>
+                <div class="row vh-100 justify-content-center align-items-center bg-light rounded mx-0">
+
+                    <form action="/clc" method="post">
+                        <div class="row g-3">
+                            <h6 class="px-3">Get CLC</h6>
+
+                            <div class="col-12 col-md-6">
+                                <input name="fName" type="text" class="form-control" placeholder="First name"
+                                    aria-label="First name" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <input name="lName" type="text" class="form-control" placeholder="Last name"
+                                    aria-label="Last name" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <input name="collegeClass" type="text" class="form-control" placeholder="Class"
+                                    aria-label="collegeClass" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <input name="classRoll" type="text" class="form-control" placeholder="Class Roll"
+                                    aria-label="classRoll" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <input name="session" type="text" class="form-control" placeholder="Session E.g. 2021-2024"
+                                    aria-label="session" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <input name="dOB" type="date" class="form-control" placeholder="Date of Birth"
+                                    aria-label="dOB" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <input name="uniRollNumber" type="text" class="form-control" placeholder="University Roll Number"
+                                    aria-label="uniRollNumber" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <input name="registrationNumber" type="text" class="form-control"
+                                    placeholder="Registration number" aria-label="registrationNumber" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <input name="yOPUniEx" type="text" class="form-control"
+                                    placeholder="Passing University Exam" aria-label="yOPUniEx" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <input name="subTaken" type="text" class="form-control"
+                                    placeholder="Subject Taken" aria-label="subTaken" required>
+                            </div>
+                            <div class="col-12">
+                                <input name="fatherName" type="text" class="form-control" placeholder="Father's name"
+                                    aria-label="Father's name" required>
+                            </div>
+                            
+                            
+                            <div class="col-12">
+                                <input name="email" type="email" class="form-control" placeholder="Enter email to get certificate PDF"
+                                    aria-label="Father's name" required>
+                            </div>
+                            <button id="clsSubBtn" type="submit" class="col-3 btn btn-primary mx-2">Submit</button>
+                        </div>
+                    </form>
+
+
+
+                </div>
+            </div>
+            <!-- Blank End -->
+
+
+            <!-- Footer Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-light rounded-top p-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 text-center text-sm-start">
+                            &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+                        </div>
+                        <div class="col-12 col-sm-6 text-center text-sm-end">
+                            
+                            Designed By <a href="#">Tech & Hub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../lib/chart/chart.min.js"></script>
+    <script src="../lib/easing/easing.min.js"></script>
+    <script src="../lib/waypoints/waypoints.min.js"></script>
+    <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../lib/tempusdominus/js/moment.min.js"></script>
+    <script src="../lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="../javascripts/main.js"></script>
+    <script>
+        const submitPopUp = document.querySelector('#submitPopUp')
+        setInterval(() => {
+          submitPopUp.innerHTML = ''
+        }, 3000);
+      </script>
+</body>
+
+</html>
