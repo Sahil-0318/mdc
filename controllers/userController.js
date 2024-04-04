@@ -82,10 +82,12 @@ const admissionFormPost = async (req, res) => {
     try {
 
         const user = await User.findOne({ _id: req.id })
-        // console.log(user);
+        console.log('line 85');
+        console.log(user);
 
         const appliedUser = await AdmissionForm.findOne({ appliedBy: user._id.toString() })
-        // console.log(appliedUser);
+        console.log(appliedUser);
+        console.log("line 90");
 
         const { fullName, registrationNumber, session, aadharNumber, dOB, gender, nationality, category, religion, fatherName, motherName, parmanentAddress, parmanentAddressPin, presentAddress, presentAddressPin, mobileNumber, email, course } = req.body
 
@@ -142,8 +144,8 @@ const admissionFormPost = async (req, res) => {
             })
 
             const admFormSubmitted = await admForm.save();
-            // console.log('line 131');
-            // console.log(admFormSubmitted);
+            console.log('line 131');
+            console.log(admFormSubmitted);
 
             // if (gender === 'Female') {
             //     res.status(201).render('paymentPage', { "amount": "100", user })
@@ -161,10 +163,12 @@ const admissionFormPost = async (req, res) => {
             //     }
             // }
 
-            if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
+            if (category === "General" || category === "BC-2") {
                 res.status(201).render('paymentPage', { "amount": "3000", user })
+                console.log('Here is problem');
+                
                         
-            } else if(appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
+            } else if(category === "BC-1" || category === "SC" || appliedUser.category === "ST") {
                 res.status(201).render('paymentPage', { "amount": "2830", user })     
             }
 
