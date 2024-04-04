@@ -25,10 +25,46 @@ const userPage = async (req, res) => {
 const admissionForm = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
+        // return res.render('admissionForm', { user })
+        
         // console.log(user);
         
+        const appliedUser = await AdmissionForm.findOne({ appliedBy: user._id.toString() })
+        // console.log('line 32');
+        // console.log(appliedUser);
+
+
+        if (appliedUser!==null) {
+            
+            if (!appliedUser.isPaid) {
+                // console.log('38');
+                if (appliedUser.gender === 'Female') {
+                    res.status(201).render('paymentPage', { "amount": "100", user })
+                    
+                } else {
+                    if (appliedUser.category === "General") {
+                        res.status(201).render('paymentPage', { "amount": "150", user })
+                        
+                    } else if(appliedUser.category === "SC" || caste === "ST") {
+                        res.status(201).render('paymentPage', { "amount": "100", user })
+                        
+                    } else if(category === "OBC"){
+                        res.status(201).render('paymentPage', { "amount": "120", user })
+    
+                    }
+                }
+            }
+            else{
+                return res.render('admissionForm', { user, appliedUser })
+            }
+        }
+        else{
+            return res.render('admissionForm', { user })
+        }
+
         
-        return res.render('admissionForm', { user })
+
+
     } catch (error) {
         res.status(401)
     }
@@ -38,47 +74,95 @@ const admissionForm = async (req, res) => {
 // Admission Form Post
 const admissionFormPost = async (req, res) => {
     try {
-        const fileUpload = await FileUpload(req.file.path)
-        const photoURL = fileUpload.secure_url
-        
+
         const user = await User.findOne({ _id: req.id })
         // console.log(user);
-        
+
         const appliedUser = await AdmissionForm.findOne({ appliedBy: user._id.toString() })
         // console.log(appliedUser);
 
-        const {fullName, registrationNumber, currentYear, aadharNumber, dOB, gender, nationality, caste, religion, fatherName, motherName, parmanentAddress, parmanentAddressPin, presentAddress, presentAddressPin, mobileNumber, email} = req.body
+        const { fullName, registrationNumber, session, aadharNumber, dOB, gender, nationality, category, religion, fatherName, motherName, parmanentAddress, parmanentAddressPin, presentAddress, presentAddressPin, mobileNumber, email, course } = req.body
+
+        const collCount = await AdmissionForm.countDocuments()
+        // console.log(collCount);
+        const admCount = collCount+1
+        // console.log(admCount);
+
+        const slipNo = "IA/" + "2024-2025/" + (collCount+1)
+        
+        
 
 
         if (appliedUser == null || appliedUser.appliedBy != user._id.toString()) {
+            // console.log(req.files);
+            const images = req.files
+            
+            // console.log(images[0].path);
+            const photoUpload = await FileUpload(images[0].path)
+            const photoURL = photoUpload.secure_url
+            // console.log(photoURL);
+            
+            // console.log(images[1].path);
+            const signUpload = await FileUpload(images[1].path)
+            const signURL = signUpload.secure_url
+            // console.log(signURL);
+
+
+
             const admForm = new AdmissionForm({
-              fullName,
-              registrationNumber,
-              currentYear,
-              aadharNumber,
-              dOB,
-              gender,
-              nationality,
-              religion,
-              caste,
-              fatherName,
-              motherName,
-              parmanentAddress,
-              parmanentAddressPin,
-              presentAddress,
-              presentAddressPin,
-              mobileNumber,
-              email,
-              admissionPhoto: photoURL,
-              appliedBy: user._id
+                fullName,
+                registrationNumber,
+                session,
+                aadharNumber,
+                dOB,
+                gender,
+                nationality,
+                religion,
+                category,
+                fatherName,
+                motherName,
+                parmanentAddress,
+                parmanentAddressPin,
+                presentAddress,
+                presentAddressPin,
+                mobileNumber,
+                email,
+                course,
+                admissionPhoto: photoURL,
+                studentSign: signURL,
+                admNumber: admCount,
+                slipNo: slipNo,
+                appliedBy: user._id
             })
-      
+
             const admFormSubmitted = await admForm.save();
-            res.status(201).render('admissionForm', { "submitted": "Form Submitted", user })
-          }
-          else {
+            // console.log('line 131');
+            // console.log(admFormSubmitted);
+
+            if (gender === 'Female') {
+                res.status(201).render('paymentPage', { "amount": "100", user })
+                
+            } else {
+                if (category === "General") {
+                    res.status(201).render('paymentPage', { "amount": "150", user })
+                    
+                } else if(category === "SC" || caste === "ST") {
+                    res.status(201).render('paymentPage', { "amount": "100", user })
+                    
+                } else if(category === "OBC") {
+                    res.status(201).render('paymentPage', { "amount": "120", user })
+
+                }
+            }
+            // res.status(201).render('admissionForm', { "submitted": "Form Submitted", user, admFormSubmitted })
+            
+            // res.status(201).render('admissionForm', { "submitted": "Form Submitted", user, admFormSubmitted })
+            // const url = 'http://localhost:5000/payment'
+            // res.status(201).redirect(url)
+        }
+        else {
             res.status(201).render('admissionForm', { "alreadysubmitted": "You have already submitted the form.", user })
-          }
+        }
     } catch (error) {
         res.status(401)
     }
@@ -89,7 +173,7 @@ const admissionFormPost = async (req, res) => {
 const clc = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
-        
+
         return res.render('clc', { user })
     } catch (error) {
         res.status(401)

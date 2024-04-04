@@ -9,8 +9,8 @@ const admissionFormSchema = mongoose.Schema({
         type : Number,
         required : true
     },
-    currentYear:{
-        type : Number,
+    session:{
+        type : String,
         required : true
     },
     aadharNumber:{
@@ -29,7 +29,7 @@ const admissionFormSchema = mongoose.Schema({
         type : String,
         required : true
     },
-    caste:{
+    category:{
         type : String,
         required : true
     },
@@ -69,13 +69,37 @@ const admissionFormSchema = mongoose.Schema({
         type : String,
         required : true
     },
+    course:{
+        type : String,
+        required : true
+    },
     admissionPhoto: {
+        type : String,
+        required : true
+    },
+    studentSign: {
         type : String,
         required : true
     },
     appliedBy: {
         type : String,
         required : true
+    },
+    admNumber:{
+        type : Number,
+        // required : true
+    },
+    slipNo:{
+        type : String,
+        // required : true
+    },
+    isPaid :{
+        type: Boolean,
+        default: false
+    },
+    refNo:{
+        type : String,
+        default: "qwerty"
     }
 }, {timestamps:true})
 

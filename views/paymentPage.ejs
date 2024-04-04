@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <style>
+        h1{
+          text-align: center;  
+        }
+
+        .qrcode{
+            width: 200px;
+            height: 200px;
+            margin: auto;
+        }
+
+        .qrcode img{
+            width: 100%;
+            height: 100%;
+        }
+
+        .upiid{
+            text-align: center;
+        }
+
+        .payDiv{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .payAmount{
+            background-color: greenyellow;
+            padding: 5px 10px;
+            font-weight: 700;
+            
+        }
+
+        .refNoForm{
+            width: 250px;
+            margin: auto;
+        }
+
+        .refNoForm label{
+            display: block;
+        }
+
+        .refNoForm input{
+            width: 100%;
+            margin: 10px 0px;
+            font-size: 20px;
+            padding: 2px 5px;
+        }
+
+        .note{
+            color: red;
+            text-align: center;
+            font-weight: 600;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pay Admission Fee</h1>
+    <div class="qrcode">
+        <img src="images/WhatsApp Image 2024-04-04 at 01.13.11_d02c673a.jpg" alt="QR Code">
+    </div>
+    <p class="upiid">UPI ID - 9693868864@paytm</p>
+    <div class="payDiv">
+        <p class="payAmount">Pay ₹<%= locals.amount %></p>
+    </div>
+
+    <form class="refNoForm" action="/refNo" method="post">
+        <label for="refNo">Enter UTI/Ref No. below after payment</label>
+        <input type="text" name="refNo" id="refNo" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <p class="note">Note: Submit hard copy of Payment Screenshot and Payment Slip to College.</p>
+    <!-- <p class="note">and Payment Slip to College.</p> -->
+
+</body>
+</html>

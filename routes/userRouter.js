@@ -15,13 +15,16 @@ import multer from 'multer'
 
 const storage = multer.diskStorage({})
   
-const upload = multer({ storage })
+const upload = multer({
+    storage: storage,
+    limits: {fileSize: 100000}
+})
 
 
 userRouter.get('/', index)
 userRouter.get('/userPage',userAuth, userPage)
 userRouter.get('/admissionForm',userAuth, admissionForm)
-userRouter.post('/admissionForm',userAuth, upload.single('photo'),  admissionFormPost)
+userRouter.post('/admissionForm',userAuth, upload.array('photo'),  admissionFormPost)
 userRouter.get('/clc',userAuth, clc)
 userRouter.post('/clc',userAuth, clcPost)
 

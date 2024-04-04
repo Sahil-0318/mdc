@@ -9,7 +9,7 @@ import {
     approvedByAdmin
     // admissionList
  } 
- from '../controllers/admincontroller.js'
+ from '../controllers/adminController.js'
 
  adminRouter.get('/adminPage', adminAuth, adminPage)
 

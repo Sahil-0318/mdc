@@ -13,7 +13,7 @@ const registerPost = async (req, res) => {
 
         // Generate userName Function
         let generateUserName = () => {
-            return (email.slice(0, 6) + mobileNumber.slice(3, 7) + "@BDCP")
+            return (email.slice(0, 6) + mobileNumber.slice(3, 7) + "@MDCN")
         }
         let createdUserName = generateUserName().toUpperCase()
         // console.log(createdUserName);
@@ -27,7 +27,7 @@ const registerPost = async (req, res) => {
             return pass
         }
         let createdPassword = generatePassword()
-        // console.log(createdPassword);
+        console.log(createdPassword);
 
         const existEmail = await User.findOne({ email })
         // console.log(existEmail)
@@ -47,7 +47,7 @@ const registerPost = async (req, res) => {
 
             // sending userName and password through mail
             const transporter = nodemailer.createTransport({
-                service: 'gmail',
+                service: 'gmail.com',
                 // port: 587,
                 port: 465,
                 auth: {
@@ -61,7 +61,7 @@ const registerPost = async (req, res) => {
                 to: email,
                 subject: 'Login Credentials',
                 // text: 'Yout CLC approved... 🎉',
-                text: `Dear Students, Your login credentials are \nUserName is ${createdUserName} and Password is ${createdPassword}. \n \n BD College, Patna`
+                text: `Dear Students, Your login credentials are \nUserName is ${createdUserName} and Password is ${createdPassword}. \n \n MD College, Patna`
             };
 
             transporter.sendMail(mailOptions, (error, info) => {
