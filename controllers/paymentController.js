@@ -116,14 +116,19 @@ const refNoPost = async (req, res) =>{
     // console.log(appledUser);
     const appliedUser = await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, {$set: {isPaid: "true"}})
     // console.log(appliedUser);
-    if (appliedUser.gender === "Female") {
-        fee=100
-    } else if (appliedUser.category === "General") {
-        fee=150
-    } else if (appliedUser.category === "SC" || appliedUser.category ==="ST") {
-        fee=100
+    // if (appliedUser.gender === "Female") {
+    //     fee=100
+    // } else if (appliedUser.category === "General") {
+    //     fee=150
+    // } else if (appliedUser.category === "SC" || appliedUser.category ==="ST") {
+    //     fee=100
+    // } else {
+    //     fee=120
+    // }
+    if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
+        fee=3000
     } else {
-        fee=120
+        fee=2830
     }
     return res.render('slip', { user, appliedUser, "fee":fee })
 
@@ -132,14 +137,19 @@ const refNoPost = async (req, res) =>{
 const getSlipPost = async (req, res) =>{
     const user = await User.findOne({ _id: req.id })
     const appliedUser = await AdmissionForm.findOne({ appliedBy: user._id.toString() })
-    if (appliedUser.gender === "Female") {
-        fee=100
-    } else if (appliedUser.category === "General") {
-        fee=150
-    } else if (appliedUser.category === "SC" || appliedUser.category ==="ST") {
-        fee=100
+    // if (appliedUser.gender === "Female") {
+    //     fee=100
+    // } else if (appliedUser.category === "General") {
+    //     fee=150
+    // } else if (appliedUser.category === "SC" || appliedUser.category ==="ST") {
+    //     fee=100
+    // } else {
+    //     fee=120
+    // }
+    if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
+        fee=3000
     } else {
-        fee=120
+        fee=2830
     }
     return res.render('slip', { user, appliedUser, "fee":fee })
 }

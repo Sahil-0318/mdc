@@ -38,20 +38,26 @@ const admissionForm = async (req, res) => {
             
             if (!appliedUser.isPaid) {
                 // console.log('38');
-                if (appliedUser.gender === 'Female') {
-                    res.status(201).render('paymentPage', { "amount": "100", user })
+                // if (appliedUser.gender === 'Female') {
+                //     res.status(201).render('paymentPage', { "amount": "100", user })
                     
-                } else {
-                    if (appliedUser.category === "General") {
-                        res.status(201).render('paymentPage', { "amount": "150", user })
+                // } else {
+                //     if (appliedUser.category === "General") {
+                //         res.status(201).render('paymentPage', { "amount": "150", user })
                         
-                    } else if(appliedUser.category === "SC" || caste === "ST") {
-                        res.status(201).render('paymentPage', { "amount": "100", user })
+                //     } else if(appliedUser.category === "SC" || caste === "ST") {
+                //         res.status(201).render('paymentPage', { "amount": "100", user })
                         
-                    } else if(category === "OBC"){
-                        res.status(201).render('paymentPage', { "amount": "120", user })
+                //     } else if(category === "OBC"){
+                //         res.status(201).render('paymentPage', { "amount": "120", user })
     
-                    }
+                //     }
+                // }
+                if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
+                    res.status(201).render('paymentPage', { "amount": "3000", user })
+                            
+                } else if(appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
+                    res.status(201).render('paymentPage', { "amount": "2830", user })     
                 }
             }
             else{
@@ -139,21 +145,29 @@ const admissionFormPost = async (req, res) => {
             // console.log('line 131');
             // console.log(admFormSubmitted);
 
-            if (gender === 'Female') {
-                res.status(201).render('paymentPage', { "amount": "100", user })
+            // if (gender === 'Female') {
+            //     res.status(201).render('paymentPage', { "amount": "100", user })
                 
-            } else {
-                if (category === "General") {
-                    res.status(201).render('paymentPage', { "amount": "150", user })
+            // } else {
+            //     if (category === "General") {
+            //         res.status(201).render('paymentPage', { "amount": "150", user })
                     
-                } else if(category === "SC" || caste === "ST") {
-                    res.status(201).render('paymentPage', { "amount": "100", user })
+            //     } else if(category === "SC" || caste === "ST") {
+            //         res.status(201).render('paymentPage', { "amount": "100", user })
                     
-                } else if(category === "OBC") {
-                    res.status(201).render('paymentPage', { "amount": "120", user })
+            //     } else if(category === "OBC") {
+            //         res.status(201).render('paymentPage', { "amount": "120", user })
 
-                }
+            //     }
+            // }
+
+            if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
+                res.status(201).render('paymentPage', { "amount": "3000", user })
+                        
+            } else if(appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
+                res.status(201).render('paymentPage', { "amount": "2830", user })     
             }
+
             // res.status(201).render('admissionForm', { "submitted": "Form Submitted", user, admFormSubmitted })
             
             // res.status(201).render('admissionForm', { "submitted": "Form Submitted", user, admFormSubmitted })

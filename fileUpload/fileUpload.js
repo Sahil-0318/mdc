@@ -16,11 +16,7 @@ const uploadFile = async (filePath) => {
       // console.log(result);
       return result;
     } catch (error) {
-      // console.log('Upload error', error.message);
-      // console.log(filePath);
-      // if (error.name === 'TimeoutError') {
-      //   uploadFile(filePath)
-      // }
+      console.log('Upload error', error.message);
       
     }
 };
