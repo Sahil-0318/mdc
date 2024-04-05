@@ -147,9 +147,9 @@ const getSlipPost = async (req, res) =>{
     //     fee=120
     // }
     if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
-        fee=3000
+        fee=3120
     } else {
-        fee=2830
+        fee=2950
     }
     return res.render('slip', { user, appliedUser, "fee":fee })
 }
