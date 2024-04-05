@@ -54,10 +54,10 @@ const admissionForm = async (req, res) => {
                 //     }
                 // }
                 if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
-                    res.status(201).render('paymentPage', { "amount": "3000", user })
+                    res.status(201).render('paymentPage', { "amount": "3120", user })
                             
                 } else if(appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
-                    res.status(201).render('paymentPage', { "amount": "2830", user })     
+                    res.status(201).render('paymentPage', { "amount": "2950", user })     
                 }
             }
             else{
@@ -164,12 +164,12 @@ const admissionFormPost = async (req, res) => {
             // }
 
             if (category === "General" || category === "BC-2") {
-                res.status(201).render('paymentPage', { "amount": "3000", user })
+                res.status(201).render('paymentPage', { "amount": "3120", user })
                 console.log('Here is problem');
                 
                         
             } else if(category === "BC-1" || category === "SC" || appliedUser.category === "ST") {
-                res.status(201).render('paymentPage', { "amount": "2830", user })     
+                res.status(201).render('paymentPage', { "amount": "2950", user })     
             }
 
             // res.status(201).render('admissionForm', { "submitted": "Form Submitted", user, admFormSubmitted })
