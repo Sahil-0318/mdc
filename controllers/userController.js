@@ -13,7 +13,6 @@ const index = async (req, res) => {
 const userPage = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
-
         return res.render('userPage', { user })
     } catch (error) {
         res.status(401)
@@ -25,8 +24,6 @@ const userPage = async (req, res) => {
 const admissionForm = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
-        // return res.render('admissionForm', { user })
-        
         // console.log(user);
         
         const appliedUser = await AdmissionForm.findOne({ appliedBy: user._id.toString() })
@@ -83,10 +80,10 @@ const admissionFormPost = async (req, res) => {
 
         const user = await User.findOne({ _id: req.id })
         console.log('line 85');
-        console.log(user);
+        // console.log(user);
 
         const appliedUser = await AdmissionForm.findOne({ appliedBy: user._id.toString() })
-        console.log(appliedUser);
+        // console.log(appliedUser);
         console.log("line 90");
 
         const { fullName, rollNumber, session, aadharNumber, dOB, gender, nationality, category, religion, fatherName, motherName, parmanentAddress, parmanentAddressPin, presentAddress, presentAddressPin, mobileNumber, email, course } = req.body
@@ -153,7 +150,7 @@ const admissionFormPost = async (req, res) => {
 
             const admFormSubmitted = await admForm.save();
             console.log('line 131');
-            console.log(admFormSubmitted);
+            // console.log(admFormSubmitted);
 
             // if (gender === 'Female') {
             //     res.status(201).render('paymentPage', { "amount": "100", user })
