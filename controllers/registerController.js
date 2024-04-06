@@ -10,14 +10,16 @@ const register = (req, res) => {
 const registerPost = async (req, res) => {
     try {
         let { fullName, gender, dOB, mobileNumber, email } = req.body
-
+        let lCEmail = email.toLowerCase()
+        
+        
         // Generate userName Function
         let generateUserName = () => {
             return (email.slice(0, 6) + mobileNumber.slice(3, 7) + "@MDCN")
         }
         let createdUserName = generateUserName().toUpperCase()
         // console.log(createdUserName);
-
+        
         // Generate Password Function
         let generatePassword = () => {
             let pass = ""
@@ -27,6 +29,7 @@ const registerPost = async (req, res) => {
             return pass
         }
         let createdPassword = generatePassword()
+        console.log(lCEmail);
         console.log(createdPassword);
 
         const existEmail = await User.findOne({ email })
@@ -38,7 +41,7 @@ const registerPost = async (req, res) => {
                 gender,
                 dOB,
                 mobileNumber,
-                email,
+                email: lCEmail,
                 userName: createdUserName,
                 password: hashpassword
             })
