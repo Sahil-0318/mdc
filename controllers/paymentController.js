@@ -107,7 +107,7 @@ const paymentInvoice = (req, res) => {
 let fee = 0
 const refNoPost = async (req, res) =>{
     const {refNo} = req.body
-    // console.log(refNo);
+    console.log(refNo);
     
     const user = await User.findOne({ _id: req.id })
     // console.log(user);
