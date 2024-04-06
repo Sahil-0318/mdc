@@ -1,59 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Page</title>
     <style>
-        h1{
-          text-align: center;  
+        h1 {
+            text-align: center;
         }
 
-        .qrcode{
+        .qrcode {
             width: 200px;
             height: 200px;
             margin: auto;
         }
 
-        .qrcode img{
+        .qrcode img {
             width: 100%;
             height: 100%;
         }
 
-        .upiid{
+        .refNoImg{
+            width: 250px;
+            margin: auto;
+            padding-top: 10px;
+        }
+
+        .refNoImg img {
+            width: 100%;
+        }
+
+        .upiid {
             text-align: center;
         }
 
-        .payDiv{
+        .payDiv {
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .payAmount{
+        .payAmount {
             background-color: greenyellow;
             padding: 5px 10px;
             font-weight: 700;
-            
+
         }
 
-        .refNoForm{
+        .refNoForm {
             width: 250px;
             margin: auto;
         }
 
-        .refNoForm label{
+        .refNoForm label {
             display: block;
         }
 
-        .refNoForm input{
+        .refNoForm input {
             width: 100%;
             margin: 10px 0px;
             font-size: 20px;
             padding: 2px 5px;
         }
 
-        .note{
+        .note {
             color: red;
             text-align: center;
             font-weight: 600;
@@ -61,6 +72,7 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Pay Admission Fee</h1>
     <div class="qrcode">
@@ -68,17 +80,34 @@
     </div>
     <p class="upiid">UPI ID - 9693868864@paytm</p>
     <div class="payDiv">
-        <p class="payAmount">Pay ₹<%= locals.amount %></p>
+        <p class="payAmount">Pay ₹<%= locals.amount %>
+        </p>
     </div>
 
     <form class="refNoForm" action="/refNo" method="post">
-        <label for="refNo">Enter UTI/Ref No. below after payment</label>
-        <input type="text" name="refNo" id="refNo" required>
+        <label for="refNo">Enter 12 digits UTR/Ref No. below after payment</label>
+        <input type="text" name="refNo" id="refNo" maxlength="12" pattern="[0-9]{12}" required>
         <button type="submit">Submit</button>
     </form>
+
+    <div class="refNoImg">
+        <img src="images/refNo.jpg" alt="Ref no. example">
+    </div>
 
     <p class="note">Note: Submit hard copy of Payment Screenshot and Payment Slip to College.</p>
     <!-- <p class="note">and Payment Slip to College.</p> -->
 
+    <script>
+        const refNo = document.getElementById('refNo');
+
+        refNo.addEventListener('input', function () {
+            if (this.value.length < 12) {
+                this.setCustomValidity('Please enter a 12-digit payment Ref. No.');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    </script>
 </body>
+
 </html>

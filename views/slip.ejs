@@ -60,7 +60,7 @@
                                 <div class="text-muted">
                                     <h5 class="font-size-16 mb-3">Intermidiate Admission Slip:</h5>
                                     <p class="mb-1 fw-bold">Name : <%= locals.appliedUser.fullName %></p>
-                                    <p class="mb-1">Registration No. : <%= locals.appliedUser.registrationNumber %></p>
+                                    <p class="mb-1">Roll No. : <%= locals.appliedUser.rollNumber %></p>
                                     <p class="mb-1 fw-bold">Category : <%= locals.appliedUser.category %></p>
                                     <p class="mb-1">Admission No :  <%= locals.appliedUser.admNumber %></p>
                                     <p class="mb-1 fw-bold">Course :  <%= locals.appliedUser.course %></p>
@@ -78,7 +78,7 @@
                                         <p><%= locals.appliedUser.createdAt %></p>
                                     </div>
                                     <div class="mt-4">
-                                        <h5 class="font-size-15 mb-1">Ref/UTI No:</h5>
+                                        <h5 class="font-size-15 mb-1">Ref/UTR No:</h5>
                                         <p class="fw-bold"><%= locals.appliedUser.refNo %></p>
                                     </div>
                                 </div>
@@ -115,19 +115,19 @@
                                             <td class="text-end">₹<%= locals.fee %></td>
                                         </tr>
                                         <!-- end tr -->
-                                        <tr>
+                                        <!-- <tr>
                                             <th scope="row">02</th>
                                             <td>
                                                 <div>
                                                     <h5 class="text-truncate font-size-14 mb-1">IT CHARGES
                                                     </h5>
-                                                    <!-- <p class="text-muted mb-0">Watch, Gold</p> -->
+                                                    <p class="text-muted mb-0">Watch, Gold</p>
                                                 </div>
                                             </td>
                                             <td></td>
                                             <td></td>
                                             <td class="text-end">₹120</td>
-                                        </tr>
+                                        </tr> -->
                                         <!-- end tr -->
                                         <!-- <tr>
                                             <th scope="row" colspan="4" class="text-end">Total</th>
@@ -155,7 +155,7 @@
                                         <tr>
                                             <th scope="row" colspan="4" class="border-0 text-end">Total</th>
                                             <td class="border-0 text-end">
-                                                <h4 class="m-0 fw-semibold">₹<%= locals.fee + 120 %></h4>
+                                                <h4 class="m-0 fw-semibold">₹<%= locals.fee %></h4>
                                             </td>
                                         </tr>
                                         <!-- end tr -->

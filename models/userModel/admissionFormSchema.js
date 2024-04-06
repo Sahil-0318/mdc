@@ -5,7 +5,7 @@ const admissionFormSchema = mongoose.Schema({
         type : String,
         required : true
     },
-    registrationNumber:{
+    rollNumber:{
         type : Number,
         required : true
     },

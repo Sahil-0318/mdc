@@ -54,10 +54,10 @@ const admissionForm = async (req, res) => {
                 //     }
                 // }
                 if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
-                    res.status(201).render('paymentPage', { "amount": "3120", user })
+                    res.status(201).render('paymentPage', { "amount": "3000", user })
                             
                 } else if(appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
-                    res.status(201).render('paymentPage', { "amount": "2950", user })     
+                    res.status(201).render('paymentPage', { "amount": "2830", user })     
                 }
             }
             else{
@@ -89,7 +89,7 @@ const admissionFormPost = async (req, res) => {
         console.log(appliedUser);
         console.log("line 90");
 
-        const { fullName, registrationNumber, session, aadharNumber, dOB, gender, nationality, category, religion, fatherName, motherName, parmanentAddress, parmanentAddressPin, presentAddress, presentAddressPin, mobileNumber, email, course } = req.body
+        const { fullName, rollNumber, session, aadharNumber, dOB, gender, nationality, category, religion, fatherName, motherName, parmanentAddress, parmanentAddressPin, presentAddress, presentAddressPin, mobileNumber, email, course } = req.body
 
         const collCount = await AdmissionForm.countDocuments()
         // console.log(collCount);
@@ -117,16 +117,16 @@ const admissionFormPost = async (req, res) => {
 
             let admFee = ""
             if (category === "General" || category === "BC-2") {
-                admFee = 3120       
+                admFee = 3000       
             } else if(category === "BC-1" || category === "SC" || appliedUser.category === "ST") {
-                admFee = 2950        
+                admFee = 2830        
             }
 
 
 
             const admForm = new AdmissionForm({
                 fullName,
-                registrationNumber,
+                rollNumber,
                 session,
                 aadharNumber,
                 dOB,
@@ -172,12 +172,12 @@ const admissionFormPost = async (req, res) => {
             // }
 
             if (category === "General" || category === "BC-2") {
-                res.status(201).render('paymentPage', { "amount": "3120", user })
+                res.status(201).render('paymentPage', { "amount": "3000", user })
                 console.log('Here is problem');
                 
                         
             } else if(category === "BC-1" || category === "SC" || appliedUser.category === "ST") {
-                res.status(201).render('paymentPage', { "amount": "2950", user })     
+                res.status(201).render('paymentPage', { "amount": "2830", user })     
             }
 
             // res.status(201).render('admissionForm', { "submitted": "Form Submitted", user, admFormSubmitted })
