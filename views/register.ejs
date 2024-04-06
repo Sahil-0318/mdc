@@ -10,6 +10,14 @@
                           </div>
                         </div>
                     <% }%>
+
+                    <% if(locals.invalidMobile){ %>
+                        <div id="submitPopUp">
+                          <div class="alert alert-warning bg-warning text-light border-0 my-4 mx-3 fade show" role="alert">
+                            <%= locals.invalidMobile %>
+                          </div>
+                        </div>
+                    <% }%>
                     
                     <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
                         <div class="d-flex align-items-center justify-content-between mb-3">

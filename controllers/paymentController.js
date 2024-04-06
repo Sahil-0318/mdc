@@ -1,4 +1,4 @@
-const PHONE_PAY_HOST_URL =  process.env.PHONE_PAY_HOST_URL
+const PHONE_PAY_HOST_URL = process.env.PHONE_PAY_HOST_URL
 const MERCHANT_ID = process.env.MERCHANT_ID
 const SALT_INDEX = process.env.SALT_INDEX
 const SALT_KEY = process.env.SALT_KEY
@@ -59,7 +59,7 @@ const payment = (req, res) => {
             res.redirect(url)
         })
         .catch(function (error) {
-            console.error("Payment error",error);
+            console.error("Payment error", error);
         });
 }
 
@@ -85,9 +85,9 @@ const paymentInvoice = (req, res) => {
                 console.log(response.data);
                 if (response.data.code === 'PAYMENT_SUCCESS') {
                     //redirect user to success page
-                } else if(response.data.code === 'ERROR'){
+                } else if (response.data.code === 'ERROR') {
                     //redirect user to error page   
-                } else{
+                } else {
                     //redirect to pending
                 }
                 res.send(response.data)
@@ -105,16 +105,16 @@ const paymentInvoice = (req, res) => {
 }
 
 let fee = 0
-const refNoPost = async (req, res) =>{
-    const {refNo} = req.body
+const refNoPost = async (req, res) => {
+    const { refNo } = req.body
     console.log(refNo);
-    
+
     const user = await User.findOne({ _id: req.id })
     // console.log(user);
 
-    const appledUser =  await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, {$set: {refNo: refNo}})
+    const appledUser = await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo: refNo } })
     console.log(appledUser);
-    const appliedUser = await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, {$set: {isPaid: "true"}})
+    const appliedUser = await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: "true" } })
     // console.log(appliedUser);
     // if (appliedUser.gender === "Female") {
     //     fee=100
@@ -126,15 +126,15 @@ const refNoPost = async (req, res) =>{
     //     fee=120
     // }
     if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
-        fee=3000
+        fee = 3000
     } else {
-        fee=2830
+        fee = 2830
     }
-    return res.render('slip', { user, appliedUser, "fee":fee })
+    return res.render('slip', { user, appliedUser, "fee": fee })
 
 }
 
-const getSlipPost = async (req, res) =>{
+const getSlipPost = async (req, res) => {
     const user = await User.findOne({ _id: req.id })
     const appliedUser = await AdmissionForm.findOne({ appliedBy: user._id.toString() })
     // if (appliedUser.gender === "Female") {
@@ -147,11 +147,11 @@ const getSlipPost = async (req, res) =>{
     //     fee=120
     // }
     if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
-        fee=3000
+        fee = 3000
     } else {
-        fee=2830
+        fee = 2830
     }
-    return res.render('slip', { user, appliedUser, "fee":fee })
+    return res.render('slip', { user, appliedUser, "fee": fee })
 }
 
 

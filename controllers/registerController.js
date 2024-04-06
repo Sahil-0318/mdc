@@ -15,7 +15,7 @@ const registerPost = async (req, res) => {
         
         // Generate userName Function
         let generateUserName = () => {
-            return (email.slice(0, 6) + mobileNumber.slice(3, 7) + "@MDCN")
+            return (lCEmail.slice(0, 6) + mobileNumber.slice(3, 7) + "@MDCN")
         }
         let createdUserName = generateUserName().toUpperCase()
         // console.log(createdUserName);
@@ -32,9 +32,11 @@ const registerPost = async (req, res) => {
         console.log(lCEmail);
         console.log(createdPassword);
 
-        const existEmail = await User.findOne({ email })
+        const existEmail = await User.findOne({ email : lCEmail })
+        const existMobileNo = await User.findOne({ mobileNumber })
         // console.log(existEmail)
-        if (existEmail === null) {
+        // console.log(existMobileNo)
+        if (existEmail === null && existMobileNo === null) {
             const hashpassword = await bcrypt.hash(createdPassword, 10)
             const registerUser = new User({
                 fullName,
@@ -61,7 +63,7 @@ const registerPost = async (req, res) => {
 
             const mailOptions = {
                 from: process.env.SENDER_EMAIL,
-                to: email,
+                to: lCEmail,
                 subject: 'Login Credentials',
                 // text: 'Yout CLC approved... 🎉',
                 text: `Dear Students, Your login credentials are \nUserName is ${createdUserName} and Password is ${createdPassword}. \n \n MD College, Patna`
@@ -77,9 +79,11 @@ const registerPost = async (req, res) => {
 
             res.status(201).redirect('login')
         }
+        else if (existMobileNo!==null){
+            res.render('register', {"invalidMobile" : 'Mobile No already exists...'});
+        }
         else{
             res.render('register', {"invalid" : 'Email already exists...'});
-
         }
 
 
