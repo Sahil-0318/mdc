@@ -113,7 +113,7 @@ const refNoPost = async (req, res) =>{
     // console.log(user);
 
     const appledUser =  await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, {$set: {refNo: refNo}})
-    // console.log(appledUser);
+    console.log(appledUser);
     const appliedUser = await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, {$set: {isPaid: "true"}})
     // console.log(appliedUser);
     // if (appliedUser.gender === "Female") {
