@@ -100,6 +100,9 @@ const admissionFormSchema = mongoose.Schema({
     refNo:{
         type : String,
         default: "qwerty"
+    },
+    admFee:{
+        type : Number
     }
 }, {timestamps:true})
 

@@ -115,6 +115,13 @@ const admissionFormPost = async (req, res) => {
             const signURL = signUpload.secure_url
             // console.log(signURL);
 
+            let admFee = ""
+            if (category === "General" || category === "BC-2") {
+                admFee = 3120       
+            } else if(category === "BC-1" || category === "SC" || appliedUser.category === "ST") {
+                admFee = 2950        
+            }
+
 
 
             const admForm = new AdmissionForm({
@@ -140,7 +147,8 @@ const admissionFormPost = async (req, res) => {
                 studentSign: signURL,
                 admNumber: admCount,
                 slipNo: slipNo,
-                appliedBy: user._id
+                appliedBy: user._id,
+                admFee
             })
 
             const admFormSubmitted = await admForm.save();
