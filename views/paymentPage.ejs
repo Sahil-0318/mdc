@@ -55,11 +55,13 @@
 
         .refNoForm label {
             display: block;
+            font-weight: bold;
+            font-size: 20px;
         }
 
         .refNoForm input {
             width: 100%;
-            margin: 10px 0px;
+            margin: 15px 0px;
             font-size: 20px;
             padding: 2px 5px;
         }
@@ -84,9 +86,11 @@
         </p>
     </div>
 
-    <form class="refNoForm" action="/refNo" method="post">
+    <form class="refNoForm" action="/refNo" method="post" enctype="multipart/form-data">
         <label for="refNo">Enter 12 digits UTR/Ref No. below after payment</label>
-        <input type="text" name="refNo" id="refNo" maxlength="12" pattern="[0-9]{12}" required>
+        <input type="text" name="refNo" id="refNo" maxlength="12" pattern="[0-9]{12}" placeholder="Enter 12 Digit Ref. No." required>
+        <label for="paymentSS" class="form-label">Upload Payment Screenshot</label>
+        <input id="paymentSS" name="paymentSS" type="file" required>
         <button type="submit">Submit</button>
     </form>
 

@@ -7,6 +7,8 @@ import uniqid from 'uniqid'
 import sha256 from 'sha256'
 import AdmissionForm from '../models/userModel/admissionFormSchema.js'
 import User from '../models/userModel/userSchema.js'
+import FileUpload from '../fileUpload/fileUpload.js'
+
 
 
 
@@ -107,15 +109,20 @@ const paymentInvoice = (req, res) => {
 let fee = 0
 const refNoPost = async (req, res) => {
     const { refNo } = req.body
-    console.log(refNo);
+    console.log("ref No. ",refNo);
 
     const user = await User.findOne({ _id: req.id })
     // console.log(user);
 
-    const appledUser = await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo: refNo } })
-    console.log(appledUser);
+    const photoUpload = await FileUpload(req.file.path)
+    const paymentSSURL = photoUpload.secure_url
+    // console.log(paymentSSURL);
+
+    await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
+    await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo: refNo } })
+    // console.log(appledUser);
     const appliedUser = await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: "true" } })
-    // console.log(appliedUser);
+    console.log(appliedUser);
     // if (appliedUser.gender === "Female") {
     //     fee=100
     // } else if (appliedUser.category === "General") {
