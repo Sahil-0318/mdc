@@ -88,14 +88,19 @@ const admissionFormPost = async (req, res) => {
 
         const { fullName, rollNumber, session, aadharNumber, dOB, gender, nationality, category, religion, fatherName, motherName, parmanentAddress, parmanentAddressPin, presentAddress, presentAddressPin, mobileNumber, email, course } = req.body
 
+        
+        
         const collCount = await AdmissionForm.countDocuments()
         // console.log(collCount);
         const admCount = collCount+1
         // console.log(admCount);
-
-        const slipNo = "IA/" + "2024-2025/" + (collCount+1)
         
-        
+        let slipNo = ""
+        if (course === "I.A") {
+            slipNo = "I.A/" + "2023-2025/" + (collCount+1)
+        } else {
+            slipNo = "I.Sc/" + "2023-2025/" + (collCount+1)
+        }
 
 
         if (appliedUser == null || appliedUser.appliedBy != user._id.toString()) {

@@ -122,7 +122,7 @@ const refNoPost = async (req, res) => {
     await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo: refNo } })
     // console.log(appledUser);
     const appliedUser = await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: "true" } })
-    console.log(appliedUser);
+    // console.log(appliedUser);
     // if (appliedUser.gender === "Female") {
     //     fee=100
     // } else if (appliedUser.category === "General") {
