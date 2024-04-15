@@ -127,7 +127,7 @@ const admissionFormPost = async (req, res) => {
 
 
             const admForm = new AdmissionForm({
-                fullName,
+                fullName: fullName.toUpperCase(),
                 rollNumber,
                 session,
                 aadharNumber,
