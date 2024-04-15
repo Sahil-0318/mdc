@@ -33,9 +33,9 @@ const findStuInAdmForm = async (req, res) => {
     const user = await User.findOne({ _id: req.id })
     let {findStuName, findStuRefNo} = req.body
     if (findStuName!=='' && findStuRefNo==="") {
-      // console.log(findStuName);
+      // console.log(findStuName.toUpperCase());
       // console.log('Without Ref No');
-      let AdmissionList = await AdmissionForm.find({ fullName: findStuName })
+      let AdmissionList = await AdmissionForm.find({ fullName: findStuName.toUpperCase() })
       res.render('admissionFormList', { list: AdmissionList, user })
       
     }else if (findStuName==='' && findStuRefNo!==""){
@@ -47,7 +47,7 @@ const findStuInAdmForm = async (req, res) => {
     }else if (findStuName!=='' && findStuRefNo!==""){
       // console.log(findStuName);
       // console.log('With Both');
-      let AdmissionList = await AdmissionForm.find({ fullName: findStuName,refNo: findStuRefNo })
+      let AdmissionList = await AdmissionForm.find({ fullName: findStuName.toUpperCase(),refNo: findStuRefNo })
       res.render('admissionFormList', { list: AdmissionList, user })
 
     }else{
