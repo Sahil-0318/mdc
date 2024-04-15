@@ -28,6 +28,39 @@ const admissionFormList = async (req, res) => {
   }
 }
 
+const findStuInAdmForm = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    let {findStuName, findStuRefNo} = req.body
+    if (findStuName!=='' && findStuRefNo==="") {
+      // console.log(findStuName);
+      // console.log('Without Ref No');
+      let AdmissionList = await AdmissionForm.find({ fullName: findStuName })
+      res.render('admissionFormList', { list: AdmissionList, user })
+      
+    }else if (findStuName==='' && findStuRefNo!==""){
+      // console.log(findStuName);
+      // console.log('Without Name');
+      let AdmissionList = await AdmissionForm.find({ refNo: findStuRefNo })
+      res.render('admissionFormList', { list: AdmissionList, user })
+
+    }else if (findStuName!=='' && findStuRefNo!==""){
+      // console.log(findStuName);
+      // console.log('With Both');
+      let AdmissionList = await AdmissionForm.find({ fullName: findStuName,refNo: findStuRefNo })
+      res.render('admissionFormList', { list: AdmissionList, user })
+
+    }else{
+      const AdmissionList = await AdmissionForm.find({})
+      res.render('admissionFormList', { list: AdmissionList,formAlert: "Please, Enter Student Name or Ref No", user })
+      // res.render('admissionFormList', { formAlert: "Please, Enter Student Name or Ref No", user })
+    }
+    
+  } catch (error) {
+    res.status(401)
+  }
+}
+
 const clcList = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
@@ -185,6 +218,6 @@ export {
   adminPage,
   admissionFormList,
   clcList,
-  approvedByAdmin
-//   admissionList
+  approvedByAdmin,
+  findStuInAdmForm
 }

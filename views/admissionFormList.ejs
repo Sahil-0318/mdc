@@ -12,6 +12,36 @@
             <%- include('./partials/navbar.ejs')%>
                 <!-- Navbar End -->
 
+                
+                <div class="col-sm-12 col-xl-12 pt-4 px-4">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4">Find Student</h6>
+                        <form action="/findStuInAdmForm" method="post">
+                            <div class="row mb-3">
+                                <label for="searchStuName" class="col-sm-2 col-form-label">Student Name:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="findStuName" name="findStuName">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="searchStuRefNo" class="col-sm-2 col-form-label">Reference No:</label>
+                                <div class="col-sm-4">
+                                    <input type="number" class="form-control" id="findStuRefNo" name="findStuRefNo">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Find Student</button>
+                            <div class="btn btn-secondary"><a class="text-light" href="/admissionFormList">Get All Students</a></div>
+                        </form>
+                    </div>
+                    <% if (locals.formAlert) { %>
+                        <div id="submitPopUp">
+                            <div class="col-12 col-xl-12 alert alert-danger mt-4" role="alert">
+                                <%= formAlert %>
+                            </div>
+                        </div>
+                    <% } %> 
+                </div>
+
 
                 <!-- Blank Start -->
                 <div class="container-fluid pt-4 px-4">
@@ -54,16 +84,18 @@
                                                         </tr>
                                                     <% }); %>
                                                 <% }else { %>        
-                                                    <tr>
+                                                    <!-- <tr>
                                                         <td>S.No.</td>
                                                         Hi
-                                                    </tr>
-                                                <% } %>        
+                                                    </tr> -->
+                                                <% } %>         
                                             </tbody>
                                         </table>
+                                        <% if (locals.list) { %>
                                         <% if (locals.list.length === 0) { %>
                                             <h3>Data not found ...</h3>
 
+                                        <% } %> 
                                         <% } %> 
                                     </div>
                                 </div>
@@ -119,6 +151,12 @@
 
         <!-- Template Javascript -->
         <script src="../javascripts/main.js"></script>
+        <script>
+            const submitPopUp = document.querySelector('#submitPopUp')
+            setInterval(() => {
+                submitPopUp.innerHTML = ''
+            }, 3000);
+        </script>
         </body>
 
         </html>

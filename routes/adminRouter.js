@@ -6,8 +6,8 @@ import {
     adminPage,
     admissionFormList,
     clcList,
-    approvedByAdmin
-    // admissionList
+    approvedByAdmin,
+    findStuInAdmForm
  } 
  from '../controllers/adminController.js'
 
@@ -19,7 +19,7 @@ import {
  
  adminRouter.post('/approvedByAdmin', approvedByAdmin)
  
-//  adminRouter.get('/admissionList', adminAuth, admissionList)
+ adminRouter.post('/findStuInAdmForm', adminAuth, findStuInAdmForm)
 
 
 export default adminRouter
