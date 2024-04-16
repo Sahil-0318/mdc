@@ -5,6 +5,8 @@ import {adminAuth} from '../middlewares/adminMiddleware.js'
 import { 
     adminPage,
     admissionFormList,
+    paidAdmissionFormList,
+    unpaidAdmissionFormList,
     clcList,
     approvedByAdmin,
     findStuInAdmForm
@@ -14,6 +16,10 @@ import {
  adminRouter.get('/adminPage', adminAuth, adminPage)
 
  adminRouter.get('/admissionFormList', adminAuth, admissionFormList)
+
+ adminRouter.get('/paidAdmissionFormList', adminAuth, paidAdmissionFormList)
+
+ adminRouter.get('/unpaidAdmissionFormList', adminAuth, unpaidAdmissionFormList)
 
  adminRouter.get('/clcList', adminAuth, clcList)
  
