@@ -9,8 +9,18 @@ import nodemailer from 'nodemailer'
 const adminPage = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
+    const maleStudents = await AdmissionForm.find({gender: 'Male'})
+    const femaleStudents = await AdmissionForm.find({gender: 'Female'})
+    let NoOfMaleStudents = maleStudents.length
+    let NoOfFemaleStudents = femaleStudents.length
+    let totalStudents = NoOfMaleStudents + NoOfFemaleStudents
+    let studentsNumber = {
+      NoOfMaleStudents,
+      NoOfFemaleStudents,
+      totalStudents
+    }
 
-    return res.render('adminPage', { user })
+    return res.render('adminPage', { studentsNumber, user })
   } catch (error) {
     res.status(401)
   }
