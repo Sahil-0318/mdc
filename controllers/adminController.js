@@ -66,7 +66,7 @@ const unpaidAdmissionFormList = async (req, res) => {
 const genBC2Category = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const AdmissionList = await AdmissionForm.find({admFee: "3000"})
+    const AdmissionList = await AdmissionForm.find({isPaid: "true",admFee: "3000"})
     // console.log(AdmissionList);
     res.render('admissionFormList', { list: AdmissionList, status: "General/BC-2", noOfForms: AdmissionList.length, user })
   } catch (error) {
@@ -78,7 +78,7 @@ const genBC2Category = async (req, res) => {
 const bc1SCSTCategory = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const AdmissionList = await AdmissionForm.find({admFee: "2830"})
+    const AdmissionList = await AdmissionForm.find({isPaid: "true",admFee: "2830"})
     // console.log(allUser);
     res.render('admissionFormList', { list: AdmissionList, status: "BC-1/SC/ST", noOfForms: AdmissionList.length, user })
   } catch (error) {
