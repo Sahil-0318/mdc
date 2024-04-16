@@ -9,8 +9,8 @@ import nodemailer from 'nodemailer'
 const adminPage = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const maleStudents = await AdmissionForm.find({gender: 'Male'})
-    const femaleStudents = await AdmissionForm.find({gender: 'Female'})
+    const maleStudents = await AdmissionForm.find({gender: 'Male', isPaid: "true"})
+    const femaleStudents = await AdmissionForm.find({gender: 'Female', isPaid: "true"})
     let NoOfMaleStudents = maleStudents.length
     let NoOfFemaleStudents = femaleStudents.length
     let totalStudents = NoOfMaleStudents + NoOfFemaleStudents
