@@ -22,7 +22,7 @@ const admissionFormList = async (req, res) => {
     const user = await User.findOne({ _id: req.id })
     const AdmissionList = await AdmissionForm.find({})
     // console.log(allUser);
-    res.render('admissionFormList', { list: AdmissionList, noOfForms: AdmissionList.length , user })
+    res.render('admissionFormList', { list: AdmissionList, status: "All", noOfForms: AdmissionList.length , user })
   } catch (error) {
     res.status(401)
   }
@@ -34,7 +34,7 @@ const paidAdmissionFormList = async (req, res) => {
     const user = await User.findOne({ _id: req.id })
     const AdmissionList = await AdmissionForm.find({isPaid: "true"})
     // console.log(AdmissionList.length);
-    res.render('admissionFormList', { list: AdmissionList, noOfForms: AdmissionList.length , user })
+    res.render('admissionFormList', { list: AdmissionList, status: "Paid", noOfForms: AdmissionList.length , user })
   } catch (error) {
     res.status(401)
   }
@@ -46,7 +46,7 @@ const unpaidAdmissionFormList = async (req, res) => {
     const user = await User.findOne({ _id: req.id })
     const AdmissionList = await AdmissionForm.find({isPaid: "false"})
     // console.log(allUser);
-    res.render('admissionFormList', { list: AdmissionList,noOfForms: AdmissionList.length, user })
+    res.render('admissionFormList', { list: AdmissionList, status: "Unpaid", noOfForms: AdmissionList.length, user })
   } catch (error) {
     res.status(401)
   }
@@ -60,19 +60,19 @@ const findStuInAdmForm = async (req, res) => {
       // console.log(findStuName.toUpperCase());
       // console.log('Without Ref No');
       let AdmissionList = await AdmissionForm.find({ fullName: findStuName.toUpperCase() })
-      res.render('admissionFormList', { list: AdmissionList, noOfForms: AdmissionList.length , user })
+      res.render('admissionFormList', { list: AdmissionList, status: "Found", noOfForms: AdmissionList.length , user })
       
     }else if (findStuName==='' && findStuRefNo!==""){
       // console.log(findStuName);
       // console.log('Without Name');
       let AdmissionList = await AdmissionForm.find({ refNo: findStuRefNo })
-      res.render('admissionFormList', { list: AdmissionList, noOfForms: AdmissionList.length , user })
+      res.render('admissionFormList', { list: AdmissionList, status: "Found", noOfForms: AdmissionList.length , user })
 
     }else if (findStuName!=='' && findStuRefNo!==""){
       // console.log(findStuName);
       // console.log('With Both');
       let AdmissionList = await AdmissionForm.find({ fullName: findStuName.toUpperCase(),refNo: findStuRefNo })
-      res.render('admissionFormList', { list: AdmissionList, noOfForms: AdmissionList.length , user })
+      res.render('admissionFormList', { list: AdmissionList, status: "Found", noOfForms: AdmissionList.length , user })
 
     }else{
       const AdmissionList = await AdmissionForm.find({})
