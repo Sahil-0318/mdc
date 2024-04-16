@@ -108,6 +108,10 @@ const admissionFormSchema = mongoose.Schema({
         type : String,
         default: "NA"
     },
+    paidAt: {
+        type : String,
+        default: "NA"
+    },
 }, {timestamps:true})
 
 export default mongoose.model("AdmissionForm", admissionFormSchema)

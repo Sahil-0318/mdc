@@ -117,8 +117,10 @@ const refNoPost = async (req, res) => {
     const photoUpload = await FileUpload(req.file.path)
     const paymentSSURL = photoUpload.secure_url
     // console.log(paymentSSURL);
+    const paidAt = photoUpload.created_at.slice(0,10)
 
     await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
+    await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paidAt} })
     await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo: refNo } })
     // console.log(appledUser);
     const appliedUser = await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: "true" } })
