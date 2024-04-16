@@ -7,6 +7,8 @@ import {
     admissionFormList,
     paidAdmissionFormList,
     unpaidAdmissionFormList,
+    genBC2Category,
+    bc1SCSTCategory,
     clcList,
     approvedByAdmin,
     findStuInAdmForm
@@ -20,6 +22,10 @@ import {
  adminRouter.get('/paidAdmissionFormList', adminAuth, paidAdmissionFormList)
 
  adminRouter.get('/unpaidAdmissionFormList', adminAuth, unpaidAdmissionFormList)
+
+ adminRouter.get('/genBC2Category', adminAuth, genBC2Category)
+
+ adminRouter.get('/bc1SCSTCategory', adminAuth, bc1SCSTCategory)
 
  adminRouter.get('/clcList', adminAuth, clcList)
  
