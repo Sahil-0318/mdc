@@ -90,9 +90,9 @@ const bc1SCSTCategory = async (req, res) => {
 const scienceStu = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const AdmissionList = await AdmissionForm.find({course: "Science"})
+    const AdmissionList = await AdmissionForm.find({isPaid: "true",course: "I.Sc"})
     // console.log(allUser);
-    res.render('admissionFormList', { list: AdmissionList, status: "Science Students", noOfForms: AdmissionList.length, user })
+    res.render('admissionFormList', { list: AdmissionList, status: "I.Sc Students", noOfForms: AdmissionList.length, user })
   } catch (error) {
     res.status(401)
   }
@@ -102,9 +102,9 @@ const scienceStu = async (req, res) => {
 const artsStu = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const AdmissionList = await AdmissionForm.find({course: "Arts"})
+    const AdmissionList = await AdmissionForm.find({isPaid: "true",course: "I.A"})
     // console.log(allUser);
-    res.render('admissionFormList', { list: AdmissionList, status: "Arts Students", noOfForms: AdmissionList.length, user })
+    res.render('admissionFormList', { list: AdmissionList, status: "I.A Students", noOfForms: AdmissionList.length, user })
   } catch (error) {
     res.status(401)
   }
