@@ -87,6 +87,30 @@ const bc1SCSTCategory = async (req, res) => {
 }
 
 
+const scienceStu = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const AdmissionList = await AdmissionForm.find({course: "Science"})
+    // console.log(allUser);
+    res.render('admissionFormList', { list: AdmissionList, status: "Science Students", noOfForms: AdmissionList.length, user })
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+
+const artsStu = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const AdmissionList = await AdmissionForm.find({course: "Arts"})
+    // console.log(allUser);
+    res.render('admissionFormList', { list: AdmissionList, status: "Arts Students", noOfForms: AdmissionList.length, user })
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+
 
 const findStuInAdmForm = async (req, res) => {
   try {
@@ -281,6 +305,8 @@ export {
   unpaidAdmissionFormList,
   genBC2Category,
   bc1SCSTCategory,
+  scienceStu,
+  artsStu,
   clcList,
   approvedByAdmin,
   findStuInAdmForm
