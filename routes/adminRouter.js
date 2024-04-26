@@ -13,7 +13,8 @@ import {
     artsStu,
     clcList,
     approvedByAdmin,
-    findStuInAdmForm
+    findStuInAdmForm,
+    datewiseAdmForm
  } 
  from '../controllers/adminController.js'
 
@@ -38,6 +39,8 @@ import {
  adminRouter.post('/approvedByAdmin', approvedByAdmin)
  
  adminRouter.post('/findStuInAdmForm', adminAuth, findStuInAdmForm)
+
+ adminRouter.post('/datewiseAdmForm', adminAuth, datewiseAdmForm)
 
 
 export default adminRouter

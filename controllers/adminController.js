@@ -26,7 +26,6 @@ const adminPage = async (req, res) => {
   }
 }
 
-
 const admissionFormList = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
@@ -37,7 +36,6 @@ const admissionFormList = async (req, res) => {
     res.status(401)
   }
 }
-
 
 const paidAdmissionFormList = async (req, res) => {
   try {
@@ -50,7 +48,6 @@ const paidAdmissionFormList = async (req, res) => {
   }
 }
 
-
 const unpaidAdmissionFormList = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
@@ -61,7 +58,6 @@ const unpaidAdmissionFormList = async (req, res) => {
     res.status(401)
   }
 }
-
 
 const genBC2Category = async (req, res) => {
   try {
@@ -74,7 +70,6 @@ const genBC2Category = async (req, res) => {
   }
 }
 
-
 const bc1SCSTCategory = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
@@ -85,7 +80,6 @@ const bc1SCSTCategory = async (req, res) => {
     res.status(401)
   }
 }
-
 
 const scienceStu = async (req, res) => {
   try {
@@ -98,7 +92,6 @@ const scienceStu = async (req, res) => {
   }
 }
 
-
 const artsStu = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
@@ -109,8 +102,6 @@ const artsStu = async (req, res) => {
     res.status(401)
   }
 }
-
-
 
 const findStuInAdmForm = async (req, res) => {
   try {
@@ -145,6 +136,23 @@ const findStuInAdmForm = async (req, res) => {
   }
 }
 
+const datewiseAdmForm = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    let {findAdmDateFrom, findAdmDateTo} = req.body
+    console.log(findAdmDateFrom);
+    console.log(findAdmDateTo);
+    
+    
+    let AdmissionList = await AdmissionForm.find({ "createdAt": {$lt: new Date(findAdmDateTo), $gt: new Date(findAdmDateFrom)}, isPaid: "true"  })
+    
+    res.render('admissionFormList', { list: AdmissionList, status: "Found", noOfForms: AdmissionList.length , user })
+  
+  } catch (error) {
+    res.status(401)
+  }
+}
+
 const clcList = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
@@ -155,7 +163,6 @@ const clcList = async (req, res) => {
     res.status(401)
   }
 }
-
 
 const approvedByAdmin = async (req, res) => {
   try {
@@ -309,5 +316,6 @@ export {
   artsStu,
   clcList,
   approvedByAdmin,
-  findStuInAdmForm
+  findStuInAdmForm,
+  datewiseAdmForm
 }

@@ -12,40 +12,61 @@
             <%- include('./partials/navbar.ejs')%>
                 <!-- Navbar End -->
 
+                <% if (locals.formAlert) { %>
+                    <div class="col-sm-12 col-xl-12 pt-3 px-4">
+                    <div id="submitPopUp">
+                        <div class="col-12 col-xl-12 alert alert-danger" role="alert">
+                            <%= formAlert %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
 
-                <div class="col-sm-12 col-xl-12 pt-4 px-4">
-                    <div class="bg-light rounded h-100 p-4">
+                <div class="col-sm-12 col-xl-12 pt-4 px-4 d-md-flex gap-4 justify-content-between">
+                    <div class="bg-light rounded h-100 p-4 mb-2 flex-grow-1">
                         <h6 class="mb-4">Find Student</h6>
                         <form action="/findStuInAdmForm" method="post">
                             <div class="row mb-3">
-                                <label for="searchStuName" class="col-sm-2 col-form-label">Student Name:</label>
-                                <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="findStuName" name="findStuName">
+                                <label for="findStuName" class="col-sm-3 col-md-4 col-form-label">Student Name :</label>
+                                <div class="col-sm-6 col-md-6">
+                                    <input type="text" class="form-control" id="findStuName" name="findStuName" placeholder="Student name here..">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="searchStuRefNo" class="col-sm-2 col-form-label">Reference No:</label>
-                                <div class="col-sm-4">
-                                    <input type="number" class="form-control" id="findStuRefNo" name="findStuRefNo">
+                                <label for="findStuRefNo" class="col-sm-3 col-md-4 col-form-label">Reference No :</label>
+                                <div class="col-sm-6 col-md-6">
+                                    <input type="number" class="form-control" id="findStuRefNo" name="findStuRefNo" placeholder="Payment Ref. no. ...">
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Find Student</button>
                         </form>
                     </div>
-                    <% if (locals.formAlert) { %>
-                        <div id="submitPopUp">
-                            <div class="col-12 col-xl-12 alert alert-danger mt-4" role="alert">
-                                <%= formAlert %>
-                            </div>
+                    
+                        <div class="bg-light rounded h-100 p-4 flex-grow-1">
+                            <h6 class="mb-4">Date wise Admission List</h6>
+                            <form action="/datewiseAdmForm" method="post">
+                                <div class="row mb-3">
+                                    <label for="findAdmDateFrom" class="col-sm-3 col-md-4 col-form-label">Select date from :</label>
+                                    <div class="col-sm-6 col-md-6">
+                                        <input type="date" class="form-control" id="findAdmDateFrom" name="findAdmDateFrom" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="findAdmDateTo" class="col-sm-3 col-md-4 col-form-label">Select date to :</label>
+                                    <div class="col-sm-6 col-md-6">
+                                        <input type="date" class="form-control" id="findAdmDateTo" name="findAdmDateTo" required >
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Find Students</button>
+                            </form>
                         </div>
-                        <% } %>
                 </div>
-
+                
 
                 <div class="col-sm-12 col-xl-12 pt-4 px-4">
-                    <div class="bg-light rounded h-100 p-3">
+                    <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
                         <div class="btn btn-secondary"><a class="text-light" href="/admissionFormList">Get All Students</a></div>
-                        <div class="btn btn-primary"><a class="text-light" href="/paidAdmissionFormList">Paid Students</a></div>
+                        <div class="btn btn-secondary"><a class="text-light" href="/paidAdmissionFormList">Paid Students</a></div>
                         <div class="btn btn-secondary"><a class="text-light" href="/unpaidAdmissionFormList">Not paid Students</a></div>
                         <div class="btn btn-secondary"><a class="text-light" href="/genBC2Category">Gen/BC-2</a></div>
 
