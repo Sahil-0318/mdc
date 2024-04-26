@@ -140,9 +140,6 @@ const datewiseAdmForm = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
     let {findAdmDateFrom, findAdmDateTo} = req.body
-    console.log(findAdmDateFrom);
-    console.log(findAdmDateTo);
-    
     
     let AdmissionList = await AdmissionForm.find({ "createdAt": {$lt: new Date(findAdmDateTo), $gt: new Date(findAdmDateFrom)}, isPaid: "true"  })
     
