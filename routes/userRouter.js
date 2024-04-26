@@ -4,15 +4,6 @@ import { index, userPage, admissionForm, admissionFormPost, clc, clcPost } from 
 const userRouter = express.Router()
 import multer from 'multer'
 
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//       cb(null, './uploads')
-//     },
-//     filename: function (req, file, cb) {
-//       cb(null, `${Date.now()}-${file.originalname}`)
-//     }
-//   })
-
 const storage = multer.diskStorage({})
   
 const upload = multer({

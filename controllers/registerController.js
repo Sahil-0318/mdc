@@ -18,7 +18,6 @@ const registerPost = async (req, res) => {
             return (lCEmail.slice(0, 6) + mobileNumber.slice(3, 7) + "@MDCN")
         }
         let createdUserName = generateUserName().toUpperCase()
-        // console.log(createdUserName);
         
         // Generate Password Function
         let generatePassword = () => {
@@ -34,8 +33,7 @@ const registerPost = async (req, res) => {
 
         const existEmail = await User.findOne({ email : lCEmail })
         const existMobileNo = await User.findOne({ mobileNumber })
-        // console.log(existEmail)
-        // console.log(existMobileNo)
+        
         if (existEmail === null && existMobileNo === null) {
             const hashpassword = await bcrypt.hash(createdPassword, 10)
             const registerUser = new User({
@@ -85,9 +83,6 @@ const registerPost = async (req, res) => {
         else{
             res.render('register', {"invalid" : 'Email already exists...'});
         }
-
-
-
 
     } catch (err) {
         console.log(err);

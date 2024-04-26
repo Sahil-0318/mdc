@@ -1,6 +1,5 @@
 import express from 'express'
 const paymentRouter = express.Router()
-// import {paymentAuth} from '../middlewares/paymentMiddleware.js'
 import {userAuth} from '../middlewares/userMiddleware.js'
 import multer from 'multer'
 

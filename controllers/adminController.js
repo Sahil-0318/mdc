@@ -288,20 +288,6 @@ const approvedByAdmin = async (req, res) => {
   }
 }
 
-
-
-// const admissionList = async (req, res) => {
-//   try {
-//     const user = await Student.findOne({ _id: req.id })
-//     const AdmissionList = await AdmissionForm.find({})
-//     // console.log(allUser);
-//     res.render('admissionList', { list: AdmissionList, user })
-//   } catch (error) {
-//     res.status(401)
-//   }
-// }
-
-
 export {
   adminPage,
   admissionFormList,
