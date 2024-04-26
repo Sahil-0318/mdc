@@ -189,8 +189,8 @@ const downloadExcel = async (req, res) => {
     })
     })
 
-    const csvFields = ['Full Name', 'Roll No.', 'Session', 'Aadhar No.']
-    const csvParser = new CsvParser(csvFields)
+    // const csvFields = ['Full Name', 'Roll No.', 'Session', 'Aadhar No.']
+    const csvParser = new CsvParser()
     const csvData = csvParser.parse(users)
 
     res.setHeader("Content-type", "text/csv")
