@@ -14,7 +14,8 @@ import {
     clcList,
     approvedByAdmin,
     findStuInAdmForm,
-    datewiseAdmForm
+    datewiseAdmForm,
+    downloadExcel
  } 
  from '../controllers/adminController.js'
 
@@ -41,6 +42,8 @@ import {
  adminRouter.post('/findStuInAdmForm', adminAuth, findStuInAdmForm)
 
  adminRouter.post('/datewiseAdmForm', adminAuth, datewiseAdmForm)
+
+ adminRouter.get('/download-excel', adminAuth, downloadExcel)
 
 
 export default adminRouter

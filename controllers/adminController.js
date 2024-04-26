@@ -5,6 +5,8 @@ import path from "path"
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib"
 import { writeFileSync, readFileSync } from "fs"
 import nodemailer from 'nodemailer'
+import Csv from 'json2csv'
+const CsvParser= Csv.Parser
 
 const adminPage = async (req, res) => {
   try {
@@ -145,6 +147,58 @@ const datewiseAdmForm = async (req, res) => {
     
     res.render('admissionFormList', { list: AdmissionList, status: "Found", noOfForms: AdmissionList.length , user })
   
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+const downloadExcel = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    let users = []
+    const userData = await AdmissionForm.find({isPaid: true})
+    userData.forEach((admUser)=>{
+      const {fullName, rollNumber, session, aadharNumber, dOB, gender, nationality, category, religion, fatherName, motherName, parmanentAddress, parmanentAddressPin, presentAddress, presentAddressPin, mobileNumber, email, course, admissionPhoto, studentSign, admNumber, slipNo, admFee, refNo, paymentSS } = admUser
+
+      users.push({'Full Name': fullName, 
+      'Roll No.':rollNumber, 
+      'Session':session, 
+      'Aadhar No.': aadharNumber,
+      'DOB': dOB,
+      'Gender': gender,
+      'Nationality': nationality,
+      'Category': category,
+      'Religion': religion,
+      "Father's Name": fatherName,
+      "Mother's Name": motherName,
+      'Parmanent Address': parmanentAddress,
+      'Parmanent Address Pin': parmanentAddressPin,
+      'Present Address' : presentAddress,
+      'Present Address Pin': presentAddressPin,
+      'Mobile No.': mobileNumber,
+      'Email': email,
+      'Course': course,
+      "Student's Photo": admissionPhoto,
+      "Student's Sign": studentSign,
+      "Admission Number": admNumber,
+      "Slip No.": slipNo,
+      "Admission Fee": admFee,
+      "Reference No.": refNo,
+      "Payment SS": paymentSS
+
+    })
+    })
+
+    const csvFields = ['Full Name', 'Roll No.', 'Session', 'Aadhar No.']
+    const csvParser = new CsvParser(csvFields)
+    const csvData = csvParser.parse(users)
+
+    res.setHeader("Content-type", "text/csv")
+    res.setHeader("Content-Disposition", "attachment: filename=InterAdmissionList.csv")
+
+    res.status(200).end(csvData)
+    
+    
   } catch (error) {
     res.status(401)
   }
@@ -300,5 +354,6 @@ export {
   clcList,
   approvedByAdmin,
   findStuInAdmForm,
-  datewiseAdmForm
+  datewiseAdmForm,
+  downloadExcel
 }
