@@ -141,13 +141,13 @@ const admissionFormPost = async (req, res) => {
 
             if (category === "General" || category === "BC-2") {
                 qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=3000&tn=${mobileNumber}`, function (err, src) {
-                    res.status(201).render('paymentPage', { "amount": "3000", qrcodeUrl : src, user })
+                    res.status(201).render('paymentPage', { "amount": "3000", "qrcodeUrl" : src, user })
                 })
                 console.log('Here is problem');
                      
             } else if(category === "BC-1" || category === "SC" || appliedUser.category === "ST") {
                 qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=2830&tn=${mobileNumber}`, function (err, src) {
-                    res.status(201).render('paymentPage', { "amount": "2830", qrcodeUrl : src, user })
+                    res.status(201).render('paymentPage', { "amount": "2830", "qrcodeUrl" : src, user })
                 })
                      
             }
