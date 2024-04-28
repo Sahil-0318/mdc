@@ -3,7 +3,6 @@ import clcSchema from '../models/userModel/clcSchema.js'
 import AdmissionForm from '../models/userModel/admissionFormSchema.js'
 import FileUpload from '../fileUpload/fileUpload.js'
 import qrcode from 'qrcode'
-import { error } from 'pdf-lib'
 
 // Index Page
 const index = async (req, res) => {
@@ -37,10 +36,14 @@ const admissionForm = async (req, res) => {
             
             if (!appliedUser.isPaid) {
                 if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
-                    res.status(201).render('paymentPage', { "amount": "3000", user })
+                    qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=3000&tn=${mobileNumber}`, function (err, src) {
+                    res.status(201).render('paymentPage', { "amount": "3000", "qrcodeUrl" : src, user })
+                })
                             
                 } else if(appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
-                    res.status(201).render('paymentPage', { "amount": "2830", user })     
+                    qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=2830&tn=${mobileNumber}`, function (err, src) {
+                    res.status(201).render('paymentPage', { "amount": "2830", "qrcodeUrl" : src, user })
+                })     
                 }
             }
             else{
