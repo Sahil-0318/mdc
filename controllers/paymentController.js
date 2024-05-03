@@ -6,8 +6,11 @@ import axios from 'axios'
 import uniqid from 'uniqid'
 import sha256 from 'sha256'
 import AdmissionForm from '../models/userModel/admissionFormSchema.js'
+import BCAadmissionForm from '../models/userModel/bcaAdmissionFormSchema.js'
+import BBAadmissionForm from '../models/userModel/bbaAdmissionFormSchema.js'
 import User from '../models/userModel/userSchema.js'
 import FileUpload from '../fileUpload/fileUpload.js'
+import qrcode from 'qrcode'
 
 
 
@@ -109,7 +112,7 @@ const paymentInvoice = (req, res) => {
 let fee = 0
 const refNoPost = async (req, res) => {
     const { refNo } = req.body
-    console.log("ref No. ",refNo);
+    console.log("ref No. ", refNo);
 
     const user = await User.findOne({ _id: req.id })
     // console.log(user);
@@ -117,12 +120,12 @@ const refNoPost = async (req, res) => {
     const photoUpload = await FileUpload(req.file.path)
     const paymentSSURL = photoUpload.secure_url
     // console.log(paymentSSURL);
-    const paidAt = photoUpload.created_at.slice(0,10)
+    const paidAt = photoUpload.created_at.slice(0, 10)
 
     await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
-    await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paidAt} })
+    await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paidAt } })
     await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo: refNo } })
-    
+
     const appliedUser = await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: "true" } })
 
     if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
@@ -137,7 +140,7 @@ const refNoPost = async (req, res) => {
 const getSlipPost = async (req, res) => {
     const user = await User.findOne({ _id: req.id })
     const appliedUser = await AdmissionForm.findOne({ appliedBy: user._id.toString() })
-    
+
     if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
         fee = 3000
     } else {
@@ -147,9 +150,100 @@ const getSlipPost = async (req, res) => {
 }
 
 
+const paymentCourseId = async (req, res) => {
+    const { course, id } = req.params
+    const user = await User.findOne({ _id: req.id })
+    if (course === 'BCA') {
+        const appliedUser = await BCAadmissionForm.findOne({ appliedBy: id })
+
+        if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
+
+            qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=3000&tn=${appliedUser.mobileNumber}`, function (err, src) {
+            res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+            })
+
+        } else if (appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
+
+            qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=2830&tn=${appliedUser.mobileNumber}`, function (err, src) {
+            res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+            })
+
+        }
+
+    }
+    if (course === 'BBA') {
+        const appliedUser = await BBAadmissionForm.findOne({ appliedBy: id })
+
+        if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
+
+            qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=3000&tn=${appliedUser.mobileNumber}`, function (err, src) {
+            res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+            })
+
+        } else if (appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
+
+            qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=2830&tn=${appliedUser.mobileNumber}`, function (err, src) {
+            res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+            })
+
+        }
+    }
+
+}
+
+
+const payRefNoForm = async (req, res) => {
+    const { refNo, formCourse, formAppliedBy } = req.body
+
+    const user = await User.findOne({ _id: req.id })
+    // console.log(user);
+
+    const photoUpload = await FileUpload(req.file.path)
+    const paymentSSURL = photoUpload.secure_url
+    const currentDate = new Date();
+    const day = currentDate.getDate();
+    const month = currentDate.getMonth() + 1; // Add 1 as months are zero-based
+    const year = currentDate.getFullYear();
+    const admDate = `${year}-${month}-${day}`
+
+    if (formCourse === 'BCA') {
+        await BCAadmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
+        await BCAadmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { admDate } })
+        await BCAadmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo } })
+        const appliedUser = await BCAadmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: "true" } })
+        return res.render('receipt', { user, appliedUser })
+    }
+
+    if (formCourse === 'BBA') {
+        await BBAadmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
+        await BBAadmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { admDate } })
+        await BBAadmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo } })
+        const appliedUser = await BBAadmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: "true" } })
+        return res.render('receipt', { user, appliedUser })
+    }
+}
+
+const receiptCourseId = async (req, res) =>{
+    const {course, id} = req. params
+    const user = await User.findOne({ _id: req.id })
+    let appliedUser = ""
+    if (course === 'BCA'){
+        appliedUser = await BCAadmissionForm.findOne({ appliedBy: user._id.toString() })
+    }
+
+    if (course === 'BBA'){
+        appliedUser = await BBAadmissionForm.findOne({ appliedBy: user._id.toString() })
+    }
+    
+    return res.render('receipt', { user, appliedUser })
+
+}
 export {
     payment,
     paymentInvoice,
+    paymentCourseId,
+    payRefNoForm,
+    receiptCourseId,
     refNoPost,
     getSlipPost
 }

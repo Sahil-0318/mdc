@@ -17,6 +17,7 @@ const uploadFile = async (filePath) => {
       return result;
     } catch (error) {
       console.log('Upload error', error.message);
+      console.log('line 20');
       
     }
 };

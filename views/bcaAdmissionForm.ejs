@@ -33,17 +33,16 @@
                                         <div class="col-12 col-md-10">
                                             <div class="bg-light rounded  p-4">
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <h6 class="mb-4">Intermidiate Admission Form</h6>
-                                                    <% if (locals.appliedUser) { %>
+                                                    <h6 class="mb-4">BCA Admission Form</h6>
+                                                <% if (locals.appliedUser) { %>
 
-                                                        <form action="/getSlip" method="post">
-                                                            <button type="submit" class="btn btn-primary">Get
-                                                                Slip</button>
-                                                        </form>
-                                                        <% } %>
+                                                    <div class="btn btn-primary"><a class="text-light" href="/receipt/<%= locals.appliedUser.course %>/<%= locals.appliedUser.appliedBy %>">Get Receipt</a></div>
+                                                    
+                                                <% } %>
                                                 </div>
 
-                                                <form action="/admissionForm" method="post"
+                                                
+                                                <form action="/bcaAdmissionForm" method="post"
                                                     enctype="multipart/form-data">
                                                     <div class="col-md-12 mb-3">
                                                         <label for="fullName" class="form-label">1. Full Name</label>
@@ -52,47 +51,46 @@
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="rollNumber" class="form-label">2. Roll
+                                                        <label for="uniRollNumber" class="form-label">2. University Roll
                                                             Number</label>
-                                                        <input type="number" class="form-control" id="rollNumber"
-                                                            name="rollNumber" required />
-                                                    </div>
-
-                                                    <div class="col-md-12 mb-3">
-                                                        <label for="session" class="form-label">3. Session</label>
-                                                        <input type="text" class="form-control" id="session"
-                                                            name="session" value="2023-2025" readonly required />
-                                                    </div>
-
-                                                    <div class="col-md-12 mb-3">
-                                                        <label for="aadharNumber" class="form-label">4.
-                                                            AadharNumber</label>
-                                                        <input type="number" class="form-control" id="aadharNumber"
-                                                            name="aadharNumber" maxlength="12" pattern="[0-9]{12}"
+                                                        <input type="number" class="form-control"
+                                                            id="uniRollNumber" name="uniRollNumber"
                                                             required />
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="dOB" class="form-label">5. Date Of Birth</label>
+                                                        <label for="uniRegNumber" class="form-label">3. University Reg.
+                                                            Number</label>
+                                                        <input type="number" class="form-control"
+                                                            id="uniRegNumber" name="uniRegNumber"
+                                                            required />
+                                                    </div>
+
+                                                    <div class="col-md-12 mb-3">
+                                                        <label for="collRollNumber" class="form-label">4. College Roll
+                                                            Number</label>
+                                                        <input type="number" class="form-control"
+                                                            id="collRollNumber" name="collRollNumber"
+                                                            required />
+                                                    </div>
+
+                                                    <div class="col-md-12 mb-3">
+                                                        <label for="session" class="form-label">5. Session</label>
+                                                        <input type="text" class="form-control" id="session"
+                                                            name="session" value="2023-2026" readonly required />
+                                                    </div>
+
+                                                    <div class="col-md-12 mb-3">
+                                                        <label for="dOB" class="form-label">6. Date Of Birth</label>
                                                         <input type="date" class="form-control" id="dOB" name="dOB"
                                                             value=<%=locals.user.dOB %> required />
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="gender" class="form-label">6. Gender</label>
+                                                        <label for="gender" class="form-label">7. Gender</label>
                                                         <select id="gender" class="form-select" name="gender" required>
                                                             <option value="Male">Male</option>
                                                             <option value="Female">Female</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-md-12 mb-3">
-                                                        <label for="nationality" class="form-label">7.
-                                                            Nationality</label>
-                                                        <select id="nationality" class="form-select" name="nationality"
-                                                            required>
-                                                            <option value="Indian">Indian</option>
-                                                            <option value="Other">Other</option>
                                                         </select>
                                                     </div>
 
@@ -109,106 +107,79 @@
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="religion" class="form-label">9. Religion</label>
-                                                        <select id="religion" class="form-select" name="religion"
-                                                            required>
-                                                            <option value="Hindu">Hindu</option>
-                                                            <option value="Muslim">Muslim</option>
-                                                            <option value="Sikh">Sikh</option>
-                                                            <option value="Christian">Christian</option>
+                                                        <label for="aadharNumber" class="form-label">9.
+                                                            AadharNumber</label>
+                                                        <input type="number" class="form-control" id="aadharNumber"
+                                                            name="aadharNumber" maxlength="12" pattern="[0-9]{12}"
+                                                            required />
+                                                    </div>
+
+                                                    <div class="col-md-12 mb-3">
+                                                        <label for="mobileNumber" class="form-label">10. Mobile
+                                                            Number</label>
+                                                        <input type="number" class="form-control" id="mobileNumber"
+                                                            name="mobileNumber" value=<%=locals.user.mobileNumber %> readonly required />
+                                                    </div>
+
+                                                    <div class="col-md-12 mb-3">
+                                                        <label for="email" class="form-label">11. Email</label>
+                                                        <input type="email" class="form-control" id="email" name="email" value=<%=locals.user.email %> readonly
+                                                            required />
+                                                    </div>
+
+                                                    <div class="col-md-12 mb-3">
+                                                        <label for="course" class="form-label">12. Course</label>
+                                                        <select id="course" class="form-select" name="course" required>
+                                                            <option value="BCA" selected>BCA</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-12 mb-3">
+                                                        <label for="twelthBoard" class="form-label">13. 12th Board</label>
+                                                        <select id="twelthBoard" class="form-select" name="twelthBoard" required>
+                                                            <option value="B.S.E.B">B.S.E.B</option>
+                                                            <option value="C.B.S.E">C.B.S.E</option>
                                                             <option value="Other">Other</option>
                                                         </select>
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="fatherName" class="form-label">10. Father's Name /
-                                                            Guardian's Name</label>
+                                                        <label for="fatherName" class="form-label">14. Father's Name</label>
                                                         <input type="text" class="form-control" id="fatherName"
                                                             name="fatherName" required />
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="motherName" class="form-label">11. Mother's
-                                                            Name</label>
+                                                        <label for="motherName" class="form-label">15. Mother's Name</label>
                                                         <input type="text" class="form-control" id="motherName"
                                                             name="motherName" required />
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="parmanentAddress" class="form-label">12. Parmanent
-                                                            Address</label>
-                                                        <input type="text" class="form-control" id="parmanentAddress"
-                                                            name="parmanentAddress" required />
+                                                        <label for="address" class="form-label">16. Address</label>
+                                                        <input type="text" class="form-control" id="address"
+                                                            name="address" required />
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="parmanentAddressPin" class="form-label">13.
-                                                            Parmanent Address Pin</label>
+                                                        <label for="addressPin" class="form-label">17. Address Pin</label>
                                                         <input type="number" class="form-control"
-                                                            id="parmanentAddressPin" name="parmanentAddressPin"
-                                                            maxlength="6" pattern="[0-9]{6}" required />
-                                                    </div>
-
-                                                    <div class="col-md-12 mb-3">
-                                                        <label for="presentAddress" class="form-label">14. Present
-                                                            Address</label>
-                                                        <input type="text" class="form-control" id="presentAddress"
-                                                            name="presentAddress" required />
-                                                    </div>
-
-                                                    <div class="col-md-12 mb-3">
-                                                        <label for="presentAddressPin" class="form-label">15. Present
-                                                            Address Pin</label>
-                                                        <input type="number" class="form-control" id="presentAddressPin"
-                                                            name="presentAddressPin" maxlength="6" pattern="[0-9]{6}"
+                                                            id="addressPin" name="addressPin" maxlength="6" pattern="[0-9]{6}"
                                                             required />
                                                     </div>
 
-                                                    <div class="col-md-12 mb-3">
-                                                        <label for="mobileNumber" class="form-label">16. Mobile
-                                                            Number</label>
-                                                        <input type="number" class="form-control" id="mobileNumber"
-                                                            name="mobileNumber" value=<%=locals.user.mobileNumber %>
-                                                        readonly required />
-                                                    </div>
-
-                                                    <div class="col-md-12 mb-3">
-                                                        <label for="email" class="form-label">17. Email</label>
-                                                        <input type="email" class="form-control" id="email" name="email"
-                                                            value=<%=locals.user.email %> readonly
-                                                        required />
-                                                    </div>
-
-                                                    <div class="col-md-12 mb-3">
-                                                        <label for="course" class="form-label">18. Course</label>
-                                                        <select id="course" class="form-select" name="course" required>
-                                                            <option value="I.A">I.A</option>
-                                                            <option value="I.Sc">I.Sc</option>
-                                                            <!-- <option value="Commerce">Commerce</option> -->
-                                                        </select>
-                                                    </div>
-
                                                     <div class="mb-3">
-                                                        <label for="photo" class="form-label">19. Passport Size
+                                                        <label for="studentPhoto" class="form-label">18. Passport Size
                                                             Photo</label>
-                                                        <input class="form-control form-control-sm" id="photo"
-                                                            name="photo" type="file" required>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="studentSign" class="form-label">20. Student's Sign
-                                                            Photo</label>
-                                                        <input class="form-control form-control-sm" id="studentSign"
-                                                            name="photo" type="file" required>
+                                                        <input class="form-control form-control-sm" id="studentPhoto"
+                                                            name="studentPhoto" type="file" required>
                                                     </div>
 
-                                                    <button type="submit" class="btn btn-primary" disabled>Submit</button>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
                                                     <button type="reset" class="btn btn-secondary">Reset</button>
 
                                                 </form>
                                             </div>
-
-
-
 
                                         </div>
                                     </div>
