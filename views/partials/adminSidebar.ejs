@@ -6,18 +6,20 @@
         <div class="d-flex align-items-center ms-4 mb-4">
             <div class="position-relative">
                 <!-- <img class="rounded-circle" src="../images/user.jpg" alt="" style="width: 40px; height: 40px;"> -->
-                <div
-                    class="bg-primary text-white rounded-circle border border-2 border-white p-1 d-flex align-items-center justify-content-center"  style="width: 40px; height: 40px;">
+                <div class="bg-primary text-white rounded-circle border border-2 border-white p-1 d-flex align-items-center justify-content-center"
+                    style="width: 40px; height: 40px;">
                     <%= locals.user.fullName.slice(0, 1)%>
                 </div>
             </div>
             <div class="ms-3">
-                <h6 class="mb-0"><%= locals.user.fullName%></h6>
+                <h6 class="mb-0">
+                    <%= locals.user.fullName%>
+                </h6>
                 <% if(locals.user.isAdmin){ %>
                     <span>Admin</span>
-                <% } else {%>
-                    <span>User</span>
-                <% }%>
+                    <% } else {%>
+                        <span>User</span>
+                        <% }%>
 
             </div>
         </div>
@@ -27,20 +29,20 @@
             </div>
 
             <div class="nav-item dropdown">
-                <a href="/admissionFormList" class="nav-link"><i class="fa-solid fa-file-lines me-2"></i>Admission List</a>
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                        class="fa-solid fa-file-lines me-2"></i>Admission List</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="/admissionFormList" class="dropdown-item">Inter Admission List</a>
+
+                </div>
             </div>
-            
+
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                         class="fa-solid fa-certificate me-2"></i>Certificates</a>
                 <div class="dropdown-menu bg-transparent border-0">
                     <a href="/clcList" class="dropdown-item">CLC</a>
-                    <!-- <a href="/user/clc" class="dropdown-item">No Dues Form</a>
-                    <a href="/user/clc" class="dropdown-item">Miscleneous Recipt</a>
-                    <a href="/user/clc" class="dropdown-item">Admission Recipt</a>
-                    <a href="/user/clc" class="dropdown-item">Bonafied</a>
-                    <a href="/user/clc" class="dropdown-item">Transfer Certificate</a>
-                    <a href="/user/clc" class="dropdown-item">Salary Statement</a> -->
+                    
                 </div>
             </div>
             <!-- <div class="nav-item dropdown">
