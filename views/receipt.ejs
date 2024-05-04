@@ -171,6 +171,8 @@
                                         <a href="/bcaAdmissionForm" class="btn btn-primary w-md">Back to Home Page</a>
                                         <% } else if (locals.appliedUser.course === 'BBA') { %>
                                         <a href="/bbaAdmissionForm" class="btn btn-primary w-md">Back to Home Page</a>
+                                        <% } else if (locals.appliedUser.course === 'B.A' || locals.appliedUser.course === 'B.Com' || locals.appliedUser.course === 'B.Sc') { %>
+                                        <a href="/ugRegularAdmissionForm" class="btn btn-primary w-md">Back to Home Page</a>
                                      
                                     <% } %>
                                 </div>

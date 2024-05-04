@@ -33,7 +33,7 @@
                                         <div class="col-12 col-md-10">
                                             <div class="bg-light rounded  p-4">
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <h6 class="mb-4">BCA Admission Form</h6>
+                                                    <h6 class="mb-4">UG Regular Admission Form</h6>
                                                 <% if (locals.appliedUser) { %>
 
                                                     <div class="btn btn-primary"><a class="text-light" href="/receipt/<%= locals.appliedUser.course %>/<%= locals.appliedUser.appliedBy %>">Get Receipt</a></div>
@@ -42,7 +42,7 @@
                                                 </div>
 
                                                 
-                                                <form action="/bcaAdmissionForm" method="post"
+                                                <form action="/ugRegularAdmissionForm" method="post"
                                                     enctype="multipart/form-data">
                                                     <div class="col-md-12 mb-3">
                                                         <label for="fullName" class="form-label">1. Full Name</label>
@@ -130,7 +130,9 @@
                                                     <div class="col-md-12 mb-3">
                                                         <label for="course" class="form-label">12. Course</label>
                                                         <select id="course" class="form-select" name="course" required>
-                                                            <option value="BCA" selected>BCA</option>
+                                                            <option value="B.A">B.A</option>
+                                                            <option value="B.Com">B.Com</option>
+                                                            <option value="B.Sc">B.Sc</option>
                                                         </select>
                                                     </div>
 
@@ -175,7 +177,7 @@
                                                             name="studentPhoto" type="file" required>
                                                     </div>
 
-                                                    <button type="submit" class="btn btn-primary" disabled>Submit</button>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
                                                     <button type="reset" class="btn btn-secondary">Reset</button>
 
                                                 </form>

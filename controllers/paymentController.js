@@ -6,6 +6,7 @@ import axios from 'axios'
 import uniqid from 'uniqid'
 import sha256 from 'sha256'
 import AdmissionForm from '../models/userModel/admissionFormSchema.js'
+import UgRegularAdmissionForm from '../models/userModel/ugRegularAdmissionFormSchema.js'
 import BCAadmissionForm from '../models/userModel/bcaAdmissionFormSchema.js'
 import BBAadmissionForm from '../models/userModel/bbaAdmissionFormSchema.js'
 import User from '../models/userModel/userSchema.js'
@@ -189,6 +190,24 @@ const paymentCourseId = async (req, res) => {
         }
     }
 
+    if (course === 'B.A' || course === 'B.Com' || course === 'B.Sc') {
+        const appliedUser = await UgRegularAdmissionForm.findOne({ appliedBy: id })
+
+        if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
+
+            qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=3000&tn=${appliedUser.mobileNumber}`, function (err, src) {
+            res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+            })
+
+        } else if (appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
+
+            qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=2830&tn=${appliedUser.mobileNumber}`, function (err, src) {
+            res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+            })
+
+        }
+    }
+
 }
 
 
@@ -221,6 +240,14 @@ const payRefNoForm = async (req, res) => {
         const appliedUser = await BBAadmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: "true" } })
         return res.render('receipt', { user, appliedUser })
     }
+
+    if (formCourse === 'B.A' || formCourse === 'B.Com' || formCourse === 'B.Sc') {
+        await UgRegularAdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
+        await UgRegularAdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { admDate } })
+        await UgRegularAdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo } })
+        const appliedUser = await UgRegularAdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: "true" } })
+        return res.render('receipt', { user, appliedUser })
+    }
 }
 
 const receiptCourseId = async (req, res) =>{
@@ -233,6 +260,10 @@ const receiptCourseId = async (req, res) =>{
 
     if (course === 'BBA'){
         appliedUser = await BBAadmissionForm.findOne({ appliedBy: user._id.toString() })
+    }
+
+    if (course === 'B.A' || course === 'B.Com' || course === 'B.Sc'){
+        appliedUser = await UgRegularAdmissionForm.findOne({ appliedBy: user._id.toString() })
     }
     
     return res.render('receipt', { user, appliedUser })
