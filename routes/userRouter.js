@@ -13,16 +13,27 @@ const upload = multer({
 
 
 userRouter.get('/', index)
+
 userRouter.get('/userPage',userAuth, userPage)
+
 userRouter.get('/admissionForm',userAuth, admissionForm)
+
 userRouter.post('/admissionForm',userAuth, upload.array('photo'),  admissionFormPost)
+
 userRouter.get('/ugRegularAdmissionForm',userAuth, ugRegularAdmissionForm)
+
 userRouter.post('/ugRegularAdmissionForm',userAuth, upload.array('studentPhoto'),  ugRegularAdmissionFormPost)
+
 userRouter.get('/bcaAdmissionForm',userAuth, bcaAdmissionForm)
+
 userRouter.post('/bcaAdmissionForm',userAuth, upload.array('studentPhoto'),  bcaAdmissionFormPost)
+
 userRouter.get('/bbaAdmissionForm',userAuth, bbaAdmissionForm)
+
 userRouter.post('/bbaAdmissionForm',userAuth, upload.array('studentPhoto'),  bbaAdmissionFormPost)
+
 userRouter.get('/clc',userAuth, clc)
+
 userRouter.post('/clc',userAuth, clcPost)
 
 export default userRouter

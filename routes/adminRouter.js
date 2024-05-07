@@ -15,7 +15,12 @@ import {
     approvedByAdmin,
     findStuInAdmForm,
     datewiseAdmForm,
-    downloadExcel
+    downloadExcel,
+    notice,
+    noticePost,
+    editNotice,
+    editNoticePost,
+    deleteNotice
  } 
  from '../controllers/adminController.js'
 
@@ -45,5 +50,14 @@ import {
 
  adminRouter.get('/download-excel', adminAuth, downloadExcel)
 
+ adminRouter.get('/notice', adminAuth, notice)
+ 
+ adminRouter.post('/notice', adminAuth, noticePost)
+ 
+ adminRouter.get('/edit-notice/:id', adminAuth, editNotice)
+ 
+ adminRouter.post('/edit-notice/:id', adminAuth, editNoticePost)
+ 
+ adminRouter.get('/delete-notice/:id', adminAuth, deleteNotice)
 
 export default adminRouter

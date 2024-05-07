@@ -251,7 +251,7 @@ const payRefNoForm = async (req, res) => {
 }
 
 const receiptCourseId = async (req, res) =>{
-    const {course, id} = req. params
+    const {course, id} = req.params
     const user = await User.findOne({ _id: req.id })
     let appliedUser = ""
     if (course === 'BCA'){

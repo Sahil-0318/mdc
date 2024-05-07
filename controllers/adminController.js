@@ -1,6 +1,7 @@
 import User from '../models/userModel/userSchema.js'
 import Clc from '../models/userModel/clcSchema.js'
 import AdmissionForm from '../models/userModel/admissionFormSchema.js'
+import Notice from '../models/adminModel/noticeSchema.js'
 import path from "path"
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib"
 import { writeFileSync, readFileSync } from "fs"
@@ -204,6 +205,84 @@ const downloadExcel = async (req, res) => {
   }
 }
 
+const notice = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+
+    let notices = await Notice.find()
+    res.render('notice', { notices, user })
+    
+    
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+const noticePost = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+
+    const {noticeTitle, noticeDetail} = req.body
+
+    const notice = new Notice({
+      noticeTitle,
+      noticeDetail
+    })
+
+    let newNotice = await notice.save()
+
+    res.redirect('/notice')
+    
+    
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+const editNotice = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const {id} = req.params
+    const editNotice = await Notice.findOne({_id: id})
+    
+    res.render('editNotice', {editNotice, user })
+    
+    
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+const editNoticePost = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const {id} = req.params
+    const {noticeTitle, noticeDetail} = req.body
+    
+    const editedNotice = await Notice.findOneAndUpdate({_id: id}, {$set : {noticeTitle, noticeDetail}})       
+
+    res.redirect('/notice')
+    
+    
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+const deleteNotice = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const {id} = req.params
+    const deletedNotice = await Notice.findOneAndDelete({_id: id})
+    
+    res.redirect('/notice')
+    
+    
+  } catch (error) {
+    res.status(401)
+  }
+}
+
 const clcList = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
@@ -355,5 +434,10 @@ export {
   approvedByAdmin,
   findStuInAdmForm,
   datewiseAdmForm,
-  downloadExcel
+  downloadExcel,
+  notice,
+  noticePost,
+  editNotice,
+  editNoticePost,
+  deleteNotice
 }
