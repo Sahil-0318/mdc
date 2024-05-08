@@ -66,15 +66,20 @@
             <!-- Sales Chart Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
-                    <div class="col-sm-12 col-xl-12">
-                        <div class="bg-light text-center rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Students</h6>
-                                <!-- <a href="">Show All</a> -->
+                
+                        <div class="col-sm-12 col-xl-6">
+                            <div class="bg-light rounded h-100 p-4">
+                                <h6 class="mb-4">Students</h6>
+                                <canvas id="noOfStudents"></canvas>
                             </div>
-                            <canvas id="multi-bar-chart"></canvas>
                         </div>
-                    </div>
+                        <div class="col-sm-12 col-xl-6">
+                            <div class="bg-light rounded h-100 p-4">
+                                <h6 class="mb-4">Students Category</h6>
+                                <canvas id="stuCategory"></canvas>
+                            </div>
+                        </div>
+                    
                 </div>
             </div>
             <!-- Sales Chart End -->
@@ -255,8 +260,28 @@
     <script src="../lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
+
     <!-- Template Javascript -->
     <script src="../javascripts/main.js"></script>
+    <script>
+    var noOfStudents = document.getElementById("noOfStudents").getContext("2d");
+    var noOfStudentsChart = new Chart(noOfStudents, {
+        type: "pie",
+        data: <%- JSON.stringify(noOfStudents) %>,
+        options: {
+            responsive: true
+        }
+    });
+
+    var stuCategory = document.getElementById("stuCategory").getContext("2d");
+    var stuCategoryChart = new Chart(stuCategory, {
+        type: "bar",
+        data: <%- JSON.stringify(category) %>,
+        options: {
+            responsive: true
+        }
+    });
+    </script>
 </body>
 
 </html>

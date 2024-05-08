@@ -7,13 +7,13 @@ import { PDFDocument, StandardFonts, rgb } from "pdf-lib"
 import { writeFileSync, readFileSync } from "fs"
 import nodemailer from 'nodemailer'
 import Csv from 'json2csv'
-const CsvParser= Csv.Parser
+const CsvParser = Csv.Parser
 
 const adminPage = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const maleStudents = await AdmissionForm.find({gender: 'Male', isPaid: "true"})
-    const femaleStudents = await AdmissionForm.find({gender: 'Female', isPaid: "true"})
+    const maleStudents = await AdmissionForm.find({ gender: 'Male', isPaid: "true" })
+    const femaleStudents = await AdmissionForm.find({ gender: 'Female', isPaid: "true" })
     let NoOfMaleStudents = maleStudents.length
     let NoOfFemaleStudents = femaleStudents.length
     let totalStudents = NoOfMaleStudents + NoOfFemaleStudents
@@ -23,7 +23,44 @@ const adminPage = async (req, res) => {
       totalStudents
     }
 
-    return res.render('adminPage', { studentsNumber, user })
+    const noOfStudents = {
+      labels: ['Male', 'Female'],
+      datasets: [{
+        backgroundColor: [
+          "rgba(0, 156, 255, .7)",
+          "rgba(0, 15, 255, .6)"
+        ],
+        data: [NoOfMaleStudents, NoOfFemaleStudents]
+      }]
+    };
+
+    const genStu = await AdmissionForm.find({ isPaid: "true", category: "General" })
+    let noOfGenStu = genStu.length
+    const bc2Stu = await AdmissionForm.find({ isPaid: "true", category: "BC-2" })
+    let noOfBc2Stu = bc2Stu.length
+    const bc1Stu = await AdmissionForm.find({ isPaid: "true", category: "BC-1" })
+    let noOfBc1Stu = bc1Stu.length
+    const scStu = await AdmissionForm.find({ isPaid: "true", category: "SC" })
+    let noOfScStu = scStu.length
+    const stStu = await AdmissionForm.find({ isPaid: "true", category: "ST" })
+    let noOfstStu = stStu.length
+
+    const category = {
+      labels: ["General", "BC-2", "BC-1", "SC", "ST"],
+      datasets: [{
+        backgroundColor: [
+          "rgba(0, 156, 255, .7)",
+          "rgba(0, 156, 255, .6)",
+          "rgba(0, 156, 255, .5)",
+          "rgba(0, 156, 255, .4)",
+          "rgba(0, 156, 255, .3)"
+        ],
+        data: [noOfGenStu, noOfBc2Stu, noOfBc1Stu, noOfScStu, noOfstStu]
+      }]
+    }
+
+
+    return res.render('adminPage', { studentsNumber, user, noOfStudents, category })
   } catch (error) {
     res.status(401)
   }
@@ -34,7 +71,7 @@ const admissionFormList = async (req, res) => {
     const user = await User.findOne({ _id: req.id })
     const AdmissionList = await AdmissionForm.find({})
     // console.log(allUser);
-    res.render('admissionFormList', { list: AdmissionList, status: "All", noOfForms: AdmissionList.length , user })
+    res.render('admissionFormList', { list: AdmissionList, status: "All", noOfForms: AdmissionList.length, user })
   } catch (error) {
     res.status(401)
   }
@@ -43,9 +80,9 @@ const admissionFormList = async (req, res) => {
 const paidAdmissionFormList = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const AdmissionList = await AdmissionForm.find({isPaid: "true"})
+    const AdmissionList = await AdmissionForm.find({ isPaid: "true" })
     // console.log(AdmissionList.length);
-    res.render('admissionFormList', { list: AdmissionList, status: "Paid", noOfForms: AdmissionList.length , user })
+    res.render('admissionFormList', { list: AdmissionList, status: "Paid", noOfForms: AdmissionList.length, user })
   } catch (error) {
     res.status(401)
   }
@@ -54,7 +91,7 @@ const paidAdmissionFormList = async (req, res) => {
 const unpaidAdmissionFormList = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const AdmissionList = await AdmissionForm.find({isPaid: "false"})
+    const AdmissionList = await AdmissionForm.find({ isPaid: "false" })
     // console.log(allUser);
     res.render('admissionFormList', { list: AdmissionList, status: "Unpaid", noOfForms: AdmissionList.length, user })
   } catch (error) {
@@ -65,7 +102,7 @@ const unpaidAdmissionFormList = async (req, res) => {
 const genBC2Category = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const AdmissionList = await AdmissionForm.find({isPaid: "true",admFee: "3000"})
+    const AdmissionList = await AdmissionForm.find({ isPaid: "true", admFee: "3000" })
     // console.log(AdmissionList);
     res.render('admissionFormList', { list: AdmissionList, status: "General/BC-2", noOfForms: AdmissionList.length, user })
   } catch (error) {
@@ -76,7 +113,7 @@ const genBC2Category = async (req, res) => {
 const bc1SCSTCategory = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const AdmissionList = await AdmissionForm.find({isPaid: "true",admFee: "2830"})
+    const AdmissionList = await AdmissionForm.find({ isPaid: "true", admFee: "2830" })
     // console.log(allUser);
     res.render('admissionFormList', { list: AdmissionList, status: "BC-1/SC/ST", noOfForms: AdmissionList.length, user })
   } catch (error) {
@@ -87,7 +124,7 @@ const bc1SCSTCategory = async (req, res) => {
 const scienceStu = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const AdmissionList = await AdmissionForm.find({isPaid: "true",course: "I.Sc"})
+    const AdmissionList = await AdmissionForm.find({ isPaid: "true", course: "I.Sc" })
     // console.log(allUser);
     res.render('admissionFormList', { list: AdmissionList, status: "I.Sc Students", noOfForms: AdmissionList.length, user })
   } catch (error) {
@@ -98,7 +135,7 @@ const scienceStu = async (req, res) => {
 const artsStu = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const AdmissionList = await AdmissionForm.find({isPaid: "true",course: "I.A"})
+    const AdmissionList = await AdmissionForm.find({ isPaid: "true", course: "I.A" })
     // console.log(allUser);
     res.render('admissionFormList', { list: AdmissionList, status: "I.A Students", noOfForms: AdmissionList.length, user })
   } catch (error) {
@@ -109,31 +146,31 @@ const artsStu = async (req, res) => {
 const findStuInAdmForm = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    let {findStuName, findStuRefNo} = req.body
-    if (findStuName!=='' && findStuRefNo==="") {
+    let { findStuName, findStuRefNo } = req.body
+    if (findStuName !== '' && findStuRefNo === "") {
       // console.log(findStuName.toUpperCase());
       // console.log('Without Ref No');
       let AdmissionList = await AdmissionForm.find({ fullName: findStuName.toUpperCase() })
-      res.render('admissionFormList', { list: AdmissionList, status: "Found", noOfForms: AdmissionList.length , user })
-      
-    }else if (findStuName==='' && findStuRefNo!==""){
+      res.render('admissionFormList', { list: AdmissionList, status: "Found", noOfForms: AdmissionList.length, user })
+
+    } else if (findStuName === '' && findStuRefNo !== "") {
       // console.log(findStuName);
       // console.log('Without Name');
       let AdmissionList = await AdmissionForm.find({ refNo: findStuRefNo })
-      res.render('admissionFormList', { list: AdmissionList, status: "Found", noOfForms: AdmissionList.length , user })
+      res.render('admissionFormList', { list: AdmissionList, status: "Found", noOfForms: AdmissionList.length, user })
 
-    }else if (findStuName!=='' && findStuRefNo!==""){
+    } else if (findStuName !== '' && findStuRefNo !== "") {
       // console.log(findStuName);
       // console.log('With Both');
-      let AdmissionList = await AdmissionForm.find({ fullName: findStuName.toUpperCase(),refNo: findStuRefNo })
-      res.render('admissionFormList', { list: AdmissionList, status: "Found", noOfForms: AdmissionList.length , user })
+      let AdmissionList = await AdmissionForm.find({ fullName: findStuName.toUpperCase(), refNo: findStuRefNo })
+      res.render('admissionFormList', { list: AdmissionList, status: "Found", noOfForms: AdmissionList.length, user })
 
-    }else{
+    } else {
       const AdmissionList = await AdmissionForm.find({})
-      res.render('admissionFormList', { list: AdmissionList,formAlert: "Please, Enter Student Name or Ref No", user })
+      res.render('admissionFormList', { list: AdmissionList, formAlert: "Please, Enter Student Name or Ref No", user })
       // res.render('admissionFormList', { formAlert: "Please, Enter Student Name or Ref No", user })
     }
-    
+
   } catch (error) {
     res.status(401)
   }
@@ -142,12 +179,12 @@ const findStuInAdmForm = async (req, res) => {
 const datewiseAdmForm = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    let {findAdmDateFrom, findAdmDateTo} = req.body
-    
-    let AdmissionList = await AdmissionForm.find({ "createdAt": {$lt: new Date(findAdmDateTo), $gt: new Date(findAdmDateFrom)}, isPaid: "true"  })
-    
-    res.render('admissionFormList', { list: AdmissionList, status: "Found", noOfForms: AdmissionList.length , user })
-  
+    let { findAdmDateFrom, findAdmDateTo } = req.body
+
+    let AdmissionList = await AdmissionForm.find({ "createdAt": { $lt: new Date(findAdmDateTo), $gt: new Date(findAdmDateFrom) }, isPaid: "true" })
+
+    res.render('admissionFormList', { list: AdmissionList, status: "Found", noOfForms: AdmissionList.length, user })
+
   } catch (error) {
     res.status(401)
   }
@@ -157,37 +194,38 @@ const downloadExcel = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
     let users = []
-    const userData = await AdmissionForm.find({isPaid: true})
-    userData.forEach((admUser)=>{
-      const {fullName, rollNumber, session, aadharNumber, dOB, gender, nationality, category, religion, fatherName, motherName, parmanentAddress, parmanentAddressPin, presentAddress, presentAddressPin, mobileNumber, email, course, admissionPhoto, studentSign, admNumber, slipNo, admFee, refNo, paymentSS } = admUser
+    const userData = await AdmissionForm.find({ isPaid: true })
+    userData.forEach((admUser) => {
+      const { fullName, rollNumber, session, aadharNumber, dOB, gender, nationality, category, religion, fatherName, motherName, parmanentAddress, parmanentAddressPin, presentAddress, presentAddressPin, mobileNumber, email, course, admissionPhoto, studentSign, admNumber, slipNo, admFee, refNo, paymentSS } = admUser
 
-      users.push({'Full Name': fullName, 
-      'Roll No.':rollNumber, 
-      'Session':session, 
-      'Aadhar No.': aadharNumber,
-      'DOB': dOB,
-      'Gender': gender,
-      'Nationality': nationality,
-      'Category': category,
-      'Religion': religion,
-      "Father's Name": fatherName,
-      "Mother's Name": motherName,
-      'Parmanent Address': parmanentAddress,
-      'Parmanent Address Pin': parmanentAddressPin,
-      'Present Address' : presentAddress,
-      'Present Address Pin': presentAddressPin,
-      'Mobile No.': mobileNumber,
-      'Email': email,
-      'Course': course,
-      "Student's Photo": admissionPhoto,
-      "Student's Sign": studentSign,
-      "Admission Number": admNumber,
-      "Slip No.": slipNo,
-      "Admission Fee": admFee,
-      "Reference No.": refNo,
-      "Payment SS": paymentSS
+      users.push({
+        'Full Name': fullName,
+        'Roll No.': rollNumber,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Nationality': nationality,
+        'Category': category,
+        'Religion': religion,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Parmanent Address': parmanentAddress,
+        'Parmanent Address Pin': parmanentAddressPin,
+        'Present Address': presentAddress,
+        'Present Address Pin': presentAddressPin,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        'Course': course,
+        "Student's Photo": admissionPhoto,
+        "Student's Sign": studentSign,
+        "Admission Number": admNumber,
+        "Slip No.": slipNo,
+        "Admission Fee": admFee,
+        "Reference No.": refNo,
+        "Payment SS": paymentSS
 
-    })
+      })
     })
 
     // const csvFields = ['Full Name', 'Roll No.', 'Session', 'Aadhar No.']
@@ -198,8 +236,8 @@ const downloadExcel = async (req, res) => {
     res.setHeader("Content-Disposition", "attachment: filename=InterAdmissionList.csv")
 
     res.status(200).end(csvData)
-    
-    
+
+
   } catch (error) {
     res.status(401)
   }
@@ -211,8 +249,8 @@ const notice = async (req, res) => {
 
     let notices = await Notice.find()
     res.render('notice', { notices, user })
-    
-    
+
+
   } catch (error) {
     res.status(401)
   }
@@ -222,7 +260,7 @@ const noticePost = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
 
-    const {noticeTitle, noticeDetail} = req.body
+    const { noticeTitle, noticeDetail } = req.body
 
     const notice = new Notice({
       noticeTitle,
@@ -232,8 +270,8 @@ const noticePost = async (req, res) => {
     let newNotice = await notice.save()
 
     res.redirect('/notice')
-    
-    
+
+
   } catch (error) {
     res.status(401)
   }
@@ -242,12 +280,12 @@ const noticePost = async (req, res) => {
 const editNotice = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const {id} = req.params
-    const editNotice = await Notice.findOne({_id: id})
-    
-    res.render('editNotice', {editNotice, user })
-    
-    
+    const { id } = req.params
+    const editNotice = await Notice.findOne({ _id: id })
+
+    res.render('editNotice', { editNotice, user })
+
+
   } catch (error) {
     res.status(401)
   }
@@ -256,14 +294,14 @@ const editNotice = async (req, res) => {
 const editNoticePost = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const {id} = req.params
-    const {noticeTitle, noticeDetail} = req.body
-    
-    const editedNotice = await Notice.findOneAndUpdate({_id: id}, {$set : {noticeTitle, noticeDetail}})       
+    const { id } = req.params
+    const { noticeTitle, noticeDetail } = req.body
+
+    const editedNotice = await Notice.findOneAndUpdate({ _id: id }, { $set: { noticeTitle, noticeDetail } })
 
     res.redirect('/notice')
-    
-    
+
+
   } catch (error) {
     res.status(401)
   }
@@ -272,12 +310,12 @@ const editNoticePost = async (req, res) => {
 const deleteNotice = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const {id} = req.params
-    const deletedNotice = await Notice.findOneAndDelete({_id: id})
-    
+    const { id } = req.params
+    const deletedNotice = await Notice.findOneAndDelete({ _id: id })
+
     res.redirect('/notice')
-    
-    
+
+
   } catch (error) {
     res.status(401)
   }
@@ -296,7 +334,7 @@ const clcList = async (req, res) => {
 
 const approvedByAdmin = async (req, res) => {
   try {
-    
+
     let reg = req.body.registrationNumber
 
     const checked = await Clc.findOneAndUpdate({ registrationNumber: reg }, { isApprove: true })
