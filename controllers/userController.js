@@ -6,6 +6,7 @@ import BBAadmissionForm from '../models/userModel/bbaAdmissionFormSchema.js'
 import UgRegularAdmissionForm from '../models/userModel/ugRegularAdmissionFormSchema.js'
 import FileUpload from '../fileUpload/fileUpload.js'
 import qrcode from 'qrcode'
+import Notice from '../models/adminModel/noticeSchema.js'
 
 // Index Page
 const index = async (req, res) => {
@@ -17,7 +18,9 @@ const index = async (req, res) => {
 const userPage = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
-        return res.render('userPage', { user })
+        const notices = await Notice.find()
+        
+        return res.render('userPage', { user, notices })
     } catch (error) {
         res.status(401)
     }
@@ -607,6 +610,31 @@ const clcPost = async (req, res) => {
 }
 
 
+//  Notice
+const userNotice = async (req, res) =>{
+    try {
+        const user = await User.findOne({ _id: req.id })
+        const notices = await Notice.find()
+        
+        return res.render('userNotice', { user, notices })
+    } catch (error) {
+        res.status(401)
+    }
+}
+
+const eachUserNotice = async (req, res) =>{
+    try {
+        const {id} = req.params
+        
+        const user = await User.findOne({ _id: req.id })
+        const notice = await Notice.findOne({_id: id})
+        
+        return res.render('noticePreview', { user, notice })
+    } catch (error) {
+        res.status(401)
+    }
+}
+
 export {
     index,
     userPage,
@@ -619,5 +647,7 @@ export {
     bbaAdmissionForm,
     bbaAdmissionFormPost,
     clc,
-    clcPost
+    clcPost,
+    userNotice,
+    eachUserNotice
 }

@@ -1,6 +1,6 @@
 import express from 'express'
 import {userAuth} from '../middlewares/userMiddleware.js'
-import { index, userPage, admissionForm, admissionFormPost, ugRegularAdmissionForm, ugRegularAdmissionFormPost, bcaAdmissionForm, bcaAdmissionFormPost, bbaAdmissionForm, bbaAdmissionFormPost, clc, clcPost } from '../controllers/userController.js'
+import { index, userPage, admissionForm, admissionFormPost, ugRegularAdmissionForm, ugRegularAdmissionFormPost, bcaAdmissionForm, bcaAdmissionFormPost, bbaAdmissionForm, bbaAdmissionFormPost, clc, clcPost,userNotice, eachUserNotice } from '../controllers/userController.js'
 const userRouter = express.Router()
 import multer from 'multer'
 
@@ -35,5 +35,9 @@ userRouter.post('/bbaAdmissionForm',userAuth, upload.array('studentPhoto'),  bba
 userRouter.get('/clc',userAuth, clc)
 
 userRouter.post('/clc',userAuth, clcPost)
+
+userRouter.get('/userNotice',userAuth, userNotice)
+
+userRouter.get('/userNotice/:id',userAuth, eachUserNotice)
 
 export default userRouter
