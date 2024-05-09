@@ -94,6 +94,10 @@ const clcSchema = new mongoose.Schema({
         type: String,
         default: 'clc'
     },
+    status:{
+        type: String,
+        default: "N/A"
+    },
     appliedBy: {
         type : String,
         required : true

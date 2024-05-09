@@ -33,15 +33,23 @@
                                         <div class="col-12 col-md-10">
                                             <div class="bg-light rounded  p-4">
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <h6 class="mb-4">CLC Form</h6>
-                                                    <% if (locals.appliedUser) { %>
+                                                    <h6 class="mb-4">CLC Form</h6>               
 
-                                                        <div class="btn btn-primary"><a class="text-light" href="/certificateReceipt/<%= locals.appliedUser.certificateType %>/<%= locals.appliedUser.appliedBy %>">Get Receipt</a></div>
-                                                        
+                                                    <% if (locals.appliedUser) { %>
+                                                    <% if (locals.appliedUser.status === "Pending") { %>
+                                                        <div class="bg-warning text-dark py-1 px-2 rounded"><%= locals.appliedUser.status %></div>
+                                                    <% } %>
+                                                    <% if (locals.appliedUser.status === "Approved") { %>
+                                                        <div class="bg-success text-light py-1 px-2 rounded"><%= locals.appliedUser.status %></div>
+                                                    <% } %>
+                                                    <% } %>
+                                                    <% if (locals.appliedUser) { %>
+                                                        <div class="btn btn-primary"><a class="text-light"
+                                                            href="/certificateReceipt/<%= locals.appliedUser.certificateType %>/<%= locals.appliedUser.appliedBy %>">Get Receipt</a></div>
                                                     <% } %>
                                                 </div>
 
-                                                
+
                                                 <form action="/clc" method="post">
                                                     <div class="col-md-12 mb-3">
                                                         <label for="fullName" class="form-label">1. Full Name</label>
@@ -50,13 +58,15 @@
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="fatherName" class="form-label">2. Father's Name</label>
+                                                        <label for="fatherName" class="form-label">2. Father's
+                                                            Name</label>
                                                         <input type="text" class="form-control" id="fatherName"
                                                             name="fatherName" required />
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="motherName" class="form-label">3. Mother's Name</label>
+                                                        <label for="motherName" class="form-label">3. Mother's
+                                                            Name</label>
                                                         <input type="text" class="form-control" id="motherName"
                                                             name="motherName" required />
                                                     </div>
@@ -70,7 +80,8 @@
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="parmanentAddress" class="form-label">5.Parmanent Address</label>
+                                                        <label for="parmanentAddress" class="form-label">5.Parmanent
+                                                            Address</label>
                                                         <input type="text" class="form-control" id="parmanentAddress"
                                                             name="parmanentAddress" required />
                                                     </div>
@@ -80,64 +91,69 @@
                                                         <input type="date" class="form-control" id="dOB" name="dOB"
                                                             value=<%=locals.user.dOB %> required />
                                                     </div>
-                                                    
+
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="course" class="form-label">7. Name of the Course Attended</label>
+                                                        <label for="course" class="form-label">7. Name of the Course
+                                                            Attended</label>
                                                         <select id="course" class="form-select" name="course" required>
                                                             <option value="B.A">B.A</option>
                                                             <option value="B.COM">B.COM</option>
                                                             <option value="B.SC">B.SC</option>
                                                         </select>
                                                     </div>
-                                                    
+
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="session" class="form-label">8. Academic Session</label>
+                                                        <label for="session" class="form-label">8. Academic
+                                                            Session</label>
                                                         <input type="text" class="form-control" id="session"
                                                             name="session" placeholder="Eg. 2023-2026" required />
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="dOAdm" class="form-label">9. Date Of Admission</label>
-                                                        <input type="date" class="form-control" id="dOAdm" name="dOAdm" required />
+                                                        <label for="dOAdm" class="form-label">9. Date Of
+                                                            Admission</label>
+                                                        <input type="date" class="form-control" id="dOAdm" name="dOAdm"
+                                                            required />
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
                                                         <label for="classRollNumber" class="form-label">10. Class Roll
                                                             Number</label>
-                                                        <input type="number" class="form-control"
-                                                            id="classRollNumber" name="classRollNumber"
-                                                            required />
+                                                        <input type="number" class="form-control" id="classRollNumber"
+                                                            name="classRollNumber" required />
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="yearOfExam" class="form-label">11. Month and Year of Examination</label>
+                                                        <label for="yearOfExam" class="form-label">11. Month and Year of
+                                                            Examination</label>
                                                         <input type="text" class="form-control" id="yearOfExam"
                                                             name="yearOfExam" placeholder="Eg. June 2023" required />
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="resultDivision" class="form-label">12. Result with Division</label>
-                                                        <input type="text" class="form-control"
-                                                            id="resultDivision" name="resultDivision"
-                                                            required />
+                                                        <label for="resultDivision" class="form-label">12. Result with
+                                                            Division</label>
+                                                        <input type="text" class="form-control" id="resultDivision"
+                                                            name="resultDivision" required />
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="regNumber" class="form-label">13. Registration Number</label>
-                                                        <input type="text" class="form-control"
-                                                            id="regNumber" name="regNumber"
-                                                            required />
+                                                        <label for="regNumber" class="form-label">13. Registration
+                                                            Number</label>
+                                                        <input type="text" class="form-control" id="regNumber"
+                                                            name="regNumber" required />
                                                     </div>
 
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="uniRollNumber" class="form-label">14. University / BSEB Roll Number</label>
-                                                        <input type="text" class="form-control"
-                                                            id="uniRollNumber" name="uniRollNumber"
-                                                            required />
+                                                        <label for="uniRollNumber" class="form-label">14. University /
+                                                            BSEB Roll Number</label>
+                                                        <input type="text" class="form-control" id="uniRollNumber"
+                                                            name="uniRollNumber" required />
                                                     </div>
 
                                                     <button type="submit" class="btn btn-primary">Submit</button>
                                                     <button type="reset" class="btn btn-secondary">Reset</button>
+                                                    
 
                                                 </form>
                                             </div>

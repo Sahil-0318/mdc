@@ -628,6 +628,7 @@ const clcPost = async (req, res) => {
                 uniRollNumber,
                 serialNo,
                 studentId,
+                status : "Pending",
                 clcFee: '600',
                 appliedBy: user._id
             })

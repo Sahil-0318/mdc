@@ -224,7 +224,7 @@ const payRefNoForm = async (req, res) => {
     const day = currentDate.getDate();
     const month = currentDate.getMonth() + 1; // Add 1 as months are zero-based
     const year = currentDate.getFullYear();
-    const admDate = `${year}-${month}-${day}`
+    const admDate = `${day}-${month}-${year}`
 
     if (formCourse === 'BCA') {
         await BCAadmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
@@ -298,7 +298,7 @@ const certificatePayRefNoForm = async (req, res) => {
     const day = currentDate.getDate();
     const month = currentDate.getMonth() + 1; // Add 1 as months are zero-based
     const year = currentDate.getFullYear();
-    const clcFeePayDate = `${year}-${month}-${day}`
+    const clcFeePayDate = `${day}-${month}-${year}`
 
     if (formCertificate === 'clc') {
         await clcSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
