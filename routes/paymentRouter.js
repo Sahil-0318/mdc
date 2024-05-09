@@ -10,7 +10,10 @@ import {
     payRefNoForm,
     receiptCourseId,
     refNoPost,
-    getSlipPost
+    getSlipPost,
+    paymentCertificateId,
+    certificatePayRefNoForm,
+    receiptCertificateId
 } from '../controllers/paymentController.js'
 
 const storage = multer.diskStorage({})
@@ -27,6 +30,9 @@ paymentRouter.post('/payRefNoForm',userAuth, upload.single('paymentSS'), payRefN
 paymentRouter.get('/receipt/:course/:id',userAuth, receiptCourseId)
 paymentRouter.post('/refNo',userAuth, upload.single('paymentSS'), refNoPost)
 paymentRouter.post('/getSlip',userAuth, getSlipPost)
+paymentRouter.get('/payment/certificates/:certificate/:id',userAuth, paymentCertificateId)
+paymentRouter.post('/certificatePayRefNoForm',userAuth, upload.single('paymentSS'), certificatePayRefNoForm)
+paymentRouter.get('/certificateReceipt/:certificate/:id',userAuth, receiptCertificateId)
 
 
 

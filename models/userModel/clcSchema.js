@@ -2,58 +2,97 @@ import mongoose from 'mongoose'
 
 
 const clcSchema = new mongoose.Schema({
-    fName:{
+    fullName:{
         type : String,
         required : true
     },
-    lName: {
+    fatherName: {
         type : String,
         required : true,
     },
-    collegeClass: {
+    motherName: {
         type : String,
         required : true,
     },
-    classRoll: {
+    aadharNumber: {
         type : Number,
+        required : true,
+    },
+    parmanentAddress: {
+        type : String,
+        required : true,
+    },
+    dOB: {
+        type : String,
+        required : true,
+    },
+    course: {
+        type : String,
         required : true,
     },
     session: {
         type : String,
         required : true,
     },
-    dOB: {
-        type : String,
-        default: Date.now,
-        required : true,
-    },
-    uniRollNumber: {
-        type : Number,
-        required : true,
-    },
-    registrationNumber: {
-        type : Number,
-        required : true,
-    },
-    yOPUniEx: {
-        type : Number,
-        required : true,
-    },
-    subTaken: {
+    dOAdm: {
         type : String,
         required : true,
     },
-    fatherName: {
+    classRollNumber: {
+        type : Number,
+        required : true,
+    },
+    yearOfExam: {
         type : String,
         required : true
     },
-    email:{
+    resultDivision:{
         type : String,
         required : true,
     },
-    isApprove :{
+    regNumber :{
+        type: Number,
+        default: false
+    },
+    uniRollNumber: {
+        type : Number,
+        required : true
+    },
+    remark:{
+        type: String,
+        default: 'Good'
+    },
+    serialNo:{
+        type : Number
+    },
+    studentId:{
+        type: String
+    },
+    dOfLC:{
+        type: String
+    },
+    isIssued :{
         type: Boolean,
         default: false
+    },
+    clcFee:{
+        type: Number
+    },
+    paymentSS: {
+        type : String,
+        default: "NA"
+    },
+    refNo:{
+        type : String,
+        default: "Not Paid"
+    },
+    clcFeePayDate: {
+        type : String,
+        default: "NA"
+    },
+    certificateType:{
+        type: String,
+        default: 'clc'
     },
     appliedBy: {
         type : String,

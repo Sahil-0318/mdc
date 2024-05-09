@@ -12,6 +12,7 @@ import BBAadmissionForm from '../models/userModel/bbaAdmissionFormSchema.js'
 import User from '../models/userModel/userSchema.js'
 import FileUpload from '../fileUpload/fileUpload.js'
 import qrcode from 'qrcode'
+import clcSchema from '../models/userModel/clcSchema.js'
 
 
 
@@ -160,13 +161,13 @@ const paymentCourseId = async (req, res) => {
         if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
 
             qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=3000&tn=${appliedUser.mobileNumber}`, function (err, src) {
-            res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+                res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
             })
 
         } else if (appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
 
             qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=2830&tn=${appliedUser.mobileNumber}`, function (err, src) {
-            res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+                res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
             })
 
         }
@@ -178,13 +179,13 @@ const paymentCourseId = async (req, res) => {
         if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
 
             qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=3000&tn=${appliedUser.mobileNumber}`, function (err, src) {
-            res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+                res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
             })
 
         } else if (appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
 
             qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=2830&tn=${appliedUser.mobileNumber}`, function (err, src) {
-            res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+                res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
             })
 
         }
@@ -196,13 +197,13 @@ const paymentCourseId = async (req, res) => {
         if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
 
             qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=3000&tn=${appliedUser.mobileNumber}`, function (err, src) {
-            res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+                res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
             })
 
         } else if (appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
 
             qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=2830&tn=${appliedUser.mobileNumber}`, function (err, src) {
-            res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+                res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
             })
 
         }
@@ -250,25 +251,77 @@ const payRefNoForm = async (req, res) => {
     }
 }
 
-const receiptCourseId = async (req, res) =>{
-    const {course, id} = req.params
+const receiptCourseId = async (req, res) => {
+    const { course, id } = req.params
     const user = await User.findOne({ _id: req.id })
     let appliedUser = ""
-    if (course === 'BCA'){
+    if (course === 'BCA') {
         appliedUser = await BCAadmissionForm.findOne({ appliedBy: user._id.toString() })
     }
 
-    if (course === 'BBA'){
+    if (course === 'BBA') {
         appliedUser = await BBAadmissionForm.findOne({ appliedBy: user._id.toString() })
     }
 
-    if (course === 'B.A' || course === 'B.Com' || course === 'B.Sc'){
+    if (course === 'B.A' || course === 'B.Com' || course === 'B.Sc') {
         appliedUser = await UgRegularAdmissionForm.findOne({ appliedBy: user._id.toString() })
     }
-    
+
     return res.render('receipt', { user, appliedUser })
 
 }
+
+const paymentCertificateId = async (req, res) => {
+    const { certificate, id } = req.params
+    const user = await User.findOne({ _id: req.id })
+    
+
+    if (certificate === "clc") {
+        const appliedUser = await clcSchema.findOne({ appliedBy: id })
+
+        qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=600&tn=${appliedUser.fullName}`, function (err, src) {
+            res.status(201).render('certificatePayPage', { "qrcodeUrl": src, user, appliedUser })
+        })
+    }
+
+}
+
+const certificatePayRefNoForm = async (req, res) => {
+    const { refNo, formCertificate, formAppliedBy } = req.body
+
+    const user = await User.findOne({ _id: req.id })
+    // console.log(user);
+
+    const photoUpload = await FileUpload(req.file.path)
+    const paymentSSURL = photoUpload.secure_url
+    const currentDate = new Date();
+    const day = currentDate.getDate();
+    const month = currentDate.getMonth() + 1; // Add 1 as months are zero-based
+    const year = currentDate.getFullYear();
+    const clcFeePayDate = `${year}-${month}-${day}`
+
+    if (formCertificate === 'clc') {
+        await clcSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
+        await clcSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { clcFeePayDate } })
+        await clcSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo } })
+        const appliedUser = await clcSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isIssued: "true" } })
+        return res.render('clcReceipt', { user, appliedUser })
+    }
+
+}
+
+const receiptCertificateId = async (req, res) => {
+    const { certificate, id } = req.params
+    
+    const user = await User.findOne({ _id: req.id })
+    let appliedUser = ""
+    if (certificate === 'clc') {
+        appliedUser = await clcSchema.findOne({ appliedBy: id })
+        return res.render('clcReceipt', { user, appliedUser })
+    }
+
+}
+
 export {
     payment,
     paymentInvoice,
@@ -276,5 +329,8 @@ export {
     payRefNoForm,
     receiptCourseId,
     refNoPost,
-    getSlipPost
+    getSlipPost,
+    paymentCertificateId,
+    certificatePayRefNoForm,
+    receiptCertificateId
 }

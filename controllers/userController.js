@@ -563,7 +563,25 @@ const clc = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
 
-        return res.render('clc', { user })
+        const appliedUser = await clcSchema.findOne({ appliedBy: user._id.toString() })
+        // console.log('line 32');
+        // console.log(appliedUser);
+
+
+        if (appliedUser !== null) {
+            if (!appliedUser.isIssued) {
+
+                    qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=600&tn=${appliedUser.fullName}`, function (err, src) {
+                    res.status(201).render('certificatePayPage', { "qrcodeUrl": src, user, appliedUser })
+                    })
+            }
+            else {
+                return res.render('clc', { user, appliedUser })
+            }
+        }
+        else {
+            return res.render('clc', { user })
+        }
     } catch (error) {
         res.status(401)
     }
@@ -573,30 +591,49 @@ const clc = async (req, res) => {
 // CLC Form Post
 const clcPost = async (req, res) => {
     try {
-        const { fName, lName, collegeClass, classRoll, session, dOB, uniRollNumber, registrationNumber, yOPUniEx, subTaken, fatherName, email } = req.body
+        const { fullName, fatherName, motherName, aadharNumber, parmanentAddress, dOB, course, session, dOAdm, classRollNumber, yearOfExam, resultDivision, regNumber, uniRollNumber } = req.body
         const user = await User.findOne({ _id: req.id })
 
         const appliedUser = await clcSchema.findOne({ appliedBy: user._id.toString() })
         // console.log(appliedUser);
 
+        const collCount = await clcSchema.countDocuments()
+        // console.log(collCount);
+        let serialNo = collCount + 1
+        // console.log(serialNo);
+        const existSerialNo = await clcSchema.findOne({ serialNo })
+        if (existSerialNo != null) {
+            serialNo = existSerialNo.serialNo + 1
+        } else {
+            serialNo = collCount + 1
+        }
+
+        let studentId = "MDC/" + uniRollNumber
+
         if (appliedUser == null || appliedUser.appliedBy != user._id.toString()) {
             const clcForm = new clcSchema({
-                fName,
-                lName,
-                collegeClass,
-                classRoll,
-                session,
-                dOB,
+                fullName, 
+                fatherName, 
+                motherName, 
+                aadharNumber, 
+                parmanentAddress, 
+                dOB, 
+                course, 
+                session, 
+                dOAdm, 
+                classRollNumber, 
+                yearOfExam, 
+                resultDivision, 
+                regNumber, 
                 uniRollNumber,
-                registrationNumber,
-                yOPUniEx,
-                subTaken,
-                fatherName,
-                email,
+                serialNo,
+                studentId,
+                clcFee: '600',
                 appliedBy: user._id
             })
             const sendApproval = await clcForm.save();
-            res.status(201).render('clc', { "submitted": "Form Submitted", user })
+
+            res.redirect(`/payment/certificates/${sendApproval.certificateType}/${sendApproval.appliedBy}`)
         }
         else {
             res.status(201).render('clc', { "alreadysubmitted": "You have already submitted the form.", user })

@@ -55,11 +55,10 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="text-muted">
-                                    <h5 class="font-size-16 mb-3">Intermidiate Admission Slip:</h5>
+                                    <h5 class="font-size-16 mb-3"><%= locals.appliedUser.certificateType.toUpperCase() %> Receipt:</h5>
                                     <p class="mb-1 fw-bold">Name : <%= locals.appliedUser.fullName %></p>
-                                    <p class="mb-1">Roll No. : <%= locals.appliedUser.rollNumber %></p>
-                                    <p class="mb-1 fw-bold">Category : <%= locals.appliedUser.category %></p>
-                                    <p class="mb-1">Admission No :  <%= locals.appliedUser.admNumber %></p>
+                                    <p class="mb-1">University Roll No. : <%= locals.appliedUser.uniRollNumber %></p>
+                                    <p class="mb-1">University Reg. No. : <%= locals.appliedUser.regNumber %></p>
                                     <p class="mb-1 fw-bold">Course :  <%= locals.appliedUser.course %></p>
                                 </div>
                             </div>
@@ -67,12 +66,12 @@
                             <div class="col-sm-6">
                                 <div class="text-muted text-sm-end">
                                     <div>
-                                        <h5 class="font-size-15 mb-1">Slip No:</h5>
-                                        <p> <%= locals.appliedUser.slipNo %></p>
+                                        <h5 class="font-size-15 mb-1">Student ID</h5>
+                                        <p> <%= locals.appliedUser.studentId %></p>
                                     </div>
                                     <div class="mt-4">
-                                        <h5 class="font-size-15 mb-1">Admission Date:</h5>
-                                        <p><%= locals.appliedUser.createdAt %></p>
+                                        <h5 class="font-size-15 mb-1">Payment Date:</h5>
+                                        <p><%= locals.appliedUser.clcFeePayDate %></p>
                                     </div>
                                     <div class="mt-4">
                                         <h5 class="font-size-15 mb-1">Ref/UTR No:</h5>
@@ -85,7 +84,6 @@
                         <!-- end row -->
 
                         <div class="py-2">
-                            <!-- <h5 class="font-size-15">Order Summary</h5> -->
 
                             <div class="table-responsive">
                                 <table class="table align-middle table-nowrap table-centered mb-0">
@@ -103,56 +101,18 @@
                                             <th scope="row">01</th>
                                             <td>
                                                 <div>
-                                                    <h5 class="text-truncate font-size-14 mb-1">ADMISSION FEE</h5>
-                                                    <!-- <p class="text-muted mb-0">Watch, Black</p> -->
+                                                    <h5 class="text-truncate font-size-14 mb-1"><%= locals.appliedUser.certificateType.toUpperCase() %> FEE</h5>
                                                 </div>
                                             </td>
                                             <td></td>
                                             <td></td>
-                                            <td class="text-end">₹<%= locals.fee %></td>
+                                            <td class="text-end">₹<%= locals.appliedUser.clcFee %></td>
                                         </tr>
-                                        <!-- end tr -->
-                                        <!-- <tr>
-                                            <th scope="row">02</th>
-                                            <td>
-                                                <div>
-                                                    <h5 class="text-truncate font-size-14 mb-1">IT CHARGES
-                                                    </h5>
-                                                    <p class="text-muted mb-0">Watch, Gold</p>
-                                                </div>
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="text-end">₹120</td>
-                                        </tr> -->
-                                        <!-- end tr -->
-                                        <!-- <tr>
-                                            <th scope="row" colspan="4" class="text-end">Total</th>
-                                            <td class="text-end">$732.50</td>
-                                        </tr> -->
-                                        <!-- end tr -->
-                                        <!-- <tr>
-                                            <th scope="row" colspan="4" class="border-0 text-end">
-                                                Discount :</th>
-                                            <td class="border-0 text-end">- $25.50</td>
-                                        </tr> -->
-                                        <!-- end tr -->
-                                        <!-- <tr>
-                                            <th scope="row" colspan="4" class="border-0 text-end">
-                                                Shipping Charge :</th>
-                                            <td class="border-0 text-end">$20.00</td>
-                                        </tr> -->
-                                        <!-- end tr -->
-                                        <!-- <tr>
-                                            <th scope="row" colspan="4" class="border-0 text-end">
-                                                Tax</th>
-                                            <td class="border-0 text-end">$12.00</td>
-                                        </tr> -->
                                         <!-- end tr -->
                                         <tr>
                                             <th scope="row" colspan="4" class="border-0 text-end">Total</th>
                                             <td class="border-0 text-end">
-                                                <h4 class="m-0 fw-semibold">₹<%= locals.fee %></h4>
+                                                <h4 class="m-0 fw-semibold">₹<%= locals.appliedUser.clcFee %></h4>
                                             </td>
                                         </tr>
                                         <!-- end tr -->
@@ -163,7 +123,14 @@
                                 <div class="float-end">
                                     <a href="javascript:window.print()" class="btn btn-success me-1"><i
                                             class="fa fa-print"></i></a>
-                                    <a href="/admissionForm" class="btn btn-primary w-md">Back to Home Page</a>
+                                    <% if (locals.appliedUser.certificateType === 'clc') { %>
+                                        <a href="/clc" class="btn btn-primary w-md">Back to Home Page</a>
+                                        <% } else if (locals.appliedUser.course === 'BBA') { %>
+                                        <a href="/bbaAdmissionForm" class="btn btn-primary w-md">Back to Home Page</a>
+                                        <% } else if (locals.appliedUser.course === 'B.A' || locals.appliedUser.course === 'B.Com' || locals.appliedUser.course === 'B.Sc') { %>
+                                        <a href="/ugRegularAdmissionForm" class="btn btn-primary w-md">Back to Home Page</a>
+                                     
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
