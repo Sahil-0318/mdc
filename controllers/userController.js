@@ -569,7 +569,7 @@ const clc = async (req, res) => {
 
 
         if (appliedUser !== null) {
-            if (!appliedUser.isIssued) {
+            if (!appliedUser.isPaid) {
 
                     qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=650&tn=${appliedUser.fullName}`, function (err, src) {
                     res.status(201).render('certificatePayPage', { "qrcodeUrl": src, user, appliedUser })

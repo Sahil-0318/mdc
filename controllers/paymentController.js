@@ -306,7 +306,7 @@ const certificatePayRefNoForm = async (req, res) => {
         await clcSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
         await clcSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { clcFeePayDate } })
         await clcSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo } })
-        const appliedUser = await clcSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isIssued: "true" } })
+        const appliedUser = await clcSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: "true" } })
         return res.render('clcReceipt', { user, appliedUser })
     }
 

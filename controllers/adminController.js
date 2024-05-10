@@ -1,5 +1,5 @@
 import User from '../models/userModel/userSchema.js'
-import Clc from '../models/userModel/clcSchema.js'
+import clcSchema from '../models/userModel/clcSchema.js'
 import AdmissionForm from '../models/userModel/admissionFormSchema.js'
 import Notice from '../models/adminModel/noticeSchema.js'
 import path from "path"
@@ -324,9 +324,57 @@ const deleteNotice = async (req, res) => {
 const clcList = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const clcApprovalList = await Clc.find({ isApprove: "false" })
-    // console.log(allUser);
-    res.render('clcList', { pending: clcApprovalList, user })
+    const clcList = await clcSchema.find({status: 'Pending'})
+    // console.log(clcList);
+    res.render('clcList', { clcList, status: "Pending", noOfForms: clcList.length,  user })
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+const clcApprovedId = async (req, res) => {
+  try {
+    const {id} = req.params
+    const user = await User.findOne({ _id: req.id })
+    const foundClc = await clcSchema.findOneAndUpdate({ _id: id }, { $set: { status: "Approved" } })
+    // console.log(foundClc);
+    res.redirect('/clcList')
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+const clcRejectId = async (req, res) => {
+  try {
+    const {id} = req.params
+    const user = await User.findOne({ _id: req.id })
+    const foundClc = await clcSchema.findOneAndUpdate({ _id: id }, { $set: { status: "Rejected" } })
+    // console.log(foundClc);
+    res.redirect('/clcList')
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+const clcApproved = async (req, res) => {
+  try {
+    const {id} = req.params
+    const user = await User.findOne({ _id: req.id })
+    const clcList = await clcSchema.find({ status: "Approved" })
+    // console.log(clcList);
+    res.render('clcList', { clcList, status: "Approved", noOfForms: clcList.length, user })
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+const clcRejected = async (req, res) => {
+  try {
+    const {id} = req.params
+    const user = await User.findOne({ _id: req.id })
+    const clcList = await clcSchema.find({ status: "Rejected" })
+    // console.log(clcList);
+    res.render('clcList', { clcList, status: "Rejected", noOfForms: clcList.length, user })
   } catch (error) {
     res.status(401)
   }
@@ -469,6 +517,10 @@ export {
   scienceStu,
   artsStu,
   clcList,
+  clcApprovedId,
+  clcRejectId,
+  clcApproved,
+  clcRejected,
   approvedByAdmin,
   findStuInAdmForm,
   datewiseAdmForm,

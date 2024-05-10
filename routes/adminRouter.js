@@ -12,6 +12,10 @@ import {
     scienceStu,
     artsStu,
     clcList,
+    clcApprovedId,
+    clcRejectId,
+    clcApproved,
+    clcRejected,
     approvedByAdmin,
     findStuInAdmForm,
     datewiseAdmForm,
@@ -41,7 +45,15 @@ import {
  adminRouter.get('/artsStu', adminAuth, artsStu)
 
  adminRouter.get('/clcList', adminAuth, clcList)
+
+ adminRouter.get('/clcApproved/:id', adminAuth, clcApprovedId)
  
+ adminRouter.get('/clcReject/:id', adminAuth, clcRejectId)
+ 
+ adminRouter.get('/clcApproved', adminAuth, clcApproved)
+ 
+ adminRouter.get('/clcRejected', adminAuth, clcRejected)
+
  adminRouter.post('/approvedByAdmin', approvedByAdmin)
  
  adminRouter.post('/findStuInAdmForm', adminAuth, findStuInAdmForm)

@@ -12,68 +12,104 @@
             <%- include('./partials/navbar.ejs')%>
                 <!-- Navbar End -->
 
+                <div class="col-sm-12 col-xl-12 pt-4 px-4">
+                    <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
+                        <div class="btn btn-primary"><a class="text-light" href="/clcList">Pending CLC</a></div>
+                        <div class="btn btn-secondary"><a class="text-light" href="/clcApproved">Approved CLC</a></div>
+                        <div class="btn btn-secondary"><a class="text-light" href="/clcRejected">Rejected CLC</a></div>
+                    </div>
+                </div>
 
                 <!-- Blank Start -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="row vh-100 bg-light rounded justify-content-center m-0 p-4">
                         <section class="section">
                             <div class="row">
-                                <h2 class="mb-4">Certificate approval lists</h2>
+                                <!-- List starts Here     -->
+                                <div class="col-12">
+                                    <div class="bg-light rounded h-100 p-0">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="my-3 ">
+                                                CLC <%= locals.status %> List (<%= locals.noOfForms %> Forms)
+                                            </h6>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">S.No.</th>
+                                                        <th scope="col">Full Name</th>
+                                                        <th scope="col">Father's Name</th>
+                                                        <th scope="col">Uni. Roll No.</th>
+                                                        <th scope="col">Reg. No.</th>
+                                                        <th scope="col">Course</th>
+                                                        <th scope="col">Session</th>
+                                                        <th scope="col">Approve</th>
+                                                        <th scope="col">Reject</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% if (locals.clcList) { %>
+                                                        <% clcList.reverse().forEach((element, index)=> { %>
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    <%= index + 1%>
+                                                                </th>
+                                                                <td>
+                                                                    <%= element.fullName%>
+                                                                </td>
+                                                                <td>
+                                                                    <%= element.fatherName%>
+                                                                </td>
+                                                                <td>
+                                                                    <%= element.uniRollNumber%>
+                                                                </td>
+                                                                <td>
+                                                                    <%= element.regNumber%>
+                                                                </td>
+                                                                <td>
+                                                                    <%= element.course%>
+                                                                </td>
+                                                                <td>
+                                                                    <%= element.session%>
+                                                                </td>
+                                                                <td>
+                                                                    <% if (element.status === 'Approved') { %>
+                                                                        <button class="px-4 btn btn-success w-md" disabled>Approved</button>
+                                                                    <% } else if (element.status === 'Rejected') { %>
+                                                                        <button class="px-4 btn btn-warning w-md disabled">Approve</button>
+                                                                    <% } else { %>
+                                                                        <a href="/clcApproved/<%= element._id %>"
+                                                                        class="px-4 btn btn-warning w-md ">Approve</a>
+                                                                    <% } %>
+                                                                </td>
+                                                                <td>
+                                                                    <% if (element.status === 'Approved') { %>
+                                                                        <button class="px-4 btn btn-danger w-md" disabled>Reject</button>
+                                                                    <% } else if (element.status === 'Rejected') { %>    
+                                                                        <button class="deleteBtn btn btn-danger w-md disabled">Rejected</button>
+                                                                    <% } else { %>    
+                                                                        <a href="/clcReject/<%= element._id %>"
+                                                                            onclick="deleteNotice()"
+                                                                            class="deleteBtn btn btn-danger w-md">Reject</a>
+                                                                    <% } %>
+                                                                </td>
 
-                                <div class="col-md-2">
-                                    <p><b>Name</b></p>
+                                                            </tr>
+                                                            <% }); %>
+                                                                <% } %>
+                                                </tbody>
+                                            </table>
+                                            <% if (locals.notices) { %>
+                                                <% if (locals.notices.length===0) { %>
+                                                    <h3>Notice not found ...</h3>
+
+                                                    <% } %>
+                                                        <% } %>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <p><b>Father's Name</b></p>
-                                </div>
-                                <div class="col-md-2">
-                                    <p><b>Registration Number</b></p>
-                                </div>
-                                <div class="col-md-2">
-                                    <p><b>Roll Number</b></p>
-                                </div>
-                                <div class="col-md-2">
-                                    <p><b>DOB</b></p>
-                                </div>
-                                <div class="col-md-2">
-                                    <p><b>Approval</b></p>
-                                </div>
-
-                                <% if (locals.pending) { %>
-                                    <% pending.forEach(element=> { %>
-                                        <form action="/approvedByAdmin" method="post"
-                                            class="form-group row g-3 needs-validation">
-                                            <div class="col-md-2">
-                                                <%= element.fName%>
-                                                    <%= element.lName%>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <%= element.fatherName%>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <input name="registrationNumber" type="text" readonly="readonly"
-                                                    value="<%= element.registrationNumber %>"
-                                                    class="border-0 custom-file-input"></td>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <%= element.uniRollNumber%>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <%= element.dOB%>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <button type="submit" class="btn btn-success d-block">Approve</button>
-                                            </div>
-                                        </form>
-                                        <% }); %>
-
-                                            <% } %>
-
+                                <!-- List ends Here     -->
                             </div>
                         </section>
                     </div>
@@ -125,6 +161,11 @@
 
         <!-- Template Javascript -->
         <script src="../javascripts/main.js"></script>
+        <script>
+            function deleteNotice() {
+                alert('Do you want reject this!');
+            }
+        </script>
         </body>
 
         </html>

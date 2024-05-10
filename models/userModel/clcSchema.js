@@ -71,6 +71,10 @@ const clcSchema = new mongoose.Schema({
     dOfLC:{
         type: String
     },
+    isPaid :{
+        type: Boolean,
+        default: false
+    },
     isIssued :{
         type: Boolean,
         default: false
