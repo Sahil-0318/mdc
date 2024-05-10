@@ -279,7 +279,7 @@ const paymentCertificateId = async (req, res) => {
     if (certificate === "clc") {
         const appliedUser = await clcSchema.findOne({ appliedBy: id })
 
-        qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=600&tn=${appliedUser.fullName}`, function (err, src) {
+        qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=650&tn=${appliedUser.fullName}`, function (err, src) {
             res.status(201).render('certificatePayPage', { "qrcodeUrl": src, user, appliedUser })
         })
     }
@@ -293,6 +293,8 @@ const certificatePayRefNoForm = async (req, res) => {
     // console.log(user);
 
     const photoUpload = await FileUpload(req.file.path)
+    // console.log(photoUpload);
+    
     const paymentSSURL = photoUpload.secure_url
     const currentDate = new Date();
     const day = currentDate.getDate();

@@ -571,7 +571,7 @@ const clc = async (req, res) => {
         if (appliedUser !== null) {
             if (!appliedUser.isIssued) {
 
-                    qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=600&tn=${appliedUser.fullName}`, function (err, src) {
+                    qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=650&tn=${appliedUser.fullName}`, function (err, src) {
                     res.status(201).render('certificatePayPage', { "qrcodeUrl": src, user, appliedUser })
                     })
             }
@@ -629,7 +629,7 @@ const clcPost = async (req, res) => {
                 serialNo,
                 studentId,
                 status : "Pending",
-                clcFee: '600',
+                clcFee: '650',
                 appliedBy: user._id
             })
             const sendApproval = await clcForm.save();
