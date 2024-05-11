@@ -17,6 +17,7 @@ import registerRouter from './routes/registerRouter.js'
 import loginRouter from './routes/loginRouter.js'
 import adminRouter from './routes/adminRouter.js'
 import paymentRouter from './routes/paymentRouter.js'
+import recordRoomRouter from './routes/recordRoomRouter.js'
   
 
 // Set template engine
@@ -33,6 +34,7 @@ app.use('/', loginRouter)
 app.use('/', userRouter)
 app.use('/', adminRouter)
 app.use('/', paymentRouter)
+app.use('/', recordRoomRouter)
 
 app.listen(port, () => {
     console.log(`Example app listening on http://localhost:${port}`)

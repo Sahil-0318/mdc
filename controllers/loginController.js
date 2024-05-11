@@ -37,6 +37,18 @@ const loginPost = async (req, res) => {
                 res.cookie('uid', token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true })
                 return res.redirect('adminPage')
             }
+            else if (result.userName == userName && isMatch && result.isRecordRoom == true) {
+                // console.log(result);
+
+                const token = jwt.sign({
+                    id: result._id,
+                    email: result.email,
+                    isAdmin: result.isAdmin
+                }, process.env.SECRET_KEY,
+                    { expiresIn: "1d" })
+                res.cookie('uid', token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true })
+                return res.redirect('recordRoomPage')
+            }
             else if (result.userName == userName && isMatch) {
                 // console.log(result);
 
