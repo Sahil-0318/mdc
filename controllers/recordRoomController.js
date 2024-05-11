@@ -1,5 +1,6 @@
 import User from '../models/userModel/userSchema.js'
 import AdmissionForm from '../models/userModel/admissionFormSchema.js'
+import clcSchema from '../models/userModel/clcSchema.js'
 
 const recordRoomPage = async (req, res) => {
     try {
@@ -59,6 +60,47 @@ const recordRoomPage = async (req, res) => {
     }
 }
 
+const interClcApprovedList = async (req, res) =>{
+    try {
+        const user = await User.findOne({ _id: req.id })
+        const allClc = await clcSchema.find({status : 'Approved', course : 'Intermediate'})
+        res.send('inter clc approved List')
+    } catch (error) {
+        res.status(401)
+    }
+}
+
+const baClcApprovedList = async (req, res) =>{
+    try {
+        const user = await User.findOne({ _id: req.id })
+        res.send('ba clc approved List')
+    } catch (error) {
+        res.status(401)
+    }
+}
+
+const bcomClcApprovedList = async (req, res) =>{
+    try {
+        const user = await User.findOne({ _id: req.id })
+        res.send('bcom clc approved List')
+    } catch (error) {
+        res.status(401)
+    }
+}
+
+const bcsClcApprovedList = async (req, res) =>{
+    try {
+        const user = await User.findOne({ _id: req.id })
+        res.send('bsc clc approved List')
+    } catch (error) {
+        res.status(401)
+    }
+}
+
 export {
     recordRoomPage,
+    interClcApprovedList,
+    baClcApprovedList,
+    bcomClcApprovedList,
+    bcsClcApprovedList
 }
