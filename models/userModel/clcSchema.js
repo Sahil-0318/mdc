@@ -51,11 +51,11 @@ const clcSchema = new mongoose.Schema({
         required : true,
     },
     regNumber :{
-        type: Number,
+        type: String,
         default: false
     },
     uniRollNumber: {
-        type : Number,
+        type : String,
         required : true
     },
     remark:{
