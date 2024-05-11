@@ -324,7 +324,7 @@ const deleteNotice = async (req, res) => {
 const clcList = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const clcList = await clcSchema.find({status: 'Pending'})
+    const clcList = await clcSchema.find({status: 'Pending', isPaid: "true" })
     // console.log(clcList);
     res.render('clcList', { clcList, status: "Pending", noOfForms: clcList.length,  user })
   } catch (error) {
