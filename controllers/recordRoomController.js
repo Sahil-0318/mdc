@@ -63,8 +63,8 @@ const recordRoomPage = async (req, res) => {
 const interClcApprovedList = async (req, res) =>{
     try {
         const user = await User.findOne({ _id: req.id })
-        const allClc = await clcSchema.find({status : 'Approved', course : 'Intermediate'})
-        res.send('inter clc approved List')
+        const allClc = await clcSchema.find({status : 'Approved', course : 'Intermediate', isIssued : "false"})
+        res.render("clcApprovedList", {user, allClc})
     } catch (error) {
         res.status(401)
     }
