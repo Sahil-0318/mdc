@@ -597,7 +597,9 @@ const clcPost = async (req, res) => {
         const appliedUser = await clcSchema.findOne({ appliedBy: user._id.toString() })
         // console.log(appliedUser);
 
-        const collCount = await clcSchema.countDocuments()
+        const appliedRoll = await clcSchema.find({uniRollNumber: uniRollNumber })
+        if (appliedRoll == null) {
+            const collCount = await clcSchema.countDocuments()
         // console.log(collCount);
         let serialNo = collCount + 1
         // console.log(serialNo);
@@ -639,6 +641,11 @@ const clcPost = async (req, res) => {
         else {
             res.status(201).render('clc', { "alreadysubmitted": "You have already submitted the form.", user })
         }
+        } else {
+            res.status(201).render('clc', { "alreadysubmitted": "Already submitted with this Roll no.", user })
+        }
+
+        
     }
     catch (error) {
         console.log(error);

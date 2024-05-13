@@ -64,7 +64,8 @@ const interClcApprovedList = async (req, res) =>{
     try {
         const user = await User.findOne({ _id: req.id })
         const allClc = await clcSchema.find({status : 'Approved', course : 'Intermediate', isIssued : "false"})
-        res.render("clcApprovedList", {user, allClc})
+        
+        res.render("clcApprovedList", {status: "'to be issue'", noOfForms: allClc.length, user, allClc})
     } catch (error) {
         res.status(401)
     }
@@ -73,7 +74,9 @@ const interClcApprovedList = async (req, res) =>{
 const baClcApprovedList = async (req, res) =>{
     try {
         const user = await User.findOne({ _id: req.id })
-        res.send('ba clc approved List')
+        const allClc = await clcSchema.find({status : 'Approved', course : 'B.A', isIssued : "false"})
+        
+        res.render("clcApprovedList", {status: "'to be issue'", noOfForms: allClc.length, user, allClc})
     } catch (error) {
         res.status(401)
     }
@@ -82,16 +85,56 @@ const baClcApprovedList = async (req, res) =>{
 const bcomClcApprovedList = async (req, res) =>{
     try {
         const user = await User.findOne({ _id: req.id })
-        res.send('bcom clc approved List')
+        const allClc = await clcSchema.find({status : 'Approved', course : 'B.COM', isIssued : "false"})
+        
+        res.render("clcApprovedList", {status: "'to be issue'", noOfForms: allClc.length, user, allClc})
     } catch (error) {
         res.status(401)
     }
 }
 
-const bcsClcApprovedList = async (req, res) =>{
+const bscClcApprovedList = async (req, res) =>{
     try {
         const user = await User.findOne({ _id: req.id })
-        res.send('bsc clc approved List')
+        const allClc = await clcSchema.find({status : 'Approved', course : 'B.SC', isIssued : "false"})
+        
+        res.render("clcApprovedList", {status: "'to be issue'", noOfForms: allClc.length, user, allClc})
+    } catch (error) {
+        res.status(401)
+    }
+}
+
+const bcaClcApprovedList = async (req, res) =>{
+    try {
+        const user = await User.findOne({ _id: req.id })
+        const allClc = await clcSchema.find({status : 'Approved', course : 'B.C.A', isIssued : "false"})
+        
+        res.render("clcApprovedList", {status: "'to be issue'", noOfForms: allClc.length, user, allClc})
+    } catch (error) {
+        res.status(401)
+    }
+}
+
+const downloadClc = async (req, res) =>{
+    try {
+        const {certificate, course, id} = req.params
+        // console.log(certificate, course, id );
+        const user = await User.findOne({ _id: req.id })
+
+        if (certificate === 'clc') {
+            const foundClc = await clcSchema.find({course , _id : id})
+            // res. send(foundClc)
+            res.send(`
+        <script>
+            window.open('/generate-pdf', '_blank');
+            setTimeout(() => window.print(), 1000); // Wait for the PDF to load before printing
+        </script>
+    `);
+        }
+
+        // const allClc = await clcSchema.find({status : 'Approved', course : 'B.C.A', isIssued : "false"})
+        
+        // res.render("clcApprovedList", {status: "'to be issue'", noOfForms: allClc.length, user, allClc})
     } catch (error) {
         res.status(401)
     }
@@ -102,5 +145,7 @@ export {
     interClcApprovedList,
     baClcApprovedList,
     bcomClcApprovedList,
-    bcsClcApprovedList
+    bscClcApprovedList,
+    bcaClcApprovedList,
+    downloadClc
 }
