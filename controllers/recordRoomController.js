@@ -271,11 +271,7 @@ const printCertificate = async (req, res) => {
             // const filePath = path.join('D:/New BD College/BD College Site', filename);
             const filePath = path.join(filename);
             console.log(filePath);
-            console.log('274');
             
-            
-
-
             if (existsSync(filePath)) {
                 // Send the PDF file as a download
                 res.download(filePath, `RollNo_${foundCertificate.uniRollNumber}_CLC.pdf`, (err) => {
@@ -292,7 +288,7 @@ const printCertificate = async (req, res) => {
                                     console.log(`File ${filePath} deleted`);
                                 }
                             });
-                        }, 10 * 1000); // 10 minutes in milliseconds
+                        }, 5 * 1000); // 10 minutes in milliseconds
                     }
                 });
             } else {
