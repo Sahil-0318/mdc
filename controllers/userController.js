@@ -19,7 +19,7 @@ const userPage = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
         const notices = await Notice.find()
-        
+
         return res.render('userPage', { user, notices })
     } catch (error) {
         res.status(401)
@@ -186,15 +186,15 @@ const ugRegularAdmissionForm = async (req, res) => {
                 if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
 
                     qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=3000&tn=${appliedUser.mobileNumber}`, function (err, src) {
-                    res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+                        res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
                     })
-    
+
                 } else if (appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
-    
+
                     qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=2830&tn=${appliedUser.mobileNumber}`, function (err, src) {
-                    res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+                        res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
                     })
-    
+
                 }
             }
             else {
@@ -282,14 +282,14 @@ const ugRegularAdmissionFormPost = async (req, res) => {
             })
 
             const admFormSubmitted = await admForm.save();
-            
+
 
             if (category === "General" || category === "BC-2") {
 
                 res.redirect(`/payment/${admFormSubmitted.course}/${admFormSubmitted.appliedBy}`)
 
             } else if (category === "BC-1" || category === "SC" || category === "ST") {
-                
+
                 res.redirect(`/payment/${admFormSubmitted.course}/${admFormSubmitted.appliedBy}`)
 
             }
@@ -320,15 +320,15 @@ const bcaAdmissionForm = async (req, res) => {
                 if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
 
                     qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=3000&tn=${appliedUser.mobileNumber}`, function (err, src) {
-                    res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+                        res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
                     })
-    
+
                 } else if (appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
-    
+
                     qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=2830&tn=${appliedUser.mobileNumber}`, function (err, src) {
-                    res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+                        res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
                     })
-    
+
                 }
             }
             else {
@@ -410,14 +410,14 @@ const bcaAdmissionFormPost = async (req, res) => {
             })
 
             const admFormSubmitted = await admForm.save();
-            
+
 
             if (category === "General" || category === "BC-2") {
 
                 res.redirect(`/payment/${admFormSubmitted.course}/${admFormSubmitted.appliedBy}`)
 
             } else if (category === "BC-1" || category === "SC" || category === "ST") {
-                
+
                 res.redirect(`/payment/${admFormSubmitted.course}/${admFormSubmitted.appliedBy}`)
 
             }
@@ -447,15 +447,15 @@ const bbaAdmissionForm = async (req, res) => {
                 if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
 
                     qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=3000&tn=${appliedUser.mobileNumber}`, function (err, src) {
-                    res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+                        res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
                     })
-    
+
                 } else if (appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
-    
+
                     qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=2830&tn=${appliedUser.mobileNumber}`, function (err, src) {
-                    res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
+                        res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
                     })
-    
+
                 }
             }
             else {
@@ -536,15 +536,15 @@ const bbaAdmissionFormPost = async (req, res) => {
 
             const admFormSubmitted = await admForm.save();
             // console.log('400');
-            
-            
+
+
 
             if (category === "General" || category === "BC-2") {
 
                 res.redirect(`/payment/${admFormSubmitted.course}/${admFormSubmitted.appliedBy}`)
 
             } else if (category === "BC-1" || category === "SC" || category === "ST") {
-                
+
                 res.redirect(`/payment/${admFormSubmitted.course}/${admFormSubmitted.appliedBy}`)
 
             }
@@ -571,9 +571,9 @@ const clc = async (req, res) => {
         if (appliedUser !== null) {
             if (!appliedUser.isPaid) {
 
-                    qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=650&tn=${appliedUser.fullName}`, function (err, src) {
+                qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=650&tn=${appliedUser.fullName}`, function (err, src) {
                     res.status(201).render('certificatePayPage', { "qrcodeUrl": src, user, appliedUser })
-                    })
+                })
             }
             else {
                 return res.render('clc', { user, appliedUser })
@@ -597,55 +597,55 @@ const clcPost = async (req, res) => {
         const appliedUser = await clcSchema.findOne({ appliedBy: user._id.toString() })
         // console.log(appliedUser);
 
-        const appliedRoll = await clcSchema.find({uniRollNumber: uniRollNumber })
-        if (appliedRoll == null) {
+        const appliedRoll = await clcSchema.findOne({ uniRollNumber: uniRollNumber })
+        if (appliedRoll === null) {
             const collCount = await clcSchema.countDocuments()
-        // console.log(collCount);
-        let serialNo = collCount + 1
-        // console.log(serialNo);
-        const existSerialNo = await clcSchema.findOne({ serialNo })
-        if (existSerialNo != null) {
-            serialNo = existSerialNo.serialNo + 1
-        } else {
-            serialNo = collCount + 1
-        }
+            // console.log(collCount);
+            let serialNo = collCount + 1
+            // console.log(serialNo);
+            const existSerialNo = await clcSchema.findOne({ serialNo })
+            if (existSerialNo != null) {
+                serialNo = existSerialNo.serialNo + 1
+            } else {
+                serialNo = collCount + 1
+            }
 
-        let studentId = "MDC/" + uniRollNumber
+            let studentId = "MDC/" + uniRollNumber
 
-        if (appliedUser == null || appliedUser.appliedBy != user._id.toString()) {
-            const clcForm = new clcSchema({
-                fullName : fullName.toUpperCase(), 
-                fatherName : fatherName.toUpperCase(), 
-                motherName : motherName.toUpperCase(), 
-                aadharNumber, 
-                parmanentAddress : parmanentAddress.toUpperCase(), 
-                dOB, 
-                course, 
-                session, 
-                dOAdm, 
-                classRollNumber, 
-                yearOfExam : yearOfExam.toUpperCase(), 
-                resultDivision : resultDivision.toUpperCase(), 
-                regNumber : regNumber.toUpperCase(), 
-                uniRollNumber,
-                serialNo,
-                studentId,
-                status : "Pending",
-                clcFee: '650',
-                appliedBy: user._id
-            })
-            const sendApproval = await clcForm.save();
+            if (appliedUser == null || appliedUser.appliedBy != user._id.toString()) {
+                const clcForm = new clcSchema({
+                    fullName: fullName.toUpperCase(),
+                    fatherName: fatherName.toUpperCase(),
+                    motherName: motherName.toUpperCase(),
+                    aadharNumber,
+                    parmanentAddress: parmanentAddress.toUpperCase(),
+                    dOB,
+                    course,
+                    session,
+                    dOAdm,
+                    classRollNumber,
+                    yearOfExam: yearOfExam.toUpperCase(),
+                    resultDivision: resultDivision.toUpperCase(),
+                    regNumber: regNumber.toUpperCase(),
+                    uniRollNumber,
+                    serialNo,
+                    studentId,
+                    status: "Pending",
+                    clcFee: '650',
+                    appliedBy: user._id
+                })
+                const sendApproval = await clcForm.save();
 
-            res.redirect(`/payment/certificates/${sendApproval.certificateType}/${sendApproval.appliedBy}`)
-        }
-        else {
-            res.status(201).render('clc', { "alreadysubmitted": "You have already submitted the form.", user })
-        }
+                res.redirect(`/payment/certificates/${sendApproval.certificateType}/${sendApproval.appliedBy}`)
+            }
+            else {
+                res.status(201).render('clc', { "alreadysubmitted": "You have already submitted the form.", user })
+            }
         } else {
             res.status(201).render('clc', { "alreadysubmitted": "Already submitted with this Roll no.", user })
         }
 
-        
+
     }
     catch (error) {
         console.log(error);
@@ -656,24 +656,24 @@ const clcPost = async (req, res) => {
 
 
 //  Notice
-const userNotice = async (req, res) =>{
+const userNotice = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
         const notices = await Notice.find()
-        
+
         return res.render('userNotice', { user, notices })
     } catch (error) {
         res.status(401)
     }
 }
 
-const eachUserNotice = async (req, res) =>{
+const eachUserNotice = async (req, res) => {
     try {
-        const {id} = req.params
-        
+        const { id } = req.params
+
         const user = await User.findOne({ _id: req.id })
-        const notice = await Notice.findOne({_id: id})
-        
+        const notice = await Notice.findOne({ _id: id })
+
         return res.render('noticePreview', { user, notice })
     } catch (error) {
         res.status(401)
