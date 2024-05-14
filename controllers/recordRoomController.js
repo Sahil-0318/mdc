@@ -270,6 +270,10 @@ const printCertificate = async (req, res) => {
 
             // const filePath = path.join('D:/New BD College/BD College Site', filename);
             const filePath = path.join(filename);
+            console.log(filePath);
+            console.log('274');
+            
+            
 
 
             if (existsSync(filePath)) {
