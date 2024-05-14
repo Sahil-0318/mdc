@@ -94,6 +94,10 @@ const clcSchema = new mongoose.Schema({
         type : String,
         default: "NA"
     },
+    dOLC: {
+        type : String,
+        default: "NA"
+    },
     certificateType:{
         type: String,
         default: 'clc'
