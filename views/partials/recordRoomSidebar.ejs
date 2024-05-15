@@ -1,8 +1,7 @@
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-light navbar-light">
-        <a href="/" class="navbar-brand mx-4 mb-3">
-            <h3 class="text-primary">MD College</h3>
-        </a>
+        <!-- <h3 class="text-primary">MD College</h3> -->
+        <img class="p-2" src="/images/logomdcollege.png" alt="MD College" style="width: 100%;">
         <div class="d-flex align-items-center ms-4 mb-4">
             <div class="position-relative">
                 <!-- <img class="rounded-circle" src="../images/user.jpg" alt="" style="width: 40px; height: 40px;"> -->
@@ -17,11 +16,11 @@
                 </h6>
                 <% if(locals.user.isAdmin){ %>
                     <span>Admin</span>
-                <% } else if(locals.user.isRecordRoom) {%>
-                    <span>Admin</span>
-                <% } else {%>
-                    <span>User</span>
-                <% }%>
+                    <% } else if(locals.user.isRecordRoom) {%>
+                        <span>Admin</span>
+                        <% } else {%>
+                            <span>User</span>
+                            <% }%>
 
             </div>
         </div>
@@ -32,7 +31,7 @@
 
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-                        class="fa-solid fa-certificate me-2"></i>CLC</a>
+                        class="fa-solid fa-certificate me-2"></i>CLC & Character</a>
                 <div class="dropdown-menu bg-transparent border-0">
                     <a href="/interClcApprovedList" class="dropdown-item">Intermidiate</a>
                     <a href="/baClcApprovedList" class="dropdown-item">B.A</a>

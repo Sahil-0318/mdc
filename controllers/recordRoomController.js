@@ -67,7 +67,7 @@ const recordRoomPage = async (req, res) => {
 const interClcApprovedList = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
-        const allClc = await clcSchema.find({ status: 'Approved', course: 'Intermediate', isIssued: "false" })
+        const allClc = await clcSchema.find({ status: 'Approved', course: 'Intermediate' })
 
         res.render("clcApprovedList", { status: "'to be issue'", noOfForms: allClc.length, user, allClc })
     } catch (error) {
@@ -78,7 +78,7 @@ const interClcApprovedList = async (req, res) => {
 const baClcApprovedList = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
-        const allClc = await clcSchema.find({ status: 'Approved', course: 'B.A', isIssued: "false" })
+        const allClc = await clcSchema.find({ status: 'Approved', course: 'B.A' })
 
         res.render("clcApprovedList", { status: "'to be issue'", noOfForms: allClc.length, user, allClc })
     } catch (error) {
@@ -89,7 +89,7 @@ const baClcApprovedList = async (req, res) => {
 const bcomClcApprovedList = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
-        const allClc = await clcSchema.find({ status: 'Approved', course: 'B.COM', isIssued: "false" })
+        const allClc = await clcSchema.find({ status: 'Approved', course: 'B.COM' })
 
         res.render("clcApprovedList", { status: "'to be issue'", noOfForms: allClc.length, user, allClc })
     } catch (error) {
@@ -100,7 +100,7 @@ const bcomClcApprovedList = async (req, res) => {
 const bscClcApprovedList = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
-        const allClc = await clcSchema.find({ status: 'Approved', course: 'B.SC', isIssued: "false" })
+        const allClc = await clcSchema.find({ status: 'Approved', course: 'B.SC' })
 
         res.render("clcApprovedList", { status: "'to be issue'", noOfForms: allClc.length, user, allClc })
     } catch (error) {
@@ -111,7 +111,7 @@ const bscClcApprovedList = async (req, res) => {
 const bcaClcApprovedList = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
-        const allClc = await clcSchema.find({ status: 'Approved', course: 'B.C.A', isIssued: "false" })
+        const allClc = await clcSchema.find({ status: 'Approved', course: 'B.C.A' })
 
         res.render("clcApprovedList", { status: "'to be issue'", noOfForms: allClc.length, user, allClc })
     } catch (error) {
@@ -271,7 +271,7 @@ const printCertificate = async (req, res) => {
             // const filePath = path.join('D:/New BD College/BD College Site', filename);
             const filePath = path.join(filename);
             console.log(filePath);
-            
+
             if (existsSync(filePath)) {
                 // Send the PDF file as a download
                 res.download(filePath, `RollNo_${foundCertificate.uniRollNumber}_CLC.pdf`, (err) => {
@@ -288,7 +288,7 @@ const printCertificate = async (req, res) => {
                                     console.log(`File ${filePath} deleted`);
                                 }
                             });
-                        }, 5 * 1000); // 10 minutes in milliseconds
+                        }, 2 * 1000); // 10 minutes in milliseconds
                     }
                 });
             } else {
@@ -301,6 +301,117 @@ const printCertificate = async (req, res) => {
     }
 }
 
+const characterCertificate = async (req, res) => {
+    try {
+        const { certificate, course, id } = req.params
+        // console.log(certificate, course, id );
+
+        const user = await User.findOne({ _id: req.id })
+        let foundCertificate = ''
+        const currentDate = new Date();
+        const day = currentDate.getDate();
+        const month = currentDate.getMonth() + 1; // Add 1 as months are zero-based
+        const year = currentDate.getFullYear();
+        const issueDate = `${day}-${month}-${year}`
+
+        await clcSchema.findOneAndUpdate({ _id: id }, { $set: { dOCC: issueDate } })
+        foundCertificate = await clcSchema.findOneAndUpdate({ _id: id }, { $set: { isCharIssued: true } })
+
+        //Create pdf
+        const document = await PDFDocument.load(readFileSync("./Character.pdf"));
+        const courierBoldFont = await document.embedFont(StandardFonts.Courier);
+        const firstPage = document.getPage(0);
+
+        firstPage.moveTo(100, 350);
+        firstPage.drawText(`${foundCertificate.serialNo}`, {
+            font: courierBoldFont,
+            size: 18,
+        });
+
+        firstPage.moveTo(580, 350);
+        firstPage.drawText(` ${foundCertificate.studentId}`, {
+            font: courierBoldFont,
+            size: 18,
+        });
+
+        firstPage.moveTo(305, 310);
+        firstPage.drawText(`${foundCertificate.fullName}`, {
+            font: courierBoldFont,
+            size: 18,
+        });
+
+        firstPage.moveTo(272, 270);
+        firstPage.drawText(`${foundCertificate.fatherName}`, {
+            font: courierBoldFont,
+            size: 18,
+        });
+
+        firstPage.moveTo(160, 230);
+        firstPage.drawText(`${foundCertificate.motherName}`, {
+            font: courierBoldFont,
+            size: 18,
+        });
+
+
+        firstPage.moveTo(248, 192);
+        firstPage.drawText(`${foundCertificate.course} Part-3`, {
+            font: courierBoldFont,
+            size: 18,
+        });
+
+        firstPage.moveTo(600, 192);
+        firstPage.drawText(`${foundCertificate.session}`, {
+            font: courierBoldFont,
+            size: 18,
+        });
+
+        firstPage.moveTo(200, 152);
+        firstPage.drawText(`${foundCertificate.uniRollNumber}`, {
+            font: courierBoldFont,
+            size: 18,
+        });
+
+        firstPage.moveTo(76, 75);
+        firstPage.drawText(`: ${foundCertificate.dOLC}`, {
+            font: courierBoldFont,
+            size: 16,
+        });
+
+
+        writeFileSync("RollNo_" + foundCertificate.uniRollNumber + "_Char.pdf", await document.save());
+        let filename = "RollNo_" + foundCertificate.uniRollNumber + "_Char.pdf"
+
+        const filePath = path.join(filename);
+        console.log(filePath);
+
+        if (existsSync(filePath)) {
+            // Send the PDF file as a download
+            res.download(filePath, `RollNo_${foundCertificate.uniRollNumber}_Char.pdf`, (err) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send('An error occurred');
+                } else {
+                    // Delete the file after 10 minutes
+                    setTimeout(() => {
+                        unlink(filePath, (err) => {
+                            if (err) {
+                                console.error(`Error deleting file: ${err}`);
+                            } else {
+                                console.log(`File ${filePath} deleted`);
+                            }
+                        });
+                    }, 2 * 1000); // 10 minutes in milliseconds
+                }
+            });
+        } else {
+            res.status(404).send('File not found');
+        }
+
+
+    } catch (error) {
+        res.status(401)
+    }
+}
 
 
 export {
@@ -310,5 +421,6 @@ export {
     bcomClcApprovedList,
     bscClcApprovedList,
     bcaClcApprovedList,
-    printCertificate
+    printCertificate,
+    characterCertificate
 }

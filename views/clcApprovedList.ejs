@@ -33,7 +33,8 @@
                                                         <th scope="col">Reg. No.</th>
                                                         <th scope="col">Course</th>
                                                         <th scope="col">Session</th>
-                                                        <th scope="col">Download</th>
+                                                        <th scope="col">CLC</th>
+                                                        <th scope="col">Character</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -62,8 +63,20 @@
                                                                     <%= element.session%>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="/download/<%= element.certificateType %>/<%= element.course %>/<%= element._id %>" class="px-4 btn btn-success w-md ">Download</a>
-                                                                            
+                                                                    <% if (element.isIssued) { %>
+                                                                        <a href="/download/<%= element.certificateType %>/<%= element.course %>/<%= element._id %>" class="px-4 btn btn-success w-md disabled" id="clc">CLC</a>
+                                                                    <% } else { %>
+                                                                        <a href="/download/<%= element.certificateType %>/<%= element.course %>/<%= element._id %>" class="px-4 btn btn-success w-md" id="clc">CLC</a>
+                                                                    <% } %>
+                                                                        
+                                                                </td>
+                                                                <td>
+                                                                    <% if (element.isCharIssued) { %>
+                                                                        <a href="/character/<%= element.course %>/<%= element._id %>" class="px-4 btn btn-success w-md disabled" id="character">Character</a>
+                                                                    <% } else { %>
+                                                                        <a href="/character/<%= element.course %>/<%= element._id %>" class="px-4 btn btn-success w-md" id="character">Character</a>
+                                                                    <% } %>
+                                                                        
                                                                 </td>
 
                                                             </tr>
@@ -130,7 +143,18 @@
 
         <!-- Template Javascript -->
         <script src="../javascripts/main.js"></script>
-
+        <script>
+            document.getElementById('clc').addEventListener('click', function() {
+              this.classList.add('disabled');
+              this.setAttribute('aria-disabled', true);
+              this.setAttribute('disabled', true);
+            });
+            document.getElementById('character').addEventListener('click', function() {
+              this.classList.add('disabled');
+              this.setAttribute('aria-disabled', true);
+              this.setAttribute('disabled', true);
+            });
+        </script>
         </body>
 
         </html>

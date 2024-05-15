@@ -9,7 +9,8 @@ import {
     bcomClcApprovedList,
     bscClcApprovedList,
     bcaClcApprovedList,
-    printCertificate
+    printCertificate,
+    characterCertificate
  } 
  from '../controllers/recordRoomController.js'
 
@@ -26,6 +27,8 @@ import {
  recordRoomRouter.get('/bcaClcApprovedList', recordRoomAuth, bcaClcApprovedList)
 
  recordRoomRouter.get('/download/:certificate/:course/:id', recordRoomAuth, printCertificate)
+
+ recordRoomRouter.get('/character/:course/:id', recordRoomAuth, characterCertificate)
 
 
 

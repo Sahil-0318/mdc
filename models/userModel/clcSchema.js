@@ -79,6 +79,10 @@ const clcSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isCharIssued :{
+        type: Boolean,
+        default: false
+    },
     clcFee:{
         type: Number
     },
@@ -95,6 +99,10 @@ const clcSchema = new mongoose.Schema({
         default: "NA"
     },
     dOLC: {
+        type : String,
+        default: "NA"
+    },
+    dOCC: {
         type : String,
         default: "NA"
     },
