@@ -10,7 +10,8 @@ import {
     bscClcApprovedList,
     bcaClcApprovedList,
     printCertificate,
-    characterCertificate
+    characterCertificate,
+    findStuInCLC
  } 
  from '../controllers/recordRoomController.js'
 
@@ -29,6 +30,8 @@ import {
  recordRoomRouter.get('/download/:certificate/:course/:id', recordRoomAuth, printCertificate)
 
  recordRoomRouter.get('/character/:course/:id', recordRoomAuth, characterCertificate)
+
+ recordRoomRouter.post('/findStuInCLC', recordRoomAuth, findStuInCLC)
 
 
 

@@ -9,6 +9,49 @@
             <%- include('./partials/navbar.ejs') %>
                 <!-- Navbar End -->
 
+                <% if (locals.formAlert) { %>
+                    <div class="col-sm-12 col-xl-12 pt-3 px-4">
+                    <div id="submitPopUp">
+                        <div class="col-12 col-xl-12 alert alert-danger" role="alert">
+                            <%= formAlert %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <div class="col-sm-12 col-xl-12 pt-4 px-4 d-md-flex gap-4 justify-content-between">
+                    <div class="bg-light rounded h-100 p-4 mb-2 flex-grow-1">
+                        <h6 class="mb-4">Find Student</h6>
+                        <form action="/findStuInCLC" method="post">
+                            <div class="row mb-3">
+                                <label for="findStuName" class="col-sm-3 col-md-4 col-form-label">Student Name :</label>
+                                <div class="col-sm-6 col-md-6">
+                                    <input type="text" class="form-control" id="findStuName" name="findStuName" placeholder="Student name here..">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="findStuuniRoll" class="col-sm-3 col-md-4 col-form-label">University Roll No :</label>
+                                <div class="col-sm-6 col-md-6">
+                                    <input type="number" class="form-control" id="findStuuniRoll" name="findStuuniRoll" placeholder="University Roll no ...">
+                                </div>
+                            </div>
+                            <% if (locals.course === 'ba') { %>
+                                <input type="hidden" id="formCourse" name="formCourse" value="ba">
+                            <% } else if (locals.course === 'bcom') { %>
+                                <input type="hidden" id="formCourse" name="formCourse" value="bcom">
+                            <% } else if (locals.course === 'bsc') { %>
+                                <input type="hidden" id="formCourse" name="formCourse" value="bsc">
+                            <% } else if (locals.course === 'bca') { %>
+                                <input type="hidden" id="formCourse" name="formCourse" value="bca">
+                            <% } else if (locals.course === 'Intermediate') { %>
+                                <input type="hidden" id="formCourse" name="formCourse" value="Intermediate">
+                               
+                            <% } %>
+                            <button type="submit" class="btn btn-primary">Find Student</button>
+                        </form>
+                    </div>
+                </div>
+
                 <!-- Blank Start -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="row vh-100 bg-light rounded justify-content-center m-0 p-4">
@@ -154,6 +197,12 @@
               this.setAttribute('aria-disabled', true);
               this.setAttribute('disabled', true);
             });
+        </script>
+        <script>
+            const submitPopUp = document.querySelector('#submitPopUp')
+            setInterval(() => {
+                submitPopUp.innerHTML = ''
+            }, 3000);
         </script>
         </body>
 

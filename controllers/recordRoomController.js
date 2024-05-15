@@ -69,7 +69,7 @@ const interClcApprovedList = async (req, res) => {
         const user = await User.findOne({ _id: req.id })
         const allClc = await clcSchema.find({ status: 'Approved', course: 'Intermediate' })
 
-        res.render("clcApprovedList", { status: "'to be issue'", noOfForms: allClc.length, user, allClc })
+        res.render("clcApprovedList", { status: "'to be issue'", course: 'Intermediate', noOfForms: allClc.length, user, allClc })
     } catch (error) {
         res.status(401)
     }
@@ -80,7 +80,7 @@ const baClcApprovedList = async (req, res) => {
         const user = await User.findOne({ _id: req.id })
         const allClc = await clcSchema.find({ status: 'Approved', course: 'B.A' })
 
-        res.render("clcApprovedList", { status: "'to be issue'", noOfForms: allClc.length, user, allClc })
+        res.render("clcApprovedList", { status: "'to be issue'", course: 'ba', noOfForms: allClc.length, user, allClc })
     } catch (error) {
         res.status(401)
     }
@@ -91,7 +91,7 @@ const bcomClcApprovedList = async (req, res) => {
         const user = await User.findOne({ _id: req.id })
         const allClc = await clcSchema.find({ status: 'Approved', course: 'B.COM' })
 
-        res.render("clcApprovedList", { status: "'to be issue'", noOfForms: allClc.length, user, allClc })
+        res.render("clcApprovedList", { status: "'to be issue'", course: 'bcom', noOfForms: allClc.length, user, allClc })
     } catch (error) {
         res.status(401)
     }
@@ -102,7 +102,7 @@ const bscClcApprovedList = async (req, res) => {
         const user = await User.findOne({ _id: req.id })
         const allClc = await clcSchema.find({ status: 'Approved', course: 'B.SC' })
 
-        res.render("clcApprovedList", { status: "'to be issue'", noOfForms: allClc.length, user, allClc })
+        res.render("clcApprovedList", { status: "'to be issue'", course: 'bsc', noOfForms: allClc.length, user, allClc })
     } catch (error) {
         res.status(401)
     }
@@ -113,7 +113,7 @@ const bcaClcApprovedList = async (req, res) => {
         const user = await User.findOne({ _id: req.id })
         const allClc = await clcSchema.find({ status: 'Approved', course: 'B.C.A' })
 
-        res.render("clcApprovedList", { status: "'to be issue'", noOfForms: allClc.length, user, allClc })
+        res.render("clcApprovedList", { status: "'to be issue'", course: 'bca', noOfForms: allClc.length, user, allClc })
     } catch (error) {
         res.status(401)
     }
@@ -413,6 +413,46 @@ const characterCertificate = async (req, res) => {
     }
 }
 
+const findStuInCLC = async (req, res) => {
+    try {
+      const user = await User.findOne({ _id: req.id })
+      let { findStuName, findStuuniRoll, formCourse } = req.body
+      
+      if (findStuName !== '' && findStuuniRoll === "") {
+        let allClc = await clcSchema.find({ fullName: findStuName.toUpperCase() })
+        res.render("clcApprovedList", { status: "'to be issue'", noOfForms: allClc.length, user, allClc })
+        
+    } else if (findStuName === '' && findStuuniRoll !== "") {
+        let allClc = await clcSchema.find({ uniRollNumber: findStuuniRoll })
+        res.render("clcApprovedList", { status: "'to be issue'", noOfForms: allClc.length, user, allClc })
+        
+    } else if (findStuName !== '' && findStuuniRoll !== "") {
+        let allClc = await clcSchema.find({ fullName: findStuName.toUpperCase(), uniRollNumber: findStuuniRoll })
+        res.render("clcApprovedList", { status: "'to be issue'", noOfForms: allClc.length, user, allClc })
+        
+    } else {
+        if (formCourse === 'ba') {
+            res.redirect("/baClcApprovedList")
+    
+        } else if (formCourse === 'bcom') {
+            res.redirect("/bcomClcApprovedList")
+            
+        } else if (formCourse === 'bsc') {
+            res.redirect("/bscClcApprovedList")
+            
+        } else if (formCourse === 'bca') {
+            res.redirect("/bcaClcApprovedList")
+            
+        } else if (formCourse === 'Intermediate') {
+            res.redirect("/interClcApprovedList")
+            
+        }
+      }
+  
+    } catch (error) {
+      res.status(401)
+    }
+  }
 
 export {
     recordRoomPage,
@@ -422,5 +462,6 @@ export {
     bscClcApprovedList,
     bcaClcApprovedList,
     printCertificate,
-    characterCertificate
+    characterCertificate,
+    findStuInCLC    
 }
