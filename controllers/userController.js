@@ -249,6 +249,9 @@ const ugRegularAdmissionFormPost = async (req, res) => {
             const photoUpload = await FileUpload(images[0].path)
             const photoURL = photoUpload.secure_url
 
+            const signUpload = await FileUpload(images[1].path)
+            const signURL = signUpload.secure_url
+
             let admFee = ""
             if (category === "General" || category === "BC-2") {
                 admFee = 3000
@@ -275,6 +278,7 @@ const ugRegularAdmissionFormPost = async (req, res) => {
                 address: address.toUpperCase(),
                 addressPin,
                 studentPhoto: photoURL,
+                studentSign: signURL,
                 appliedBy: user._id,
                 admNo,
                 receiptNo,

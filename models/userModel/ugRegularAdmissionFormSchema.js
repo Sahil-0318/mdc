@@ -73,6 +73,10 @@ const ugRegularAdmissionFormSchema = mongoose.Schema({
         type : String,
         required : true
     },
+    studentSign: {
+        type : String,
+        required : true
+    },
     appliedBy: {
         type : String,
         required : true
