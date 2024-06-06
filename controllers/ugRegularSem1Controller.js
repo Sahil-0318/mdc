@@ -184,6 +184,7 @@ const ugRegularSem1AdmFormPost = async (req, res) => {
             })
 
             const savedForm = await newAdmissionForm.save()
+            await ugRegularSem1AdmissionPortal.findOneAndUpdate({ _id: user._id.toString() }, { $set: { isPaid: true } })
             res.redirect("ug-reg-sen-1-pay")
 
         } else {
@@ -259,7 +260,8 @@ const ugRegularSem1PayPage = async (req, res) => {
 
         res.redirect("ugRegularSem1Receipt")
     } catch (error) {
-
+        console.log(error);
+        
     }
 }
 
