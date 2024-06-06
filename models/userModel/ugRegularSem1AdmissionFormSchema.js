@@ -183,6 +183,9 @@ const ugRegularSem1AdmissionFormSchema = mongoose.Schema({
     },
     receiptNo :{
         type : String
+    },
+    collegeRollNo :{
+        type : String
     }
     
 })

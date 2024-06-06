@@ -4,13 +4,14 @@ import FileUpload from '../fileUpload/fileUpload.js'
 import jwt from 'jsonwebtoken'
 import twilio from 'twilio'
 import qrcode from 'qrcode'
+import ugRegularSem1MeritList from "../models/adminModel/ugRegularSem1MeritList.js"
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID
 const authToken = process.env.TWILIO_AUTH_TOKEN
 
 const twilioClient = new twilio(accountSid, authToken)
 
-const ugRegularSem1 = (req, res) => {
+const ugRegularSem1 = async (req, res) => {
     res.render('ugRegularSem1')
 }
 
@@ -28,29 +29,34 @@ const ugRegularSem1Post = async (req, res) => {
         }
         let genPassword = generatePassword()
 
+        const isExistRefNoINMeritList = await ugRegularSem1MeritList.findOne({ appNo: referenceNumber })
 
-        const existReferenceNumber = await ugRegularSem1AdmissionPortal.findOne({ referenceNumber })
+        if (isExistRefNoINMeritList != null) {
+            const existReferenceNumber = await ugRegularSem1AdmissionPortal.findOne({ referenceNumber })
 
-        if (existReferenceNumber === null) {
+            if (existReferenceNumber === null) {
 
-            await twilioClient.messages.create({
-                body: `Dear Student,\nYour login User Id is ${referenceNumber} & Password is ${genPassword}\nMD College, Naubatpur`,
-                to: "+91" + mobileNumber,
-                from: process.env.TWILIO_PHONE_NUMBER
-            })
+                await twilioClient.messages.create({
+                    body: `Dear Student,\nYour login User Id is ${referenceNumber} & Password is ${genPassword}\nMD College, Naubatpur`,
+                    to: "+91" + mobileNumber,
+                    from: process.env.TWILIO_PHONE_NUMBER
+                })
 
-            const newUser = new ugRegularSem1AdmissionPortal({
-                course,
-                referenceNumber,
-                mobileNumber,
-                userId: referenceNumber,
-                password: genPassword
-            })
+                const newUser = new ugRegularSem1AdmissionPortal({
+                    course,
+                    referenceNumber,
+                    mobileNumber,
+                    userId: referenceNumber,
+                    password: genPassword
+                })
 
-            const registered = await newUser.save();
-            res.status(201).redirect('ug-regular-sem-1-login')
+                const registered = await newUser.save();
+                res.status(201).redirect('ug-regular-sem-1-login')
+            } else {
+                res.render('ugRegularSem1', { "invalid": 'Reference No already register' });
+            }
         } else {
-            res.render('ugRegularSem1', { "invalid": 'Reference No already register' });
+            res.render('ugRegularSem1', { "invalid": 'Invalid Reference No' });
         }
 
     } catch (error) {
@@ -116,6 +122,17 @@ const ugRegularSem1AdmFormPost = async (req, res) => {
 
         let admissionFee = ""
 
+        const collCount = await ugRegularSem1AdmissionForm.countDocuments()
+        // console.log(collCount);
+        let collegeRollNo = collCount + 1
+        // console.log(collegeRollNo);
+        const existAdmNo = await ugRegularSem1AdmissionForm.findOne({ collegeRollNo })
+        if (existAdmNo != null) {
+            collegeRollNo = existAdmNo.admNo + 1
+        } else {
+            collegeRollNo = collCount + 1
+        }
+
         if (appliedUser == null) {
             const images = req.files
 
@@ -129,10 +146,32 @@ const ugRegularSem1AdmFormPost = async (req, res) => {
             const signURL = signUpload.secure_url
             // console.log(signURL);
 
-            if (category === "GENERAL" || category === "BC-2") {
-                admissionFee = 600
+            // -------
+            if (gender === "MALE") {
+                if (user.course === "Bachelor of Science" || paper1 === "Psychology") {
+                    if (category === "GENERAL" || category === "BC-2") {
+                        admissionFee = 3455
+                    } else if (category === "BC-1"){
+                        admissionFee = 2855
+                    }else{
+                        admissionFee = 1200
+                    }
+                } else {
+                    if (category === "GENERAL" || category === "BC-2") {
+                        admissionFee = 2855
+                    } else if (category === "BC-1"){
+                        admissionFee = 2255
+                    }else{
+                        admissionFee = 600
+                    }
+                }
+                
             } else {
-                admissionFee = 400
+                if (user.course === "Bachelor of Science" || paper1 === "Psychology") {
+                    admissionFee = 1200
+                } else {
+                    admissionFee = 600
+                }
             }
 
             const newAdmissionForm = new ugRegularSem1AdmissionForm({
@@ -140,11 +179,12 @@ const ugRegularSem1AdmFormPost = async (req, res) => {
                 studentPhoto: photoURL,
                 studentSign: signURL,
                 appliedBy: user._id,
-                admissionFee
+                admissionFee,
+                collegeRollNo
             })
 
             const savedForm = await newAdmissionForm.save()
-            res.redirect("ug-reg-adm-form")
+            res.redirect("ug-reg-sen-1-pay")
 
         } else {
 
@@ -161,15 +201,28 @@ const ugRegularSem1Pay = async (req, res) => {
         const user = await ugRegularSem1AdmissionPortal.findOne({ _id: req.id })
         const appliedUser = await ugRegularSem1AdmissionForm.findOne({ appliedBy: user._id.toString() })
 
-        if (appliedUser.admissionFee === "600") {
-            qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=600&tn=${appliedUser.studentName}`, function (err, src) {
+        if (appliedUser.admissionFee === "2855") {
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2855&tn=${appliedUser.studentName}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
-        } else {
-            qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=500&tn=${appliedUser.studentName}`, function (err, src) {
+        }else if (appliedUser.admissionFee === "2255"){
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2255&tn=${appliedUser.studentName}`, function (err, src) {
+                res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
+            })
+        }else if (appliedUser.admissionFee === "600"){
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=600&tn=${appliedUser.studentName}`, function (err, src) {
+                res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
+            })
+        }else if (appliedUser.admissionFee === "3455"){
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=3455&tn=${appliedUser.studentName}`, function (err, src) {
+                res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
+            })
+        }else if (appliedUser.admissionFee === "1200"){
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=1200&tn=${appliedUser.studentName}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         }
+
     } catch (error) {
 
     }
@@ -193,35 +246,35 @@ const ugRegularSem1PayPage = async (req, res) => {
         const seconds = String(now.getSeconds()).padStart(2, '0');
         const dateAndTimeOfPayment = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`
 
-        let receiptNo = "24MDC"+appliedUser.referenceNumber.substring(3, 10);
+        let receiptNo = "24MDC" + appliedUser.referenceNumber.substring(3, 10);
 
         await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
 
         await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { dateAndTimeOfPayment } })
 
-        await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentId : refNo } })
+        await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentId: refNo } })
 
-        await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid : true } })
+        await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: true } })
         await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { receiptNo } })
 
         res.redirect("ugRegularSem1Receipt")
     } catch (error) {
-        
+
     }
 }
 
-const ugRegularSem1Receipt = async(req, res) =>{
+const ugRegularSem1Receipt = async (req, res) => {
     try {
         const user = await ugRegularSem1AdmissionPortal.findOne({ _id: req.id })
         const appliedUser = await ugRegularSem1AdmissionForm.findOne({ appliedBy: user._id.toString() })
         if (appliedUser.isPaid === true) {
-            res.render("ugRegularSem1Receipt", {appliedUser, user})
+            res.render("ugRegularSem1Receipt", { appliedUser, user })
         } else {
             res.redirect("ug-reg-adm-form")
         }
-        
+
     } catch (error) {
-        
+
     }
 }
 

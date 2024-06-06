@@ -106,8 +106,13 @@
                                                 <% } %></h6>
                                             </div>
 
-                                            
-                                            <form action="/ug-reg-adm-form" method="post"
+                                
+                                            <% if (locals.appliedUser) { %>
+                                         
+                                                <% if (locals.appliedUser.isPaid == true) { %>
+                                                    
+                                                <% } else { %>
+                                                    <form action="/ug-reg-adm-form" method="post"
                                                 enctype="multipart/form-data">
                                                 <div class="col-md-12 mb-3">
                                                     <label for="studentName" class="form-label"><b>1. Student's Name :</b></label>
@@ -136,7 +141,7 @@
                                                 <div class="col-md-12 mb-3">
                                                     <label for="referenceNumber" class="form-label">Reference Number :</label>
                                                     <input type="text" class="form-control" id="referenceNumber"
-                                                        name="referenceNumber" value=<%= locals.user.referenceNumber %> required />
+                                                        name="referenceNumber" value=<%= locals.user.referenceNumber %> required readonly />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
@@ -227,7 +232,7 @@
                                                     <label for="mobileNumber" class="form-label">Mobile
                                                         Number :</label>
                                                     <input type="number" class="form-control" id="mobileNumber"
-                                                        name="mobileNumber" required />
+                                                        name="mobileNumber" value=<%= locals.user.mobileNumber %> />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
@@ -301,7 +306,12 @@
                                                         <label for="paper3" class="form-label">Paper-3 :</label>
                                                         <select id="paper3" class="form-select" name="paper3"
                                                             required>
-                                                            <option value="Hindi">Hindi</option>
+                                                            <option value="Indian Social values & Ethics">Indian Social values & Ethics</option>
+                                                            <option value="Sports Science">Sports Science</option>
+                                                            <option value="Glimpse of India">Glimpse of India</option>
+                                                            <option value="Acquaintance to Electrical & Electronics Appliances">Acquaintance to Electrical & Electronics Appliances</option>
+                                                            <option value="E. Commerce">E. Commerce</option>
+                                                            <option value="Functional languages">Functional languages</option>
                                                         </select>
                                                     </div>
     
@@ -317,7 +327,8 @@
                                                         <label for="paper5" class="form-label">Paper-5 :</label>
                                                         <select id="paper5" class="form-select" name="paper5"
                                                             required>
-                                                            <option value="TBD">TBD</option>
+                                                            <option value="Communication in everyday life">Communication in everyday life</option>
+                                                            <option value="Basic IT Tools">Basic IT Tools</option>
                                                         </select>
                                                     </div>
     
@@ -325,7 +336,8 @@
                                                         <label for="paper6" class="form-label">Paper-6 :</label>
                                                         <select id="paper6" class="form-select" name="paper6"
                                                             required>
-                                                            <option value="TBD">TBD</option>
+                                                            <option value="Art of being happy">Art of being happy</option>
+                                                            <option value="Ayurveda & Nutrition">Ayurveda & Nutrition</option>
                                                         </select>
                                                     </div>
                                                 <% } else if (locals.user.course === "Bachelor of Arts (Humanities Subjects)") { %>
@@ -353,7 +365,12 @@
                                                         <label for="paper3" class="form-label">Paper-3 :</label>
                                                         <select id="paper3" class="form-select" name="paper3"
                                                             required>
-                                                            <option value="Hindi">Hindi</option>
+                                                            <option value="Indian Social values & Ethics">Indian Social values & Ethics</option>
+                                                            <option value="Sports Science">Sports Science</option>
+                                                            <option value="Glimpse of India">Glimpse of India</option>
+                                                            <option value="Acquaintance to Electrical & Electronics Appliances">Acquaintance to Electrical & Electronics Appliances</option>
+                                                            <option value="E. Commerce">E. Commerce</option>
+                                                            <option value="Functional languages">Functional languages</option>
                                                         </select>
                                                     </div>
     
@@ -369,7 +386,8 @@
                                                         <label for="paper5" class="form-label">Paper-5 :</label>
                                                         <select id="paper5" class="form-select" name="paper5"
                                                             required>
-                                                            <option value="TBD">TBD</option>
+                                                            <option value="Communication in everyday life">Communication in everyday life</option>
+                                                            <option value="Basic IT Tools">Basic IT Tools</option>
                                                         </select>
                                                     </div>
     
@@ -377,7 +395,8 @@
                                                         <label for="paper6" class="form-label">Paper-6 :</label>
                                                         <select id="paper6" class="form-select" name="paper6"
                                                             required>
-                                                            <option value="TBD">TBD</option>
+                                                            <option value="Art of being happy">Art of being happy</option>
+                                                            <option value="Ayurveda & Nutrition">Ayurveda & Nutrition</option>
                                                         </select>
                                                     </div>
                                                 <% } else if (locals.user.course === "Bachelor of Science") { %>
@@ -406,7 +425,12 @@
                                                         <label for="paper3" class="form-label">Paper-3 :</label>
                                                         <select id="paper3" class="form-select" name="paper3"
                                                             required>
-                                                            <option value="Hindi">Hindi</option>
+                                                            <option value="Indian Social values & Ethics">Indian Social values & Ethics</option>
+                                                            <option value="Sports Science">Sports Science</option>
+                                                            <option value="Glimpse of India">Glimpse of India</option>
+                                                            <option value="Acquaintance to Electrical & Electronics Appliances">Acquaintance to Electrical & Electronics Appliances</option>
+                                                            <option value="E. Commerce">E. Commerce</option>
+                                                            <option value="Functional languages">Functional languages</option>
                                                         </select>
                                                     </div>
     
@@ -422,7 +446,8 @@
                                                         <label for="paper5" class="form-label">Paper-5 :</label>
                                                         <select id="paper5" class="form-select" name="paper5"
                                                             required>
-                                                            <option value="TBD">TBD</option>
+                                                            <option value="Communication in everyday life">Communication in everyday life</option>
+                                                            <option value="Basic IT Tools">Basic IT Tools</option>
                                                         </select>
                                                     </div>
     
@@ -430,7 +455,8 @@
                                                         <label for="paper6" class="form-label">Paper-6 :</label>
                                                         <select id="paper6" class="form-select" name="paper6"
                                                             required>
-                                                            <option value="TBD">TBD</option>
+                                                            <option value="Art of being happy">Art of being happy</option>
+                                                            <option value="Ayurveda & Nutrition">Ayurveda & Nutrition</option>
                                                         </select>
                                                     </div>
                                                 <% } %>
@@ -522,11 +548,14 @@
                                                 <button type="reset" class="btn btn-secondary">Reset</button>
 
                                             </form>
+                                                <% } %>
+                                            <% } %>
+
                                         </div>
                                         <% if (locals.appliedUser) { %>
                                          
                                         <% if (locals.appliedUser.isPaid == true) { %>
-                                            <button class="btn btn-success my-4" disabled><a class="text-light" href="">Pay Admission Fee</a></button>
+                                            <!-- <button class="btn btn-success my-4" disabled><a class="text-light" href="">Pay Admission Fee</a></button> -->
                                         <% } else { %>
                                             <button class="btn btn-success my-4"><a class="text-light" href="/ug-reg-sen-1-pay">Pay Admission Fee</a></button>
                                         <% } %>
