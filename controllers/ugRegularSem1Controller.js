@@ -203,23 +203,23 @@ const ugRegularSem1Pay = async (req, res) => {
         const appliedUser = await ugRegularSem1AdmissionForm.findOne({ appliedBy: user._id.toString() })
 
         if (appliedUser.admissionFee === "2855") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2855&tn=${appliedUser.studentName}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2855&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         }else if (appliedUser.admissionFee === "2255"){
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2255&tn=${appliedUser.studentName}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2255&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         }else if (appliedUser.admissionFee === "600"){
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=600&tn=${appliedUser.studentName}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=600&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         }else if (appliedUser.admissionFee === "3455"){
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=3455&tn=${appliedUser.studentName}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=3455&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         }else if (appliedUser.admissionFee === "1200"){
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=1200&tn=${appliedUser.studentName}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=1200&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         }
@@ -276,7 +276,21 @@ const ugRegularSem1Receipt = async (req, res) => {
         }
 
     } catch (error) {
+        console.log(error)
+    }
+}
 
+const ugRegularSem1ExamForm = async (req, res) =>{
+    try {
+        const user = await ugRegularSem1AdmissionPortal.findOne({ _id: req.id })
+        const appliedUser = await ugRegularSem1AdmissionForm.findOne({ appliedBy: user._id.toString() })
+        if (appliedUser.isPaid === true) {
+            res.render("ugRegularSem1ExamForm", { appliedUser, user })
+        } else {
+            res.redirect("ug-reg-adm-form")
+        }
+    } catch (error) {
+        console.log(error)
     }
 }
 
@@ -291,5 +305,6 @@ export {
     ugRegularSem1AdmFormPost,
     ugRegularSem1Pay,
     ugRegularSem1PayPage,
-    ugRegularSem1Receipt
+    ugRegularSem1Receipt,
+    ugRegularSem1ExamForm
 }

@@ -13,7 +13,8 @@ import {
     ugRegularSem1AdmFormPost,
     ugRegularSem1Pay,
     ugRegularSem1PayPage,
-    ugRegularSem1Receipt
+    ugRegularSem1Receipt,
+    ugRegularSem1ExamForm
 } from '../controllers/ugRegularSem1Controller.js'
 
 const userAuth = async (req, res , next)=>{
@@ -47,6 +48,7 @@ ugRegularSem1Router.post('/ug-reg-adm-form', userAuth, upload.array('studentPhot
 ugRegularSem1Router.get('/ug-reg-sen-1-pay', userAuth, ugRegularSem1Pay)
 ugRegularSem1Router.post('/ugRegularSem1PayPage', userAuth, upload.single('paymentSS'), ugRegularSem1PayPage)
 ugRegularSem1Router.get('/ugRegularSem1Receipt', userAuth, ugRegularSem1Receipt)
+ugRegularSem1Router.get('/ugRegularSem1ExamForm', userAuth, ugRegularSem1ExamForm)
 
 
 export default ugRegularSem1Router
