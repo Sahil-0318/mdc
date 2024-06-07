@@ -128,7 +128,7 @@ const ugRegularSem1AdmFormPost = async (req, res) => {
         // console.log(collegeRollNo);
         const existAdmNo = await ugRegularSem1AdmissionForm.findOne({ collegeRollNo })
         if (existAdmNo != null) {
-            collegeRollNo = existAdmNo.admNo + 1
+            collegeRollNo = existAdmNo.collegeRollNo - 1
         } else {
             collegeRollNo = collCount + 1
         }
