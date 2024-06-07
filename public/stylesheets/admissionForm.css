@@ -1,4 +1,5 @@
 body {
+    width: 100vw;
     margin-top: 20px;
     background-color: #eee;
 }
@@ -21,55 +22,56 @@ body {
     font-size: 10px;
 }
 
-.studentInfo{
+.studentInfo {
     width: 100%;
     display: flex;
     gap: 7px;
 }
 
-.studentInfoData{
+.studentInfoData {
     width: 75%;
 }
 
-.studentInfoPicture{
+.studentInfoPicture {
     width: 25%;
 }
 
-.studentInfoDataUpper .fields{
+.studentInfoDataUpper .fields {
     display: flex;
     margin-bottom: 3px;
 }
 
-.studentInfoDataUpper .fields .fieldsName{
+.studentInfoDataUpper .fields .fieldsName {
     width: 33%;
     font-weight: 500;
 }
 
-.studentInfoDataUpper .fields .fieldsNameValue{
+.studentInfoDataUpper .fields .fieldsNameValue {
     width: 67%;
     border: 1px solid black;
     padding-left: 5px;
     font-weight: 500;
 }
 
-.studentInfoDataLower{
+.studentInfoDataLower {
     display: flex;
     width: 100%;
     gap: 2px;
 }
 
-.lowerCol1{
+.lowerCol1 {
     width: 30%;
 }
 
-.lowerCol2{
+.lowerCol2 {
     width: 40%;
 }
-.lowerCol3{
+
+.lowerCol3 {
     width: 30%;
 }
 
-.studentInfoDataLower .lowerFieldNameValue{
+.studentInfoDataLower .lowerFieldNameValue {
     width: 100%;
     border: 1px solid black;
     padding-left: 5px;
@@ -77,44 +79,45 @@ body {
     margin-top: 2px;
 }
 
-.studentInfoPicture .studentPhoto{
+.studentInfoPicture .studentPhoto {
     width: 100%;
 }
 
-.studentInfoPicture img{
+.studentInfoPicture img {
     width: 100%;
     margin-bottom: 10px;
 }
 
-.studentSign{
+.studentSign {
     width: 100%;
     height: 150px;
     /* overflow: hidden; */
     object-fit: contain;
 }
-.studentSign img{
+
+.studentSign img {
     width: 100%;
     height: 100%;
 }
 
-.addressUpper{
+.addressUpper {
     display: flex;
     gap: 5px;
 }
 
-.addressUpper .address{
+.addressUpper .address {
     display: flex;
     width: 70%;
     gap: 5px;
 }
 
-.addressUpper .district{
+.addressUpper .district {
     display: flex;
     width: 30%;
     gap: 5px;
 }
 
-.addressUpper .addressInputBox{
+.addressUpper .addressInputBox {
     width: 100%;
     height: 29px;
     border: 1px solid black;
@@ -122,169 +125,209 @@ body {
     font-weight: 500;
 }
 
-.coursePaper{
+.coursePaper {
     display: flex;
     gap: 10px;
     width: 100%;
 }
 
-.coursePaper .coursePaperLeft{
+.coursePaper .coursePaperLeft {
     width: 50%;
 }
 
-.coursePaper .coursePaperRight{
+.coursePaper .coursePaperRight {
     width: 50%;
 }
 
-.coursePaper .paperBox{
+.coursePaper .paperBox {
     display: flex;
     gap: 10px;
     margin-bottom: 5px;
 }
 
-.paperBox .paper{
+.paperBox .paper {
     width: 22%;
 }
 
-.paperBox .paperName{
+.paperBox .paperName {
     width: 77%;
     border: 1px solid black;
     padding-left: 5px;
 }
 
-.lastExamPassedRow{
+.lastExamPassedRow {
     display: flex;
     width: 100%;
     gap: 5px;
 }
 
-.lastExamPassedRow .lastExamPassedCol{
+.lastExamPassedRow .lastExamPassedCol {
     width: 25%;
 }
 
-.lastExamPassedRow .inputField{
+.lastExamPassedRow .inputField {
     border: 1px solid black;
     padding-left: 5px;
 }
 
-.officeUseBox{
+.officeUseBox {
     width: 100%;
     display: flex;
     gap: 10px;
 }
 
-.div1{
+.div1 {
     width: 27%;
 }
 
-.div2{
+.div2 {
     width: 27%;
 }
-.div3{
+
+.div3 {
     width: 28%;
 }
-.div1{
+
+.div1 {
     width: 18%;
 }
 
-.studentAndParentSign{
+.studentAndParentSign {
     display: flex;
     justify-content: space-between;
     padding-top: 30px;
 }
 
-.formHead h2{
+.formHead h2 {
     font-size: 25px;
 }
-.formHead h6{
+
+.formHead h6 {
     font-size: 20px;
 }
 
 @media print {
-    .formHead h2{
+    @page {
+        size: A4;
+        margin: 0cm;
+
+    }
+
+    body {
+        width: 100%;
+        margin: 0.5cm 0cm;
+        /* padding: 0cm -10cm; */
+        /* box-sizing: border-box; */
+    }
+
+    .formHead h2 {
         font-size: 25px;
     }
-    .formHead h6{
+
+    .formHead h6 {
         font-size: 18px;
     }
-    .formHead h3{
+
+    .formHead h3 {
         font-size: 18px;
         padding-bottom: 0px;
     }
-    .formHead div{
+
+    .formHead div {
         font-size: 18px;
         text-align: center;
     }
-    .studentInfo{
+
+    .studentInfo {
         padding-top: 15px;
     }
-    .studentInfoDataUpper div{
+
+    .studentInfoDataUpper div {
         font-size: 12px;
     }
-    .studentInfoDataLower{
+
+    .studentInfoDataLower {
         padding-top: 7px;
     }
-    .studentInfoDataLower div{
+
+    .studentInfoDataLower div {
         font-size: 12px;
     }
-    .studentPhoto img{
+
+    .studentPhoto img {
         height: 180px;
         object-fit: cover;
         object-position: center;
     }
-    .studentSign{
+
+    .studentSign {
         width: 100%;
         height: 80px;
         /* overflow: hidden; */
         /* object-fit: contain; */
     }
-    .studentSign img{
+
+    .studentSign img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         object-position: center;
     }
-    .addressInfo{
+
+    .addressInfo {
         padding-top: 7px;
     }
-    .addressInfo p{
+
+    .addressInfo p {
         font-size: 13px;
     }
-    .addressInfo .addressInputBox{
+
+    .addressInfo .addressInputBox {
         font-size: 12px;
         height: 24px;
     }
-    .courseDetail div{
+
+    .courseDetail div {
         font-size: 12px;
     }
-    .courseDetail p{
+
+    .courseDetail p {
         font-size: 13px;
     }
-    .lastExamPassed{
+
+    .lastExamPassed {
         padding-top: 7px;
     }
-    .lastExamPassed div{
+
+    .lastExamPassed div {
         font-size: 12px;
     }
-    .lastExamPassed p{
+
+    .lastExamPassed p {
         font-size: 13px;
     }
-    .officeUse{
+
+    .officeUse {
         padding-top: 7px;
     }
-    .officeUse div{
+
+    .officeUse div {
         font-size: 12px;
     }
-    .officeUse p{
+
+    .officeUse p {
         font-size: 13px;
     }
-    hr{
+
+    hr {
         display: none;
     }
-    .declaration{
+
+    .declaration {
         padding-top: 10px;
     }
-    .declaration p{
+
+    .declaration p {
         font-size: 10px;
     }
 }

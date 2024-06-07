@@ -24,8 +24,18 @@
                             </div>
                             <div class="text-muted text-center formHead">
                                 <h2>M. D. COLLEGE, NAUBATPUR</h2>
-                                <h6>ADMISSION FORM - B.A Pol. Sc. (Major) Sem - I</h6>
-                                <h3>SESSION 2024-28, Roll No, 208</h3>
+                                <h6>ADMISSION FORM - 
+                                    <% if (locals.user) { %>
+                                     <% if (locals.user.course === "Bachelor of Arts (Social Science Subjects)") { %>
+                                        B.A Pol. Sc. (<%= locals.appliedUser.paper1 %>) Sem - I
+                                    <% } else if (locals.user.course === "Bachelor of Arts (Humanities Subjects)") { %>
+                                        B.A Humanities (<%= locals.appliedUser.paper1 %>) Sem - I
+                                    <% } else { %>
+                                        B.Sc. (<%= locals.appliedUser.paper1 %>) Sem - I
+                                     <% } %>
+                                    <% } %>
+                                </h6>
+                                <h3>SESSION 2024-28, Roll No: <%= locals.appliedUser.collegeRollNo %></h3>
                                 <div><b>College Copy</b></div>
                             </div>
                             <div class="mb-4">
