@@ -91,8 +91,10 @@
 
                                         <div class="col-md-6">
                                             <label for="" class="form-label fw-bold">Course</label>
-                                            <textarea rows="1" class="form-control"
-                                                readonly><% if (locals.foundStudentID) { %><%= locals.foundStudentID.course%></textarea>
+                                            <% if (locals.foundStudentID) { %>
+                                            <textarea rows="1" class="form-control" readonly><%= locals.foundStudentID.course%></textarea>
+                                            <% } else { %>
+                                                <textarea rows="1" class="form-control" readonly>NA</textarea>
                                             <% } %>
                                         </div>
 
