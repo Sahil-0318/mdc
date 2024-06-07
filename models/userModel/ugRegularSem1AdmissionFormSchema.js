@@ -186,6 +186,10 @@ const ugRegularSem1AdmissionFormSchema = mongoose.Schema({
     },
     collegeRollNo :{
         type : String
+    },
+    isVerified : {
+        type : Boolean,
+        default : false
     }
     
 })

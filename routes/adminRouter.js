@@ -24,7 +24,12 @@ import {
     noticePost,
     editNotice,
     editNoticePost,
-    deleteNotice
+    deleteNotice,
+    // ug regular sem 1 list
+    ugRegularSem1List,
+    findStuInUGRegSem1Adm,
+    ugRegSem1StuView,
+    verifyUgRegSem1Stu
  } 
  from '../controllers/adminController.js'
 
@@ -71,5 +76,17 @@ import {
  adminRouter.post('/edit-notice/:id', adminAuth, editNoticePost)
  
  adminRouter.get('/delete-notice/:id', adminAuth, deleteNotice)
+ 
+ //UG Regular Sem -1 List
+ 
+ adminRouter.get('/ugRegularSem1List', adminAuth, ugRegularSem1List)
+
+ adminRouter.post('/ugRegularSem1List', adminAuth, findStuInUGRegSem1Adm)
+
+ adminRouter.get('/student-view/:stuId', adminAuth, ugRegSem1StuView)
+
+ adminRouter.get('/verify-student/:Id', adminAuth, verifyUgRegSem1Stu)
+
+
 
 export default adminRouter

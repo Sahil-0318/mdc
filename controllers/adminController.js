@@ -8,6 +8,9 @@ import { writeFileSync, readFileSync } from "fs"
 import nodemailer from 'nodemailer'
 import Csv from 'json2csv'
 const CsvParser = Csv.Parser
+import ugRegularSem1AdmissionForm from "../models/userModel/ugRegularSem1AdmissionFormSchema.js"
+import ugRegularSem1AdmissionPortal from "../models/userModel/ugRegularSem1AdmissionPortalSchema.js"
+
 
 const adminPage = async (req, res) => {
   try {
@@ -324,9 +327,9 @@ const deleteNotice = async (req, res) => {
 const clcList = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const clcList = await clcSchema.find({status: 'Pending', isPaid: "true" })
+    const clcList = await clcSchema.find({ status: 'Pending', isPaid: "true" })
     // console.log(clcList);
-    res.render('clcList', { clcList, status: "Pending", noOfForms: clcList.length,  user })
+    res.render('clcList', { clcList, status: "Pending", noOfForms: clcList.length, user })
   } catch (error) {
     res.status(401)
   }
@@ -334,7 +337,7 @@ const clcList = async (req, res) => {
 
 const clcApprovedId = async (req, res) => {
   try {
-    const {id} = req.params
+    const { id } = req.params
     const user = await User.findOne({ _id: req.id })
     const foundClc = await clcSchema.findOneAndUpdate({ _id: id }, { $set: { status: "Approved" } })
     // console.log(foundClc);
@@ -346,7 +349,7 @@ const clcApprovedId = async (req, res) => {
 
 const clcRejectId = async (req, res) => {
   try {
-    const {id} = req.params
+    const { id } = req.params
     const user = await User.findOne({ _id: req.id })
     const foundClc = await clcSchema.findOneAndUpdate({ _id: id }, { $set: { status: "Rejected" } })
     // console.log(foundClc);
@@ -358,7 +361,7 @@ const clcRejectId = async (req, res) => {
 
 const clcApproved = async (req, res) => {
   try {
-    const {id} = req.params
+    const { id } = req.params
     const user = await User.findOne({ _id: req.id })
     const clcList = await clcSchema.find({ status: "Approved" })
     // console.log(clcList);
@@ -370,7 +373,7 @@ const clcApproved = async (req, res) => {
 
 const clcRejected = async (req, res) => {
   try {
-    const {id} = req.params
+    const { id } = req.params
     const user = await User.findOne({ _id: req.id })
     const clcList = await clcSchema.find({ status: "Rejected" })
     // console.log(clcList);
@@ -507,6 +510,76 @@ const approvedByAdmin = async (req, res) => {
   }
 }
 
+// UG Regular Sem 1 List
+const ugRegularSem1List = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const ugRegularSem1AdmissionList = await ugRegularSem1AdmissionForm.find({ isPaid: true })
+    // console.log(ugRegularSem1AdmissionList);
+    res.render('ugRegularSem1List', { list: ugRegularSem1AdmissionList, status: "All", noOfForms: ugRegularSem1AdmissionList.length, user })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const findStuInUGRegSem1Adm = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    let { findStuRefNo, findStuPPUConfiNo } = req.body
+
+    if (findStuRefNo !== '' && findStuPPUConfiNo === "") {
+      let foundStudent = await ugRegularSem1AdmissionForm.find({ referenceNumber: findStuRefNo })
+      res.render('ugRegularSem1List', { list: foundStudent, status: "Found", noOfForms: foundStudent.length, user })
+
+    } else if (findStuRefNo === '' && findStuPPUConfiNo !== "") {
+      let foundStudent = await ugRegularSem1AdmissionForm.find({ ppuConfidentialNumber: findStuPPUConfiNo })
+      res.render('ugRegularSem1List', { list: foundStudent, status: "Found", noOfForms: foundStudent.length, user })
+
+    } else if (findStuRefNo !== '' && findStuPPUConfiNo !== "") {
+      let foundStudent = await ugRegularSem1AdmissionForm.find({ referenceNumber: findStuRefNo, ppuConfidentialNumber: findStuPPUConfiNo })
+      res.render('ugRegularSem1List', { list: foundStudent, status: "Found", noOfForms: foundStudent.length, user })
+
+    } else if (findStuRefNo === '' && findStuPPUConfiNo === "") {
+      const foundStudent = await ugRegularSem1AdmissionForm.find({ isPaid: true })
+      res.render('ugRegularSem1List', { list: foundStudent, status: "All", formAlert: "Please, Enter Ref No or PPU Confidential No.", noOfForms: foundStudent.length, user })
+      // res.render('admissionFormList', { formAlert: "Please, Enter Student Name or Ref No", user })
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+const ugRegSem1StuView = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+
+    const foundStudent = await ugRegularSem1AdmissionForm.findOne({ _id: stuId })
+    const foundStudentID = await ugRegularSem1AdmissionPortal.findOne({ _id: foundStudent.appliedBy })
+
+    res.render('studentView', { foundStudent, foundStudentID, user })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const verifyUgRegSem1Stu = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { Id } = req.params
+    const foundStudent = await ugRegularSem1AdmissionForm.findOneAndUpdate({ _id: Id }, { $set: { isVerified: true } })
+    const foundStudentID = await ugRegularSem1AdmissionPortal.findOne({ _id: foundStudent.appliedBy })
+    res.redirect("/ugRegularSem1List")
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
 export {
   adminPage,
   admissionFormList,
@@ -529,5 +602,10 @@ export {
   noticePost,
   editNotice,
   editNoticePost,
-  deleteNotice
+  deleteNotice,
+  //ug regular sem 1 list
+  ugRegularSem1List,
+  findStuInUGRegSem1Adm,
+  ugRegSem1StuView,
+  verifyUgRegSem1Stu
 }
