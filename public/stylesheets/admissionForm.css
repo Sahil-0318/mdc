@@ -1,5 +1,5 @@
 body {
-    width: 100vw;
+    /* width: 100vw; */
     margin-top: 20px;
     background-color: #eee;
 }
@@ -209,15 +209,19 @@ body {
 @media print {
     @page {
         size: A4;
-        margin: 0cm;
-
+        margin: 0.7cm;
     }
 
-    body {
-        width: 100%;
-        margin: 0.5cm 0cm;
-        /* padding: 0cm -10cm; */
-        /* box-sizing: border-box; */
+    body{
+        margin-top: 0;
+    }
+    .card {
+        width: 100vw;
+    }
+    .myCont {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
     }
 
     .formHead h2 {

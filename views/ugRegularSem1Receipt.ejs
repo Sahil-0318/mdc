@@ -27,17 +27,36 @@
         .card-body {
             border: 0.5px solid black;
         }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 1cm;
+            }
+
+            body{
+                margin-top: 0;
+            }
+            .card {
+                width: 100vw;
+            }
+            .myCont {
+                margin: 0;
+                padding: 0;
+                width: 100vw;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
+    <div class="container myCont">
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="invoice-title d-flex justify-content-between">
+                        <div class=" d-flex justify-content-between">
                             <div class="mb-4">
                                 <img src="images/mdcLogo.png" width="100px" alt="Logo">
                             </div>
@@ -58,26 +77,46 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="text-muted">
-                                    <p class="mb-1 fw-bold">Name :&nbsp; &nbsp; &nbsp;    <%= locals.appliedUser.studentName %></p>
-                                    <p class="mb-1 fw-bold">Applicant ID :&nbsp; &nbsp; &nbsp;    <%= locals.appliedUser.applicantId %></p>
-                                    <% if (locals.user.course === "Bachelor of Arts (Social Science Subjects)" || locals.user.course === "Bachelor of Arts (Humanity Subjects)") { %>
-                                        <p class="mb-1 fw-bold">Class :&nbsp; &nbsp; &nbsp;    B.A Sem - 1 (2024 -28)</p>
-                                    <% } else { %>
-                                        <p class="mb-1 fw-bold">Class :&nbsp; &nbsp; &nbsp;    B.Sc Sem - 1 (2024 -28)</p>
-                                      
-                                    <% } %>
+                                    <p class="mb-1 fw-bold">Name :&nbsp; &nbsp; &nbsp; <%=
+                                            locals.appliedUser.studentName %>
+                                    </p>
+                                    <p class="mb-1 fw-bold">Applicant ID :&nbsp; &nbsp; &nbsp; <%=
+                                            locals.appliedUser.applicantId %>
+                                    </p>
+                                    <% if (locals.user.course==="Bachelor of Arts (Social Science Subjects)" ||
+                                        locals.user.course==="Bachelor of Arts (Humanity Subjects)" ) { %>
+                                        <p class="mb-1 fw-bold">Class :&nbsp; &nbsp; &nbsp; B.A Sem - 1 (2024 -28)</p>
+                                        <% } else { %>
+                                            <p class="mb-1 fw-bold">Class :&nbsp; &nbsp; &nbsp; B.Sc Sem - 1 (2024 -28)
+                                            </p>
 
-                                    <p class="mb-1 fw-bold">Reference Number :&nbsp; &nbsp; &nbsp;    <%= locals.appliedUser.referenceNumber %></p>
-                                    <p class="mb-1 fw-bold">College Roll No :&nbsp; &nbsp;    <%= locals.appliedUser.collegeRollNo %></p>
+                                            <% } %>
+
+                                                <p class="mb-1 fw-bold">Reference Number :&nbsp; &nbsp; &nbsp; <%=
+                                                        locals.appliedUser.referenceNumber %>
+                                                </p>
+                                                <p class="mb-1 fw-bold">College Roll No :&nbsp; &nbsp; <%=
+                                                        locals.appliedUser.collegeRollNo %>
+                                                </p>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="text-muted ">
-                                    <p class="mb-1 fw-bold">E-mail Id :&nbsp; &nbsp; &nbsp;  <%= locals.appliedUser.email %></p>
-                                    <p class="mb-1 fw-bold">Mobile No :&nbsp; &nbsp; &nbsp;  <%= locals.appliedUser.mobileNumber %></p>
-                                    <p class="mb-1 fw-bold">Major Subject :&nbsp; &nbsp; &nbsp;  <%= locals.appliedUser.paper1 %></p>
-                                    <p class="mb-1 fw-bold">Category :&nbsp; &nbsp; &nbsp;  <%= locals.appliedUser.category %></p>
-                                    <p class="mb-1 fw-bold">Receipt No :&nbsp; &nbsp;    <%= locals.appliedUser.receiptNo %></p>
+                                    <p class="mb-1 fw-bold">E-mail Id :&nbsp; &nbsp; &nbsp; <%= locals.appliedUser.email
+                                            %>
+                                    </p>
+                                    <p class="mb-1 fw-bold">Mobile No :&nbsp; &nbsp; &nbsp; <%=
+                                            locals.appliedUser.mobileNumber %>
+                                    </p>
+                                    <p class="mb-1 fw-bold">Major Subject :&nbsp; &nbsp; &nbsp; <%=
+                                            locals.appliedUser.paper1 %>
+                                    </p>
+                                    <p class="mb-1 fw-bold">Category :&nbsp; &nbsp; &nbsp; <%=
+                                            locals.appliedUser.category %>
+                                    </p>
+                                    <p class="mb-1 fw-bold">Receipt No :&nbsp; &nbsp; <%= locals.appliedUser.receiptNo
+                                            %>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +145,8 @@
                                             </td>
                                             <td></td>
                                             <td></td>
-                                            <td class="text-end">₹<%= locals.appliedUser.admissionFee %></td>
+                                            <td class="text-end">₹<%= locals.appliedUser.admissionFee %>
+                                            </td>
                                         </tr>
                                         <!-- end tr -->
                                     </tbody><!-- end tbody -->
@@ -127,7 +167,8 @@
                                         <div class="text-muted">
                                             <p class="mb-1">Online</p>
                                             <p class="mb-1">UPI</p>
-                                            <p class="mb-1 fw-bold">₹<%= locals.appliedUser.admissionFee %></p>
+                                            <p class="mb-1 fw-bold">₹<%= locals.appliedUser.admissionFee %>
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -138,15 +179,20 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="text-muted text-end">
-                                            <p class="mb-1"><%= locals.appliedUser.dateAndTimeOfPayment %></p>
-                                            <p class="mb-1"><%= locals.appliedUser.paymentId %></p>
+                                            <p class="mb-1">
+                                                <%= locals.appliedUser.dateAndTimeOfPayment %>
+                                            </p>
+                                            <p class="mb-1">
+                                                <%= locals.appliedUser.paymentId %>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <p class="mb-1 mt-3 fw-bold">Online Fee Paid </p>
 
-                                <div class="mt-4 mb-1">This is computer generated Receipt. Does not required signature</div>
+                                <div class="mt-4 mb-1">This is computer generated Receipt. Does not required signature
+                                </div>
                             </div>
 
                             <div class="d-print-none mt-4">
