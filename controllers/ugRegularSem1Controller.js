@@ -5,11 +5,13 @@ import jwt from 'jsonwebtoken'
 import twilio from 'twilio'
 import qrcode from 'qrcode'
 import ugRegularSem1MeritList from "../models/adminModel/ugRegularSem1MeritList.js"
+import fast2sms from 'fast-two-sms'
+import unirest from 'unirest'
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID
 const authToken = process.env.TWILIO_AUTH_TOKEN
 
-const twilioClient = new twilio(accountSid, authToken)
+// const twilioClient = twilio(accountSid, authToken)
 
 const ugRegularSem1 = async (req, res) => {
     res.render('ugRegularSem1')
@@ -18,6 +20,7 @@ const ugRegularSem1 = async (req, res) => {
 const ugRegularSem1Post = async (req, res) => {
     try {
         let { course, referenceNumber, mobileNumber } = req.body
+        // console.log(course, referenceNumber, mobileNumber)
 
         // Generate Password Function
         let generatePassword = () => {
@@ -28,19 +31,70 @@ const ugRegularSem1Post = async (req, res) => {
             return pass
         }
         let genPassword = generatePassword()
+        console.log(genPassword);
+
 
         const isExistRefNoINMeritList = await ugRegularSem1MeritList.findOne({ appNo: referenceNumber })
+        // console.log(isExistRefNoINMeritList);
+
 
         if (isExistRefNoINMeritList != null) {
             const existReferenceNumber = await ugRegularSem1AdmissionPortal.findOne({ referenceNumber })
+            // console.log(existReferenceNumber);
+
 
             if (existReferenceNumber === null) {
 
-                await twilioClient.messages.create({
-                    body: `Dear Student,\nYour login User Id is ${referenceNumber} & Password is ${genPassword}\nMD College, Naubatpur`,
-                    to: "+91" + mobileNumber,
-                    from: process.env.TWILIO_PHONE_NUMBER
-                })
+
+
+                var req = unirest("GET", "https://www.fast2sms.com/dev/bulkV2");
+
+                req.query({
+                    "authorization": "mK5y0RqbCxGxGEfGVyXK17GmLalkWvX17xgq59bLevrgzULNqglUrM5mmBjB",
+                    "message": `Dear Student,\nYour login User Id is ${referenceNumber} & Password is ${genPassword}\nMD College, Naubatpur`,
+                    "language": "english",
+                    "route": "q",
+                    "numbers": mobileNumber,
+                });
+
+                req.headers({
+                    "cache-control": "no-cache"
+                });
+
+
+                req.end(function (res) {
+                    if (res.error) throw new Error(res.error);
+
+                    console.log(res.body);
+                });
+
+
+                // ---------------------------------------------------------------------------------------------
+
+                // let options = {
+                //     authorization : "mK5y0RqbCxGxGEfGVyXK17GmLalkWvX17xgq59bLevrgzULNqglUrM5mmBjB",
+                //     message: `Dear Student,\nYour login User Id is ${referenceNumber} & Password is ${genPassword}\nMD College, Naubatpur`,
+                //     numbers: [`${mobileNumber}`]
+                // }
+
+                // fast2sms.sendMessage(options)
+                //     .then((response) => {
+                //         console.log(response)
+                //     })
+                //     .catch((error) => {
+                //         console.log(error)
+                //     })
+
+                // console.log("Message sent")
+
+                // -----------------------------------------------------------------------------
+
+                // await twilioClient.messages.create({
+                //     from: process.env.TWILIO_PHONE_NUMBER,
+                //     body: `Dear Student,\nYour login User Id is ${referenceNumber} & Password is ${genPassword}\nMD College, Naubatpur`,
+                //     to: "+91" + mobileNumber
+                // })
+                //     .then(message => console.log("Error", message.sid))
 
                 const newUser = new ugRegularSem1AdmissionPortal({
                     course,
@@ -121,17 +175,55 @@ const ugRegularSem1AdmFormPost = async (req, res) => {
         const appliedUser = await ugRegularSem1AdmissionForm.findOne({ appliedBy: user._id.toString() })
 
         let admissionFee = ""
+        let collegeRollNo = ""
 
-        const collCount = await ugRegularSem1AdmissionForm.countDocuments()
-        // console.log(collCount);
-        let collegeRollNo = collCount + 1
-        // console.log(collegeRollNo);
-        const existAdmNo = await ugRegularSem1AdmissionForm.findOne({ collegeRollNo })
-        if (existAdmNo != null) {
-            collegeRollNo = existAdmNo.collegeRollNo - 1
+        //Test start
+        let Physics = await ugRegularSem1AdmissionForm.find({ paper1: "Physics" })
+        let physicsCount = Physics.length
+        console.log("183",physicsCount)
+        let Chemistry = await ugRegularSem1AdmissionForm.find({ paper1: "Chemistry" })
+        let ChemistryCount = Chemistry.length
+        console.log("186",ChemistryCount)
+        let Zoology = await ugRegularSem1AdmissionForm.find({ paper1: "Zoology" })
+        let ZoologyCount = Zoology.length
+        console.log("189",ZoologyCount)
+        let Botany = await ugRegularSem1AdmissionForm.find({ paper1: "Botany" })
+        let BotanyCount = Botany.length
+        console.log("192",BotanyCount)
+        let Mathematics = await ugRegularSem1AdmissionForm.find({ paper1: "Mathematics" })
+        let MathematicsCount = Mathematics.length
+        console.log("195",MathematicsCount)
+
+        let totalSciStu = physicsCount + ChemistryCount + ZoologyCount + BotanyCount + MathematicsCount
+
+        if (paper1 === "Physics" || paper1 === "Chemistry" || paper1 === "Zoology" || paper1 === "Botany" || paper1 === "Mathematics") {
+
+            collegeRollNo = `BS${totalSciStu}`
+            const existRollNo = await ugRegularSem1AdmissionForm.findOne({ collegeRollNo })
+
+            if (existRollNo != null) {
+                collegeRollNo = `BS${Number(existRollNo.collegeRollNo.slice(2)) + 1}`
+            } else {
+                collegeRollNo = `BS${totalSciStu + 1}`
+            }
+
         } else {
-            collegeRollNo = collCount + 1
+            const totalStu = await ugRegularSem1AdmissionForm.countDocuments()
+            console.log("212",totalStu);
+            
+            let totalArtsStu = totalStu - totalSciStu
+            collegeRollNo = `BA${totalArtsStu}`
+
+            const existRollNo = await ugRegularSem1AdmissionForm.findOne({ collegeRollNo })
+
+            if (existRollNo != null) {
+                collegeRollNo = `BA${Number(existRollNo.collegeRollNo.slice(2)) + 1}`
+            } else {
+                collegeRollNo = `BA${totalArtsStu + 1}`
+            }
+
         }
+        //Test end 
 
         if (appliedUser == null) {
             const images = req.files
@@ -151,21 +243,21 @@ const ugRegularSem1AdmFormPost = async (req, res) => {
                 if (user.course === "Bachelor of Science" || paper1 === "Psychology") {
                     if (category === "GENERAL" || category === "BC-2") {
                         admissionFee = 3455
-                    } else if (category === "BC-1"){
+                    } else if (category === "BC-1") {
                         admissionFee = 2855
-                    }else{
+                    } else {
                         admissionFee = 1200
                     }
                 } else {
                     if (category === "GENERAL" || category === "BC-2") {
                         admissionFee = 2855
-                    } else if (category === "BC-1"){
+                    } else if (category === "BC-1") {
                         admissionFee = 2255
-                    }else{
+                    } else {
                         admissionFee = 600
                     }
                 }
-                
+
             } else {
                 if (user.course === "Bachelor of Science" || paper1 === "Psychology") {
                     admissionFee = 1200
@@ -206,19 +298,19 @@ const ugRegularSem1Pay = async (req, res) => {
             qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2855&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
-        }else if (appliedUser.admissionFee === "2255"){
+        } else if (appliedUser.admissionFee === "2255") {
             qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2255&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
-        }else if (appliedUser.admissionFee === "600"){
+        } else if (appliedUser.admissionFee === "600") {
             qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=600&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
-        }else if (appliedUser.admissionFee === "3455"){
+        } else if (appliedUser.admissionFee === "3455") {
             qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=3455&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
-        }else if (appliedUser.admissionFee === "1200"){
+        } else if (appliedUser.admissionFee === "1200") {
             qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=1200&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
@@ -254,14 +346,12 @@ const ugRegularSem1PayPage = async (req, res) => {
         await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { dateAndTimeOfPayment } })
 
         await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentId: refNo } })
-
         await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: true } })
         await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { receiptNo } })
 
         res.redirect("ugRegularSem1Receipt")
     } catch (error) {
         console.log(error);
-        
     }
 }
 
@@ -280,7 +370,7 @@ const ugRegularSem1Receipt = async (req, res) => {
     }
 }
 
-const ugRegularSem1ExamForm = async (req, res) =>{
+const ugRegularSem1ExamForm = async (req, res) => {
     try {
         const user = await ugRegularSem1AdmissionPortal.findOne({ _id: req.id })
         const appliedUser = await ugRegularSem1AdmissionForm.findOne({ appliedBy: user._id.toString() })

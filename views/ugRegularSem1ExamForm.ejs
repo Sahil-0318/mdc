@@ -27,7 +27,7 @@
                                 <h6>ADMISSION FORM - 
                                     <% if (locals.user) { %>
                                      <% if (locals.user.course === "Bachelor of Arts (Social Science Subjects)") { %>
-                                        B.A Pol. Sc. (<%= locals.appliedUser.paper1 %>) Sem - I
+                                        B.A Social Sc. (<%= locals.appliedUser.paper1 %>) Sem - I
                                     <% } else if (locals.user.course === "Bachelor of Arts (Humanities Subjects)") { %>
                                         B.A Humanities (<%= locals.appliedUser.paper1 %>) Sem - I
                                     <% } else { %>
@@ -35,7 +35,7 @@
                                      <% } %>
                                     <% } %>
                                 </h6>
-                                <h3>SESSION 2024-28, Roll No: <%= locals.appliedUser.collegeRollNo %></h3>
+                                <h3>SESSION 2024-28, Roll No: <%= locals.appliedUser.collegeRollNo.slice(2) %></h3>
                                 <div><b>College Copy</b></div>
                             </div>
                             <div class="mb-4">
