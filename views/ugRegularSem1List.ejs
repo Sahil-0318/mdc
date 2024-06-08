@@ -118,8 +118,10 @@
                                                                 <th scope="col">Student's Name</th>
                                                                 <th scope="col">Father's Name</th>
                                                                 <th scope="col">Ref. No.</th>
-                                                                <th scope="col">Category</th>
                                                                 <th scope="col">MJC-1</th>
+                                                                <th scope="col">Category</th>
+                                                                <th scope="col">Adm Fee</th>
+                                                                <th scope="col">Payment ID</th>
                                                                 <th scope="col">View</th>
                                                                 <th scope="col">Verification</th>
                                                             </tr>
@@ -141,10 +143,16 @@
                                                                             <%= element.referenceNumber%>
                                                                         </td>
                                                                         <td>
+                                                                            <%= element.paper1%>
+                                                                        </td>
+                                                                        <td>
                                                                             <%= element.category%>
                                                                         </td>
                                                                         <td>
-                                                                            <%= element.paper1%>
+                                                                            <%= element.admissionFee%>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= element.paymentId%>
                                                                         </td>
                                                                         <td>
                                                                             <a href="/student-view/<%= element._id %>"
