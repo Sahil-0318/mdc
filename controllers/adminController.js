@@ -231,7 +231,6 @@ const downloadExcel = async (req, res) => {
       })
     })
 
-    // const csvFields = ['Full Name', 'Roll No.', 'Session', 'Aadhar No.']
     const csvParser = new CsvParser()
     const csvData = csvParser.parse(users)
 
@@ -525,24 +524,15 @@ const ugRegularSem1List = async (req, res) => {
 const findStuInUGRegSem1Adm = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    let { findStuRefNo, findStuPPUConfiNo } = req.body
+    let { findStuRefNo } = req.body
 
-    if (findStuRefNo !== '' && findStuPPUConfiNo === "") {
+    if (findStuRefNo !== '') {
       let foundStudent = await ugRegularSem1AdmissionForm.find({ referenceNumber: findStuRefNo })
       res.render('ugRegularSem1List', { list: foundStudent, status: "Found", noOfForms: foundStudent.length, user })
 
-    } else if (findStuRefNo === '' && findStuPPUConfiNo !== "") {
-      let foundStudent = await ugRegularSem1AdmissionForm.find({ ppuConfidentialNumber: findStuPPUConfiNo })
-      res.render('ugRegularSem1List', { list: foundStudent, status: "Found", noOfForms: foundStudent.length, user })
-
-    } else if (findStuRefNo !== '' && findStuPPUConfiNo !== "") {
-      let foundStudent = await ugRegularSem1AdmissionForm.find({ referenceNumber: findStuRefNo, ppuConfidentialNumber: findStuPPUConfiNo })
-      res.render('ugRegularSem1List', { list: foundStudent, status: "Found", noOfForms: foundStudent.length, user })
-
-    } else if (findStuRefNo === '' && findStuPPUConfiNo === "") {
+    } else if (findStuRefNo === '') {
       const foundStudent = await ugRegularSem1AdmissionForm.find({ isPaid: true })
-      res.render('ugRegularSem1List', { list: foundStudent, status: "All", formAlert: "Please, Enter Ref No or PPU Confidential No.", noOfForms: foundStudent.length, user })
-      // res.render('admissionFormList', { formAlert: "Please, Enter Student Name or Ref No", user })
+      res.render('ugRegularSem1List', { list: foundStudent, status: "All", formAlert: "Please, Enter Ref No", noOfForms: foundStudent.length, user })
     }
 
   } catch (error) {
@@ -578,7 +568,138 @@ const verifyUgRegSem1Stu = async (req, res) => {
   }
 }
 
+const datewiseUgRegSem1List = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    let { course, findAdmDateFrom, findAdmDateTo } = req.body
+    console.log(course)
 
+    const changedate = (date) => {
+      let originalDate = date;
+      // Split the date string
+      let parts = originalDate.split("-");
+      // Rearrange and join the parts
+      let formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+      return formattedDate
+    }
+
+    let results = ""
+    let status = ""
+
+    // subject query function
+    let subjectQuery = (subject) => {
+      let query = {
+        dateAndTimeOfPayment: {
+          $gte: changedate(findAdmDateFrom) + " 00:00:00",
+          $lte: changedate(findAdmDateTo) + " 23:59:59"
+        },
+        isPaid: true,
+        paper1: subject
+      };
+      return query
+    }
+
+
+    // drop down list query
+    if (course === "All courses") {
+      let query = {
+        dateAndTimeOfPayment: {
+          $gte: changedate(findAdmDateFrom) + " 00:00:00",
+          $lte: changedate(findAdmDateTo) + " 23:59:59"
+        },
+        isPaid: true
+      };
+
+      results = await ugRegularSem1AdmissionForm.find(query)
+      status = "All"
+    } else if (course === "Bachelor of Arts") {
+
+      let EconomicsResult = await ugRegularSem1AdmissionForm.find(subjectQuery("Economics"))
+      let HistoryResult = await ugRegularSem1AdmissionForm.find(subjectQuery("History"))
+      let PoliticalScienceResult = await ugRegularSem1AdmissionForm.find(subjectQuery("Political Science"))
+      let PsychologyResult = await ugRegularSem1AdmissionForm.find(subjectQuery("Psychology"))
+      let SociologyResult = await ugRegularSem1AdmissionForm.find(subjectQuery("Sociology"))
+      let EnglishResult = await ugRegularSem1AdmissionForm.find(subjectQuery("English"))
+      let HindiResult = await ugRegularSem1AdmissionForm.find(subjectQuery("Hindi"))
+      let UrduResult = await ugRegularSem1AdmissionForm.find(subjectQuery("Urdu"))
+      let PhilosophyResult = await ugRegularSem1AdmissionForm.find(subjectQuery("Philosophy"))
+
+      results = [...EconomicsResult, ...HistoryResult, ...PoliticalScienceResult, ...PsychologyResult, ...SociologyResult, ...EnglishResult, ...HindiResult, ...UrduResult, ...PhilosophyResult]
+      status = "Bachelor of Arts"
+
+    } else if (course === "Bachelor of Science") {
+
+      let PhysicsResult = await ugRegularSem1AdmissionForm.find(subjectQuery("Physics"))
+      let ChemistryResult = await ugRegularSem1AdmissionForm.find(subjectQuery("Chemistry"))
+      let ZoologyResult = await ugRegularSem1AdmissionForm.find(subjectQuery("Zoology"))
+      let BotanyResult = await ugRegularSem1AdmissionForm.find(subjectQuery("Botany"))
+      let MathematicsResult = await ugRegularSem1AdmissionForm.find(subjectQuery("Mathematics"))
+
+      results = [...PhysicsResult, ...ChemistryResult, ...ZoologyResult, ...BotanyResult, ...MathematicsResult]
+      status = "Bachelor of Science"
+    } else if (course === "Economics") {
+      results = await ugRegularSem1AdmissionForm.find(subjectQuery("Economics"))
+      status = "Economics"
+    } else if (course === "History") {
+      results = await ugRegularSem1AdmissionForm.find(subjectQuery("History"))
+      status = "History"
+
+    } else if (course === "Political Science") {
+      results = await ugRegularSem1AdmissionForm.find(subjectQuery("Political Science"))
+      status = "Political Science"
+
+    } else if (course === "Psychology") {
+      results = await ugRegularSem1AdmissionForm.find(subjectQuery("Psychology"))
+      status = "Psychology"
+
+    } else if (course === "Sociology") {
+      results = await ugRegularSem1AdmissionForm.find(subjectQuery("Sociology"))
+      status = "Sociology"
+
+    } else if (course === "English") {
+      results = await ugRegularSem1AdmissionForm.find(subjectQuery("English"))
+      status = "English"
+
+    } else if (course === "Hindi") {
+      results = await ugRegularSem1AdmissionForm.find(subjectQuery("Hindi"))
+      status = "Hindi"
+
+    } else if (course === "Urdu") {
+      results = await ugRegularSem1AdmissionForm.find(subjectQuery("Urdu"))
+      status = "Urdu"
+
+    } else if (course === "Philosophy") {
+      results = await ugRegularSem1AdmissionForm.find(subjectQuery("Philosophy"))
+      status = "Philosophy"
+
+    } else if (course === "Physics") {
+      results = await ugRegularSem1AdmissionForm.find(subjectQuery("Physics"))
+      status = "Physics"
+
+    } else if (course === "Chemistry") {
+      results = await ugRegularSem1AdmissionForm.find(subjectQuery("Chemistry"))
+      status = "Chemistry"
+
+    } else if (course === "Zoology") {
+      results = await ugRegularSem1AdmissionForm.find(subjectQuery("Zoology"))
+      status = "Zoology"
+
+    } else if (course === "Botany") {
+      results = await ugRegularSem1AdmissionForm.find(subjectQuery("Botany"))
+      status = "Botany"
+
+    } else if (course === "Mathematics") {
+      results = await ugRegularSem1AdmissionForm.find(subjectQuery("Mathematics"))
+      status = "Mathematics"
+    }
+    console.log(results.length);
+
+    res.render('ugRegularSem1List', { list: results, status, noOfForms: results.length, user })
+
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export {
   adminPage,
@@ -607,5 +728,6 @@ export {
   ugRegularSem1List,
   findStuInUGRegSem1Adm,
   ugRegSem1StuView,
-  verifyUgRegSem1Stu
+  verifyUgRegSem1Stu,
+  datewiseUgRegSem1List
 }
