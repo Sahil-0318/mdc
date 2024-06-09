@@ -258,6 +258,19 @@
                 submitPopUp.innerHTML = ''
             }, 3000);
         </script>
+        <script>
+            // Get the current date
+            const currentDate = new Date();
+            currentDate.setHours(currentDate.getHours() + 6);
+            currentDate.setMinutes(currentDate.getMinutes() + 30);
+
+
+            // Format the date as YYYY-MM-DD (required by input type date)
+            const formattedDate = currentDate.toISOString().slice(0, 10);
+
+            // Set the value of the input field to the formatted date
+            document.getElementById("findAdmDateTo").value = formattedDate;
+        </script>
         </body>
 
         </html>
