@@ -113,8 +113,13 @@
                                                             <%= locals.status %> Students (<%= locals.noOfForms %>
                                                                     Forms)
                                                         </h6>
-                                                        <div class="btn btn-secondary"><a class="text-light"
-                                                                href="">Download Excel</a></div>
+
+                                                        <% if (locals.course && locals.findAdmDateFrom && locals.findAdmDateTo) { %>
+                                                            <div class="btn btn-secondary"><a class="text-light"
+                                                                href="/ugRegSem1Excel/<%= locals.course %>/<%= locals.findAdmDateFrom %>/<%= locals.findAdmDateTo %>">Download Excel</a></div>
+                                                        <% } %>
+
+                                                        
                                                     </div>
                                                     <!-- <div class="my-3"> -->
                                                     <form class="d-flex gap-2" action="/ugRegularSem1List"

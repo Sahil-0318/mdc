@@ -30,7 +30,8 @@ import {
     findStuInUGRegSem1Adm,
     ugRegSem1StuView,
     verifyUgRegSem1Stu,
-    datewiseUgRegSem1List
+    datewiseUgRegSem1List,
+    ugRegSem1Excel
  } 
  from '../controllers/adminController.js'
 
@@ -89,6 +90,8 @@ import {
  adminRouter.get('/verify-student/:Id', adminAuth, verifyUgRegSem1Stu)
 
  adminRouter.post('/datewiseUgRegSem1List', adminAuth, datewiseUgRegSem1List)
+
+ adminRouter.get('/ugRegSem1Excel/:course/:findAdmDateFrom/:findAdmDateTo', adminAuth, ugRegSem1Excel)
 
 
 

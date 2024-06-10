@@ -11,7 +11,7 @@ import unirest from 'unirest'
 const accountSid = process.env.TWILIO_ACCOUNT_SID
 const authToken = process.env.TWILIO_AUTH_TOKEN
 
-// const twilioClient = twilio(accountSid, authToken)
+const twilioClient = twilio(accountSid, authToken)
 
 const ugRegularSem1 = async (req, res) => {
     res.render('ugRegularSem1')
@@ -47,26 +47,26 @@ const ugRegularSem1Post = async (req, res) => {
 
 
 
-                var req = unirest("GET", "https://www.fast2sms.com/dev/bulkV2");
+                // var req = unirest("GET", "https://www.fast2sms.com/dev/bulkV2");
 
-                req.query({
-                    "authorization": "mK5y0RqbCxGxGEfGVyXK17GmLalkWvX17xgq59bLevrgzULNqglUrM5mmBjB",
-                    "message": `Dear Student,\nYour login User Id is ${referenceNumber} & Password is ${genPassword}\nMD College, Naubatpur`,
-                    "language": "english",
-                    "route": "q",
-                    "numbers": mobileNumber,
-                });
+                // req.query({
+                //     "authorization": "mK5y0RqbCxGxGEfGVyXK17GmLalkWvX17xgq59bLevrgzULNqglUrM5mmBjB",
+                //     "message": `Dear Student,\nYour login User Id is ${referenceNumber} & Password is ${genPassword}\nMD College, Naubatpur`,
+                //     "language": "english",
+                //     "route": "q",
+                //     "numbers": mobileNumber,
+                // });
 
-                req.headers({
-                    "cache-control": "no-cache"
-                });
+                // req.headers({
+                //     "cache-control": "no-cache"
+                // });
 
 
-                req.end(function (res) {
-                    if (res.error) throw new Error(res.error);
+                // req.end(function (res) {
+                //     if (res.error) throw new Error(res.error);
 
-                    console.log(res.body);
-                });
+                //     console.log(res.body);
+                // });
 
 
                 // ---------------------------------------------------------------------------------------------
@@ -89,12 +89,12 @@ const ugRegularSem1Post = async (req, res) => {
 
                 // -----------------------------------------------------------------------------
 
-                // await twilioClient.messages.create({
-                //     from: process.env.TWILIO_PHONE_NUMBER,
-                //     body: `Dear Student,\nYour login User Id is ${referenceNumber} & Password is ${genPassword}\nMD College, Naubatpur`,
-                //     to: "+91" + mobileNumber
-                // })
-                //     .then(message => console.log("Error", message.sid))
+                await twilioClient.messages.create({
+                    from: process.env.TWILIO_PHONE_NUMBER,
+                    body: `Dear Student,\nYour login User Id is ${referenceNumber} & Password is ${genPassword}\nMD College, Naubatpur`,
+                    to: "+91" + mobileNumber
+                })
+                    .then(message => console.log("Error", message.sid))
 
                 const newUser = new ugRegularSem1AdmissionPortal({
                     course,
