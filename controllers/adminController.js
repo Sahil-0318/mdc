@@ -853,7 +853,7 @@ const ugRegSem1Excel = async (req, res) => {
       "Payment Id": paymentId,
       "Student Photo": studentPhoto,
       "Student Sign": studentSign
-      
+
     })
 
     console.log(users)
@@ -872,6 +872,69 @@ const ugRegSem1Excel = async (req, res) => {
 
 
 }
+
+const ugRegSem1Password = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const userIdAndPasswordList = await ugRegularSem1AdmissionPortal.find({})
+    res.render("ugRegSem1PasswordList", { list: userIdAndPasswordList, status: "All", noOfForms: userIdAndPasswordList.length, user })
+  } catch (error) {
+    console.log(error)
+  }
+
+}
+
+const editUserId = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { id } = req.params
+
+    const foundStudent = await ugRegularSem1AdmissionPortal.findOne({ _id: id })
+    const selectedValue = foundStudent.course
+    console.log(selectedValue)
+    // const foundStudentID = await ugRegularSem1AdmissionPortal.findOne({ _id: foundStudent.appliedBy })
+    res.render("editUserIdForm", { selectedValue, foundStudent, user })
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const editUserIdPost = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { editId } = req.params
+    const { course, referenceNumber, mobileNumber, userId, password } = req.body
+    // console.log(editId, course, mobNo)
+
+    await ugRegularSem1AdmissionPortal.findOneAndUpdate({ _id: editId }, { $set: { course, referenceNumber, mobileNumber, userId, password } })
+
+    res.redirect('/ugRegSem1Password')
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const findUserId = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { findStuRefNo } = req.body
+
+    if (findStuRefNo !== '') {
+      let foundStudent = await ugRegularSem1AdmissionPortal.find({ referenceNumber: findStuRefNo })
+      res.render("ugRegSem1PasswordList", { list: foundStudent, status: "Found", noOfForms: foundStudent.length, user })
+      
+      } else if (findStuRefNo === '') {
+        const foundStudent = await ugRegularSem1AdmissionPortal.find({ })
+        res.render("ugRegSem1PasswordList", { list: foundStudent, status: "All", formAlert: "Please, Enter Ref No", noOfForms: foundStudent.length, user })
+    }
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 
 export {
   adminPage,
@@ -902,5 +965,9 @@ export {
   ugRegSem1StuView,
   verifyUgRegSem1Stu,
   datewiseUgRegSem1List,
-  ugRegSem1Excel
+  ugRegSem1Excel,
+  ugRegSem1Password,
+  editUserId,
+  editUserIdPost,
+  findUserId
 }

@@ -31,7 +31,11 @@ import {
     ugRegSem1StuView,
     verifyUgRegSem1Stu,
     datewiseUgRegSem1List,
-    ugRegSem1Excel
+    ugRegSem1Excel,
+    ugRegSem1Password,
+    editUserId,
+    editUserIdPost,
+    findUserId
  } 
  from '../controllers/adminController.js'
 
@@ -84,15 +88,22 @@ import {
  adminRouter.get('/ugRegularSem1List', adminAuth, ugRegularSem1List)
 
  adminRouter.post('/ugRegularSem1List', adminAuth, findStuInUGRegSem1Adm)
-
+ 
  adminRouter.get('/student-view/:stuId', adminAuth, ugRegSem1StuView)
-
+ 
  adminRouter.get('/verify-student/:Id', adminAuth, verifyUgRegSem1Stu)
-
+ 
  adminRouter.post('/datewiseUgRegSem1List', adminAuth, datewiseUgRegSem1List)
-
+ 
  adminRouter.get('/ugRegSem1Excel/:course/:findAdmDateFrom/:findAdmDateTo', adminAuth, ugRegSem1Excel)
-
+ 
+ adminRouter.get('/ugRegSem1Password', adminAuth, ugRegSem1Password)
+ 
+ adminRouter.get('/editUserId/:id', adminAuth, editUserId)
+ 
+ adminRouter.post('/editUserIdForm/:editId', adminAuth, editUserIdPost)
+ 
+ adminRouter.post('/findUserId', adminAuth, findUserId)
 
 
 export default adminRouter
