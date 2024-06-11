@@ -7,6 +7,7 @@ import qrcode from 'qrcode'
 import ugRegularSem1MeritList from "../models/adminModel/ugRegularSem1MeritList.js"
 import fast2sms from 'fast-two-sms'
 import unirest from 'unirest'
+import axios from "axios"
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID
 const authToken = process.env.TWILIO_AUTH_TOKEN
@@ -22,16 +23,16 @@ const ugRegularSem1Post = async (req, res) => {
         let { course, referenceNumber, mobileNumber } = req.body
         // console.log(course, referenceNumber, mobileNumber)
 
-        // Generate Password Function
-        let generatePassword = () => {
+        // Generate OTP Function
+        let generateOTP = () => {
             let pass = ""
-            for (let index = 0; index < 8; index++) {
+            for (let index = 0; index < 4; index++) {
                 pass = pass + Math.floor(Math.random() * 10)
             }
             return pass
         }
-        let genPassword = generatePassword()
-        console.log(genPassword);
+        let genPassword = generateOTP()
+        console.log(genPassword, "Generated OTP");
 
 
         const isExistRefNoINMeritList = await ugRegularSem1MeritList.findOne({ appNo: referenceNumber })
@@ -45,56 +46,32 @@ const ugRegularSem1Post = async (req, res) => {
 
             if (existReferenceNumber === null) {
 
+                var req = unirest("POST", "https://www.fast2sms.com/dev/voice");
 
+                req.headers({
+                    "authorization": process.env.FAST2SMS_API
+                });
 
-                var req = unirest("GET", "https://www.fast2sms.com/dev/bulkV2");
-
-                req.query({
-                    "authorization": "mK5y0RqbCxGxGEfGVyXK17GmLalkWvX17xgq59bLevrgzULNqglUrM5mmBjB",
-                    "message": `Dear Student,\nYour login User Id is ${referenceNumber} & Password is ${genPassword}\nMD College, Naubatpur`,
-                    "language": "english",
-                    "route": "q",
+                req.form({
+                    "variables_values": genPassword,
+                    "route": "otp",
                     "numbers": mobileNumber,
                 });
 
-                req.headers({
-                    "cache-control": "no-cache"
-                });
-
-
                 req.end(function (res) {
-                    if (res.error) throw new Error(res.error);
+                    if (res.error) {
+                        console.error('Request error:', res.error);
+                        return; // Exit the function if there's an error
+                    }
 
-                    console.log(res.body);
+                    if (res.status >= 400) {
+                        console.error('Error response:', res.status, res.body);
+                        return; // Exit the function if the response status code indicates an error
+                    }
+
+                    console.log('Success:', res.body);
                 });
 
-
-                // ---------------------------------------------------------------------------------------------
-
-                // let options = {
-                //     authorization : "mK5y0RqbCxGxGEfGVyXK17GmLalkWvX17xgq59bLevrgzULNqglUrM5mmBjB",
-                //     message: `Dear Student,\nYour login User Id is ${referenceNumber} & Password is ${genPassword}\nMD College, Naubatpur`,
-                //     numbers: [`${mobileNumber}`]
-                // }
-
-                // fast2sms.sendMessage(options)
-                //     .then((response) => {
-                //         console.log(response)
-                //     })
-                //     .catch((error) => {
-                //         console.log(error)
-                //     })
-
-                // console.log("Message sent")
-
-                // -----------------------------------------------------------------------------
-
-                // await twilioClient.messages.create({
-                //     from: process.env.TWILIO_PHONE_NUMBER,
-                //     body: `Dear Student,\nYour login User Id is ${referenceNumber} & Password is ${genPassword}\nMD College, Naubatpur`,
-                //     to: "+91" + mobileNumber
-                // })
-                //     .then(message => console.log("Error", message.sid))
 
                 const newUser = new ugRegularSem1AdmissionPortal({
                     course,
@@ -105,7 +82,8 @@ const ugRegularSem1Post = async (req, res) => {
                 })
 
                 const registered = await newUser.save();
-                res.status(201).redirect('ug-regular-sem-1-login')
+                // res.status(201).redirect('ug-regular-sem-1-login')
+                res.render("otp" , {OTPComesFrom : "Register", OTPNumber : mobileNumber})
             } else {
                 res.render('ugRegularSem1', { "invalid": 'Reference No already register' });
             }
@@ -128,29 +106,143 @@ const ugRegularSem1Logout = async (req, res) => {
     res.status(201).redirect('ug-regular-sem-1-login')
 }
 
-const ugRegularSem1LoginPost = async (req, res) => {
+const otpForm = async (req, res) => {
     try {
-        const { userId, password } = req.body
-        const foundUser = await ugRegularSem1AdmissionPortal.findOne({ userId })
+        const { otpInput, OTP } = req.body
+        const foundUser = await ugRegularSem1AdmissionPortal.findOne({ password: otpInput })
+        // console.log(foundUser, "otp submission time")
         if (foundUser != null) {
-            if (password === foundUser.password) {
+            if (otpInput === foundUser.password) {
                 const token = jwt.sign({
                     id: foundUser._id,
                     course: foundUser.course,
                     referenceNumber: foundUser.referenceNumber
                 }, process.env.SECRET_KEY,
-                    { expiresIn: "1d" })
-                res.cookie('uid', token, { maxAge: 60 * 60 * 1000, httpOnly: true })
+                    { expiresIn: "7d" })
+                res.cookie('uid', token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true })
 
                 res.status(201).redirect('ug-reg-adm-form')
             } else {
-                res.render('ugRegularSem1Login', { "invalid": "Invalid Username or Password" })
+                res.render('otp', { "invalid": "Invalid OTP" })
             }
+        } else {
+            if (OTP=== "Login") {
+                return res.redirect('ug-regular-sem-1-login')
+            }
+            return res.redirect('ug-regular-sem-1')
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const resendOTP = async (req, res) =>{
+    const {mobNum} = req.params
+    try {
+        const foundUser = await ugRegularSem1AdmissionPortal.findOne({ mobileNumber : mobNum })
+
+        // Generate OTP Function
+        let generateOTP = () => {
+            let pass = ""
+            for (let index = 0; index < 4; index++) {
+                pass = pass + Math.floor(Math.random() * 10)
+            }
+            return pass
+        }
+        let genPassword = generateOTP()
+        console.log(genPassword, "Resend OTP");
+
+        if (foundUser != null) {
+
+            await ugRegularSem1AdmissionPortal.findOneAndUpdate({ mobileNumber : mobNum }, { $set: { password: genPassword } })
+
+            var req = unirest("POST", "https://www.fast2sms.com/dev/voice");
+
+            req.headers({
+                "authorization": process.env.FAST2SMS_API
+            });
+
+            req.form({
+                "variables_values": genPassword,
+                "route": "otp",
+                "numbers": mobNum,
+            });
+
+            req.end(function (res) {
+                if (res.error) {
+                    console.error('Request error:', res.error);
+                    return; // Exit the function if there's an error
+                }
+
+                if (res.status >= 400) {
+                    console.error('Error response:', res.status, res.body);
+                    return; // Exit the function if the response status code indicates an error
+                }
+
+                console.log('Success:', res.body);
+            });
+            res.render("otp" , {OTPComesFrom : "Login", OTPNumber : mobNum })
+
         } else {
             return res.redirect('ug-regular-sem-1')
         }
     } catch (error) {
+        console.log(error)
+    }
+}
 
+const ugRegularSem1LoginPost = async (req, res) => {
+    try {
+        const { mobileNumber } = req.body
+        const foundUser = await ugRegularSem1AdmissionPortal.findOne({ mobileNumber })
+
+        // Generate OTP Function
+        let generateOTP = () => {
+            let pass = ""
+            for (let index = 0; index < 4; index++) {
+                pass = pass + Math.floor(Math.random() * 10)
+            }
+            return pass
+        }
+        let genPassword = generateOTP()
+        console.log(genPassword, "Generated OTP in Login page");
+
+        if (foundUser != null) {
+
+            await ugRegularSem1AdmissionPortal.findOneAndUpdate({ mobileNumber }, { $set: { password: genPassword } })
+
+            var req = unirest("POST", "https://www.fast2sms.com/dev/voice");
+
+            req.headers({
+                "authorization": process.env.FAST2SMS_API
+            });
+
+            req.form({
+                "variables_values": genPassword,
+                "route": "otp",
+                "numbers": mobileNumber,
+            });
+
+            req.end(function (res) {
+                if (res.error) {
+                    console.error('Request error:', res.error);
+                    return; // Exit the function if there's an error
+                }
+
+                if (res.status >= 400) {
+                    console.error('Error response:', res.status, res.body);
+                    return; // Exit the function if the response status code indicates an error
+                }
+
+                console.log('Success:', res.body);
+            });
+            res.render("otp" , {OTPComesFrom : "Login", OTPNumber : mobileNumber })
+
+        } else {
+            return res.redirect('ug-regular-sem-1')
+        }
+    } catch (error) {
+        console.log(error)
     }
 }
 
@@ -180,19 +272,19 @@ const ugRegularSem1AdmFormPost = async (req, res) => {
         //Test start
         let Physics = await ugRegularSem1AdmissionForm.find({ paper1: "Physics" })
         let physicsCount = Physics.length
-        console.log("183",physicsCount)
+        console.log("183", physicsCount)
         let Chemistry = await ugRegularSem1AdmissionForm.find({ paper1: "Chemistry" })
         let ChemistryCount = Chemistry.length
-        console.log("186",ChemistryCount)
+        console.log("186", ChemistryCount)
         let Zoology = await ugRegularSem1AdmissionForm.find({ paper1: "Zoology" })
         let ZoologyCount = Zoology.length
-        console.log("189",ZoologyCount)
+        console.log("189", ZoologyCount)
         let Botany = await ugRegularSem1AdmissionForm.find({ paper1: "Botany" })
         let BotanyCount = Botany.length
-        console.log("192",BotanyCount)
+        console.log("192", BotanyCount)
         let Mathematics = await ugRegularSem1AdmissionForm.find({ paper1: "Mathematics" })
         let MathematicsCount = Mathematics.length
-        console.log("195",MathematicsCount)
+        console.log("195", MathematicsCount)
 
         let totalSciStu = physicsCount + ChemistryCount + ZoologyCount + BotanyCount + MathematicsCount
 
@@ -209,8 +301,8 @@ const ugRegularSem1AdmFormPost = async (req, res) => {
 
         } else {
             const totalStu = await ugRegularSem1AdmissionForm.countDocuments()
-            console.log("212",totalStu);
-            
+            console.log("212", totalStu);
+
             let totalArtsStu = totalStu - totalSciStu
             collegeRollNo = `BA${totalArtsStu}`
 
@@ -391,6 +483,8 @@ export {
     ugRegularSem1Login,
     ugRegularSem1Logout,
     ugRegularSem1LoginPost,
+    otpForm,
+    resendOTP,
     ugRegularSem1AdmForm,
     ugRegularSem1AdmFormPost,
     ugRegularSem1Pay,

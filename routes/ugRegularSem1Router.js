@@ -9,6 +9,8 @@ import {
     ugRegularSem1Login,
     ugRegularSem1Logout,
     ugRegularSem1LoginPost,
+    otpForm,
+    resendOTP,
     ugRegularSem1AdmForm,
     ugRegularSem1AdmFormPost,
     ugRegularSem1Pay,
@@ -43,6 +45,8 @@ ugRegularSem1Router.post('/ug-regular-sem-1', ugRegularSem1Post)
 ugRegularSem1Router.get('/ug-regular-sem-1-login', ugRegularSem1Login)
 ugRegularSem1Router.post('/ug-regular-sem-1-login', ugRegularSem1LoginPost)
 ugRegularSem1Router.get('/ug-regular-sem-1-logout', ugRegularSem1Logout)
+ugRegularSem1Router.post('/otpForm', otpForm)
+ugRegularSem1Router.get('/resendOTP/:mobNum', resendOTP)
 ugRegularSem1Router.get('/ug-reg-adm-form', userAuth, ugRegularSem1AdmForm)
 ugRegularSem1Router.post('/ug-reg-adm-form', userAuth, upload.array('studentPhoto'), ugRegularSem1AdmFormPost)
 ugRegularSem1Router.get('/ug-reg-sen-1-pay', userAuth, ugRegularSem1Pay)
