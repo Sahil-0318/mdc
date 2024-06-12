@@ -387,23 +387,23 @@ const ugRegularSem1Pay = async (req, res) => {
         const appliedUser = await ugRegularSem1AdmissionForm.findOne({ appliedBy: user._id.toString() })
 
         if (appliedUser.admissionFee === "2855") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2855&tn=${appliedUser.referenceNumber}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=2855&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         } else if (appliedUser.admissionFee === "2255") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2255&tn=${appliedUser.referenceNumber}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=2255&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         } else if (appliedUser.admissionFee === "600") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=600&tn=${appliedUser.referenceNumber}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=600&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         } else if (appliedUser.admissionFee === "3455") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=3455&tn=${appliedUser.referenceNumber}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=3455&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         } else if (appliedUser.admissionFee === "1200") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=1200&tn=${appliedUser.referenceNumber}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=1200&tn=${appliedUser.referenceNumber}`, function (err, src) {
                 res.status(201).render('ugRegularSem1PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         }
