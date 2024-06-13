@@ -6,6 +6,8 @@ import multer from 'multer'
 import {
     payment,
     paymentInvoice,
+    checkoutPage,
+    paymentStatus,
     paymentCourseId,
     payRefNoForm,
     receiptCourseId,
@@ -25,6 +27,8 @@ const upload = multer({
 
 paymentRouter.get('/payment', payment)
 paymentRouter.get('/redirect-url/:merchantTransactionId', paymentInvoice)
+paymentRouter.get('/checkoutPage', checkoutPage)
+paymentRouter.get('/paymentStatus', paymentStatus)
 paymentRouter.get('/payment/:course/:id',userAuth, paymentCourseId)
 paymentRouter.post('/payRefNoForm',userAuth, upload.single('paymentSS'), payRefNoForm)
 paymentRouter.get('/receipt/:course/:id',userAuth, receiptCourseId)

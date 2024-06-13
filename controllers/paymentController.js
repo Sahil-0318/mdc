@@ -111,6 +111,22 @@ const paymentInvoice = (req, res) => {
 
 }
 
+const checkoutPage = async (req, res) =>{
+    try {
+        res.render("checkoutPage")
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const paymentStatus = async (req, res) =>{
+    try {
+        res.render("paymentStatus")
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 let fee = 0
 const refNoPost = async (req, res) => {
     const { refNo } = req.body
@@ -327,6 +343,8 @@ const receiptCertificateId = async (req, res) => {
 export {
     payment,
     paymentInvoice,
+    checkoutPage,
+    paymentStatus,
     paymentCourseId,
     payRefNoForm,
     receiptCourseId,
