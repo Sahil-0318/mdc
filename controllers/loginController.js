@@ -76,7 +76,7 @@ const loginPost = async (req, res) => {
 
 const logout = async (req, res) => {
     res.clearCookie("uid");
-    res.status(201).redirect('/')
+    res.status(201).redirect('https://www.mdcollegenaubatpur.ac.in/')
 }
 
 export {

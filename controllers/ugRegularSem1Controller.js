@@ -16,15 +16,15 @@ const twilioClient = twilio(accountSid, authToken)
 
 
 //Error Page
-const ugRegularSem1 = async (req, res) => {
-    res.render('pageNotFound', {status : "UG Regular admission has been closed."})
-}
-
-
-
 // const ugRegularSem1 = async (req, res) => {
-//     res.render('ugRegularSem1')
+//     res.render('pageNotFound', {status : "UG Regular admission has been closed."})
 // }
+
+
+
+const ugRegularSem1 = async (req, res) => {
+    res.render('ugRegularSem1')
+}
 
 const ugRegularSem1Post = async (req, res) => {
     try {

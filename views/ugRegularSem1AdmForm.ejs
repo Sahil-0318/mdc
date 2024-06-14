@@ -235,7 +235,7 @@
                                                     <label for="mobileNumber" class="form-label">Mobile
                                                         Number :</label>
                                                     <input type="number" class="form-control" id="mobileNumber"
-                                                        name="mobileNumber" value=<%= locals.user.mobileNumber %> />
+                                                        name="mobileNumber" readonly value=<%= locals.user.mobileNumber %> />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
@@ -546,7 +546,7 @@
                                                 <% if (locals.appliedUser) { %>
                                                     <button type="submit" class="btn btn-primary" disabled>Submit</button>
                                                 <% } else { %>
-                                                    <button type="submit" class="btn btn-primary" disabled>Submit</button>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
                                                 <% } %>
                                                 <button type="reset" class="btn btn-secondary">Reset</button>
 
