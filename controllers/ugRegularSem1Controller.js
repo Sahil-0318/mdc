@@ -268,11 +268,22 @@ const ugRegularSem1LoginPost = async (req, res) => {
 }
 
 const ugRegularSem1AdmForm = async (req, res) => {
+    const convertDateFormat = (dateString) => {
+        const months = {
+            jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06',
+            jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12'
+        };
+        const [day, month, year] = dateString.toLowerCase().split('-');
+        const formattedDate = `20${year}-${months[month]}-${day.padStart(2, '0')}`;
+        return formattedDate;
+    };
+
     const user = await ugRegularSem1AdmissionPortal.findOne({ _id: req.id })
     // console.log(user)
     const appliedUser = await ugRegularSem1AdmissionForm.findOne({ appliedBy: user._id.toString() })
 
     const meritListTwoData = await ugRegularSem1MeritList2.findOne({ appNo: user.referenceNumber })
+    meritListTwoData.dOB = convertDateFormat(meritListTwoData.dOB);
 
     if (appliedUser != null) {
         res.render('ugRegularSem1AdmForm', { user, appliedUser })

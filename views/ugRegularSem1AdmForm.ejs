@@ -165,14 +165,14 @@
 
                                                 <div class="col-md-12 mb-3">
                                                     <label for="dOB" class="form-label">Date Of Birth :</label>
-                                                    <input type="date" class="form-control" id="dOB" name="dOB" required />
+                                                    <input type="date" class="form-control" id="dOB" name="dOB" value="<%= locals.meritListTwoData.dOB %>" required readonly/>
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
                                                     <label for="gender" class="form-label">Gender :</label>
                                                     <select id="gender" class="form-select" name="gender" required>
-                                                        <option value="MALE">MALE</option>
-                                                        <option value="FEMALE">FEMALE</option>
+                                                        <option value="MALE" <%= locals.meritListTwoData.gender === "Male" ? 'selected' : "" %>>MALE</option>
+                                                        <option value="FEMALE" <%= locals.meritListTwoData.gender === "Female" ? 'selected' : "" %>>FEMALE</option>
                                                     </select>
                                                 </div>
 
