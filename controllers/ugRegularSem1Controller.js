@@ -4,7 +4,8 @@ import FileUpload from '../fileUpload/fileUpload.js'
 import jwt from 'jsonwebtoken'
 import twilio from 'twilio'
 import qrcode from 'qrcode'
-import ugRegularSem1MeritList from "../models/adminModel/ugRegularSem1MeritList.js"
+// import ugRegularSem1MeritList from "../models/adminModel/ugRegularSem1MeritList.js"
+import ugRegularSem1MeritList2 from "../models/adminModel/ugRegularSem1MeritList2.js"
 import fast2sms from 'fast-two-sms'
 import unirest from 'unirest'
 import axios from "axios"
@@ -15,20 +16,20 @@ const authToken = process.env.TWILIO_AUTH_TOKEN
 const twilioClient = twilio(accountSid, authToken)
 
 
-//Error Page
-const ugRegularSem1 = async (req, res) => {
-    res.render('pageNotFound', {status : "UG Regular admission has been closed."})
-}
-
-
-
+// //Error Page
 // const ugRegularSem1 = async (req, res) => {
-//     res.render('ugRegularSem1')
+//     res.render('pageNotFound', {status : "UG Regular admission has been closed."})
 // }
+
+
+
+const ugRegularSem1 = async (req, res) => {
+    res.render('ugRegularSem1')
+}
 
 const ugRegularSem1Post = async (req, res) => {
     try {
-        let { course, referenceNumber, mobileNumber } = req.body
+        let { referenceNumber, mobileNumber } = req.body
         // console.log(course, referenceNumber, mobileNumber)
 
         // Generate OTP Function
@@ -43,16 +44,28 @@ const ugRegularSem1Post = async (req, res) => {
         console.log(genPassword, "Generated OTP");
 
 
-        const isExistRefNoINMeritList = await ugRegularSem1MeritList.findOne({ appNo: referenceNumber })
+        const isExistRefNoINMeritList = await ugRegularSem1MeritList2.findOne({ appNo: referenceNumber })
         // console.log(isExistRefNoINMeritList);
 
 
         if (isExistRefNoINMeritList != null) {
             const existReferenceNumber = await ugRegularSem1AdmissionPortal.findOne({ referenceNumber })
             // console.log(existReferenceNumber);
+            const existMobileNumber = await ugRegularSem1AdmissionPortal.findOne({ mobileNumber })
+            // console.log(existMobileNumber);
+
+            let course = ""
+            if (isExistRefNoINMeritList.majorSubject === "Botany" || isExistRefNoINMeritList.majorSubject === "Mathematics" || isExistRefNoINMeritList.majorSubject === "Chemistry" || isExistRefNoINMeritList.majorSubject === "Physics" || isExistRefNoINMeritList.majorSubject === "Zoology") {
+                course = "Bachelor of Science"
+
+            } else if (isExistRefNoINMeritList.majorSubject === "English" || isExistRefNoINMeritList.majorSubject === "Hindi" || isExistRefNoINMeritList.majorSubject === "Urdu" || isExistRefNoINMeritList.majorSubject === "Philosophy") {
+                course = "Bachelor of Arts (Humanities Subjects)"
+            } else {
+                course = "Bachelor of Arts (Social Science Subjects)"
+            }
 
 
-            if (existReferenceNumber === null) {
+            if (existReferenceNumber === null && existMobileNumber == null) {
 
                 var req = unirest("POST", "https://www.fast2sms.com/dev/voice");
 
@@ -91,9 +104,9 @@ const ugRegularSem1Post = async (req, res) => {
 
                 const registered = await newUser.save();
                 // res.status(201).redirect('ug-regular-sem-1-login')
-                res.render("otp" , {OTPComesFrom : "Register", OTPNumber : mobileNumber})
+                res.render("otp", { OTPComesFrom: "Register", OTPNumber: mobileNumber })
             } else {
-                res.render('ugRegularSem1', { "invalid": 'Reference No already register' });
+                res.render('ugRegularSem1', { "invalid": 'Reference No or Mobile No already register' });
             }
         } else {
             res.render('ugRegularSem1', { "invalid": 'Invalid Reference No' });
@@ -134,7 +147,7 @@ const otpForm = async (req, res) => {
                 res.render('otp', { "invalid": "Invalid OTP" })
             }
         } else {
-            if (OTP=== "Login") {
+            if (OTP === "Login") {
                 return res.redirect('ug-regular-sem-1-login')
             }
             return res.redirect('ug-regular-sem-1')
@@ -144,10 +157,10 @@ const otpForm = async (req, res) => {
     }
 }
 
-const resendOTP = async (req, res) =>{
-    const {mobNum} = req.params
+const resendOTP = async (req, res) => {
+    const { mobNum } = req.params
     try {
-        const foundUser = await ugRegularSem1AdmissionPortal.findOne({ mobileNumber : mobNum })
+        const foundUser = await ugRegularSem1AdmissionPortal.findOne({ mobileNumber: mobNum })
 
         // Generate OTP Function
         let generateOTP = () => {
@@ -162,7 +175,7 @@ const resendOTP = async (req, res) =>{
 
         if (foundUser != null) {
 
-            await ugRegularSem1AdmissionPortal.findOneAndUpdate({ mobileNumber : mobNum }, { $set: { password: genPassword } })
+            await ugRegularSem1AdmissionPortal.findOneAndUpdate({ mobileNumber: mobNum }, { $set: { password: genPassword } })
 
             var req = unirest("POST", "https://www.fast2sms.com/dev/voice");
 
@@ -189,7 +202,7 @@ const resendOTP = async (req, res) =>{
 
                 console.log('Success:', res.body);
             });
-            res.render("otp" , {OTPComesFrom : "Login", OTPNumber : mobNum })
+            res.render("otp", { OTPComesFrom: "Login", OTPNumber: mobNum })
 
         } else {
             return res.redirect('ug-regular-sem-1')
@@ -244,7 +257,7 @@ const ugRegularSem1LoginPost = async (req, res) => {
 
                 console.log('Success:', res.body);
             });
-            res.render("otp" , {OTPComesFrom : "Login", OTPNumber : mobileNumber })
+            res.render("otp", { OTPComesFrom: "Login", OTPNumber: mobileNumber })
 
         } else {
             return res.redirect('ug-regular-sem-1')
@@ -256,12 +269,15 @@ const ugRegularSem1LoginPost = async (req, res) => {
 
 const ugRegularSem1AdmForm = async (req, res) => {
     const user = await ugRegularSem1AdmissionPortal.findOne({ _id: req.id })
+    // console.log(user)
     const appliedUser = await ugRegularSem1AdmissionForm.findOne({ appliedBy: user._id.toString() })
+
+    const meritListTwoData = await ugRegularSem1MeritList2.findOne({ appNo: user.referenceNumber })
 
     if (appliedUser != null) {
         res.render('ugRegularSem1AdmForm', { user, appliedUser })
     } else {
-        res.render('ugRegularSem1AdmForm', { user })
+        res.render('ugRegularSem1AdmForm', { user, meritListTwoData })
     }
 
 }

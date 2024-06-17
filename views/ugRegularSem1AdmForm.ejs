@@ -119,14 +119,18 @@
                                                 enctype="multipart/form-data">
                                                 <div class="col-md-12 mb-3">
                                                     <label for="studentName" class="form-label"><b>1. Student's Name :</b></label>
-                                                    <input type="text" class="form-control" id="studentName"
-                                                        name="studentName" oninput="this.value = this.value.toUpperCase()" required />
+                                                    <!-- <input type="text" class="form-control" id="studentName"
+                                                        name="studentName" oninput="this.value = this.value.toUpperCase()" value=<%# meritListTwoData.candidateName %> readonly  required/> -->
+                                                    
+                                                    <textarea id="studentName" name="studentName" rows="1" class="form-control" required readonly><%= meritListTwoData.candidateName.trim() %></textarea>
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
                                                     <label for="fatherName" class="form-label"><b>2. Father's Name :</b></label>
-                                                    <input type="text" class="form-control" id="fatherName"
-                                                        name="fatherName" oninput="this.value = this.value.toUpperCase()" required />
+                                                    <!-- <input type="text" class="form-control" id="fatherName"
+                                                        name="fatherName" oninput="this.value = this.value.toUpperCase()" required /> -->
+                                                    
+                                                    <textarea id="fatherName" name="fatherName" rows="1" class="form-control" required readonly><%= meritListTwoData.fatherName.trim() %></textarea>
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
@@ -150,7 +154,7 @@
                                                 <div class="col-md-12 mb-3">
                                                     <label for="email" class="form-label">Email Id :</label>
                                                     <input type="email" class="form-control" id="email"
-                                                        name="email" oninput="this.value = this.value.toLowerCase()" required />
+                                                        name="email" oninput="this.value = this.value.toLowerCase()" value=<%= locals.meritListTwoData.email %> required readonly />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
@@ -235,7 +239,7 @@
                                                     <label for="mobileNumber" class="form-label">Mobile
                                                         Number :</label>
                                                     <input type="number" class="form-control" id="mobileNumber"
-                                                        name="mobileNumber" readonly value=<%= locals.user.mobileNumber %> />
+                                                        name="mobileNumber" readonly value=<%= locals.meritListTwoData.mobileNo %> />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
@@ -546,7 +550,7 @@
                                                 <% if (locals.appliedUser) { %>
                                                     <button type="submit" class="btn btn-primary" disabled>Submit</button>
                                                 <% } else { %>
-                                                    <button type="submit" class="btn btn-primary" disabled>Submit</button>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
                                                 <% } %>
                                                 <button type="reset" class="btn btn-secondary">Reset</button>
 
