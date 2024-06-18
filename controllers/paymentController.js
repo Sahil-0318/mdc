@@ -295,7 +295,7 @@ const paymentCertificateId = async (req, res) => {
     if (certificate === "clc") {
         const appliedUser = await clcSchema.findOne({ appliedBy: id })
 
-        qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=600&tn=${appliedUser.fullName}`, function (err, src) {
+        qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=600&tn=${appliedUser.fullName}`, function (err, src) {
             res.status(201).render('certificatePayPage', { "qrcodeUrl": src, user, appliedUser })
         })
     }

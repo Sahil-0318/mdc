@@ -124,7 +124,7 @@ const ugRegularSem1Login = async (req, res) => {
 
 const ugRegularSem1Logout = async (req, res) => {
     res.clearCookie("uid");
-    res.status(201).redirect('ug-regular-sem-1-login')
+    res.status(201).redirect('https://www.mdcollegenaubatpur.ac.in/')
 }
 
 const otpForm = async (req, res) => {
