@@ -14,12 +14,12 @@ const allBook = async (req, res) =>{
     }
 }
 
+
 const book = async (req, res) =>{
     try {
         const user = await User.findOne({ _id: req.id })
         const { filename } = req.params;
-        // console.log(filename)
-        res.status(200).render('book', { filename, user});
+        res.status(200).render('book', { filename, user });
     } catch (error) {
         console.log("Book Error", error)
     }

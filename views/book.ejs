@@ -66,53 +66,53 @@
 
         <!-- Template Javascript -->
         <script src="../javascripts/main.js"></script>
-       
+
         <!-- E-Library Script -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const url = '/books/English.pdf';
-            
-            const loadingTask = pdfjsLib.getDocument(url);
-            loadingTask.promise.then(pdf => {
-                const viewer = document.getElementById('pdfViewer');
-                renderPagesSequentially(pdf, viewer);
-            });
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const url = '/books/<%= filename %>.pdf';
 
-            async function renderPagesSequentially(pdf, viewer) {
-                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) { // Start from 1 since page numbering starts at 1
-                    const page = await pdf.getPage(pageNum);
-                    const viewport = page.getViewport({ scale: 1 });
-                    const canvas = document.createElement('canvas');
-                    const context = canvas.getContext('2d');
+                const loadingTask = pdfjsLib.getDocument(url);
+                loadingTask.promise.then(pdf => {
+                    const viewer = document.getElementById('pdfViewer');
+                    renderPagesSequentially(pdf, viewer);
+                });
 
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
+                async function renderPagesSequentially(pdf, viewer) {
+                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) { // Start from 1 since page numbering starts at 1
+                        const page = await pdf.getPage(pageNum);
+                        const viewport = page.getViewport({ scale: 1 });
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
 
-                    const renderContext = {
-                        canvasContext: context,
-                        viewport: viewport
-                    };
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
 
-                    await page.render(renderContext).promise;
-                    viewer.appendChild(canvas);
+                        const renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+
+                        await page.render(renderContext).promise;
+                        viewer.appendChild(canvas);
+                    }
                 }
-            }
 
-            // Disable right-click context menu
-            document.addEventListener('contextmenu', (e) => {
-                e.preventDefault();
-            });
+                // Disable right-click context menu
+                document.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                });
 
-            // Disable selection and copying
-            document.addEventListener('selectstart', (e) => {
-                e.preventDefault();
+                // Disable selection and copying
+                document.addEventListener('selectstart', (e) => {
+                    e.preventDefault();
+                });
+                document.addEventListener('copy', (e) => {
+                    e.preventDefault();
+                });
             });
-            document.addEventListener('copy', (e) => {
-                e.preventDefault();
-            });
-        });
-    </script>
+        </script>
         </body>
 
         </html>
