@@ -1,6 +1,9 @@
 import User from '../models/userModel/userSchema.js'
 import clcSchema from '../models/userModel/clcSchema.js'
-import AdmissionForm from '../models/userModel/admissionFormSchema.js'
+//PP Test
+import AdmissionFormPP from '../models/userModel/admissionFormSchemaPP.js'
+// import AdmissionForm from '../models/userModel/admissionFormSchema.js'
+//============================================================================
 import BCAadmissionForm from '../models/userModel/bcaAdmissionFormSchema.js'
 import BBAadmissionForm from '../models/userModel/bbaAdmissionFormSchema.js'
 import UgRegularAdmissionForm from '../models/userModel/ugRegularAdmissionFormSchema.js'
@@ -26,6 +29,8 @@ const userPage = async (req, res) => {
     }
 }
 
+// ============================================================
+// PP Test
 
 // Admission Form
 const admissionForm = async (req, res) => {
@@ -168,6 +173,141 @@ const admissionFormPost = async (req, res) => {
         res.status(401)
     }
 }
+
+//===================================== PP Work below
+
+const admissionFormPP = async (req, res) =>{
+    try {
+        const user = await User.findOne({ _id: req.id })
+        // console.log(user);
+
+        const appliedUser = await AdmissionFormPP.findOne({ appliedBy: user._id.toString() })
+        // console.log('line 32');
+        // console.log(appliedUser);
+
+
+        if (appliedUser !== null) {
+
+            if (!appliedUser.isPaid) {
+                const formDetail = {
+                    fullName : appliedUser.fullName,
+                    category : appliedUser.category,
+                    amount : appliedUser.admFee,
+                    mobileNumber : appliedUser.mobileNumber
+                }
+                res.status(200).render('checkoutPage', {formDetail})
+            }
+            else {
+                return res.render('admissionFormPP', { user, appliedUser })
+            }
+        }
+        else {
+            return res.render('admissionFormPP', { user })
+        }
+
+    } catch (error) {
+        res.status(401)
+    }
+}
+
+const admissionFormPostPP = async (req, res) =>{
+    try {
+
+        const user = await User.findOne({ _id: req.id })
+        console.log('line 85');
+        // console.log(user);
+
+        const appliedUser = await AdmissionFormPP.findOne({ appliedBy: user._id.toString() })
+        // console.log(appliedUser);
+        console.log("line 90");
+
+        const { fullName, rollNumber, session, aadharNumber, dOB, gender, nationality, category, religion, fatherName, motherName, parmanentAddress, parmanentAddressPin, presentAddress, presentAddressPin, mobileNumber, email, course } = req.body
+
+
+
+        const collCount = await AdmissionFormPP.countDocuments()
+        // console.log(collCount);
+        const admCount = collCount + 1
+        // console.log(admCount);
+
+        let slipNo = ""
+        if (course === "I.A") {
+            slipNo = "I.A/" + "2023-2025/" + (collCount + 1)
+        } else {
+            slipNo = "I.Sc/" + "2023-2025/" + (collCount + 1)
+        }
+
+
+        if (appliedUser == null || appliedUser.appliedBy != user._id.toString()) {
+            // console.log(req.files);
+            const images = req.files
+
+            // console.log(images[0].path);
+            const photoUpload = await FileUpload(images[0].path)
+            const photoURL = photoUpload.secure_url
+            // console.log(photoURL);
+
+            // console.log(images[1].path);
+            const signUpload = await FileUpload(images[1].path)
+            const signURL = signUpload.secure_url
+            // console.log(signURL);
+
+            let admFee = ""
+            if (category === "General" || category === "BC-2") {
+                admFee = 1
+            } else if (category === "BC-1" || category === "SC" || appliedUser.category === "ST") {
+                admFee = 1
+            }
+
+
+
+            const admForm = new AdmissionFormPP({
+                fullName: fullName.toUpperCase(),
+                rollNumber,
+                session,
+                aadharNumber,
+                dOB,
+                gender,
+                nationality,
+                religion,
+                category,
+                fatherName,
+                motherName,
+                parmanentAddress,
+                parmanentAddressPin,
+                presentAddress,
+                presentAddressPin,
+                mobileNumber,
+                email,
+                course,
+                admissionPhoto: photoURL,
+                studentSign: signURL,
+                admNumber: admCount,
+                slipNo: slipNo,
+                appliedBy: user._id,
+                admFee
+            })
+
+            const admFormSubmitted = await admForm.save();
+            console.log('line 131');
+            const formDetail = {
+                fullName : admFormSubmitted.fullName,
+                category : admFormSubmitted.category,
+                amount : admFormSubmitted.admFee,
+                mobileNumber : admFormSubmitted.mobileNumber
+            }
+            res.status(200).render('checkoutPage', {formDetail})
+            // res.status(200).redirect("checkoutPage")
+        }
+        else {
+            res.status(201).render('admissionForm', { "alreadysubmitted": "You have already submitted the form.", user })
+        }
+    } catch (error) {
+        res.status(401)
+    }
+}
+
+//==========================================================================================================================
 
 
 // UG Regular Admission Form
@@ -689,6 +829,8 @@ export {
     userPage,
     admissionForm,
     admissionFormPost,
+    admissionFormPP,
+    admissionFormPostPP,
     // ugRegularAdmissionForm,
     // ugRegularAdmissionFormPost,
     bcaAdmissionForm,

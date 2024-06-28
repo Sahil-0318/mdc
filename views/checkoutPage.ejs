@@ -8,42 +8,55 @@
                     <img class="d-block mx-auto mb-4" src="/images/logomdcollege.png" alt="" width="320px">
                     <h2>M.D. College, Naubatpur Checkout Page</h2>
                     <hr>
-                    <p class="lead text-success fw-bold">Form Submitted Successfully. <i class="fa-solid fa-check fw-bold"></i> </p>
+                    <p class="lead text-success fw-bold">Form Submitted Successfully. <i
+                            class="fa-solid fa-check fw-bold"></i> </p>
                 </div>
 
-                <div class="col-md-7 col-lg-8">
+                <div class="col-12">
                     <h4 class="mb-3">Form Details</h4>
-                    <form class="needs-validation" novalidate="">
+                    <form class="needs-validation" novalidate="" method="post" action="/payment">
                         <div class="row g-3">
                             <div class="col-12">
                                 <label for="fullName" class="form-label">Full name</label>
                                 <textarea name="fullName" id="fullName" rows="1" class="form-control"
-                                    readonly>Rohit Singh</textarea>
+                                    readonly><%= formDetail.fullName %></textarea>
                             </div>
 
-                            <div class="col-12">
+                            <!-- <div class="col-12">
                                 <label for="referenceNumber" class="form-label">Reference Number</label>
                                 <textarea name="referenceNumber" id="referenceNumber" rows="1" class="form-control"
                                     readonly>24G0023535</textarea>
-                            </div>
+                            </div> -->
 
-                            <div class="col-12">
+                            <!-- <div class="col-12">
                                 <label for="courseName" class="form-label">Course name</label>
                                 <textarea name="courseName" id="courseName" rows="1" class="form-control"
                                     readonly>Bachelor of Arts (Social Science Subjects)</textarea>
-                            </div>
+                            </div> -->
 
                             <div class="col-12">
                                 <label for="category" class="form-label">Category</label>
                                 <textarea name="category" id="category" rows="1" class="form-control"
-                                    readonly>GENERAL</textarea>
+                                    readonly><%= formDetail.category %></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label for="mobileNumber" class="form-label">Mobile Number</label>
+                                <textarea name="mobileNumber" id="mobileNumber" rows="1" class="form-control"
+                                    readonly><%= locals.formDetail.mobileNumber %></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label for="amount" class="form-label">Pay Amount</label>
+                                <textarea name="amount" id="amount" rows="1" class="form-control"
+                                    readonly><%= formDetail.amount %></textarea>
                             </div>
 
-                            <div class="col-12">
+                            <!-- <div class="col-12">
                                 <label for="appliedDate" class="form-label">Applied Date</label>
                                 <textarea name="appliedDate" id="appliedDate" rows="1" class="form-control"
                                     readonly>03-12-2024 02:45:23</textarea>
-                            </div>
+                            </div> -->
+                            <h3 class="mt-4 text-center">Total Amount : ₹ <%= formDetail.amount %> /-</h3>
+                            <button type="submit" class="btn btn-success">Pay Now</button>
                     </form>
                 </div>
             </div>
@@ -53,9 +66,8 @@
                 <li class="lead text-danger fw-bold">Do not repeat the payment if any amount has been deducted or
                     debited from your bank account. <br>
                     यदि आपके बैंक खाते से कोई राशि काट ली गई है या डेबिट कर दी गई है तो भुगतान दोबारा न करें।
-                    </li>
-                <h3 class="mt-4">Total Amount : ₹ 1200 /-</h3>
-                <button class="btn btn-success">Pay Now</button>
+                </li>
+
             </div>
         </div>
     </div>

@@ -5,7 +5,8 @@ const SALT_KEY = process.env.SALT_KEY
 import axios from 'axios'
 import uniqid from 'uniqid'
 import sha256 from 'sha256'
-import AdmissionForm from '../models/userModel/admissionFormSchema.js'
+// import AdmissionForm from '../models/userModel/admissionFormSchema.js'
+import AdmissionFormPP from '../models/userModel/admissionFormSchemaPP.js'
 import UgRegularAdmissionForm from '../models/userModel/ugRegularAdmissionFormSchema.js'
 import BCAadmissionForm from '../models/userModel/bcaAdmissionFormSchema.js'
 import BBAadmissionForm from '../models/userModel/bbaAdmissionFormSchema.js'
@@ -18,31 +19,38 @@ import clcSchema from '../models/userModel/clcSchema.js'
 
 
 const payment = (req, res) => {
-    let payAmount = 1000
-    console.log(req.body)
-    // res.send('Phone Pay works')
-    const payEndpoint = "/pg/v1/pay"
+    // let obj = {
+    //     PHONE_PAY_HOST_URL,
+    //     MERCHANT_ID,
+    //     SALT_INDEX,
+    //     SALT_KEY
+    // }
+    // res.send(obj)
+    //=======================================
+    const {fullName, category, amount, mobileNumber}= req.body
+    console.log("In Payment Post Route line 22", fullName, category, amount, mobileNumber)
 
-    let merchantTransactionId = uniqid()
-    let merchantUserId = 123
+    const payEndpoint = "/pg/v1/pay"
+    const merchantTransactionId = uniqid()
+    const userId = uniqid()
 
     const payload = {
         "merchantId": MERCHANT_ID,
         "merchantTransactionId": merchantTransactionId,
-        "merchantUserId": merchantUserId,
-        "amount": payAmount,
+        "merchantUserId": userId,
+        "amount":amount * 100,
         "redirectUrl": `http://localhost:5001/redirect-url/${merchantTransactionId}`,
+        // "redirectUrl": 'https://webhook.site/redirect-url',
         "redirectMode": "REDIRECT",
-        // "callbackUrl": "https://webhook.site/callback-url",
-        "mobileNumber": "9999999999",
+        "mobileNumber": mobileNumber,
         "paymentInstrument": {
             "type": "PAY_PAGE"
         }
     }
+    const bufferObj = Buffer.from(JSON.stringify(payload), "utf-8")
+    const base64EncodedPayload = bufferObj.toString("base64")
+    const xVerify = sha256(base64EncodedPayload + payEndpoint + SALT_KEY) + "###" + SALT_INDEX
 
-    const bufferObj = Buffer.from(JSON.stringify(payload, "utf8"))
-    const Base64EncodedPayload = bufferObj.toString("base64")
-    const xVerify = sha256(Base64EncodedPayload + payEndpoint + SALT_KEY) + "###" + SALT_INDEX
 
     const options = {
         method: 'post',
@@ -50,10 +58,10 @@ const payment = (req, res) => {
         headers: {
             accept: 'application/json',
             'Content-Type': 'application/json',
-            "X-VERIFY": xVerify
+            'X-VERIFY': xVerify
         },
         data: {
-            request: Base64EncodedPayload
+            "request": base64EncodedPayload,
         }
     };
     axios
@@ -61,18 +69,18 @@ const payment = (req, res) => {
         .then(function (response) {
             console.log(response.data);
             const url = response.data.data.instrumentResponse.redirectInfo.url
-            // res.send(response.data)
-            // res.send(url)
-            res.redirect(url)
+            res.status(200).redirect(url)
         })
         .catch(function (error) {
-            console.error("Payment error", error);
+            console.error(error);
         });
+
+
 }
 
 const paymentInvoice = (req, res) => {
     const { merchantTransactionId } = req.params
-    console.log('merchantTransactionId', merchantTransactionId);
+    // console.log('merchantTransactionId', merchantTransactionId);
     if (merchantTransactionId) {
         const xVerify = sha256(`/pg/v1/status/${MERCHANT_ID}/${merchantTransactionId}` + SALT_KEY) + "###" + SALT_INDEX
         const options = {
@@ -90,20 +98,19 @@ const paymentInvoice = (req, res) => {
             .request(options)
             .then(function (response) {
                 console.log(response.data);
-                if (response.data.code === 'PAYMENT_SUCCESS') {
-                    //redirect user to success page
-                } else if (response.data.code === 'ERROR') {
-                    //redirect user to error page   
+                if (response.data.success) {
+                    let paymentStatus = response.data
+                    res.render("paymentStatus", {paymentStatus})
+                    
                 } else {
-                    //redirect to pending
+                    
                 }
-                res.send(response.data)
             })
             .catch(function (error) {
                 console.error(error);
             });
 
-        res.send(merchantTransactionId)
+        // res.send(merchantTransactionId)
     } else {
         res.send(error, 'Error')
 
@@ -111,7 +118,7 @@ const paymentInvoice = (req, res) => {
 
 }
 
-const checkoutPage = async (req, res) =>{
+const checkoutPage = async (req, res) => {
     try {
         res.render("checkoutPage")
     } catch (error) {
@@ -119,7 +126,7 @@ const checkoutPage = async (req, res) =>{
     }
 }
 
-const paymentStatus = async (req, res) =>{
+const paymentStatus = async (req, res) => {
     try {
         res.render("paymentStatus")
     } catch (error) {
@@ -140,11 +147,11 @@ const refNoPost = async (req, res) => {
     // console.log(paymentSSURL);
     const paidAt = photoUpload.created_at.slice(0, 10)
 
-    await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
-    await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paidAt } })
-    await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo: refNo } })
+    await AdmissionFormPP.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
+    await AdmissionFormPP.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paidAt } })
+    await AdmissionFormPP.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo: refNo } })
 
-    const appliedUser = await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: "true" } })
+    const appliedUser = await AdmissionFormPP.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: "true" } })
 
     if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
         fee = 3000
@@ -157,7 +164,7 @@ const refNoPost = async (req, res) => {
 
 const getSlipPost = async (req, res) => {
     const user = await User.findOne({ _id: req.id })
-    const appliedUser = await AdmissionForm.findOne({ appliedBy: user._id.toString() })
+    const appliedUser = await AdmissionFormPP.findOne({ appliedBy: user._id.toString() })
 
     if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
         fee = 3000
@@ -290,7 +297,7 @@ const receiptCourseId = async (req, res) => {
 const paymentCertificateId = async (req, res) => {
     const { certificate, id } = req.params
     const user = await User.findOne({ _id: req.id })
-    
+
 
     if (certificate === "clc") {
         const appliedUser = await clcSchema.findOne({ appliedBy: id })
@@ -310,7 +317,7 @@ const certificatePayRefNoForm = async (req, res) => {
 
     const photoUpload = await FileUpload(req.file.path)
     // console.log(photoUpload);
-    
+
     const paymentSSURL = photoUpload.secure_url
     const currentDate = new Date();
     const day = currentDate.getDate();
@@ -330,7 +337,7 @@ const certificatePayRefNoForm = async (req, res) => {
 
 const receiptCertificateId = async (req, res) => {
     const { certificate, id } = req.params
-    
+
     const user = await User.findOne({ _id: req.id })
     let appliedUser = ""
     if (certificate === 'clc') {

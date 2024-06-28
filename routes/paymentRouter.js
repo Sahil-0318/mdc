@@ -25,9 +25,10 @@ const upload = multer({
     // limits: {fileSize: 100000}
 })
 
-paymentRouter.get('/payment', payment)
+// paymentRouter.get('/payment', payment)
+paymentRouter.post('/payment', payment)
 paymentRouter.get('/redirect-url/:merchantTransactionId', paymentInvoice)
-paymentRouter.get('/checkoutPage', checkoutPage)
+paymentRouter.get('/checkoutPage',userAuth, checkoutPage)
 paymentRouter.get('/paymentStatus', paymentStatus)
 paymentRouter.get('/payment/:course/:id',userAuth, paymentCourseId)
 paymentRouter.post('/payRefNoForm',userAuth, upload.single('paymentSS'), payRefNoForm)
