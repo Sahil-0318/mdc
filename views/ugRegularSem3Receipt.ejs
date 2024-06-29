@@ -58,7 +58,7 @@
                     <div class="card-body">
                         <div class=" d-flex justify-content-between">
                             <div class="mb-4">
-                                <img src="images/mdcLogo.png" width="100px" alt="Logo">
+                                <img src="/images/mdcLogo.png" width="100px" alt="Logo">
                             </div>
                             <div class="text-muted text-center">
                                 <h2>M. D. COLLEGE, NAUBATPUR</h2>
@@ -67,7 +67,7 @@
                                 <P>Website: www.mdcollegenaubatpur.ac.in, Email: mdcollegenaubatpur@yahoo.com</P>
                             </div>
                             <div class="mb-4">
-                                <img src="images/ppuLogo.png" width="100px" alt="Logo">
+                                <img src="/images/ppuLogo.png" width="100px" alt="Logo">
                             </div>
                         </div>
 
@@ -80,23 +80,25 @@
                                     <p class="mb-1 fw-bold">Name :&nbsp; &nbsp; &nbsp; <%=
                                             locals.appliedUser.studentName %>
                                     </p>
-                                    <p class="mb-1 fw-bold">Applicant ID :&nbsp; &nbsp; &nbsp; <%=
-                                            locals.appliedUser.applicantId %>
-                                    </p>
+                                    
                                     <% if (locals.user.course==="Bachelor of Arts (Social Science Subjects)" ||
                                         locals.user.course==="Bachelor of Arts (Humanities Subjects)" ) { %>
-                                        <p class="mb-1 fw-bold">Class :&nbsp; &nbsp; &nbsp; B.A Sem - 1 (2024 -28)</p>
+                                        <p class="mb-1 fw-bold">Class :&nbsp; &nbsp; &nbsp; B.A Sem - 3 (2022-25)</p>
                                         <% } else { %>
-                                            <p class="mb-1 fw-bold">Class :&nbsp; &nbsp; &nbsp; B.Sc Sem - 1 (2024 -28)
+                                            <p class="mb-1 fw-bold">Class :&nbsp; &nbsp; &nbsp; B.Sc Sem - 3 (2022-25)
                                             </p>
 
                                             <% } %>
 
-                                                <p class="mb-1 fw-bold">Reference Number :&nbsp; &nbsp; &nbsp; <%=
-                                                        locals.appliedUser.referenceNumber %>
+                                            <p class="mb-1 fw-bold">Uni. Registration No. :&nbsp; &nbsp; &nbsp; <%=
+                                            locals.appliedUser.uniRegNumber %>
+                                    </p>
+
+                                                <p class="mb-1 fw-bold">Uni. Roll No. :&nbsp; &nbsp; &nbsp; <%=
+                                                        locals.appliedUser.uniRollNumber %>
                                                 </p>
                                                 <p class="mb-1 fw-bold">College Roll No :&nbsp; &nbsp; <%=
-                                                        locals.appliedUser.collegeRollNo.slice(2) %>
+                                                        locals.appliedUser.collegeRollNumber %>
                                                 </p>
                                 </div>
                             </div>
@@ -199,7 +201,7 @@
                                 <div class="float-end">
                                     <a href="javascript:window.print()" class="btn btn-success me-1"><i
                                             class="fa fa-print"></i></a>
-                                    <a href="/ug-reg-adm-form" class="btn btn-primary w-md">Back to Home Page</a>
+                                    <a href="/ugRegularSem3AdmissionForm" class="btn btn-primary w-md">Back to Home Page</a>
                                 </div>
                             </div>
                         </div>

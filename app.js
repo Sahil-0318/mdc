@@ -129,6 +129,7 @@ import adminRouter from './routes/adminRouter.js'
 import paymentRouter from './routes/paymentRouter.js'
 import recordRoomRouter from './routes/recordRoomRouter.js'
 import ugRegularSem1Router from './routes/ugRegularSem1Router.js'
+import ugRegularSem3Router from './routes/ugRegularSem3Router.js'
 import eLibraryRouter from './routes/eLibraryRouter.js'
 
 
@@ -148,6 +149,7 @@ app.use('/', adminRouter)
 app.use('/', paymentRouter)
 app.use('/', recordRoomRouter)
 app.use('/', ugRegularSem1Router)
+app.use('/', ugRegularSem3Router)
 app.use('/', eLibraryRouter)
 
 app.listen(port, () => {
