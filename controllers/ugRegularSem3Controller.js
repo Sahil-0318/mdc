@@ -338,23 +338,23 @@ const ugRegularSem3Pay = async (req, res) =>{
         const appliedUser = await ugRegularSem3AdmissionForm.findOne({ appliedBy: user._id.toString() })
     
         if (appliedUser.admissionFee === "2755") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2755&tn=${appliedUser.fullName}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2755&tn=${appliedUser.studentName}`, function (err, src) {
                 res.status(201).render('ugRegularSem3PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         } else if (appliedUser.admissionFee === "2155") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2155&tn=${appliedUser.fullName}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2155&tn=${appliedUser.studentName}`, function (err, src) {
                 res.status(201).render('ugRegularSem3PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         } else if (appliedUser.admissionFee === "1555") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=1555&tn=${appliedUser.fullName}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=1555&tn=${appliedUser.studentName}`, function (err, src) {
                 res.status(201).render('ugRegularSem3PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         } else if (appliedUser.admissionFee === "1350") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=1350&tn=${appliedUser.fullName}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=1350&tn=${appliedUser.studentName}`, function (err, src) {
                 res.status(201).render('ugRegularSem3PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         } else if (appliedUser.admissionFee === "750") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=750&tn=${appliedUser.fullName}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=750&tn=${appliedUser.studentName}`, function (err, src) {
                 res.status(201).render('ugRegularSem3PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         }
