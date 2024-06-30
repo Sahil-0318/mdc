@@ -8,8 +8,12 @@ import { writeFileSync, readFileSync } from "fs"
 import nodemailer from 'nodemailer'
 import Csv from 'json2csv'
 const CsvParser = Csv.Parser
+
 import ugRegularSem1AdmissionForm from "../models/userModel/ugRegularSem1AdmissionFormSchema.js"
 import ugRegularSem1AdmissionPortal from "../models/userModel/ugRegularSem1AdmissionPortalSchema.js"
+
+import ugRegularSem3User from "../models/userModel/UG-Regular-Sem-3/user.js"
+import ugRegularSem3AdmissionForm from "../models/userModel/UG-Regular-Sem-3/admForm.js"
 
 
 const adminPage = async (req, res) => {
@@ -509,6 +513,8 @@ const approvedByAdmin = async (req, res) => {
   }
 }
 
+
+
 // UG Regular Sem 1 List
 const ugRegularSem1List = async (req, res) => {
   try {
@@ -700,7 +706,6 @@ const datewiseUgRegSem1List = async (req, res) => {
     console.log(error)
   }
 }
-
 
 const ugRegSem1Excel = async (req, res) => {
   const { course, findAdmDateFrom, findAdmDateTo } = req.params
@@ -936,6 +941,84 @@ const findUserId = async (req, res) => {
 }
 
 
+// UG Regular Sem 3 List
+
+const ugRegularSem3List = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const ugRegularSem1AdmissionList = await ugRegularSem3AdmissionForm.find({ isPaid: true })
+    // console.log(ugRegularSem1AdmissionList);
+    res.render('ugRegularSem3List', { list: ugRegularSem1AdmissionList, status: "All", noOfForms: ugRegularSem1AdmissionList.length, user })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+const findStuInUGRegSem3Adm = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    let { findStuMobileNo } = req.body
+
+    if (findStuMobileNo !== '') {
+      let foundStudent = await ugRegularSem3AdmissionForm.find({ mobileNumber: findStuMobileNo })
+      res.render('ugRegularSem3List', { list: foundStudent, status: "Found", noOfForms: foundStudent.length, user })
+
+    } else if (findStuMobileNo === '') {
+      const foundStudent = await ugRegularSem3AdmissionForm.find({ isPaid: true })
+      res.render('ugRegularSem3List', { list: foundStudent, status: "All", formAlert: "Please, Enter Ref No", noOfForms: foundStudent.length, user })
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+const ugRegSem3StuView = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+
+    const foundStudent = await ugRegularSem3AdmissionForm.findOne({ _id: stuId })
+    const foundStudentID = await ugRegularSem3User.findOne({ _id: foundStudent.appliedBy })
+    
+    res.render('ugRegularSem3StudentView', { foundStudent, foundStudentID, user })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+const ugRegSem3StuEdit = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+    const foundStudent = await ugRegularSem3AdmissionForm.findOne({ _id: stuId })
+    const foundStudentID = await ugRegularSem3User.findOne({ _id: foundStudent.appliedBy })
+    res.render("ugRegularSem3StudentEdit", {user, foundStudent, foundStudentID})
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+const ugRegSem3StuEditPost = async(req, res) =>{
+  try {
+    const {studentName, fatherName, motherName, guardianName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, paper1, paper2, paper3, paper4, paper5, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo} = req.body
+    const { editId } = req.params
+
+    await ugRegularSem3AdmissionForm.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, guardianName, uniRegNumber, uniRollNumber, collegeRollNumber, email, paper1, paper2, paper3, paper4, paper5, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } })
+
+    const foundUserLogin = await ugRegularSem3AdmissionForm.findOne({ _id: editId })
+    await ugRegularSem3User.findOneAndUpdate({ _id: foundUserLogin.appliedBy }, { $set: { fullName : studentName, course, email, mobileNumber } })
+
+    res.redirect('/ugRegularSem3List')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export {
   adminPage,
   admissionFormList,
@@ -969,5 +1052,11 @@ export {
   ugRegSem1Password,
   editUserId,
   editUserIdPost,
-  findUserId
+  findUserId,
+  //ug regular sem 1 list
+  ugRegularSem3List,
+  findStuInUGRegSem3Adm,
+  ugRegSem3StuView,
+  ugRegSem3StuEdit,
+  ugRegSem3StuEditPost
 }

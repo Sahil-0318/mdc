@@ -35,7 +35,13 @@ import {
     ugRegSem1Password,
     editUserId,
     editUserIdPost,
-    findUserId
+    findUserId,
+    // ug regular sem 1 list
+    ugRegularSem3List,
+    findStuInUGRegSem3Adm,
+    ugRegSem3StuView,
+    ugRegSem3StuEdit,
+    ugRegSem3StuEditPost
  } 
  from '../controllers/adminController.js'
 
@@ -105,5 +111,16 @@ import {
  
  adminRouter.post('/findUserId', adminAuth, findUserId)
 
+// UG Regular Sem - 3 List
+
+adminRouter.get('/ugRegularSem3List', adminAuth, ugRegularSem3List)
+
+adminRouter.post('/ugRegularSem3List', adminAuth, findStuInUGRegSem3Adm)
+
+adminRouter.get('/ugRegularSem3StudentView/:stuId', adminAuth, ugRegSem3StuView)
+
+adminRouter.get('/ugRegularSem3StudentEdit/:stuId', adminAuth, ugRegSem3StuEdit)
+
+adminRouter.post('/ugRegularSem3StudentEditPost/:editId', adminAuth, ugRegSem3StuEditPost)
 
 export default adminRouter
