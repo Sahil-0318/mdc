@@ -4,8 +4,8 @@ import FileUpload from '../fileUpload/fileUpload.js'
 import jwt from 'jsonwebtoken'
 import twilio from 'twilio'
 import qrcode from 'qrcode'
-// import ugRegularSem1MeritList from "../models/adminModel/ugRegularSem1MeritList.js"
-// import ugRegularSem1MeritList2 from "../models/adminModel/ugRegularSem1MeritList2.js"
+import ugRegularSem1MeritList from "../models/adminModel/ugRegularSem1MeritList.js"
+import ugRegularSem1MeritList2 from "../models/adminModel/ugRegularSem1MeritList2.js"
 import ugRegularSem1MeritList3 from "../models/adminModel/ugRegularSem1MeritList3.js"
 import fast2sms from 'fast-two-sms'
 import unirest from 'unirest'
@@ -51,9 +51,9 @@ const ugRegularSem1Post = async (req, res) => {
 
         if (isExistRefNoINMeritList != null) {
             const existReferenceNumber = await ugRegularSem1AdmissionPortal.findOne({ referenceNumber })
-            console.log(existReferenceNumber);
+            // console.log(existReferenceNumber);
             const existMobileNumber = await ugRegularSem1AdmissionPortal.findOne({ mobileNumber })
-            console.log(existMobileNumber);
+            // console.log(existMobileNumber);
 
             let course = ""
             if (isExistRefNoINMeritList.majorSubject === "Botany" || isExistRefNoINMeritList.majorSubject === "Mathematics" || isExistRefNoINMeritList.majorSubject === "Chemistry" || isExistRefNoINMeritList.majorSubject === "Physics" || isExistRefNoINMeritList.majorSubject === "Zoology") {
@@ -283,7 +283,17 @@ const ugRegularSem1AdmForm = async (req, res) => {
     // console.log(user)
     const appliedUser = await ugRegularSem1AdmissionForm.findOne({ appliedBy: user._id.toString() })
 
-    const meritListTwoData = await ugRegularSem1MeritList3.findOne({ appNo: user.referenceNumber })
+    // changes start here for all merit list
+    let meritListTwoData = ""
+    if (await ugRegularSem1MeritList.findOne({ appNo: user.referenceNumber }) !== null) {
+        meritListTwoData = await ugRegularSem1MeritList.findOne({ appNo: user.referenceNumber })
+    } else if (await ugRegularSem1MeritList2.findOne({ appNo: user.referenceNumber }) !== null) {
+        meritListTwoData = await ugRegularSem1MeritList2.findOne({ appNo: user.referenceNumber })
+    } else{
+        meritListTwoData = await ugRegularSem1MeritList3.findOne({ appNo: user.referenceNumber })
+    }
+    // changes start here for end merit list
+    // const meritListTwoData = await ugRegularSem1MeritList3.findOne({ appNo: user.referenceNumber })
     meritListTwoData.dOB = convertDateFormat(meritListTwoData.dOB);
 
     if (appliedUser != null) {
