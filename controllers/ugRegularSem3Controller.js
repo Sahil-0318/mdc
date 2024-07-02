@@ -85,7 +85,7 @@ const signupPost = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        res.render("ugRegularSem3login")
+        res.render("ugRegularSem3Login")
     } catch (error) {
         console.log("Error in Login Get Method =====>", error)
     }
