@@ -140,6 +140,7 @@ import ugRegularSem1Router from './routes/ugRegularSem1Router.js'
 import ugRegularSem3Router from './routes/ugRegularSem3Router.js'
 import eLibraryRouter from './routes/eLibraryRouter.js'
 import apiRouter from './routes/apiRouter.js'
+import bca3Router from './routes/bca3Router.js'
 
 
 // Set template engine
@@ -161,6 +162,7 @@ app.use('/', ugRegularSem1Router)
 app.use('/', ugRegularSem3Router)
 app.use('/', eLibraryRouter)
 app.use('/api', apiRouter)
+app.use('/', bca3Router)
 
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`)
