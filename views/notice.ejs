@@ -76,8 +76,11 @@
                                                                 </td>
                                                                 <td>
                                                                     <div style="height: 100px; width: 100px;">
-                                                                        <img style="width: 100%; height: 100%; overflow: hidden; object-position: center; object-fit: contain;" src=<%= element.noticePDF%> alt="">
-                                                                    </div>
+                                                                        <a href=<%= element.noticePDF%>>
+
+                                                                            <img style="width: 100%; height: 100%; overflow: hidden; object-position: center; object-fit: contain;" src=<%= element.noticePDF%> alt="">
+                                                                        </a>
+                                                                        </div>
                                                                 </td>
                                                                 <td>
                                                                     <a href="/edit-notice/<%= element._id %>"
