@@ -4,7 +4,6 @@ import clcSchema from '../models/userModel/clcSchema.js'
 import AdmissionFormPP from '../models/userModel/admissionFormSchemaPP.js'
 // import AdmissionForm from '../models/userModel/admissionFormSchema.js'
 //============================================================================
-import BCAadmissionForm from '../models/userModel/bcaAdmissionFormSchema.js'
 import BBAadmissionForm from '../models/userModel/bbaAdmissionFormSchema.js'
 import UgRegularAdmissionForm from '../models/userModel/ugRegularAdmissionFormSchema.js'
 import FileUpload from '../fileUpload/fileUpload.js'
@@ -447,134 +446,6 @@ const admissionFormPostPP = async (req, res) =>{
 // }
 
 
-
-// BCA Admission Form
-const bcaAdmissionForm = async (req, res) => {
-    try {
-        const user = await User.findOne({ _id: req.id })
-        // console.log(user);
-
-        const appliedUser = await BCAadmissionForm.findOne({ appliedBy: user._id.toString() })
-        // console.log('line 32');
-        // console.log(appliedUser);
-
-
-        if (appliedUser !== null) {
-            if (!appliedUser.isPaid) {
-                if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
-
-                    qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=3000&tn=${appliedUser.mobileNumber}`, function (err, src) {
-                        res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
-                    })
-
-                } else if (appliedUser.category === "BC-1" || appliedUser.category === "SC" || appliedUser.category === "ST") {
-
-                    qrcode.toDataURL(`upi://pay?pa=digit96938@barodampay&am=2830&tn=${appliedUser.mobileNumber}`, function (err, src) {
-                        res.status(201).render('commonPayPage', { "qrcodeUrl": src, user, appliedUser })
-                    })
-
-                }
-            }
-            else {
-                return res.render('bcaAdmissionForm', { user, appliedUser })
-            }
-        }
-        else {
-            return res.render('bcaAdmissionForm', { user })
-        }
-
-        // return res.render('bcaAdmissionForm', { user })
-    } catch (error) {
-        res.status(401)
-    }
-}
-
-
-// BCA Admission Form Post
-const bcaAdmissionFormPost = async (req, res) => {
-    try {
-
-        const user = await User.findOne({ _id: req.id })
-
-        const appliedUser = await BCAadmissionForm.findOne({ appliedBy: user._id.toString() })
-
-        const { fullName, uniRollNumber, uniRegNumber, collRollNumber, session, dOB, gender, category, aadharNumber, mobileNumber, email, course, twelthBoard, fatherName, motherName, address, addressPin, studentPhoto } = req.body
-
-
-        const collCount = await BCAadmissionForm.countDocuments()
-        // console.log(collCount);
-        let admNo = collCount + 1
-        // console.log(admCount);
-        const existAdmNo = await BCAadmissionForm.findOne({ admNo })
-        if (existAdmNo != null) {
-            admNo = existAdmNo.admNo + 1
-        } else {
-            admNo = collCount + 1
-        }
-
-        let receiptNo = "BCA/" + "2023-2026/" + admNo
-
-
-        if (appliedUser == null || appliedUser.appliedBy != user._id.toString()) {
-            const images = req.files
-
-            const photoUpload = await FileUpload(images[0].path)
-            const photoURL = photoUpload.secure_url
-
-            let admFee = ""
-            if (category === "General" || category === "BC-2") {
-                admFee = 3000
-            } else if (category === "BC-1" || category === "SC" || category === "ST") {
-                admFee = 2830
-            }
-
-            const admForm = new BCAadmissionForm({
-                fullName: fullName.toUpperCase(),
-                uniRollNumber,
-                uniRegNumber,
-                collRollNumber,
-                session,
-                dOB,
-                gender,
-                category,
-                aadharNumber,
-                mobileNumber,
-                email,
-                course,
-                twelthBoard,
-                fatherName: fatherName.toUpperCase(),
-                motherName: motherName.toUpperCase(),
-                address: address.toUpperCase(),
-                addressPin,
-                studentPhoto: photoURL,
-                appliedBy: user._id,
-                admNo,
-                receiptNo,
-                admFee
-            })
-
-            const admFormSubmitted = await admForm.save();
-
-
-            if (category === "General" || category === "BC-2") {
-
-                res.redirect(`/payment/${admFormSubmitted.course}/${admFormSubmitted.appliedBy}`)
-
-            } else if (category === "BC-1" || category === "SC" || category === "ST") {
-
-                res.redirect(`/payment/${admFormSubmitted.course}/${admFormSubmitted.appliedBy}`)
-
-            }
-        }
-        else {
-            res.status(201).render('bcaAdmissionForm', { "alreadysubmitted": "You have already submitted the form.", user })
-        }
-    } catch (error) {
-        res.status(401)
-    }
-}
-
-
 // BBA Admission Form
 const bbaAdmissionForm = async (req, res) => {
     try {
@@ -833,8 +704,6 @@ export {
     admissionFormPostPP,
     // ugRegularAdmissionForm,
     // ugRegularAdmissionFormPost,
-    bcaAdmissionForm,
-    bcaAdmissionFormPost,
     bbaAdmissionForm,
     bbaAdmissionFormPost,
     clc,

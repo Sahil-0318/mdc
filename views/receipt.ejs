@@ -125,9 +125,7 @@
                                 <div class="float-end">
                                     <a href="javascript:window.print()" class="btn btn-success me-1"><i
                                             class="fa fa-print"></i></a>
-                                    <% if (locals.appliedUser.course === 'BCA') { %>
-                                        <a href="/bcaAdmissionForm" class="btn btn-primary w-md">Back to Home Page</a>
-                                        <% } else if (locals.appliedUser.course === 'BBA') { %>
+                                    <% if (locals.appliedUser.course === 'BBA') { %>
                                         <a href="/bbaAdmissionForm" class="btn btn-primary w-md">Back to Home Page</a>
                                         <% } else if (locals.appliedUser.course === 'B.A' || locals.appliedUser.course === 'B.Com' || locals.appliedUser.course === 'B.Sc') { %>
                                         <a href="/ugRegularAdmissionForm" class="btn btn-primary w-md">Back to Home Page</a>
