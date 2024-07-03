@@ -5,7 +5,7 @@ const noticeSchema = mongoose.Schema({
         type : String,
         required : true
     },
-    noticeDetail:{
+    noticePDF:{
         type : String,
         required : true
     }

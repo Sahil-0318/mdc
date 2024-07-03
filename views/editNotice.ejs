@@ -15,7 +15,7 @@
                 <div class="col-sm-12 col-xl-12 pt-4 px-4 d-md-flex gap-4 justify-content-between">
                     <div class="bg-light rounded h-100 p-4 mb-2 flex-grow-1">
                         <h6 class="mb-4">Edit Notice</h6>
-                        <form action="/edit-notice/<%= locals.editNotice._id %>" method="post">
+                        <form action="/edit-notice/<%= locals.editNotice._id %>" method="post" enctype="multipart/form-data">
                             <div class="row mb-3">
                                 <label for="noticeTitle" class="col-sm-3 col-md-2 col-form-label">Title :</label>
                                 <div class="col-sm-6 col-md-8">
@@ -25,7 +25,7 @@
                             <div class="row mb-3">
                                 <label for="noticeDetail" class="col-sm-3 col-md-2 col-form-label">Details :</label>
                                 <div class="col-sm-6 col-md-8">
-                                    <textarea class="form-control" name="noticeDetail" id="noticeDetail" required><%= locals.editNotice.noticeDetail %></textarea>
+                                    <input class="form-control form-control-sm" id="noticePDF" name="noticePDF" type="file" required accept="image/*">
                                 </div>
                             </div>
                             <button type="submit" class="px-4 btn btn-warning">Edit</button>

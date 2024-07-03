@@ -1,8 +1,9 @@
 import express from 'express'
 const adminRouter = express.Router()
-import {adminAuth} from '../middlewares/adminMiddleware.js'
+import { adminAuth } from '../middlewares/adminMiddleware.js'
+import multer from 'multer'
 
-import { 
+import {
     adminPage,
     admissionFormList,
     paidAdmissionFormList,
@@ -42,74 +43,81 @@ import {
     ugRegSem3StuView,
     ugRegSem3StuEdit,
     ugRegSem3StuEditPost
- } 
- from '../controllers/adminController.js'
+}
+    from '../controllers/adminController.js'
 
- adminRouter.get('/adminPage', adminAuth, adminPage)
+const storage = multer.diskStorage({})
 
- adminRouter.get('/admissionFormList', adminAuth, admissionFormList)
+const upload = multer({
+    storage: storage
+    // limits: {fileSize: 100000}
+})
 
- adminRouter.get('/paidAdmissionFormList', adminAuth, paidAdmissionFormList)
+adminRouter.get('/adminPage', adminAuth, adminPage)
 
- adminRouter.get('/unpaidAdmissionFormList', adminAuth, unpaidAdmissionFormList)
+adminRouter.get('/admissionFormList', adminAuth, admissionFormList)
 
- adminRouter.get('/genBC2Category', adminAuth, genBC2Category)
+adminRouter.get('/paidAdmissionFormList', adminAuth, paidAdmissionFormList)
 
- adminRouter.get('/bc1SCSTCategory', adminAuth, bc1SCSTCategory)
+adminRouter.get('/unpaidAdmissionFormList', adminAuth, unpaidAdmissionFormList)
 
- adminRouter.get('/scienceStu', adminAuth, scienceStu)
+adminRouter.get('/genBC2Category', adminAuth, genBC2Category)
 
- adminRouter.get('/artsStu', adminAuth, artsStu)
+adminRouter.get('/bc1SCSTCategory', adminAuth, bc1SCSTCategory)
 
- adminRouter.get('/clcList', adminAuth, clcList)
+adminRouter.get('/scienceStu', adminAuth, scienceStu)
 
- adminRouter.get('/clcApproved/:id', adminAuth, clcApprovedId)
- 
- adminRouter.get('/clcReject/:id', adminAuth, clcRejectId)
- 
- adminRouter.get('/clcApproved', adminAuth, clcApproved)
- 
- adminRouter.get('/clcRejected', adminAuth, clcRejected)
+adminRouter.get('/artsStu', adminAuth, artsStu)
 
- adminRouter.post('/approvedByAdmin', approvedByAdmin)
- 
- adminRouter.post('/findStuInAdmForm', adminAuth, findStuInAdmForm)
+adminRouter.get('/clcList', adminAuth, clcList)
 
- adminRouter.post('/datewiseAdmForm', adminAuth, datewiseAdmForm)
+adminRouter.get('/clcApproved/:id', adminAuth, clcApprovedId)
 
- adminRouter.get('/download-excel', adminAuth, downloadExcel)
+adminRouter.get('/clcReject/:id', adminAuth, clcRejectId)
 
- adminRouter.get('/notice', adminAuth, notice)
- 
- adminRouter.post('/notice', adminAuth, noticePost)
- 
- adminRouter.get('/edit-notice/:id', adminAuth, editNotice)
- 
- adminRouter.post('/edit-notice/:id', adminAuth, editNoticePost)
- 
- adminRouter.get('/delete-notice/:id', adminAuth, deleteNotice)
- 
- //UG Regular Sem -1 List
- 
- adminRouter.get('/ugRegularSem1List', adminAuth, ugRegularSem1List)
+adminRouter.get('/clcApproved', adminAuth, clcApproved)
 
- adminRouter.post('/ugRegularSem1List', adminAuth, findStuInUGRegSem1Adm)
- 
- adminRouter.get('/student-view/:stuId', adminAuth, ugRegSem1StuView)
- 
- adminRouter.get('/verify-student/:Id', adminAuth, verifyUgRegSem1Stu)
- 
- adminRouter.post('/datewiseUgRegSem1List', adminAuth, datewiseUgRegSem1List)
- 
- adminRouter.get('/ugRegSem1Excel/:course/:findAdmDateFrom/:findAdmDateTo', adminAuth, ugRegSem1Excel)
- 
- adminRouter.get('/ugRegSem1Password', adminAuth, ugRegSem1Password)
- 
- adminRouter.get('/editUserId/:id', adminAuth, editUserId)
- 
- adminRouter.post('/editUserIdForm/:editId', adminAuth, editUserIdPost)
- 
- adminRouter.post('/findUserId', adminAuth, findUserId)
+adminRouter.get('/clcRejected', adminAuth, clcRejected)
+
+adminRouter.post('/approvedByAdmin', approvedByAdmin)
+
+adminRouter.post('/findStuInAdmForm', adminAuth, findStuInAdmForm)
+
+adminRouter.post('/datewiseAdmForm', adminAuth, datewiseAdmForm)
+
+adminRouter.get('/download-excel', adminAuth, downloadExcel)
+
+adminRouter.get('/notice', adminAuth, notice)
+
+adminRouter.post('/notice', upload.single('noticePDF'), adminAuth, noticePost)
+
+adminRouter.get('/edit-notice/:id', adminAuth, editNotice)
+
+adminRouter.post('/edit-notice/:id', upload.single('noticePDF'), adminAuth, editNoticePost)
+
+adminRouter.get('/delete-notice/:id', adminAuth, deleteNotice)
+
+//UG Regular Sem -1 List
+
+adminRouter.get('/ugRegularSem1List', adminAuth, ugRegularSem1List)
+
+adminRouter.post('/ugRegularSem1List', adminAuth, findStuInUGRegSem1Adm)
+
+adminRouter.get('/student-view/:stuId', adminAuth, ugRegSem1StuView)
+
+adminRouter.get('/verify-student/:Id', adminAuth, verifyUgRegSem1Stu)
+
+adminRouter.post('/datewiseUgRegSem1List', adminAuth, datewiseUgRegSem1List)
+
+adminRouter.get('/ugRegSem1Excel/:course/:findAdmDateFrom/:findAdmDateTo', adminAuth, ugRegSem1Excel)
+
+adminRouter.get('/ugRegSem1Password', adminAuth, ugRegSem1Password)
+
+adminRouter.get('/editUserId/:id', adminAuth, editUserId)
+
+adminRouter.post('/editUserIdForm/:editId', adminAuth, editUserIdPost)
+
+adminRouter.post('/findUserId', adminAuth, findUserId)
 
 // UG Regular Sem - 3 List
 

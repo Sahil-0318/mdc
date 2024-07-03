@@ -8,6 +8,8 @@ import { writeFileSync, readFileSync } from "fs"
 import nodemailer from 'nodemailer'
 import Csv from 'json2csv'
 const CsvParser = Csv.Parser
+import FileUpload from '../fileUpload/fileUpload.js'
+import FileDelete from '../fileUpload/fileDelete.js'
 
 import ugRegularSem1AdmissionForm from "../models/userModel/ugRegularSem1AdmissionFormSchema.js"
 import ugRegularSem1AdmissionPortal from "../models/userModel/ugRegularSem1AdmissionPortalSchema.js"
@@ -264,16 +266,15 @@ const notice = async (req, res) => {
 
 const noticePost = async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.id })
-
-    const { noticeTitle, noticeDetail } = req.body
-
+    const { noticeTitle } = req.body
+    const photoUpload = await FileUpload(req.file.path)
+    const noticePDF = photoUpload.secure_url
     const notice = new Notice({
       noticeTitle,
-      noticeDetail
+      noticePDF
     })
 
-    let newNotice = await notice.save()
+    await notice.save()
 
     res.redirect('/notice')
 
@@ -288,7 +289,6 @@ const editNotice = async (req, res) => {
     const user = await User.findOne({ _id: req.id })
     const { id } = req.params
     const editNotice = await Notice.findOne({ _id: id })
-
     res.render('editNotice', { editNotice, user })
 
 
@@ -299,12 +299,14 @@ const editNotice = async (req, res) => {
 
 const editNoticePost = async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.id })
     const { id } = req.params
-    const { noticeTitle, noticeDetail } = req.body
-
-    const editedNotice = await Notice.findOneAndUpdate({ _id: id }, { $set: { noticeTitle, noticeDetail } })
-
+    const foundNotice = await Notice.findOne({ _id: id })
+    const { noticeTitle } = req.body
+    const photoUpload = await FileUpload(req.file.path)
+    const noticePDF = photoUpload.secure_url
+    
+    await Notice.findOneAndUpdate({ _id: id }, { $set: { noticeTitle, noticePDF } })
+    await FileDelete(foundNotice.noticePDF)
     res.redirect('/notice')
 
 
@@ -315,10 +317,9 @@ const editNoticePost = async (req, res) => {
 
 const deleteNotice = async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.id })
     const { id } = req.params
     const deletedNotice = await Notice.findOneAndDelete({ _id: id })
-
+    await FileDelete(deletedNotice.noticePDF)
     res.redirect('/notice')
 
 
@@ -929,10 +930,10 @@ const findUserId = async (req, res) => {
     if (findStuRefNo !== '') {
       let foundStudent = await ugRegularSem1AdmissionPortal.find({ referenceNumber: findStuRefNo })
       res.render("ugRegSem1PasswordList", { list: foundStudent, status: "Found", noOfForms: foundStudent.length, user })
-      
-      } else if (findStuRefNo === '') {
-        const foundStudent = await ugRegularSem1AdmissionPortal.find({ })
-        res.render("ugRegSem1PasswordList", { list: foundStudent, status: "All", formAlert: "Please, Enter Ref No", noOfForms: foundStudent.length, user })
+
+    } else if (findStuRefNo === '') {
+      const foundStudent = await ugRegularSem1AdmissionPortal.find({})
+      res.render("ugRegSem1PasswordList", { list: foundStudent, status: "All", formAlert: "Please, Enter Ref No", noOfForms: foundStudent.length, user })
     }
 
   } catch (error) {
@@ -982,7 +983,7 @@ const ugRegSem3StuView = async (req, res) => {
 
     const foundStudent = await ugRegularSem3AdmissionForm.findOne({ _id: stuId })
     const foundStudentID = await ugRegularSem3User.findOne({ _id: foundStudent.appliedBy })
-    
+
     res.render('ugRegularSem3StudentView', { foundStudent, foundStudentID, user })
   } catch (error) {
     console.log(error)
@@ -996,22 +997,22 @@ const ugRegSem3StuEdit = async (req, res) => {
     const { stuId } = req.params
     const foundStudent = await ugRegularSem3AdmissionForm.findOne({ _id: stuId })
     const foundStudentID = await ugRegularSem3User.findOne({ _id: foundStudent.appliedBy })
-    res.render("ugRegularSem3StudentEdit", {user, foundStudent, foundStudentID})
+    res.render("ugRegularSem3StudentEdit", { user, foundStudent, foundStudentID })
   } catch (error) {
     console.log(error)
   }
 }
 
 
-const ugRegSem3StuEditPost = async(req, res) =>{
+const ugRegSem3StuEditPost = async (req, res) => {
   try {
-    const {studentName, fatherName, motherName, guardianName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, paper1, paper2, paper3, paper4, paper5, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo} = req.body
+    const { studentName, fatherName, motherName, guardianName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, paper1, paper2, paper3, paper4, paper5, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } = req.body
     const { editId } = req.params
 
     await ugRegularSem3AdmissionForm.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, guardianName, uniRegNumber, uniRollNumber, collegeRollNumber, email, paper1, paper2, paper3, paper4, paper5, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } })
 
     const foundUserLogin = await ugRegularSem3AdmissionForm.findOne({ _id: editId })
-    await ugRegularSem3User.findOneAndUpdate({ _id: foundUserLogin.appliedBy }, { $set: { fullName : studentName, course, email, mobileNumber } })
+    await ugRegularSem3User.findOneAndUpdate({ _id: foundUserLogin.appliedBy }, { $set: { fullName: studentName, course, email, mobileNumber } })
 
     res.redirect('/ugRegularSem3List')
   } catch (error) {

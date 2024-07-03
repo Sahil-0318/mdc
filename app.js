@@ -2,8 +2,16 @@ import 'dotenv/config'
 import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import express from 'express'
+import cors from "cors"
+
 const app = express()
 const port = process.env.PORT || 3001
+const CORS_URL = process.env.CORS_URL || 'http://127.0.0.1:3000'
+
+// Allow CORS from http://127.0.0.1:3000
+app.use(cors({
+  origin: CORS_URL
+}));
 
 // importing csv file to mongodb atlas
 // import fs from 'fs'
@@ -131,6 +139,7 @@ import recordRoomRouter from './routes/recordRoomRouter.js'
 import ugRegularSem1Router from './routes/ugRegularSem1Router.js'
 import ugRegularSem3Router from './routes/ugRegularSem3Router.js'
 import eLibraryRouter from './routes/eLibraryRouter.js'
+import apiRouter from './routes/apiRouter.js'
 
 
 // Set template engine
@@ -151,6 +160,7 @@ app.use('/', recordRoomRouter)
 app.use('/', ugRegularSem1Router)
 app.use('/', ugRegularSem3Router)
 app.use('/', eLibraryRouter)
+app.use('/api', apiRouter)
 
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`)

@@ -15,7 +15,7 @@
                 <div class="col-sm-12 col-xl-12 pt-4 px-4 d-md-flex gap-4 justify-content-between">
                     <div class="bg-light rounded h-100 p-4 mb-2 flex-grow-1">
                         <h6 class="mb-4">Notice</h6>
-                        <form action="/notice" method="post">
+                        <form action="/notice" method="post" enctype="multipart/form-data">
                             <div class="row mb-3">
                                 <label for="noticeTitle" class="col-sm-3 col-md-2 col-form-label">Title :</label>
                                 <div class="col-sm-6 col-md-8">
@@ -23,11 +23,17 @@
                                         placeholder="Notice Title" required>
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            <!-- <div class="row mb-3">
                                 <label for="noticeDetail" class="col-sm-3 col-md-2 col-form-label">Details :</label>
                                 <div class="col-sm-6 col-md-8">
                                     <textarea class="form-control" name="noticeDetail" id="noticeDetail"
                                         placeholder="Notice Detail " required></textarea>
+                                </div>
+                            </div> -->
+                            <div class="row mb-3">
+                                <label for="noticeDetail" class="col-sm-3 col-md-2 col-form-label">Upload Notice PDF :</label>
+                                <div class="col-sm-6 col-md-8">
+                                    <input class="form-control form-control-sm" id="noticePDF" name="noticePDF" type="file" required accept="image/*">
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Publish</button>
@@ -53,7 +59,7 @@
                                                     <tr>
                                                         <th scope="col">S.No.</th>
                                                         <th scope="col">Title</th>
-                                                        <th scope="col">Details</th>
+                                                        <th scope="col">Photo</th>
                                                         <th scope="col">Edit</th>
                                                         <th scope="col">Delete</th>
                                                     </tr>
@@ -69,7 +75,9 @@
                                                                     <%= element.noticeTitle%>
                                                                 </td>
                                                                 <td>
-                                                                    <%= element.noticeDetail%>
+                                                                    <div style="height: 100px; width: 100px;">
+                                                                        <img style="width: 100%; height: 100%; overflow: hidden; object-position: center; object-fit: contain;" src=<%= element.noticePDF%> alt="">
+                                                                    </div>
                                                                 </td>
                                                                 <td>
                                                                     <a href="/edit-notice/<%= element._id %>"
