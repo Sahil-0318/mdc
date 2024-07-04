@@ -25,6 +25,7 @@
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <a href="/resendOTP/<%= locals.OTPNumber %>">Resend OTP</a>
                             </div>
+                            <input type="hidden" name="OTPNum" value=<%= locals.OTPNumber %>>
                             <input type="hidden" name="OTP" value=<%= locals.OTPComesFrom %>>
                             <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Enter</button>
                         </form>
