@@ -1,4 +1,4 @@
-import bca3UserModel from "./user.js";
+// import bca3UserModel from "./user.js";
 import mongoose from "mongoose";
 
 const bca3FormSchema = mongoose.Schema({
@@ -98,13 +98,13 @@ const bca3FormSchema = mongoose.Schema({
         type : String,
         required : true
     },
-    appliedBy: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: bca3UserModel, 
-        required: true 
+    appliedBy: {
+        type : String,
+        required : true
     },
     admissionFee : {
-        type : String
+        type : Number,
+        default : 15000
     },
     isPaid :{
         type : Boolean,

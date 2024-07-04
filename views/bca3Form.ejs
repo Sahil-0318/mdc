@@ -118,24 +118,24 @@
                                                     <form action="/bca3Form" method="post"
                                                 enctype="multipart/form-data">
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="studentName" class="form-label"><b>1. Student's Name :</b></label>                            
+                                                    <label for="studentName" class="form-label"><b>Student's Name :</b></label>                            
                                                     <textarea id="studentName" name="studentName" rows="1" class="form-control" required readonly><%= user.fullName.trim().toUpperCase() %></textarea>
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="fatherName" class="form-label"><b>2. Father's Name :</b></label>
+                                                    <label for="fatherName" class="form-label"><b>Father's Name :</b></label>
                                                     <input type="text" class="form-control" id="fatherName"
                                                         name="fatherName" oninput="this.value = this.value.toUpperCase()" required />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="motherName" class="form-label"><b>3. Mother's Name :</b></label>
+                                                    <label for="motherName" class="form-label"><b>Mother's Name :</b></label>
                                                     <input type="text" class="form-control" id="motherName"
                                                         name="motherName" oninput="this.value = this.value.toUpperCase()" required />
                                                 </div>
 
                                                 <!-- <div class="col-md-12 mb-3">
-                                                    <label for="guardianName" class="form-label"><b>4. Guardian's Name :</b></label>
+                                                    <label for="guardianName" class="form-label"><b>Guardian's Name :</b></label>
                                                     <input type="text" class="form-control" id="guardianName"
                                                         name="guardianName" oninput="this.value = this.value.toUpperCase()" required />
                                                 </div> -->
@@ -244,7 +244,7 @@
                                                 </div> -->
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="address" class="form-label"> <b>5. Address for Correspondence : </b></label>
+                                                    <label for="address" class="form-label"> <b>Address for Correspondence : </b></label>
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
@@ -279,23 +279,19 @@
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="address" class="form-label"> <b>6. Course Details :</b></label>
+                                                    <label for="address" class="form-label"> <b>Course Details :</b></label>
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="paper3" class="form-label">Paper-3 :</label>
-                                                    <select id="paper3" class="form-select" name="paper3"
+                                                    <label for="subject" class="form-label">Subject :</label>
+                                                    <select id="subject" class="form-select" name="subject"
                                                         required>
-                                                        <option value="">Select one subject except the subjects studied in MDC 1 & MDC 2</option>
-                                                        <option value="Hindi">Hindi</option>
-                                                        <option value="Philosophy">Philosophy</option>
-                                                        <option value="English">English</option>
-                                                        <option value="Urdu">Urdu</option>
+                                                        <option value="Computer Application">Computer Application</option>
                                                     </select>
                                                 </div>
                                                 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="address" class="form-label"> <b>7. Last Exam Passed:</b></label>
+                                                    <label for="address" class="form-label"> <b>Last Exam Passed:</b></label>
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
@@ -356,21 +352,21 @@
                                         <% if (locals.appliedUser.isPaid == true) { %>
                                             <!-- <button class="btn btn-success my-4" disabled><a class="text-light" href="">Pay Admission Fee</a></button> -->
                                         <% } else { %>
-                                            <button class="btn btn-success my-4"><a class="text-light" href="/ugRegularSem3Pay">Pay Admission Fee</a></button>
+                                            <button class="btn btn-success my-4"><a class="text-light" href="/bca3Pay">Pay Admission Fee</a></button>
                                         <% } %>
                                         <% } %>
 
                                         <% if (locals.appliedUser) { %>
                                          
                                         <% if (locals.appliedUser.isPaid == true) { %>
-                                            <button class="btn btn-primary my-4"><a class="text-light " href="/ugRegularSem3Receipt">Print Receipt</a></button>
+                                            <button class="btn btn-primary my-4"><a class="text-light " href="/bca3Receipt">Print Receipt</a></button>
                                         <% } %>
                                         <% } %>
 
                                         <% if (locals.appliedUser) { %>
                                          
                                         <% if (locals.appliedUser.isPaid == true) { %>
-                                            <button class="btn btn-primary my-4"><a class="text-light" href="/ugRegularSem3AdmFormCopy">Print Admission form</a></button>
+                                            <button class="btn btn-primary my-4"><a class="text-light" href="/bca3AdmFormCopy">Print Admission form</a></button>
                                         <% } %>
                                         <% } %>
 
