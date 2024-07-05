@@ -17,6 +17,11 @@ import ugRegularSem1AdmissionPortal from "../models/userModel/ugRegularSem1Admis
 import ugRegularSem3User from "../models/userModel/UG-Regular-Sem-3/user.js"
 import ugRegularSem3AdmissionForm from "../models/userModel/UG-Regular-Sem-3/admForm.js"
 
+// BCA 3 List
+import bca3FormModel from "../models/userModel/BCA-3/form.js"
+import bca3UserModel from "../models/userModel/BCA-3/user.js"
+
+
 
 const adminPage = async (req, res) => {
   try {
@@ -967,7 +972,7 @@ const findStuInUGRegSem3Adm = async (req, res) => {
 
     } else if (findStuMobileNo === '') {
       const foundStudent = await ugRegularSem3AdmissionForm.find({ isPaid: true })
-      res.render('ugRegularSem3List', { list: foundStudent, status: "All", formAlert: "Please, Enter Ref No", noOfForms: foundStudent.length, user })
+      res.render('ugRegularSem3List', { list: foundStudent, status: "All", formAlert: "Please, Enter Mobile No", noOfForms: foundStudent.length, user })
     }
 
   } catch (error) {
@@ -1020,6 +1025,81 @@ const ugRegSem3StuEditPost = async (req, res) => {
   }
 }
 
+
+// BCA Part 3
+const bca3List = async (req, res) =>{
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const bca3AdmissionList = await bca3FormModel.find({ isPaid: true })
+    // console.log(ugRegularSem1AdmissionList);
+    res.render('bca3List', { list: bca3AdmissionList, status: "All", noOfForms: bca3AdmissionList.length, user })
+  } catch (error) {
+    console.log("Error in get bca3List", error)
+  }
+}
+
+
+const findStuInbca3Adm = async (req, res) =>{
+  try {
+    const user = await User.findOne({ _id: req.id })
+    let { findStuMobileNo } = req.body
+    if (findStuMobileNo !== '') {
+      let foundStudent = await bca3FormModel.find({ mobileNumber: findStuMobileNo })
+      res.render('bca3List', { list: foundStudent, status: "Found", noOfForms: foundStudent.length, user })
+
+    } else if (findStuMobileNo === '') {
+      const foundStudent = await bca3FormModel.find({ isPaid: true })
+      res.render('bca3List', { list: foundStudent, status: "All", formAlert: "Please, Enter Mobile No", noOfForms: foundStudent.length, user })
+    }
+  } catch (error) {
+    console.log("Error in post findStuInbca3Adm", error)
+  }
+}
+
+
+const bca3StuView = async (req, res) =>{
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+
+    const foundStudent = await bca3FormModel.findOne({ _id: stuId })
+
+    res.render('bca3StudentView', { foundStudent, user })
+  } catch (error) {
+    console.log("Error in get bca3StuView", error)
+  }
+}
+
+
+const bca3StuEdit = async (req, res) =>{
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+    const foundStudent = await bca3FormModel.findOne({ _id: stuId })
+    res.render("bca3StudentEdit", { user, foundStudent })
+  } catch (error) {
+    console.log("Error in get bca3StuEdit", error)
+  }
+}
+
+
+const bca3StuEditPost = async (req, res) =>{
+  try {
+    const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } = req.body
+    const { editId } = req.params
+
+    await bca3FormModel.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } })
+
+    const foundUserLogin = await bca3FormModel.findOne({ _id: editId })
+    await bca3UserModel.findOneAndUpdate({ _id: foundUserLogin.appliedBy }, { $set: { fullName: studentName, email, mobileNumber } })
+
+    res.redirect('/bca3List')
+  } catch (error) {
+    console.log("Error in post bca3StuEditPost", error)
+    
+  }
+}
+
 export {
   adminPage,
   admissionFormList,
@@ -1059,5 +1139,11 @@ export {
   findStuInUGRegSem3Adm,
   ugRegSem3StuView,
   ugRegSem3StuEdit,
-  ugRegSem3StuEditPost
+  ugRegSem3StuEditPost,
+  //BCA Part 3
+  bca3List,
+  findStuInbca3Adm,
+  bca3StuView,
+  bca3StuEdit,
+  bca3StuEditPost
 }

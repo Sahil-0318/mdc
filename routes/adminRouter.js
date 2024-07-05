@@ -42,7 +42,13 @@ import {
     findStuInUGRegSem3Adm,
     ugRegSem3StuView,
     ugRegSem3StuEdit,
-    ugRegSem3StuEditPost
+    ugRegSem3StuEditPost,
+    //BCA Part 3
+    bca3List,
+    findStuInbca3Adm,
+    bca3StuView,
+    bca3StuEdit,
+    bca3StuEditPost
 }
     from '../controllers/adminController.js'
 
@@ -130,5 +136,16 @@ adminRouter.get('/ugRegularSem3StudentView/:stuId', adminAuth, ugRegSem3StuView)
 adminRouter.get('/ugRegularSem3StudentEdit/:stuId', adminAuth, ugRegSem3StuEdit)
 
 adminRouter.post('/ugRegularSem3StudentEditPost/:editId', adminAuth, ugRegSem3StuEditPost)
+
+// BCA Part 3 List
+adminRouter.get('/bca3List', adminAuth, bca3List)
+
+adminRouter.post('/bca3List', adminAuth, findStuInbca3Adm)
+
+adminRouter.get('/bca3StudentView/:stuId', adminAuth, bca3StuView)
+
+adminRouter.get('/bca3StudentEdit/:stuId', adminAuth, bca3StuEdit)
+
+adminRouter.post('/bca3StudentEditPost/:editId', adminAuth, bca3StuEditPost)
 
 export default adminRouter
