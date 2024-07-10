@@ -354,7 +354,7 @@ const characterCertificate = async (req, res) => {
 
 
         firstPage.moveTo(248, 192);
-        firstPage.drawText(`${foundCertificate.course} Part-3`, {
+        firstPage.drawText(`${foundCertificate.course}`, {
             font: courierBoldFont,
             size: 18,
         });
