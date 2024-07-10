@@ -4,6 +4,11 @@ import cookieParser from 'cookie-parser'
 import express from 'express'
 import cors from "cors"
 
+// Error log
+// import fs from 'fs'
+// import path from 'path'
+// import { fileURLToPath } from 'url';
+
 const app = express()
 const port = process.env.PORT || 3001
 const CORS_URL = process.env.CORS_URL || 'http://127.0.0.1:3000'
@@ -163,6 +168,44 @@ app.use('/', ugRegularSem3Router)
 app.use('/', eLibraryRouter)
 app.use('/api', apiRouter)
 app.use('/', bca3Router)
+
+// // Get the current directory name (ES Modules don't have __dirname)
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+
+// // Define the path to the error log file
+// const logFilePath = path.join(__dirname, 'error.log');
+
+// // Create a write stream for the log file
+// const errorLogStream = fs.createWriteStream(logFilePath, { flags: 'a' });
+
+// // Redirect stderr to the error log file
+// process.stderr.write = errorLogStream.write.bind(errorLogStream);
+
+// // Example usage: log an error to stderr
+// console.error("This is an error message");
+
+// // Example function that throws an error
+// function throwError() {
+//   throw new Error("Something went wrong!");
+// }
+
+// // Catch unhandled exceptions and log them to stderr
+// process.on('uncaughtException', (err) => {
+//   console.error('Unhandled Exception:', err);
+// });
+
+// // Catch unhandled promise rejections and log them to stderr
+// process.on('unhandledRejection', (reason, promise) => {
+//   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+// });
+
+// // Trigger an error
+// try {
+//   throwError();
+// } catch (err) {
+//   console.error(err);
+// }
 
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`)
