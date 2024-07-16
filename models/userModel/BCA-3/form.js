@@ -104,7 +104,7 @@ const bca3FormSchema = mongoose.Schema({
     },
     admissionFee : {
         type : Number,
-        default : 15000
+        default : 15500
     },
     isPaid :{
         type : Boolean,

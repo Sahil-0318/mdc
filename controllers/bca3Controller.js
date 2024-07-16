@@ -297,7 +297,12 @@ const bca3Pay = async (req, res) => {
         // console.log(appliedUser)
 
         if (appliedUser.admissionFee == 15000) {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=15000&tn=${appliedUser.studentName}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=15500&tn=${appliedUser.studentName}`, function (err, src) {
+                res.status(201).render('bca3PayPage', { "qrcodeUrl": src, user, appliedUser })
+            })
+        }
+        if (appliedUser.admissionFee == 15500) {
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=15500&tn=${appliedUser.studentName}`, function (err, src) {
                 res.status(201).render('bca3PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         }

@@ -139,7 +139,24 @@
                                             </td>
                                             <td></td>
                                             <td></td>
-                                            <td class="text-end">₹<%= locals.appliedUser.admissionFee %>
+                                            <% if (locals.appliedUser.admissionFee == 15500) { %>
+                                                <td class="text-end">₹<%= locals.appliedUser.admissionFee - 500%>
+                                                </td>
+                                            <% } else { %>
+                                                <td class="text-end">₹<%= locals.appliedUser.admissionFee%>
+                                                </td>
+                                            <% } %>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">02</th>
+                                            <td>
+                                                <div>
+                                                    <h5 class="text-truncate font-size-14 mb-1">Late Fee</h5>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-end">₹ 500
                                             </td>
                                         </tr>
                                         <!-- end tr -->
@@ -161,7 +178,7 @@
                                         <div class="text-muted">
                                             <p class="mb-1">Online</p>
                                             <p class="mb-1">UPI</p>
-                                            <p class="mb-1 fw-bold">₹<%= locals.appliedUser.admissionFee %>
+                                            <p class="mb-1 fw-bold">₹ 15500
                                             </p>
                                         </div>
                                     </div>
