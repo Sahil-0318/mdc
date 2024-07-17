@@ -98,7 +98,7 @@ mongoose.connect(process.env.DB_CONNECTION).then(() => {
 //     type: String
 //   }
 // }, { strict: false });
-// const DataModel = mongoose.model('Data4', DataSchema, 'ugRegularSem1MeritList4'); // Replace 'yourcollection' with your actual collection name
+// const DataModel = mongoose.model('Data6', DataSchema, 'ugRegularSem1MeritList5'); // Replace 'yourcollection' with your actual collection name
 // ====================================================================================
 
 // importing csv file to mongodb atlas
@@ -129,7 +129,7 @@ mongoose.connect(process.env.DB_CONNECTION).then(() => {
 
 // importing csv file to mongodb atlas
 // Path to your CSV file
-// const filePath = 'ugRegularSem1MeritList4.csv'; // Replace with the path to your CSV file
+// const filePath = 'Spot-Round-1.csv'; // Replace with the path to your CSV file
 // importCsvToMongoDB(filePath);
 // ===========================================================================================
 

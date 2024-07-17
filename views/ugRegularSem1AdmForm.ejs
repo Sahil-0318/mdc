@@ -154,7 +154,7 @@
                                                 <div class="col-md-12 mb-3">
                                                     <label for="email" class="form-label">Email Id :</label>
                                                     <input type="email" class="form-control" id="email"
-                                                        name="email" oninput="this.value = this.value.toLowerCase()" value=<%= locals.meritListTwoData.email %> required readonly />
+                                                        name="email" oninput="this.value = this.value.toLowerCase()" required  />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
@@ -165,7 +165,7 @@
 
                                                 <div class="col-md-12 mb-3">
                                                     <label for="dOB" class="form-label">Date Of Birth :</label>
-                                                    <input type="date" class="form-control" id="dOB" name="dOB" value="<%= locals.meritListTwoData.dOB %>" required readonly/>
+                                                    <input type="date" class="form-control" id="dOB" name="dOB" required/>
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
@@ -239,7 +239,7 @@
                                                     <label for="mobileNumber" class="form-label">Mobile
                                                         Number :</label>
                                                     <input type="number" class="form-control" id="mobileNumber"
-                                                        name="mobileNumber" readonly value=<%= locals.meritListTwoData.mobileNo %> />
+                                                        name="mobileNumber" readonly value=<%= locals.user.mobileNumber %> />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
@@ -292,7 +292,7 @@
                                                         <label for="paper1" class="form-label">Paper-1 :</label>
                                                         <select id="paper1" class="form-select" name="paper1" onchange="updatePaper2Option()"
                                                             required>
-                                                            <option value="">Select Major Subject --</option>
+                                                            <option value="">Your Major Subject is "<%= locals.meritListTwoData.majorSubject %>", Select it --</option>
                                                             <option value="Economics">Economics</option>
                                                             <option value="History">History</option>
                                                             <option value="Political Science">Political Science</option>
@@ -352,7 +352,7 @@
                                                         <label for="paper1" class="form-label">Paper-1 :</label>
                                                         <select id="paper1" class="form-select" name="paper1" onchange="updatePaper2Option()"
                                                             required>
-                                                            <option value="">Select Major Subject --</option>
+                                                            <option value="">Your Major Subject is "<%= locals.meritListTwoData.majorSubject %>", Select it --</option>
                                                             <option value="English">English</option>
                                                             <option value="Hindi">Hindi</option>
                                                             <option value="Urdu">Urdu</option>
@@ -411,7 +411,7 @@
                                                         <label for="paper1" class="form-label">Paper-1 :</label>
                                                         <select id="paper1" class="form-select" name="paper1" onchange="updatePaper2Option()"
                                                             required>
-                                                            <option value="">Select Major Subject --</option>
+                                                            <option value="">Your Major Subject is "<%= locals.meritListTwoData.majorSubject %>", Select it --</option>
                                                             <option value="Physics">Physics</option>
                                                             <option value="Chemistry">Chemistry</option>
                                                             <option value="Zoology">Zoology</option>
@@ -550,7 +550,7 @@
                                                 <% if (locals.appliedUser) { %>
                                                     <button type="submit" class="btn btn-primary" disabled>Submit</button>
                                                 <% } else { %>
-                                                    <button type="submit" class="btn btn-primary" disabled>Submit</button>
+                                                    <button type="submit" class="btn btn-primary" >Submit</button>
                                                 <% } %>
                                                 <button type="reset" class="btn btn-secondary">Reset</button>
 
