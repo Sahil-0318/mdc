@@ -35,15 +35,17 @@ const signupPost = async (req, res) => {
         // console.log(checkedUserEmail)
 
         if (checkedUserMobileNumber === null && checkedUserEmail === null) {
-            var req = unirest("POST", "https://www.fast2sms.com/dev/voice");
+            var req = unirest("POST", "https://www.fast2sms.com/dev/bulkV2");
 
             req.headers({
                 "authorization": process.env.FAST2SMS_API
             });
 
             req.form({
+                "sender_id": process.env.DLT_SENDER_ID,
+                "message": process.env.YOUR_MESSAGE_ID,
                 "variables_values": genPassword,
-                "route": "otp",
+                "route": "dlt",
                 "numbers": mobileNumber,
             });
 
@@ -114,15 +116,17 @@ const loginPost = async (req, res) => {
 
             await ugRegularSem3User.findOneAndUpdate({ mobileNumber }, { $set: { password: genPassword } })
 
-            var req = unirest("POST", "https://www.fast2sms.com/dev/voice");
+            var req = unirest("POST", "https://www.fast2sms.com/dev/bulkV2");
 
             req.headers({
                 "authorization": process.env.FAST2SMS_API
             });
 
             req.form({
+                "sender_id": process.env.DLT_SENDER_ID,
+                "message": process.env.YOUR_MESSAGE_ID,
                 "variables_values": genPassword,
-                "route": "otp",
+                "route": "dlt",
                 "numbers": mobileNumber,
             });
 
@@ -158,12 +162,12 @@ const logout = async (req, res) => {
 
 const OTPFormPost = async (req, res) => {
     try {
-        const { otpInput, OTP } = req.body
+        const { otpInput, OTPNum } = req.body
         // console.log(otpInput, OTP)
         const foundUser = await ugRegularSem3User.findOne({ password: otpInput })
         // console.log(foundUser, "otp submission time")
         if (foundUser != null) {
-            if (otpInput === foundUser.password) {
+            // if (otpInput === foundUser.password) {
                 const token = jwt.sign({
                     id: foundUser._id,
                     mobileNumber: foundUser.mobileNumber
@@ -172,14 +176,8 @@ const OTPFormPost = async (req, res) => {
                 res.cookie('uid', token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true })
 
                 res.status(201).redirect('/ugRegularSem3AdmissionForm')
-            } else {
-                res.render('ugRegularSem3OTP', { "invalid": "Invalid OTP" })
-            }
         } else {
-            if (OTP === "Login") {
-                return res.redirect('/ugRegularSem3Login')
-            }
-            return res.redirect('/ugRegularSem3Signup')
+            res.render('ugRegularSem3OTP', { OTPComesFrom: "Login", OTPNumber: OTPNum, "invalid": "Invalid OTP, You can request resend OTP" })
         }
     } catch (error) {
         console.log("Error in OTP Form Post Method =====>", error)
@@ -207,15 +205,17 @@ const resendOTP = async (req, res) => {
 
             await ugRegularSem3User.findOneAndUpdate({ mobileNumber: mobNum }, { $set: { password: genPassword } })
 
-            var req = unirest("POST", "https://www.fast2sms.com/dev/voice");
+            var req = unirest("POST", "https://www.fast2sms.com/dev/bulkV2");
 
             req.headers({
                 "authorization": process.env.FAST2SMS_API
             });
 
             req.form({
+                "sender_id": process.env.DLT_SENDER_ID,
+                "message": process.env.YOUR_MESSAGE_ID,
                 "variables_values": genPassword,
-                "route": "otp",
+                "route": "dlt",
                 "numbers": mobNum,
             });
 

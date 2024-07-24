@@ -25,6 +25,7 @@
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <a href="/ugRegularSem3ResendOTP/<%= locals.OTPNumber %>">Resend OTP</a>
                             </div>
+                            <input type="hidden" name="OTPNum" value=<%= locals.OTPNumber %>>
                             <input type="hidden" name="OTP" value=<%= locals.OTPComesFrom %>>
                             <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Enter</button>
                         </form>
@@ -48,7 +49,7 @@
 
     <!-- Template Javascript -->
     <script src="../javascripts/main.js"></script>
-    <!-- <script>
+    <script>
         const submitPopUp = document.querySelector('#submitPopUp')
         setInterval(() => {
           submitPopUp.innerHTML = ''
@@ -57,7 +58,7 @@
         document.getElementById("otpForm").addEventListener('submit', () =>{
             localStorage.removeItem('mobileNumber');
         })
-    </script> -->
+    </script>
 
 </body>
 
