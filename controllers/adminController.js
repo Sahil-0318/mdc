@@ -952,7 +952,7 @@ const findUserId = async (req, res) => {
 const ugRegularSem3List = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const ugRegularSem1AdmissionList = await ugRegularSem3AdmissionForm.find({ isPaid: true })
+    const ugRegularSem1AdmissionList = await ugRegularSem3AdmissionForm.find()
     // console.log(ugRegularSem1AdmissionList);
     res.render('ugRegularSem3List', { list: ugRegularSem1AdmissionList, status: "All", noOfForms: ugRegularSem1AdmissionList.length, user })
   } catch (error) {
