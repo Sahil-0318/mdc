@@ -1011,8 +1011,35 @@ const ugRegSem3StuEdit = async (req, res) => {
 
 const ugRegSem3StuEditPost = async (req, res) => {
   try {
-    const { studentName, fatherName, motherName, guardianName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, paper1, paper2, paper3, paper4, paper5, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } = req.body
+    let { studentName, fatherName, motherName, guardianName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, paper1, paper2, paper3, paper4, paper5, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } = req.body
     const { editId } = req.params
+
+    if (gender === "MALE") {
+      if (course === "Bachelor of Science" || paper1 === "Psychology") {
+          if (category === "GENERAL" || category === "BC-2") {
+              admissionFee = 2755
+          } else if (category === "BC-1") {
+              admissionFee = 2155
+          } else {
+              admissionFee = 1350
+          }
+      } else {
+          if (category === "GENERAL" || category === "BC-2") {
+              admissionFee = 2155
+          } else if (category === "BC-1") {
+              admissionFee = 1555
+          } else {
+              admissionFee = 750
+          }
+      }
+
+  } else {
+      if (course === "Bachelor of Science" || paper1 === "Psychology") {
+          admissionFee = 1350
+      } else {
+          admissionFee = 750
+      }
+  }
 
     await ugRegularSem3AdmissionForm.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, guardianName, uniRegNumber, uniRollNumber, collegeRollNumber, email, paper1, paper2, paper3, paper4, paper5, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } })
 
