@@ -951,10 +951,21 @@ const findUserId = async (req, res) => {
 
 const ugRegularSem3List = async (req, res) => {
   try {
+    let queries = req.query
+    
+    let status = ""
+    if (queries.isPaid === 'true') {
+      status = "Paid"
+    } else if(queries.isPaid === 'false'){
+      status = "Unpaid"
+    } else{
+      status = "All"
+    }
+
     const user = await User.findOne({ _id: req.id })
-    const ugRegularSem1AdmissionList = await ugRegularSem3AdmissionForm.find()
+    const ugRegularSem1AdmissionList = await ugRegularSem3AdmissionForm.find(queries)
     // console.log(ugRegularSem1AdmissionList);
-    res.render('ugRegularSem3List', { list: ugRegularSem1AdmissionList, status: "All", noOfForms: ugRegularSem1AdmissionList.length, user })
+    res.render('ugRegularSem3List', { list: ugRegularSem1AdmissionList, status, noOfForms: ugRegularSem1AdmissionList.length, user })
   } catch (error) {
     console.log(error);
   }
