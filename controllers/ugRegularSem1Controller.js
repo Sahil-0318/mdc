@@ -15,7 +15,7 @@ import axios from "axios"
 
 //Error Page
 // const ugRegularSem1 = async (req, res) => {
-//     res.render('pageNotFound', {status : "UG Regular admission has been closed."})
+//     res.render('pageNotFound', {status : "UG Regular Sem 1 admission has been closed.", loginPage : "ug-regular-sem-1-login"})
 // }
 
 

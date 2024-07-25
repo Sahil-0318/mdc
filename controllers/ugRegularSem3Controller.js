@@ -5,6 +5,12 @@ import jwt from 'jsonwebtoken'
 import qrcode from 'qrcode'
 import unirest from 'unirest'
 
+
+//Error Page
+// const signup = async (req, res) => {
+//     res.render('pageNotFound', {status : "UG Regular Sem 3 admission has been closed.", loginPage : "ugRegularSem3Login"})
+// }
+
 const signup = async (req, res) => {
     try {
         res.render("ugRegularSem3Signup")

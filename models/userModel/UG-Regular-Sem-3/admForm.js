@@ -156,7 +156,7 @@ const ugRegularSem3AdmissionFormSchema = mongoose.Schema({
     },
     session :{
         type : String,
-        default : "2022-25"
+        default : "2023-27"
     },
     paymentSS :{
         type : String

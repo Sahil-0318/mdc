@@ -5,6 +5,10 @@ import jwt from 'jsonwebtoken'
 import FileUpload from '../fileUpload/fileUpload.js'
 import qrcode from 'qrcode'
 
+//Error Page
+// const bca3Signup = async (req, res) => {
+//     res.render('pageNotFound', {status : "BCA part 3 admission has been closed.", loginPage : "bca3Login"})
+// }
 
 const bca3Signup = async (req, res) => {
     try {
