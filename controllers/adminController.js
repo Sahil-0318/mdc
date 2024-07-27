@@ -713,6 +713,84 @@ const datewiseUgRegSem1List = async (req, res) => {
   }
 }
 
+const UG_Reg_Sem_I_BA_Adm_List = async (req, res) => {
+  try {
+    let users = []
+    const economicsStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Economics" })
+    const historyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "History" })
+    const politicalScienceStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Political Science" })
+    const psychologyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Psychology" })
+    const sociologyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Sociology" })
+    const englishStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "English" })
+    const hindiStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Hindi" })
+    const urduStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Urdu" })
+    const philosophyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Philosophy" })
+
+    console.log(economicsStudents.length, historyStudents.length, politicalScienceStudents.length, psychologyStudents.length, sociologyStudents.length)
+
+    const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents, ...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
+    
+    userData.forEach((admUser) => {
+      const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
+
+      let course = ""
+
+      if (paper1 === "Economics" || paper1 === "History" || paper1 === "Political Science" || paper1 === "Psychology" || paper1 === "Sociology") {
+        course = "Bachelor of Arts (Social Science Subjects)"
+        
+      }else if (paper1 === "English" || paper1 === "Hindi" || paper1 === "Urdu" || paper1 === "Philosophy") {
+        course = "Bachelor of Arts (Humanities Subjects)"
+        
+      } else {
+        course = "Bachelor of Science"
+        
+      }
+
+      users.push({
+        'Student Name': studentName,
+        'College Roll No.': collegeRollNo.slice(2),
+        'Reference Number': referenceNumber,
+        'PPU Confidential Number': ppuConfidentialNumber,
+        'Course' : course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'MJC-1' : paper1,
+        'MIC-1' : paper2,
+        'MDC-1' : paper3,
+        'AEC-1' : paper4,
+        'SEC-1' : paper5,
+        'VAC-1' : paper6,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment.slice(0, 10),
+        "Payment SS": paymentSS
+
+      })
+    })
+
+    const csvParser = new CsvParser()
+    const csvData = csvParser.parse(users)
+
+    res.setHeader("Content-type", "text/csv")
+    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_I_BA_SS_Adm_List.csv")
+
+    res.status(200).end(csvData)
+
+
+  } catch (error) {
+    res.status(401)
+  }
+}
+
 const UG_Reg_Sem_I_BA_SS_Adm_List = async (req, res) => {
   try {
     let users = []
@@ -724,7 +802,7 @@ const UG_Reg_Sem_I_BA_SS_Adm_List = async (req, res) => {
 
     console.log(economicsStudents.length, historyStudents.length, politicalScienceStudents.length, psychologyStudents.length, sociologyStudents.length)
 
-    const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents]
+    const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
     
     userData.forEach((admUser) => {
       const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
@@ -797,7 +875,7 @@ const UG_Reg_Sem_I_BA_Hum_Adm_List = async (req, res) => {
 
     console.log(englishStudents.length, hindiStudents.length, urduStudents.length, philosophyStudents.length)
 
-    const userData = [...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents]
+    const userData = [...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
     
     userData.forEach((admUser) => {
       const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
@@ -870,7 +948,7 @@ const UG_Reg_Sem_I_BSc_Adm_List = async (req, res) => {
     const mathematicsStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Mathematics" })
     console.log(physicsStudents.length, chemistryStudents.length, zoologyStudents.length, botanyStudents.length, mathematicsStudents.length)
 
-    const userData = [...physicsStudents, ...chemistryStudents, ...zoologyStudents, ...botanyStudents, ...mathematicsStudents]
+    const userData = [...physicsStudents, ...chemistryStudents, ...zoologyStudents, ...botanyStudents, ...mathematicsStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
     
     userData.forEach((admUser) => {
       const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
@@ -1216,6 +1294,7 @@ export {
   ugRegSem1StuView,
   verifyUgRegSem1Stu,
   datewiseUgRegSem1List,
+  UG_Reg_Sem_I_BA_Adm_List,
   UG_Reg_Sem_I_BA_SS_Adm_List,
   UG_Reg_Sem_I_BA_Hum_Adm_List,
   UG_Reg_Sem_I_BSc_Adm_List,

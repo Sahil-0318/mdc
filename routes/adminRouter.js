@@ -32,6 +32,7 @@ import {
     ugRegSem1StuView,
     verifyUgRegSem1Stu,
     datewiseUgRegSem1List,
+    UG_Reg_Sem_I_BA_Adm_List,
     UG_Reg_Sem_I_BA_SS_Adm_List,
     UG_Reg_Sem_I_BA_Hum_Adm_List,
     UG_Reg_Sem_I_BSc_Adm_List,
@@ -116,6 +117,8 @@ adminRouter.get('/student-view/:stuId', adminAuth, ugRegSem1StuView)
 adminRouter.get('/verify-student/:Id', adminAuth, verifyUgRegSem1Stu)
 
 adminRouter.post('/datewiseUgRegSem1List', adminAuth, datewiseUgRegSem1List)
+
+adminRouter.get('/UG_Reg_Sem_I_BA_Adm_List', adminAuth, UG_Reg_Sem_I_BA_Adm_List)
 
 adminRouter.get('/UG_Reg_Sem_I_BA_SS_Adm_List', adminAuth, UG_Reg_Sem_I_BA_SS_Adm_List)
 
