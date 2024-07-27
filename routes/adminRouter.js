@@ -32,7 +32,9 @@ import {
     ugRegSem1StuView,
     verifyUgRegSem1Stu,
     datewiseUgRegSem1List,
-    ugRegSem1Excel,
+    UG_Reg_Sem_I_BA_SS_Adm_List,
+    UG_Reg_Sem_I_BA_Hum_Adm_List,
+    UG_Reg_Sem_I_BSc_Adm_List,
     ugRegSem1Password,
     editUserId,
     editUserIdPost,
@@ -115,7 +117,11 @@ adminRouter.get('/verify-student/:Id', adminAuth, verifyUgRegSem1Stu)
 
 adminRouter.post('/datewiseUgRegSem1List', adminAuth, datewiseUgRegSem1List)
 
-adminRouter.get('/ugRegSem1Excel/:course/:findAdmDateFrom/:findAdmDateTo', adminAuth, ugRegSem1Excel)
+adminRouter.get('/UG_Reg_Sem_I_BA_SS_Adm_List', adminAuth, UG_Reg_Sem_I_BA_SS_Adm_List)
+
+adminRouter.get('/UG_Reg_Sem_I_BA_Hum_Adm_List', adminAuth, UG_Reg_Sem_I_BA_Hum_Adm_List)
+
+adminRouter.get('/UG_Reg_Sem_I_BSc_Adm_List', adminAuth, UG_Reg_Sem_I_BSc_Adm_List)
 
 adminRouter.get('/ugRegSem1Password', adminAuth, ugRegSem1Password)
 
