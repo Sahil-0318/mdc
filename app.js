@@ -146,6 +146,8 @@ import ugRegularSem3Router from './routes/ugRegularSem3Router.js'
 import eLibraryRouter from './routes/eLibraryRouter.js'
 import apiRouter from './routes/apiRouter.js'
 import bca3Router from './routes/bca3Router.js'
+import ugRegularPart3Router from './routes/ugRegularPart3Router.js'
+import portalOnOffRouter from './routes/portalOnOffRouter.js'
 
 
 // Set template engine
@@ -168,6 +170,8 @@ app.use('/', ugRegularSem3Router)
 app.use('/', eLibraryRouter)
 app.use('/api', apiRouter)
 app.use('/', bca3Router)
+app.use('/', ugRegularPart3Router)
+app.use('/', portalOnOffRouter)
 
 // // Get the current directory name (ES Modules don't have __dirname)
 // const __filename = fileURLToPath(import.meta.url);
