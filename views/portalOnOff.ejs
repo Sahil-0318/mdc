@@ -11,7 +11,7 @@
             <!-- Navbar Start -->
             <%- include('./partials/navbar.ejs')%>
                 <!-- Navbar End -->
-                
+
                 <!-- Blank Start -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="row bg-light rounded justify-content-center m-0 p-2" style="min-height: 70vh;">
@@ -19,24 +19,29 @@
                             <div class="row">
                                 <% if (locals.portal) { %>
                                     <h3 class="mt-3 text-success">UG Regular Part 3 (2022 - 25) Portal is On.</h3>
-                                    
+
                                     <% } else { %>
                                         <h3 class="mt-3 text-danger">UG Regular Part 3 (2022 - 25) Portal is Off.</h3>
-                                 
-                                <% } %>
 
-                                <form action="/ugRegularPart3Potal202225" method="post">
-                                    
-                                    <input type="hidden" name="isOn" value=<%= locals.portal %>>
+                                        <% } %>
 
-                                    <% if (locals.portal) { %>
-                                        <button type="submit" class="btn btn-danger">Off Portal</button>
-                                        
-                                        <% } else { %>
-                                            <button type="submit" class="btn btn-success">On Portal</button>
-                                     
-                                    <% } %>
-                                </form>
+                                            <% if (locals.portal) { %>
+
+                                                <div>
+                                                    <a class="btn btn-danger"
+                                                        href="/ugRegularPart3Potal202225?isOn=<%= locals.portal %>">Off
+                                                        Portal</a>
+                                                </div>
+
+                                                <% } else { %>
+                                                    <div>
+                                                        <a class="btn btn-success"
+                                                            href="/ugRegularPart3Potal202225?isOn=<%= locals.portal %>">On
+                                                            Portal</a>
+                                                    </div>
+                                                    <% } %>
+
+
 
                             </div>
                         </section>
