@@ -269,7 +269,7 @@ const ugRegularPart3Pay = async (req, res) => {
             })
         } else if (appliedUser.admissionFee === "750") {
             qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=750&tn=${appliedUser.studentName}`, function (err, src) {
-                res.status(201).render('ugRegularSem3PayPage', { "qrcodeUrl": src, user, appliedUser })
+                res.status(201).render('ugRegularPart3PayPage', { "qrcodeUrl": src, user, appliedUser })
             })
         }
 
