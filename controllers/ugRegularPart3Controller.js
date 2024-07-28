@@ -251,27 +251,9 @@ const ugRegularPart3Pay = async (req, res) => {
             return res.redirect("/ugRegularPart3AdmissionForm")
         }
 
-        if (appliedUser.admissionFee === "2755") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2755&tn=${appliedUser.studentName}`, function (err, src) {
-                res.status(201).render('ugRegularPart3PayPage', { "qrcodeUrl": src, user, appliedUser })
-            })
-        } else if (appliedUser.admissionFee === "2155") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2155&tn=${appliedUser.studentName}`, function (err, src) {
-                res.status(201).render('ugRegularPart3PayPage', { "qrcodeUrl": src, user, appliedUser })
-            })
-        } else if (appliedUser.admissionFee === "1555") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=1555&tn=${appliedUser.studentName}`, function (err, src) {
-                res.status(201).render('ugRegularPart3PayPage', { "qrcodeUrl": src, user, appliedUser })
-            })
-        } else if (appliedUser.admissionFee === "1350") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=1350&tn=${appliedUser.studentName}`, function (err, src) {
-                res.status(201).render('ugRegularPart3PayPage', { "qrcodeUrl": src, user, appliedUser })
-            })
-        } else if (appliedUser.admissionFee === "750") {
-            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=750&tn=${appliedUser.studentName}`, function (err, src) {
-                res.status(201).render('ugRegularPart3PayPage', { "qrcodeUrl": src, user, appliedUser })
-            })
-        }
+        qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(appliedUser.admissionFee)}&tn=${appliedUser.studentName}`, function (err, src) {
+            res.status(201).render('ugRegularPart3PayPage', { "qrcodeUrl": src, upiId : process.env.UPI_ID, user, appliedUser })
+        })
 
     } catch (error) {
         console.log("Error in UG Regular UG Part 3 Pay Page =====>", error)
