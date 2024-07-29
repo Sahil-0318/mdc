@@ -169,8 +169,8 @@ const logout = async (req, res) => {
 const OTPFormPost = async (req, res) => {
     try {
         const { otpInput, OTPNum } = req.body
-        // console.log(otpInput, OTP)
-        const foundUser = await ugRegularSem3User.findOne({ password: otpInput })
+        // console.log("Line 172",otpInput, OTPNum)
+        const foundUser = await ugRegularSem3User.findOne({ mobileNumber : OTPNum, password: otpInput })
         // console.log(foundUser, "otp submission time")
         if (foundUser != null) {
             // if (otpInput === foundUser.password) {
@@ -193,6 +193,7 @@ const OTPFormPost = async (req, res) => {
 
 const resendOTP = async (req, res) => {
     const { mobNum } = req.params
+    // console.log("Line 196", mobNum)
     try {
         const foundUser = await ugRegularSem3User.findOne({ mobileNumber: mobNum })
 
