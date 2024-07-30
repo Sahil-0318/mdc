@@ -38,15 +38,17 @@ const signupPost = async (req, res) => {
         }
         let createdUserName = generateUserName()
 
-        // Generate OTP Function
+        // Generate Paaword Function
         let genPassword = ""
-        let generatePassword = () => {
-            let pass = ""
-            for (let index = 0; index < 8; index++) {
-                pass = pass + Math.floor(Math.random() * 10)
+        function generatePassword() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
+            let otp = '';
+            for (let i = 0; i < 8; i++) {
+              const randomIndex = Math.floor(Math.random() * characters.length);
+              otp += characters[randomIndex];
             }
-            return pass
-        }
+            return otp;
+          }
         genPassword = generatePassword()
 
         if (await ugRegularPart3User.findOne({ password: genPassword }) !== null) {

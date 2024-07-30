@@ -26,6 +26,7 @@ import {
     editNotice,
     editNoticePost,
     deleteNotice,
+
     // ug regular sem 1 list
     ugRegularSem1List,
     findStuInUGRegSem1Adm,
@@ -40,18 +41,27 @@ import {
     editUserId,
     editUserIdPost,
     findUserId,
+
     // ug regular sem 1 list
     ugRegularSem3List,
     findStuInUGRegSem3Adm,
     ugRegSem3StuView,
     ugRegSem3StuEdit,
     ugRegSem3StuEditPost,
+
     //BCA Part 3
     bca3List,
     findStuInbca3Adm,
     bca3StuView,
     bca3StuEdit,
-    bca3StuEditPost
+    bca3StuEditPost,
+
+    // UG Regular Part 3
+    ugRegularPart3List,
+    findStuInUGRegPart3Adm,
+    ugRegPart3StuView,
+    ugRegPart3StuEdit,
+    ugRegPart3StuEditPost
 }
     from '../controllers/adminController.js'
 
@@ -135,7 +145,6 @@ adminRouter.post('/editUserIdForm/:editId', adminAuth, editUserIdPost)
 adminRouter.post('/findUserId', adminAuth, findUserId)
 
 // UG Regular Sem - 3 List
-
 adminRouter.get('/ugRegularSem3List', adminAuth, ugRegularSem3List)
 
 adminRouter.post('/ugRegularSem3List', adminAuth, findStuInUGRegSem3Adm)
@@ -156,5 +165,16 @@ adminRouter.get('/bca3StudentView/:stuId', adminAuth, bca3StuView)
 adminRouter.get('/bca3StudentEdit/:stuId', adminAuth, bca3StuEdit)
 
 adminRouter.post('/bca3StudentEditPost/:editId', adminAuth, bca3StuEditPost)
+
+// UG Regular Part 3
+adminRouter.get('/ugRegularPart3List', adminAuth, ugRegularPart3List)
+
+adminRouter.post('/ugRegularPart3List', adminAuth, findStuInUGRegPart3Adm)
+
+adminRouter.get('/ugRegularPart3StudentView/:stuId', adminAuth, ugRegPart3StuView)
+
+adminRouter.get('/ugRegularPart3StudentEdit/:stuId', adminAuth, ugRegPart3StuEdit)
+
+adminRouter.post('/ugRegularPart3StudentEditPost/:editId', adminAuth, ugRegPart3StuEditPost)
 
 export default adminRouter

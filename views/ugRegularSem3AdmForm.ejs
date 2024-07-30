@@ -487,7 +487,11 @@
                                                 <% if (locals.appliedUser) { %>
                                                     <button type="submit" class="btn btn-primary" disabled>Submit</button>
                                                 <% } else { %>
-                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                    <% if (locals.portal) { %>
+                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                        <% } else { %>
+                                                            <button type="submit" class="btn btn-primary" disabled>Submit</button>
+                                                    <% } %>
                                                 <% } %>
                                                 <button type="reset" class="btn btn-secondary">Reset</button>
 

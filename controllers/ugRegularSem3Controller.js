@@ -4,6 +4,7 @@ import FileUpload from '../fileUpload/fileUpload.js'
 import jwt from 'jsonwebtoken'
 import qrcode from 'qrcode'
 import unirest from 'unirest'
+import PortalOnOff from '../models/adminModel/portalOnOffSchema.js'
 
 
 //Error Page
@@ -11,11 +12,26 @@ import unirest from 'unirest'
 //     res.render('pageNotFound', {status : "UG Regular Sem 3 admission has been closed.", loginPage : "ugRegularSem3Login"})
 // }
 
+// const signup = async (req, res) => {
+//     try {
+//         res.render("ugRegularSem3Signup")
+//     } catch (error) {
+//         console.log("Error in Signup Get Method =====>", error)
+//     }
+// }
+
+
 const signup = async (req, res) => {
     try {
-        res.render("ugRegularSem3Signup")
+        const portal = await PortalOnOff.findOne({portal : "ugRegularSem3_23-27"})
+        if (portal.isOn == true) {
+            return res.render("ugRegularSem3Signup")
+        }  
+        if (portal.isOn == false) {
+            return res.render('pageNotFound', {status : "UG Regular Sem 3 (2023 - 27) admission has been closed.", loginPage : "ugRegularSem3Login"})
+        }
     } catch (error) {
-        console.log("Error in Signup Get Method =====>", error)
+        console.log("Error in Signup UG Part 3 Get Method =====>", error)
     }
 }
 
@@ -256,10 +272,12 @@ const admissionForm = async (req, res) => {
         // console.log(user)
         const appliedUser = await ugRegularSem3AdmissionForm.findOne({ appliedBy: user._id.toString() })
         // console.log(appliedUser)
+        const portal = await PortalOnOff.findOne({portal : "ugRegularSem3_23-27"})
+
         if (appliedUser != null) {
             res.render('ugRegularSem3AdmForm', { user, appliedUser })
         } else {
-            res.render('ugRegularSem3AdmForm', { user })
+            res.render('ugRegularSem3AdmForm', { user, portal : portal.isOn })
         }
     } catch (error) {
         console.log("Error in Admission Form get Method =====>", error)

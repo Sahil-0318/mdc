@@ -21,6 +21,10 @@ import ugRegularSem3AdmissionForm from "../models/userModel/UG-Regular-Sem-3/adm
 import bca3FormModel from "../models/userModel/BCA-3/form.js"
 import bca3UserModel from "../models/userModel/BCA-3/user.js"
 
+// UG Regular Part 3
+import ugRegularPart3User from "../models/userModel/UG-Regular-Part-3/user.js"
+import ugRegularPart3AdmissionForm from "../models/userModel/UG-Regular-Part-3/admForm.js"
+
 
 
 const adminPage = async (req, res) => {
@@ -1265,6 +1269,122 @@ const bca3StuEditPost = async (req, res) =>{
   }
 }
 
+
+// UG Regular Part 3
+const ugRegularPart3List = async (req, res) =>{
+  try {
+    let queries = req.query
+    
+    let status = ""
+    if (queries.isPaid === 'true') {
+      status = "Paid"
+    } else if(queries.isPaid === 'false'){
+      status = "Unpaid"
+    } else{
+      status = "All"
+    }
+
+    const user = await User.findOne({ _id: req.id })
+    const ugRegularPart3AdmissionList = await ugRegularPart3AdmissionForm.find(queries)
+    // console.log(ugRegularSem1AdmissionList);
+    res.render('ugRegularPart3List', { list: ugRegularPart3AdmissionList, status, noOfForms: ugRegularPart3AdmissionList.length, user })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+const findStuInUGRegPart3Adm = async (req, res) =>{
+  try {
+    const user = await User.findOne({ _id: req.id })
+    let { findStuMobileNo } = req.body
+
+    if (findStuMobileNo !== '') {
+      let foundStudent = await ugRegularPart3AdmissionForm.find({ mobileNumber: findStuMobileNo })
+      res.render('ugRegularPart3List', { list: foundStudent, status: "Found", noOfForms: foundStudent.length, user })
+
+    } else if (findStuMobileNo === '') {
+      const foundStudent = await ugRegularPart3AdmissionForm.find({ isPaid: true })
+      res.render('ugRegularPart3List', { list: foundStudent, status: "All", formAlert: "Please, Enter Mobile No", noOfForms: foundStudent.length, user })
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+const ugRegPart3StuView = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+
+    const foundStudent = await ugRegularPart3AdmissionForm.findOne({ _id: stuId })
+    const foundStudentID = await ugRegularPart3User.findOne({ _id: foundStudent.appliedBy })
+
+    res.render('ugRegularPart3StudentView', { foundStudent, foundStudentID, user })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+const ugRegPart3StuEdit = async (req, res) =>{
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+    const foundStudent = await ugRegularPart3AdmissionForm.findOne({ _id: stuId })
+    const foundStudentID = await ugRegularPart3User.findOne({ _id: foundStudent.appliedBy })
+    res.render("ugRegularPart3StudentEdit", { user, foundStudent, foundStudentID })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+const ugRegPart3StuEditPost = async (req, res) =>{
+  try {
+    let { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, paper1, paper2, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } = req.body
+    const { editId } = req.params
+
+    if (gender === "MALE") {
+      if (course === "Bachelor of Science" || paper1 === "Psychology") {
+          if (category === "GENERAL" || category === "BC-2") {
+              admissionFee = 2755
+          } else if (category === "BC-1") {
+              admissionFee = 2155
+          } else {
+              admissionFee = 1350
+          }
+      } else {
+          if (category === "GENERAL" || category === "BC-2") {
+              admissionFee = 2155
+          } else if (category === "BC-1") {
+              admissionFee = 1555
+          } else {
+              admissionFee = 750
+          }
+      }
+
+  } else {
+      if (course === "Bachelor of Science" || paper1 === "Psychology") {
+          admissionFee = 1350
+      } else {
+          admissionFee = 750
+      }
+  }
+
+    await ugRegularPart3AdmissionForm.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, paper1, paper2, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } })
+
+    const foundUserLogin = await ugRegularPart3AdmissionForm.findOne({ _id: editId })
+    await ugRegularPart3User.findOneAndUpdate({ _id: foundUserLogin.appliedBy }, { $set: { fullName: studentName, course, email, mobileNumber } })
+
+    res.redirect('/ugRegularPart3List')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export {
   adminPage,
   admissionFormList,
@@ -1288,6 +1408,7 @@ export {
   editNotice,
   editNoticePost,
   deleteNotice,
+
   //ug regular sem 1 list
   ugRegularSem1List,
   findStuInUGRegSem1Adm,
@@ -1302,16 +1423,25 @@ export {
   editUserId,
   editUserIdPost,
   findUserId,
+
   //ug regular sem 1 list
   ugRegularSem3List,
   findStuInUGRegSem3Adm,
   ugRegSem3StuView,
   ugRegSem3StuEdit,
   ugRegSem3StuEditPost,
+
   //BCA Part 3
   bca3List,
   findStuInbca3Adm,
   bca3StuView,
   bca3StuEdit,
-  bca3StuEditPost
+  bca3StuEditPost,
+
+  // UG Regualr Part 3
+  ugRegularPart3List,
+  findStuInUGRegPart3Adm,
+  ugRegPart3StuView,
+  ugRegPart3StuEdit,
+  ugRegPart3StuEditPost
 }
