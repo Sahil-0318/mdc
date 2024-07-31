@@ -25,7 +25,7 @@
 
                                         <div class="col-md-4">
                                             <label for="" class="form-label fw-bold">Student's Name</label>
-                                            <textarea name="studentName" rows="1" oninput="this.value = this.value.trim().toUpperCase()" class="form-control"><%= locals.foundStudent.studentName%></textarea>
+                                            <textarea name="studentName" rows="1" oninput="this.value = this.value.toUpperCase()" class="form-control"><%= locals.foundStudent.studentName%></textarea>
                                         </div>
 
                                         <div class="col-md-4">
@@ -67,7 +67,7 @@
 
                                         <div class="col-md-6">
                                             <label for="email" class="form-label fw-bold">Email</label>
-                                            <input name="email" class="form-control" oninput="this.value = this.value.trim().toLowerCase()" value="<%= locals.foundStudent.email%>" type="email">
+                                            <input name="email" class="form-control" oninput="this.value = this.value.toLowerCase()" value="<%= locals.foundStudent.email%>" type="email">
                                         </div>
 
                                         <div class="col-md-6">

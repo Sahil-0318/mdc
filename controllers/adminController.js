@@ -769,7 +769,7 @@ const UG_Reg_Sem_I_BA_Adm_List = async (req, res) => {
         'VAC-1': paper6,
         "Father's Name": fatherName,
         "Mother's Name": motherName,
-        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
         "Student's Photo": studentPhoto,
@@ -843,7 +843,7 @@ const UG_Reg_Sem_I_BA_SS_Adm_List = async (req, res) => {
         'VAC-1': paper6,
         "Father's Name": fatherName,
         "Mother's Name": motherName,
-        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
         "Student's Photo": studentPhoto,
@@ -916,7 +916,7 @@ const UG_Reg_Sem_I_BA_Hum_Adm_List = async (req, res) => {
         'VAC-1': paper6,
         "Father's Name": fatherName,
         "Mother's Name": motherName,
-        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
         "Student's Photo": studentPhoto,
@@ -989,7 +989,7 @@ const UG_Reg_Sem_I_BSc_Adm_List = async (req, res) => {
         'VAC-1': paper6,
         "Father's Name": fatherName,
         "Mother's Name": motherName,
-        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
         "Student's Photo": studentPhoto,
@@ -1079,7 +1079,6 @@ const findUserId = async (req, res) => {
 
 
 // UG Regular Sem 3 List
-
 const ugRegularSem3List = async (req, res) => {
   try {
     let queries = req.query
@@ -1194,86 +1193,6 @@ const ugRegSem3StuEditPost = async (req, res) => {
   }
 }
 
-
-// const UG_Reg_Sem_III_BA_Adm_List = async (req, res) => {
-//   try {
-//     let users = []
-
-//       const economicsStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Economics" })
-//       const historyStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "History" })
-//       const politicalScienceStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Political Science" })
-//       const psychologyStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Psychology" })
-//       const sociologyStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Sociology" })
-//       const englishStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "English" })
-//       const hindiStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Hindi" })
-//       const urduStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Urdu" })
-//       const philosophyStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Philosophy" })
-
-//       console.log(economicsStudents.length, historyStudents.length, politicalScienceStudents.length, psychologyStudents.length, sociologyStudents.length, englishStudents.length, hindiStudents.length, urduStudents.length, philosophyStudents.length)
-
-//       const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents, ...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents].sort((a, b) => a.collegeRollNumber - b.collegeRollNumber)
-
-
-//     userData.forEach((admUser) => {
-//       const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender,religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
-
-//       let course = ""
-
-//       if (paper1 === "Economics" || paper1 === "History" || paper1 === "Political Science" || paper1 === "Psychology" || paper1 === "Sociology") {
-//         course = "Bachelor of Arts (Social Science Subjects)"
-
-//       } else if (paper1 === "English" || paper1 === "Hindi" || paper1 === "Urdu" || paper1 === "Philosophy") {
-//         course = "Bachelor of Arts (Humanities Subjects)"
-
-//       } else {
-//         course = "Bachelor of Science"
-
-//       }
-
-//       users.push({
-//         'Student Name': studentName,
-//         'Uni. Reg. Number' : uniRegNumber,
-//         'Uni. Roll Number': uniRollNumber,
-//         'College Roll No.': collegeRollNumber,
-//         'Course': course,
-//         'Session': session,
-//         'Aadhar No.': aadharNumber,
-//         'DOB': dOB,
-//         'Gender': gender,
-//         'Category': category,
-//         'Religion': religion,
-//         'MJC-1': paper1,
-//         'MIC-1': paper2,
-//         'MDC-1': paper3,
-//         'AEC-1': paper4,
-//         'SEC-1': paper5,
-//         "Father's Name": fatherName,
-//         "Mother's Name": motherName,
-//         'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
-//         'Mobile No.': mobileNumber,
-//         'Email': email,
-//         "Student's Photo": studentPhoto,
-//         "Student's Sign": studentSign,
-//         "Payment Receipt No.": receiptNo,
-//         "Admission Date": dateAndTimeOfPayment.slice(0, 10),
-//         "Payment SS": paymentSS
-
-//       })
-//     })
-
-//     const csvParser = new CsvParser()
-//     const csvData = csvParser.parse(users)
-
-//     res.setHeader("Content-type", "text/csv")
-//     res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_III_BA_Adm_List.csv")
-
-//     res.status(200).end(csvData)
-
-
-//   } catch (error) {
-//     res.status(401)
-//   }
-// }
 
 const UG_Reg_Sem_III_BA_Adm_List = async (req, res) => {
   try {
@@ -1463,7 +1382,7 @@ const UG_Reg_Sem_III_BA_Hum_Adm_List = async (req, res) =>{
         'SEC-1': paper5,
         "Father's Name": fatherName,
         "Mother's Name": motherName,
-        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
         "Student's Photo": studentPhoto,
@@ -1538,7 +1457,7 @@ const UG_Reg_Sem_III_BSc_Adm_List = async (req, res) => {
         'SEC-1': paper5,
         "Father's Name": fatherName,
         "Mother's Name": motherName,
-        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
         "Student's Photo": studentPhoto,
@@ -1567,12 +1486,23 @@ const UG_Reg_Sem_III_BSc_Adm_List = async (req, res) => {
 // BCA Part 3
 const bca3List = async (req, res) => {
   try {
+    let queries = req.query
+
+    let status = ""
+    if (queries.isPaid === 'true') {
+      status = "Paid"
+    } else if (queries.isPaid === 'false') {
+      status = "Unpaid"
+    } else {
+      status = "All"
+    }
+
     const user = await User.findOne({ _id: req.id })
-    const bca3AdmissionList = await bca3FormModel.find({ isPaid: true })
-    // console.log(ugRegularSem1AdmissionList);
-    res.render('bca3List', { list: bca3AdmissionList, status: "All", noOfForms: bca3AdmissionList.length, user })
+    const bca3AdmissionList = await bca3FormModel.find(queries)
+    // console.log(bca3AdmissionList);
+    res.render('bca3List', { list: bca3AdmissionList, status, noOfForms: bca3AdmissionList.length, user })
   } catch (error) {
-    console.log("Error in get bca3List", error)
+    console.log("Error in get bca3List", error);
   }
 }
 
@@ -1639,26 +1569,95 @@ const bca3StuEditPost = async (req, res) => {
 }
 
 
+const BCA_Adm_List = async (req, res) =>{
+  try {
+    const studentsBySubject = await bca3FormModel.find({ isPaid: true })
+
+    const userData = studentsBySubject.sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
+
+    const users = userData.map(admUser => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, subject, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
+
+      return {
+        'Student Name': studentName,
+        'Uni. Reg. Number': uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': "BCA",
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Subject': subject,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment.slice(0, 10),
+        "Payment SS": paymentSS
+      };
+    });
+
+    const csvParser = new CsvParser();
+    const csvData = csvParser.parse(users);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=BCA_Adm_List.csv");
+
+    res.status(200).end(csvData);
+  } catch (error) {
+    console.error('Error generating CSV:', error);
+    res.status(500).send('Server Error');
+  }
+}
+
+
 // UG Regular Part 3
 const ugRegularPart3List = async (req, res) => {
+  const filterQueries = req.query;
   try {
-    let queries = req.query
+    // Find the user based on request ID
+    const user = await User.findOne({ _id: req.id });
 
-    let status = ""
-    if (queries.isPaid === 'true') {
-      status = "Paid"
-    } else if (queries.isPaid === 'false') {
-      status = "Unpaid"
-    } else {
-      status = "All"
+    // Initialize the query object
+    const query = {};
+
+    // Construct the query object based on filterQueries
+    if (filterQueries.isPaid && filterQueries.isPaid !== 'all') {
+      query.isPaid = filterQueries.isPaid === 'true';
+    }
+    if (filterQueries.course && filterQueries.course !== 'all') {
+      query.course = filterQueries.course;
+    }
+    if (filterQueries.honSubject && filterQueries.honSubject !== 'all') {
+      query.paper1 = filterQueries.honSubject;
+    }
+    if (filterQueries.category && filterQueries.category !== 'all') {
+      query.category = filterQueries.category;
+    }
+    if (filterQueries.gender && filterQueries.gender !== 'all') {
+      query.gender = filterQueries.gender;
     }
 
-    const user = await User.findOne({ _id: req.id })
-    const ugRegularPart3AdmissionList = await ugRegularPart3AdmissionForm.find(queries)
-    // console.log(ugRegularSem1AdmissionList);
-    res.render('ugRegularPart3List', { list: ugRegularPart3AdmissionList, status, noOfForms: ugRegularPart3AdmissionList.length, user })
+    // Find students based on the constructed query
+    const ugRegularPart3AdmissionList = await ugRegularPart3AdmissionForm.find(query);
+
+
+
+    // Render the template with the filtered list
+    res.render('ugRegularPart3List', { 
+      list: ugRegularPart3AdmissionList, 
+      noOfForms: ugRegularPart3AdmissionList.length, 
+      user 
+    });
   } catch (error) {
     console.log(error);
+    res.status(500).send('Server Error');
   }
 }
 
@@ -1743,7 +1742,7 @@ const ugRegPart3StuEditPost = async (req, res) => {
       }
     }
 
-    await ugRegularPart3AdmissionForm.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, paper1, paper2, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } })
+    await ugRegularPart3AdmissionForm.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, paper1, paper2, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } })
 
     const foundUserLogin = await ugRegularPart3AdmissionForm.findOne({ _id: editId })
     await ugRegularPart3User.findOneAndUpdate({ _id: foundUserLogin.appliedBy }, { $set: { fullName: studentName, course, email, mobileNumber } })
@@ -1751,6 +1750,111 @@ const ugRegPart3StuEditPost = async (req, res) => {
     res.redirect('/ugRegularPart3List')
   } catch (error) {
     console.log(error)
+  }
+}
+
+
+const UG_Reg_Part_III_BA_Adm_List = async (req, res) =>{
+  try {
+    const subjects = ["Economics", "History", "Political Science", "Psychology", "Sociology", "English", "Hindi", "Urdu", "Philosophy"];
+    const promises = subjects.map(subject => ugRegularPart3AdmissionForm.find({ isPaid: true, paper1: subject }));
+    const studentsBySubject = await Promise.all(promises);
+
+    const userData = studentsBySubject.flat().sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
+
+    const users = userData.map(admUser => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
+
+      return {
+        'Student Name': studentName,
+        'Uni. Reg. Number': uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Religion': religion,
+        'MJC-1': paper1,
+        'MIC-1': paper2,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment.slice(0, 10),
+        "Payment SS": paymentSS
+      };
+    });
+
+    const csvParser = new CsvParser();
+    const csvData = csvParser.parse(users);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=UG_Reg_Part_III_BA_Adm_List.csv");
+
+    res.status(200).end(csvData);
+  } catch (error) {
+    console.error('Error generating CSV:', error);
+    res.status(500).send('Server Error');
+  }
+}
+
+
+const UG_Reg_Part_III_BSc_Adm_List = async (req, res) =>{
+  try {
+    const subjects = ["Physics", "Chemistry", "Zoology", "Botany", "Mathematics"];
+    const promises = subjects.map(subject => ugRegularPart3AdmissionForm.find({ isPaid: true, paper1: subject }));
+    const studentsBySubject = await Promise.all(promises);
+
+    const userData = studentsBySubject.flat().sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
+
+    const users = userData.map(admUser => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
+      console.log(course)
+
+      return {
+        'Student Name': studentName,
+        'Uni. Reg. Number': uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Religion': religion,
+        'MJC-1': paper1,
+        'MIC-1': paper2,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment.slice(0, 10),
+        "Payment SS": paymentSS
+      };
+    });
+
+    const csvParser = new CsvParser();
+    const csvData = csvParser.parse(users);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=UG_Reg_Part_III_BSc_Adm_List.csv");
+
+    res.status(200).end(csvData);
+  } catch (error) {
+    console.error('Error generating CSV:', error);
+    res.status(500).send('Server Error');
   }
 }
 
@@ -1810,11 +1914,14 @@ export {
   bca3StuView,
   bca3StuEdit,
   bca3StuEditPost,
+  BCA_Adm_List,
 
   // UG Regualr Part 3
   ugRegularPart3List,
   findStuInUGRegPart3Adm,
   ugRegPart3StuView,
   ugRegPart3StuEdit,
-  ugRegPart3StuEditPost
+  ugRegPart3StuEditPost,
+  UG_Reg_Part_III_BA_Adm_List,
+  UG_Reg_Part_III_BSc_Adm_List
 }
