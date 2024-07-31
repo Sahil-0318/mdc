@@ -28,7 +28,7 @@ const signup = async (req, res) => {
             return res.render("ugRegularSem3Signup")
         }  
         if (portal.isOn == false) {
-            return res.render('pageNotFound', {status : "UG Regular Sem 3 (2023 - 27) admission has been closed.", loginPage : "ugRegularSem3Login"})
+            return res.render('pageNotFound', {status : "UG Regular Sem 3 (2023 - 27) admission has been closed due to Technical issue. It will resume after sometimes. So please wait. Thankyou", loginPage : "ugRegularSem3Login"})
         }
     } catch (error) {
         console.log("Error in Signup UG Part 3 Get Method =====>", error)
