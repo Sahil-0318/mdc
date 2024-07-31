@@ -295,27 +295,9 @@ const payPost = async (req, res) => {
             res.redirect("/ugRegularPart3Receipt")
 
         } else {
-            if (appliedUser.admissionFee === "2755") {
-                qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2755&tn=${appliedUser.studentName}`, function (err, src) {
-                    res.status(201).render('ugRegularPart3PayPage', { "qrcodeUrl": src, user, appliedUser, invalid: "Please enter valid UTR / Ref no. (कृपया वैध यूटीआर/रेफ नंबर दर्ज करें।)" })
-                })
-            } else if (appliedUser.admissionFee === "2155") {
-                qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=2155&tn=${appliedUser.studentName}`, function (err, src) {
-                    res.status(201).render('ugRegularPart3PayPage', { "qrcodeUrl": src, user, appliedUser, invalid: "Please enter valid UTR / Ref no. (कृपया वैध यूटीआर/रेफ नंबर दर्ज करें।)" })
-                })
-            } else if (appliedUser.admissionFee === "1555") {
-                qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=1555&tn=${appliedUser.studentName}`, function (err, src) {
-                    res.status(201).render('ugRegularPart3PayPage', { "qrcodeUrl": src, user, appliedUser, invalid: "Please enter valid UTR / Ref no. (कृपया वैध यूटीआर/रेफ नंबर दर्ज करें।)" })
-                })
-            } else if (appliedUser.admissionFee === "1350") {
-                qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=1350&tn=${appliedUser.studentName}`, function (err, src) {
-                    res.status(201).render('ugRegularPart3PayPage', { "qrcodeUrl": src, user, appliedUser, invalid: "Please enter valid UTR / Ref no. (कृपया वैध यूटीआर/रेफ नंबर दर्ज करें।)" })
-                })
-            } else if (appliedUser.admissionFee === "750") {
-                qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=750&tn=${appliedUser.studentName}`, function (err, src) {
-                    res.status(201).render('ugRegularSem3PayPage', { "qrcodeUrl": src, user, appliedUser, invalid: "Please enter valid UTR / Ref no. (कृपया वैध यूटीआर/रेफ नंबर दर्ज करें।)" })
-                })
-            }
+            qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(appliedUser.admissionFee)}&tn=${appliedUser.studentName}`, function (err, src) {
+                res.status(201).render('ugRegularPart3PayPage', { "qrcodeUrl": src, upiId : process.env.UPI_ID, user, appliedUser, invalid: "Please enter valid UTR / Ref no. (कृपया वैध यूटीआर/रेफ नंबर दर्ज करें।)" })
+            })
         }
     } catch (error) {
         console.log("Error in UG Regular Sem 3 Pay Page Post =====>", error)

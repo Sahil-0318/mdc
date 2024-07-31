@@ -48,6 +48,10 @@ import {
     ugRegSem3StuView,
     ugRegSem3StuEdit,
     ugRegSem3StuEditPost,
+    UG_Reg_Sem_III_BA_Adm_List,
+    UG_Reg_Sem_III_BA_SS_Adm_List,
+    UG_Reg_Sem_III_BA_Hum_Adm_List,
+    UG_Reg_Sem_III_BSc_Adm_List,
 
     //BCA Part 3
     bca3List,
@@ -154,6 +158,14 @@ adminRouter.get('/ugRegularSem3StudentView/:stuId', adminAuth, ugRegSem3StuView)
 adminRouter.get('/ugRegularSem3StudentEdit/:stuId', adminAuth, ugRegSem3StuEdit)
 
 adminRouter.post('/ugRegularSem3StudentEditPost/:editId', adminAuth, ugRegSem3StuEditPost)
+
+adminRouter.get('/UG_Reg_Sem_III_BA_Adm_List', adminAuth, UG_Reg_Sem_III_BA_Adm_List)
+
+adminRouter.get('/UG_Reg_Sem_III_BA_SS_Adm_List', adminAuth, UG_Reg_Sem_III_BA_SS_Adm_List)
+
+adminRouter.get('/UG_Reg_Sem_III_BA_Hum_Adm_List', adminAuth, UG_Reg_Sem_III_BA_Hum_Adm_List)
+
+adminRouter.get('/UG_Reg_Sem_III_BSc_Adm_List', adminAuth, UG_Reg_Sem_III_BSc_Adm_List)
 
 // BCA Part 3 List
 adminRouter.get('/bca3List', adminAuth, bca3List)

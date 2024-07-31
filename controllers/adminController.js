@@ -313,7 +313,7 @@ const editNoticePost = async (req, res) => {
     const { noticeTitle } = req.body
     const photoUpload = await FileUpload(req.file.path)
     const noticePDF = photoUpload.secure_url
-    
+
     await Notice.findOneAndUpdate({ _id: id }, { $set: { noticeTitle, noticePDF } })
     await FileDelete(foundNotice.noticePDF)
     res.redirect('/notice')
@@ -720,20 +720,20 @@ const datewiseUgRegSem1List = async (req, res) => {
 const UG_Reg_Sem_I_BA_Adm_List = async (req, res) => {
   try {
     let users = []
-    const economicsStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Economics" })
-    const historyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "History" })
-    const politicalScienceStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Political Science" })
-    const psychologyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Psychology" })
-    const sociologyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Sociology" })
-    const englishStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "English" })
-    const hindiStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Hindi" })
-    const urduStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Urdu" })
-    const philosophyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Philosophy" })
+    const economicsStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Economics" })
+    const historyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "History" })
+    const politicalScienceStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Political Science" })
+    const psychologyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Psychology" })
+    const sociologyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Sociology" })
+    const englishStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "English" })
+    const hindiStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Hindi" })
+    const urduStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Urdu" })
+    const philosophyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Philosophy" })
 
     console.log(economicsStudents.length, historyStudents.length, politicalScienceStudents.length, psychologyStudents.length, sociologyStudents.length)
 
     const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents, ...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
-    
+
     userData.forEach((admUser) => {
       const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
 
@@ -741,13 +741,13 @@ const UG_Reg_Sem_I_BA_Adm_List = async (req, res) => {
 
       if (paper1 === "Economics" || paper1 === "History" || paper1 === "Political Science" || paper1 === "Psychology" || paper1 === "Sociology") {
         course = "Bachelor of Arts (Social Science Subjects)"
-        
-      }else if (paper1 === "English" || paper1 === "Hindi" || paper1 === "Urdu" || paper1 === "Philosophy") {
+
+      } else if (paper1 === "English" || paper1 === "Hindi" || paper1 === "Urdu" || paper1 === "Philosophy") {
         course = "Bachelor of Arts (Humanities Subjects)"
-        
+
       } else {
         course = "Bachelor of Science"
-        
+
       }
 
       users.push({
@@ -755,18 +755,18 @@ const UG_Reg_Sem_I_BA_Adm_List = async (req, res) => {
         'College Roll No.': collegeRollNo.slice(2),
         'Reference Number': referenceNumber,
         'PPU Confidential Number': ppuConfidentialNumber,
-        'Course' : course,
+        'Course': course,
         'Session': session,
         'Aadhar No.': aadharNumber,
         'DOB': dOB,
         'Gender': gender,
         'Category': category,
-        'MJC-1' : paper1,
-        'MIC-1' : paper2,
-        'MDC-1' : paper3,
-        'AEC-1' : paper4,
-        'SEC-1' : paper5,
-        'VAC-1' : paper6,
+        'MJC-1': paper1,
+        'MIC-1': paper2,
+        'MDC-1': paper3,
+        'AEC-1': paper4,
+        'SEC-1': paper5,
+        'VAC-1': paper6,
         "Father's Name": fatherName,
         "Mother's Name": motherName,
         'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
@@ -798,16 +798,16 @@ const UG_Reg_Sem_I_BA_Adm_List = async (req, res) => {
 const UG_Reg_Sem_I_BA_SS_Adm_List = async (req, res) => {
   try {
     let users = []
-    const economicsStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Economics" })
-    const historyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "History" })
-    const politicalScienceStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Political Science" })
-    const psychologyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Psychology" })
-    const sociologyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Sociology" })
+    const economicsStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Economics" })
+    const historyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "History" })
+    const politicalScienceStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Political Science" })
+    const psychologyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Psychology" })
+    const sociologyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Sociology" })
 
     console.log(economicsStudents.length, historyStudents.length, politicalScienceStudents.length, psychologyStudents.length, sociologyStudents.length)
 
     const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
-    
+
     userData.forEach((admUser) => {
       const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
 
@@ -815,13 +815,13 @@ const UG_Reg_Sem_I_BA_SS_Adm_List = async (req, res) => {
 
       if (paper1 === "Economics" || paper1 === "History" || paper1 === "Political Science" || paper1 === "Psychology" || paper1 === "Sociology") {
         course = "Bachelor of Arts (Social Science Subjects)"
-        
-      }else if (paper1 === "English" || paper1 === "Hindi" || paper1 === "Urdu" || paper1 === "Philosophy") {
+
+      } else if (paper1 === "English" || paper1 === "Hindi" || paper1 === "Urdu" || paper1 === "Philosophy") {
         course = "Bachelor of Arts (Humanities Subjects)"
-        
+
       } else {
         course = "Bachelor of Science"
-        
+
       }
 
       users.push({
@@ -829,18 +829,18 @@ const UG_Reg_Sem_I_BA_SS_Adm_List = async (req, res) => {
         'College Roll No.': collegeRollNo.slice(2),
         'Reference Number': referenceNumber,
         'PPU Confidential Number': ppuConfidentialNumber,
-        'Course' : course,
+        'Course': course,
         'Session': session,
         'Aadhar No.': aadharNumber,
         'DOB': dOB,
         'Gender': gender,
         'Category': category,
-        'MJC-1' : paper1,
-        'MIC-1' : paper2,
-        'MDC-1' : paper3,
-        'AEC-1' : paper4,
-        'SEC-1' : paper5,
-        'VAC-1' : paper6,
+        'MJC-1': paper1,
+        'MIC-1': paper2,
+        'MDC-1': paper3,
+        'AEC-1': paper4,
+        'SEC-1': paper5,
+        'VAC-1': paper6,
         "Father's Name": fatherName,
         "Mother's Name": motherName,
         'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
@@ -872,15 +872,15 @@ const UG_Reg_Sem_I_BA_SS_Adm_List = async (req, res) => {
 const UG_Reg_Sem_I_BA_Hum_Adm_List = async (req, res) => {
   try {
     let users = []
-    const englishStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "English" })
-    const hindiStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Hindi" })
-    const urduStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Urdu" })
-    const philosophyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Philosophy" })
+    const englishStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "English" })
+    const hindiStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Hindi" })
+    const urduStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Urdu" })
+    const philosophyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Philosophy" })
 
     console.log(englishStudents.length, hindiStudents.length, urduStudents.length, philosophyStudents.length)
 
     const userData = [...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
-    
+
     userData.forEach((admUser) => {
       const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
 
@@ -888,13 +888,13 @@ const UG_Reg_Sem_I_BA_Hum_Adm_List = async (req, res) => {
 
       if (paper1 === "Economics" || paper1 === "History" || paper1 === "Political Science" || paper1 === "Psychology" || paper1 === "Sociology") {
         course = "Bachelor of Arts (Social Science Subjects)"
-        
-      }else if (paper1 === "English" || paper1 === "Hindi" || paper1 === "Urdu" || paper1 === "Philosophy") {
+
+      } else if (paper1 === "English" || paper1 === "Hindi" || paper1 === "Urdu" || paper1 === "Philosophy") {
         course = "Bachelor of Arts (Humanities Subjects)"
-        
+
       } else {
         course = "Bachelor of Science"
-        
+
       }
 
       users.push({
@@ -902,18 +902,18 @@ const UG_Reg_Sem_I_BA_Hum_Adm_List = async (req, res) => {
         'College Roll No.': collegeRollNo.slice(2),
         'Reference Number': referenceNumber,
         'PPU Confidential Number': ppuConfidentialNumber,
-        'Course' : course,
+        'Course': course,
         'Session': session,
         'Aadhar No.': aadharNumber,
         'DOB': dOB,
         'Gender': gender,
         'Category': category,
-        'MJC-1' : paper1,
-        'MIC-1' : paper2,
-        'MDC-1' : paper3,
-        'AEC-1' : paper4,
-        'SEC-1' : paper5,
-        'VAC-1' : paper6,
+        'MJC-1': paper1,
+        'MIC-1': paper2,
+        'MDC-1': paper3,
+        'AEC-1': paper4,
+        'SEC-1': paper5,
+        'VAC-1': paper6,
         "Father's Name": fatherName,
         "Mother's Name": motherName,
         'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
@@ -945,15 +945,15 @@ const UG_Reg_Sem_I_BA_Hum_Adm_List = async (req, res) => {
 const UG_Reg_Sem_I_BSc_Adm_List = async (req, res) => {
   try {
     let users = []
-    const physicsStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Physics" })
-    const chemistryStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Chemistry" })
-    const zoologyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Zoology" })
-    const botanyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Botany" })
-    const mathematicsStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1 : "Mathematics" })
+    const physicsStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Physics" })
+    const chemistryStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Chemistry" })
+    const zoologyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Zoology" })
+    const botanyStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Botany" })
+    const mathematicsStudents = await ugRegularSem1AdmissionForm.find({ isPaid: true, paper1: "Mathematics" })
     console.log(physicsStudents.length, chemistryStudents.length, zoologyStudents.length, botanyStudents.length, mathematicsStudents.length)
 
     const userData = [...physicsStudents, ...chemistryStudents, ...zoologyStudents, ...botanyStudents, ...mathematicsStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
-    
+
     userData.forEach((admUser) => {
       const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
 
@@ -961,13 +961,13 @@ const UG_Reg_Sem_I_BSc_Adm_List = async (req, res) => {
 
       if (paper1 === "Economics" || paper1 === "History" || paper1 === "Political Science" || paper1 === "Psychology" || paper1 === "Sociology") {
         course = "Bachelor of Arts (Social Science Subjects)"
-        
-      }else if (paper1 === "English" || paper1 === "Hindi" || paper1 === "Urdu" || paper1 === "Philosophy") {
+
+      } else if (paper1 === "English" || paper1 === "Hindi" || paper1 === "Urdu" || paper1 === "Philosophy") {
         course = "Bachelor of Arts (Humanities Subjects)"
-        
+
       } else {
         course = "Bachelor of Science"
-        
+
       }
 
       users.push({
@@ -975,18 +975,18 @@ const UG_Reg_Sem_I_BSc_Adm_List = async (req, res) => {
         'College Roll No.': collegeRollNo.slice(2),
         'Reference Number': referenceNumber,
         'PPU Confidential Number': ppuConfidentialNumber,
-        'Course' : course,
+        'Course': course,
         'Session': session,
         'Aadhar No.': aadharNumber,
         'DOB': dOB,
         'Gender': gender,
         'Category': category,
-        'MJC-1' : paper1,
-        'MIC-1' : paper2,
-        'MDC-1' : paper3,
-        'AEC-1' : paper4,
-        'SEC-1' : paper5,
-        'VAC-1' : paper6,
+        'MJC-1': paper1,
+        'MIC-1': paper2,
+        'MDC-1': paper3,
+        'AEC-1': paper4,
+        'SEC-1': paper5,
+        'VAC-1': paper6,
         "Father's Name": fatherName,
         "Mother's Name": motherName,
         'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
@@ -1083,13 +1083,13 @@ const findUserId = async (req, res) => {
 const ugRegularSem3List = async (req, res) => {
   try {
     let queries = req.query
-    
+
     let status = ""
     if (queries.isPaid === 'true') {
       status = "Paid"
-    } else if(queries.isPaid === 'false'){
+    } else if (queries.isPaid === 'false') {
       status = "Unpaid"
-    } else{
+    } else {
       status = "All"
     }
 
@@ -1158,30 +1158,30 @@ const ugRegSem3StuEditPost = async (req, res) => {
 
     if (gender === "MALE") {
       if (course === "Bachelor of Science" || paper1 === "Psychology") {
-          if (category === "GENERAL" || category === "BC-2") {
-              admissionFee = 2755
-          } else if (category === "BC-1") {
-              admissionFee = 2155
-          } else {
-              admissionFee = 1350
-          }
+        if (category === "GENERAL" || category === "BC-2") {
+          admissionFee = 2755
+        } else if (category === "BC-1") {
+          admissionFee = 2155
+        } else {
+          admissionFee = 1350
+        }
       } else {
-          if (category === "GENERAL" || category === "BC-2") {
-              admissionFee = 2155
-          } else if (category === "BC-1") {
-              admissionFee = 1555
-          } else {
-              admissionFee = 750
-          }
+        if (category === "GENERAL" || category === "BC-2") {
+          admissionFee = 2155
+        } else if (category === "BC-1") {
+          admissionFee = 1555
+        } else {
+          admissionFee = 750
+        }
       }
 
-  } else {
+    } else {
       if (course === "Bachelor of Science" || paper1 === "Psychology") {
-          admissionFee = 1350
+        admissionFee = 1350
       } else {
-          admissionFee = 750
+        admissionFee = 750
       }
-  }
+    }
 
     await ugRegularSem3AdmissionForm.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, guardianName, uniRegNumber, uniRollNumber, collegeRollNumber, email, paper1, paper2, paper3, paper4, paper5, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } })
 
@@ -1195,8 +1195,314 @@ const ugRegSem3StuEditPost = async (req, res) => {
 }
 
 
+const UG_Reg_Sem_III_BA_Adm_List = async (req, res) => {
+  try {
+    let users = []
+
+      const economicsStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Economics" })
+      const historyStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "History" })
+      const politicalScienceStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Political Science" })
+      const psychologyStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Psychology" })
+      const sociologyStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Sociology" })
+      const englishStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "English" })
+      const hindiStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Hindi" })
+      const urduStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Urdu" })
+      const philosophyStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Philosophy" })
+
+      console.log(economicsStudents.length, historyStudents.length, politicalScienceStudents.length, psychologyStudents.length, sociologyStudents.length, englishStudents.length, hindiStudents.length, urduStudents.length, philosophyStudents.length)
+
+      const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents, ...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
+
+
+    userData.forEach((admUser) => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender,religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
+
+      let course = ""
+
+      if (paper1 === "Economics" || paper1 === "History" || paper1 === "Political Science" || paper1 === "Psychology" || paper1 === "Sociology") {
+        course = "Bachelor of Arts (Social Science Subjects)"
+
+      } else if (paper1 === "English" || paper1 === "Hindi" || paper1 === "Urdu" || paper1 === "Philosophy") {
+        course = "Bachelor of Arts (Humanities Subjects)"
+
+      } else {
+        course = "Bachelor of Science"
+
+      }
+
+      users.push({
+        'Student Name': studentName,
+        'Uni. Reg. Number' : uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Religion': religion,
+        'MJC-1': paper1,
+        'MIC-1': paper2,
+        'MDC-1': paper3,
+        'AEC-1': paper4,
+        'SEC-1': paper5,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment.slice(0, 10),
+        "Payment SS": paymentSS
+
+      })
+    })
+
+    const csvParser = new CsvParser()
+    const csvData = csvParser.parse(users)
+
+    res.setHeader("Content-type", "text/csv")
+    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_III_BA_Adm_List")
+
+    res.status(200).end(csvData)
+
+
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+
+const UG_Reg_Sem_III_BA_SS_Adm_List = async (req, res) =>{
+  try {
+    let users = []
+    const economicsStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Economics" })
+    const historyStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "History" })
+    const politicalScienceStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Political Science" })
+    const psychologyStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Psychology" })
+    const sociologyStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Sociology" })
+
+    console.log(economicsStudents.length, historyStudents.length, politicalScienceStudents.length, psychologyStudents.length, sociologyStudents.length)
+
+    const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
+
+
+    userData.forEach((admUser) => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender,religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
+
+      let course = ""
+
+      if (paper1 === "Economics" || paper1 === "History" || paper1 === "Political Science" || paper1 === "Psychology" || paper1 === "Sociology") {
+        course = "Bachelor of Arts (Social Science Subjects)"
+
+      } else if (paper1 === "English" || paper1 === "Hindi" || paper1 === "Urdu" || paper1 === "Philosophy") {
+        course = "Bachelor of Arts (Humanities Subjects)"
+
+      } else {
+        course = "Bachelor of Science"
+
+      }
+
+      users.push({
+        'Student Name': studentName,
+        'Uni. Reg. Number' : uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Religion': religion,
+        'MJC-1': paper1,
+        'MIC-1': paper2,
+        'MDC-1': paper3,
+        'AEC-1': paper4,
+        'SEC-1': paper5,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment.slice(0, 10),
+        "Payment SS": paymentSS
+
+      })
+    })
+
+    const csvParser = new CsvParser()
+    const csvData = csvParser.parse(users)
+
+    res.setHeader("Content-type", "text/csv")
+    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_III_BA_SS_Adm_List")
+
+    res.status(200).end(csvData)
+
+
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+
+const UG_Reg_Sem_III_BA_Hum_Adm_List = async (req, res) =>{
+  try {
+    let users = []
+    const englishStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "English" })
+    const hindiStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Hindi" })
+    const urduStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Urdu" })
+    const philosophyStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Philosophy" })
+
+    console.log(englishStudents.length, hindiStudents.length, urduStudents.length, philosophyStudents.length)
+
+    const userData = [...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
+
+
+    userData.forEach((admUser) => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender,religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
+
+      let course = ""
+
+      if (paper1 === "Economics" || paper1 === "History" || paper1 === "Political Science" || paper1 === "Psychology" || paper1 === "Sociology") {
+        course = "Bachelor of Arts (Social Science Subjects)"
+
+      } else if (paper1 === "English" || paper1 === "Hindi" || paper1 === "Urdu" || paper1 === "Philosophy") {
+        course = "Bachelor of Arts (Humanities Subjects)"
+
+      } else {
+        course = "Bachelor of Science"
+
+      }
+
+      users.push({
+        'Student Name': studentName,
+        'Uni. Reg. Number' : uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Religion': religion,
+        'MJC-1': paper1,
+        'MIC-1': paper2,
+        'MDC-1': paper3,
+        'AEC-1': paper4,
+        'SEC-1': paper5,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment.slice(0, 10),
+        "Payment SS": paymentSS
+
+      })
+    })
+
+    const csvParser = new CsvParser()
+    const csvData = csvParser.parse(users)
+
+    res.setHeader("Content-type", "text/csv")
+    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_III_BA_Hum_Adm_List")
+
+    res.status(200).end(csvData)
+
+
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+
+const UG_Reg_Sem_III_BSc_Adm_List = async (req, res) => {
+  try {
+    let users = []
+    const physicsStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Physics" })
+    const chemistryStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Chemistry" })
+    const zoologyStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Zoology" })
+    const botanyStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Botany" })
+    const mathematicsStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Mathematics" })
+    console.log(physicsStudents.length, chemistryStudents.length, zoologyStudents.length, botanyStudents.length, mathematicsStudents.length)
+
+    const userData = [...physicsStudents, ...chemistryStudents, ...zoologyStudents, ...botanyStudents, ...mathematicsStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
+
+
+    userData.forEach((admUser) => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender,religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
+
+      let course = ""
+
+      if (paper1 === "Economics" || paper1 === "History" || paper1 === "Political Science" || paper1 === "Psychology" || paper1 === "Sociology") {
+        course = "Bachelor of Arts (Social Science Subjects)"
+
+      } else if (paper1 === "English" || paper1 === "Hindi" || paper1 === "Urdu" || paper1 === "Philosophy") {
+        course = "Bachelor of Arts (Humanities Subjects)"
+
+      } else {
+        course = "Bachelor of Science"
+
+      }
+
+      users.push({
+        'Student Name': studentName,
+        'Uni. Reg. Number' : uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Religion': religion,
+        'MJC-1': paper1,
+        'MIC-1': paper2,
+        'MDC-1': paper3,
+        'AEC-1': paper4,
+        'SEC-1': paper5,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment.slice(0, 10),
+        "Payment SS": paymentSS
+
+      })
+    })
+
+    const csvParser = new CsvParser()
+    const csvData = csvParser.parse(users)
+
+    res.setHeader("Content-type", "text/csv")
+    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_III_BSc_Adm_List")
+
+    res.status(200).end(csvData)
+
+
+  } catch (error) {
+    res.status(401)
+  }
+}
+
 // BCA Part 3
-const bca3List = async (req, res) =>{
+const bca3List = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
     const bca3AdmissionList = await bca3FormModel.find({ isPaid: true })
@@ -1208,7 +1514,7 @@ const bca3List = async (req, res) =>{
 }
 
 
-const findStuInbca3Adm = async (req, res) =>{
+const findStuInbca3Adm = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
     let { findStuMobileNo } = req.body
@@ -1226,7 +1532,7 @@ const findStuInbca3Adm = async (req, res) =>{
 }
 
 
-const bca3StuView = async (req, res) =>{
+const bca3StuView = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
     const { stuId } = req.params
@@ -1240,7 +1546,7 @@ const bca3StuView = async (req, res) =>{
 }
 
 
-const bca3StuEdit = async (req, res) =>{
+const bca3StuEdit = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
     const { stuId } = req.params
@@ -1252,7 +1558,7 @@ const bca3StuEdit = async (req, res) =>{
 }
 
 
-const bca3StuEditPost = async (req, res) =>{
+const bca3StuEditPost = async (req, res) => {
   try {
     const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } = req.body
     const { editId } = req.params
@@ -1265,22 +1571,22 @@ const bca3StuEditPost = async (req, res) =>{
     res.redirect('/bca3List')
   } catch (error) {
     console.log("Error in post bca3StuEditPost", error)
-    
+
   }
 }
 
 
 // UG Regular Part 3
-const ugRegularPart3List = async (req, res) =>{
+const ugRegularPart3List = async (req, res) => {
   try {
     let queries = req.query
-    
+
     let status = ""
     if (queries.isPaid === 'true') {
       status = "Paid"
-    } else if(queries.isPaid === 'false'){
+    } else if (queries.isPaid === 'false') {
       status = "Unpaid"
-    } else{
+    } else {
       status = "All"
     }
 
@@ -1294,7 +1600,7 @@ const ugRegularPart3List = async (req, res) =>{
 }
 
 
-const findStuInUGRegPart3Adm = async (req, res) =>{
+const findStuInUGRegPart3Adm = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
     let { findStuMobileNo } = req.body
@@ -1329,7 +1635,7 @@ const ugRegPart3StuView = async (req, res) => {
 }
 
 
-const ugRegPart3StuEdit = async (req, res) =>{
+const ugRegPart3StuEdit = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
     const { stuId } = req.params
@@ -1342,37 +1648,37 @@ const ugRegPart3StuEdit = async (req, res) =>{
 }
 
 
-const ugRegPart3StuEditPost = async (req, res) =>{
+const ugRegPart3StuEditPost = async (req, res) => {
   try {
     let { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, paper1, paper2, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } = req.body
     const { editId } = req.params
 
     if (gender === "MALE") {
       if (course === "Bachelor of Science" || paper1 === "Psychology") {
-          if (category === "GENERAL" || category === "BC-2") {
-              admissionFee = 2755
-          } else if (category === "BC-1") {
-              admissionFee = 2155
-          } else {
-              admissionFee = 1350
-          }
+        if (category === "GENERAL" || category === "BC-2") {
+          admissionFee = 2755
+        } else if (category === "BC-1") {
+          admissionFee = 2155
+        } else {
+          admissionFee = 1350
+        }
       } else {
-          if (category === "GENERAL" || category === "BC-2") {
-              admissionFee = 2155
-          } else if (category === "BC-1") {
-              admissionFee = 1555
-          } else {
-              admissionFee = 750
-          }
+        if (category === "GENERAL" || category === "BC-2") {
+          admissionFee = 2155
+        } else if (category === "BC-1") {
+          admissionFee = 1555
+        } else {
+          admissionFee = 750
+        }
       }
 
-  } else {
+    } else {
       if (course === "Bachelor of Science" || paper1 === "Psychology") {
-          admissionFee = 1350
+        admissionFee = 1350
       } else {
-          admissionFee = 750
+        admissionFee = 750
       }
-  }
+    }
 
     await ugRegularPart3AdmissionForm.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, paper1, paper2, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } })
 
@@ -1424,12 +1730,16 @@ export {
   editUserIdPost,
   findUserId,
 
-  //ug regular sem 1 list
+  //ug regular sem 3 list
   ugRegularSem3List,
   findStuInUGRegSem3Adm,
   ugRegSem3StuView,
   ugRegSem3StuEdit,
   ugRegSem3StuEditPost,
+  UG_Reg_Sem_III_BA_Adm_List,
+  UG_Reg_Sem_III_BA_SS_Adm_List,
+  UG_Reg_Sem_III_BA_Hum_Adm_List,
+  UG_Reg_Sem_III_BSc_Adm_List,
 
   //BCA Part 3
   bca3List,
