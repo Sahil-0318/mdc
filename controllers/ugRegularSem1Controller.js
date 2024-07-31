@@ -8,21 +8,25 @@ import ugRegularSem1MeritList2 from "../models/adminModel/ugRegularSem1MeritList
 import ugRegularSem1MeritList3 from "../models/adminModel/ugRegularSem1MeritList3.js"
 import ugRegularSem1MeritList4 from "../models/adminModel/ugRegularSem1MeritList4.js"
 import ugRegularSem1MeritList5 from "../models/adminModel/ugRegularSem1MeritList5.js"
-import fast2sms from 'fast-two-sms'
 import unirest from 'unirest'
-import axios from "axios"
-
-
-//Error Page
-// const ugRegularSem1 = async (req, res) => {
-//     res.render('pageNotFound', {status : "UG Regular Sem 1 admission has been closed.", loginPage : "ug-regular-sem-1-login"})
-// }
+import PortalOnOff from '../models/adminModel/portalOnOffSchema.js'
 
 
 
 const ugRegularSem1 = async (req, res) => {
-    res.render('ugRegularSem1')
+    try {
+        const portal = await PortalOnOff.findOne({portal : "ugRegularSem1_24-28"})
+        if (portal.isOn == true) {
+            return res.render("ugRegularSem1")
+        }  
+        if (portal.isOn == false) {
+            return res.render('pageNotFound', {status : "UG Regular Sem 1 (2024 - 28) admission has been closed.", loginPage : "ug-regular-sem-1-login"})
+        }
+    } catch (error) {
+        console.log("Error in Signup UG Part 3 Get Method =====>", error)
+    }
 }
+
 
 const ugRegularSem1Post = async (req, res) => {
     try {
@@ -299,10 +303,12 @@ const ugRegularSem1AdmForm = async (req, res) => {
     // meritListTwoData.dOB = convertDateFormat(meritListTwoData.dOB);
     // console.log(meritListTwoData)
 
+    const portal = await PortalOnOff.findOne({portal : "ugRegularSem1_24-28"})
+
     if (appliedUser != null) {
         res.render('ugRegularSem1AdmForm', { user, appliedUser })
     } else {
-        res.render('ugRegularSem1AdmForm', { user, meritListTwoData })
+        res.render('ugRegularSem1AdmForm', { user, meritListTwoData, portal : portal.isOn })
     }
 
 }
