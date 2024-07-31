@@ -165,24 +165,17 @@
                                                                                 class="px-4 btn btn-warning w-md">View</a>
                                                                         </td>
                                                                         <td>
-                                                                            <% if (element.isVerified) { %>
-                                                                                <a href=""
-                                                                                    class="px-4 btn btn-success w-md">Verified</a>
-                                                                                <% } else { %>
-                                                                                    <a href=""
-                                                                                        class="px-4 btn btn-danger w-md">Unverified</a>
-                                                                                    <% } %>
-
-                                                                        </td>
+                                                                            <a href="/ugRegularSem1StudentEdit/<%= element._id %>"
+                                                                                class="px-4 btn btn-danger w-md">Edit</a>                                                                 </td>
 
                                                                     </tr>
                                                                     <% }); %>
                                                                         <% } %>
                                                         </tbody>
                                                     </table>
-                                                    <% if (locals.allClc) { %>
-                                                        <% if (locals.allClc.length===0) { %>
-                                                            <h3>CLC not found ...</h3>
+                                                    <% if (locals.list) { %>
+                                                        <% if (locals.list.length===0) { %>
+                                                            <h3>Student not found ...</h3>
 
                                                             <% } %>
                                                                 <% } %>

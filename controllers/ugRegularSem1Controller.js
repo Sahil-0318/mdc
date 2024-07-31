@@ -27,7 +27,6 @@ const ugRegularSem1 = async (req, res) => {
     }
 }
 
-
 const ugRegularSem1Post = async (req, res) => {
     try {
         let { referenceNumber, mobileNumber } = req.body
@@ -120,7 +119,6 @@ const ugRegularSem1Post = async (req, res) => {
 
     }
 }
-
 
 const ugRegularSem1Login = async (req, res) => {
     res.render('ugRegularSem1Login')

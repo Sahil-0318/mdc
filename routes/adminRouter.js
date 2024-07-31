@@ -31,7 +31,8 @@ import {
     ugRegularSem1List,
     findStuInUGRegSem1Adm,
     ugRegSem1StuView,
-    verifyUgRegSem1Stu,
+    ugRegSem1StuEdit,
+    ugRegSem1StuEditPost,
     datewiseUgRegSem1List,
     UG_Reg_Sem_I_BA_Adm_List,
     UG_Reg_Sem_I_BA_SS_Adm_List,
@@ -42,7 +43,7 @@ import {
     editUserIdPost,
     findUserId,
 
-    // ug regular sem 1 list
+    // ug regular sem 3 list
     ugRegularSem3List,
     findStuInUGRegSem3Adm,
     ugRegSem3StuView,
@@ -131,7 +132,9 @@ adminRouter.post('/ugRegularSem1List', adminAuth, findStuInUGRegSem1Adm)
 
 adminRouter.get('/student-view/:stuId', adminAuth, ugRegSem1StuView)
 
-adminRouter.get('/verify-student/:Id', adminAuth, verifyUgRegSem1Stu)
+adminRouter.get('/ugRegularSem1StudentEdit/:stuId', adminAuth, ugRegSem1StuEdit)
+
+adminRouter.post('/ugRegularSem1StudentEditPost/:editId', adminAuth, ugRegSem1StuEditPost)
 
 adminRouter.post('/datewiseUgRegSem1List', adminAuth, datewiseUgRegSem1List)
 

@@ -11,9 +11,11 @@ const CsvParser = Csv.Parser
 import FileUpload from '../fileUpload/fileUpload.js'
 import FileDelete from '../fileUpload/fileDelete.js'
 
+// UG Regular Sem 1
 import ugRegularSem1AdmissionForm from "../models/userModel/ugRegularSem1AdmissionFormSchema.js"
 import ugRegularSem1AdmissionPortal from "../models/userModel/ugRegularSem1AdmissionPortalSchema.js"
 
+// UG Regular Sem 3
 import ugRegularSem3User from "../models/userModel/UG-Regular-Sem-3/user.js"
 import ugRegularSem3AdmissionForm from "../models/userModel/UG-Regular-Sem-3/admForm.js"
 
@@ -556,7 +558,6 @@ const findStuInUGRegSem1Adm = async (req, res) => {
   }
 }
 
-
 const ugRegSem1StuView = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
@@ -571,16 +572,58 @@ const ugRegSem1StuView = async (req, res) => {
   }
 }
 
-const verifyUgRegSem1Stu = async (req, res) => {
+const ugRegSem1StuEdit = async (req, res) =>{
   try {
     const user = await User.findOne({ _id: req.id })
-    const { Id } = req.params
-    const foundStudent = await ugRegularSem1AdmissionForm.findOneAndUpdate({ _id: Id }, { $set: { isVerified: true } })
+    const { stuId } = req.params
+    const foundStudent = await ugRegularSem1AdmissionForm.findOne({ _id: stuId })
     const foundStudentID = await ugRegularSem1AdmissionPortal.findOne({ _id: foundStudent.appliedBy })
-    res.redirect("/ugRegularSem1List")
-
+    res.render("ugRegularSem1StudentEdit", { user, foundStudent, foundStudentID })
   } catch (error) {
-    console.log(error);
+    console.log(error)
+  }
+}
+
+const ugRegSem1StuEditPost = async (req, res) =>{
+  try {
+    let { studentName, fatherName, motherName, guardianName, referenceNumber, ppuConfidentialNumber, applicantId, course, email, paper1, paper2, paper3, paper4, paper5, paper6, dOB, gender, category, religion, familyAnnualIncome, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examName, examBoard, examYear, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } = req.body
+    const { editId } = req.params
+
+    if (gender === "MALE") {
+      if (course === "Bachelor of Science" || paper1 === "Psychology") {
+          if (category === "GENERAL" || category === "BC-2") {
+              admissionFee = 3455
+          } else if (category === "BC-1") {
+              admissionFee = 2855
+          } else {
+              admissionFee = 1200
+          }
+      } else {
+          if (category === "GENERAL" || category === "BC-2") {
+              admissionFee = 2855
+          } else if (category === "BC-1") {
+              admissionFee = 2255
+          } else {
+              admissionFee = 600
+          }
+      }
+
+  } else {
+      if (course === "Bachelor of Science" || paper1 === "Psychology") {
+          admissionFee = 1200
+      } else {
+          admissionFee = 600
+      }
+  }
+
+    await ugRegularSem1AdmissionForm.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, guardianName, referenceNumber, ppuConfidentialNumber, applicantId, email, paper1, paper2, paper3, paper4, paper5, paper6, dOB, gender, category, religion, familyAnnualIncome, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examName, examBoard, examYear, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } })
+
+    const foundUserLogin = await ugRegularSem1AdmissionForm.findOne({ _id: editId })
+    await ugRegularSem1AdmissionPortal.findOneAndUpdate({ _id: foundUserLogin.appliedBy }, { $set: { course, referenceNumber, mobileNumber } })
+
+    res.redirect('/ugRegularSem1List')
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -1886,7 +1929,8 @@ export {
   ugRegularSem1List,
   findStuInUGRegSem1Adm,
   ugRegSem1StuView,
-  verifyUgRegSem1Stu,
+  ugRegSem1StuEdit,
+  ugRegSem1StuEditPost,
   datewiseUgRegSem1List,
   UG_Reg_Sem_I_BA_Adm_List,
   UG_Reg_Sem_I_BA_SS_Adm_List,
