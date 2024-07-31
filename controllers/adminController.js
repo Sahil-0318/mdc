@@ -1265,7 +1265,7 @@ const UG_Reg_Sem_III_BA_Adm_List = async (req, res) => {
     const csvData = csvParser.parse(users)
 
     res.setHeader("Content-type", "text/csv")
-    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_III_BA_Adm_List")
+    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_III_BA_Adm_List.csv")
 
     res.status(200).end(csvData)
 
@@ -1341,7 +1341,7 @@ const UG_Reg_Sem_III_BA_SS_Adm_List = async (req, res) =>{
     const csvData = csvParser.parse(users)
 
     res.setHeader("Content-type", "text/csv")
-    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_III_BA_SS_Adm_List")
+    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_III_BA_SS_Adm_List.csv")
 
     res.status(200).end(csvData)
 
@@ -1416,7 +1416,7 @@ const UG_Reg_Sem_III_BA_Hum_Adm_List = async (req, res) =>{
     const csvData = csvParser.parse(users)
 
     res.setHeader("Content-type", "text/csv")
-    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_III_BA_Hum_Adm_List")
+    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_III_BA_Hum_Adm_List.csv")
 
     res.status(200).end(csvData)
 
@@ -1491,7 +1491,7 @@ const UG_Reg_Sem_III_BSc_Adm_List = async (req, res) => {
     const csvData = csvParser.parse(users)
 
     res.setHeader("Content-type", "text/csv")
-    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_III_BSc_Adm_List")
+    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_III_BSc_Adm_List.csv")
 
     res.status(200).end(csvData)
 
