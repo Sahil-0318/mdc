@@ -1213,8 +1213,6 @@ const UG_Reg_Sem_III_BA_Adm_List = async (req, res) => {
 
       const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents, ...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents].sort((a, b) => a.collegeRollNumber - b.collegeRollNumber)
 
-      console.log(userData)
-
 
     userData.forEach((admUser) => {
       const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender,religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
