@@ -1211,7 +1211,9 @@ const UG_Reg_Sem_III_BA_Adm_List = async (req, res) => {
 
       console.log(economicsStudents.length, historyStudents.length, politicalScienceStudents.length, psychologyStudents.length, sociologyStudents.length, englishStudents.length, hindiStudents.length, urduStudents.length, philosophyStudents.length)
 
-      const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents, ...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
+      const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents, ...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents].sort((a, b) => a.collegeRollNumber.slice(2) - b.collegeRollNumber.slice(2))
+
+      console.log(userData)
 
 
     userData.forEach((admUser) => {
@@ -1287,7 +1289,7 @@ const UG_Reg_Sem_III_BA_SS_Adm_List = async (req, res) =>{
 
     console.log(economicsStudents.length, historyStudents.length, politicalScienceStudents.length, psychologyStudents.length, sociologyStudents.length)
 
-    const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
+    const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents].sort((a, b) => a.collegeRollNumber.slice(2) - b.collegeRollNumber.slice(2))
 
 
     userData.forEach((admUser) => {
@@ -1362,7 +1364,7 @@ const UG_Reg_Sem_III_BA_Hum_Adm_List = async (req, res) =>{
 
     console.log(englishStudents.length, hindiStudents.length, urduStudents.length, philosophyStudents.length)
 
-    const userData = [...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
+    const userData = [...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents].sort((a, b) => a.collegeRollNumber.slice(2) - b.collegeRollNumber.slice(2))
 
 
     userData.forEach((admUser) => {
@@ -1437,7 +1439,7 @@ const UG_Reg_Sem_III_BSc_Adm_List = async (req, res) => {
     const mathematicsStudents = await ugRegularSem3AdmissionForm.find({ isPaid: true, paper1: "Mathematics" })
     console.log(physicsStudents.length, chemistryStudents.length, zoologyStudents.length, botanyStudents.length, mathematicsStudents.length)
 
-    const userData = [...physicsStudents, ...chemistryStudents, ...zoologyStudents, ...botanyStudents, ...mathematicsStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
+    const userData = [...physicsStudents, ...chemistryStudents, ...zoologyStudents, ...botanyStudents, ...mathematicsStudents].sort((a, b) => a.collegeRollNumber.slice(2) - b.collegeRollNumber.slice(2))
 
 
     userData.forEach((admUser) => {
