@@ -531,7 +531,7 @@ const approvedByAdmin = async (req, res) => {
 const ugRegularSem1List = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
-    const ugRegularSem1AdmissionList = await ugRegularSem1AdmissionForm.find({ isPaid: true })
+    const ugRegularSem1AdmissionList = await ugRegularSem1AdmissionForm.find({  })
     // console.log(ugRegularSem1AdmissionList);
     res.render('ugRegularSem1List', { list: ugRegularSem1AdmissionList, status: "All", noOfForms: ugRegularSem1AdmissionList.length, user })
   } catch (error) {

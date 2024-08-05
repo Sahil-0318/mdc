@@ -8,6 +8,7 @@ import ugRegularSem1MeritList2 from "../models/adminModel/ugRegularSem1MeritList
 import ugRegularSem1MeritList3 from "../models/adminModel/ugRegularSem1MeritList3.js"
 import ugRegularSem1MeritList4 from "../models/adminModel/ugRegularSem1MeritList4.js"
 import ugRegularSem1MeritList5 from "../models/adminModel/ugRegularSem1MeritList5.js"
+import ugRegularSem1MeritList6 from "../models/adminModel/ugRegularSem1MeritList6.js"
 import unirest from 'unirest'
 import PortalOnOff from '../models/adminModel/portalOnOffSchema.js'
 
@@ -44,7 +45,7 @@ const ugRegularSem1Post = async (req, res) => {
         console.log(genPassword, "Generated OTP");
 
 
-        const isExistRefNoINMeritList = await ugRegularSem1MeritList5.findOne({ appNo: referenceNumber })
+        const isExistRefNoINMeritList = await ugRegularSem1MeritList6.findOne({ appNo: referenceNumber })
         // console.log(isExistRefNoINMeritList);
 
 
@@ -295,6 +296,8 @@ const ugRegularSem1AdmForm = async (req, res) => {
         meritListTwoData = await ugRegularSem1MeritList4.findOne({ appNo: user.referenceNumber })
     } else if (await ugRegularSem1MeritList5.findOne({ appNo: user.referenceNumber }) !== null) {
         meritListTwoData = await ugRegularSem1MeritList5.findOne({ appNo: user.referenceNumber })
+    } else if (await ugRegularSem1MeritList6.findOne({ appNo: user.referenceNumber }) !== null) {
+        meritListTwoData = await ugRegularSem1MeritList6.findOne({ appNo: user.referenceNumber })
     }
     // changes start here for end merit list
     // const meritListTwoData = await ugRegularSem1MeritList3.findOne({ appNo: user.referenceNumber })
