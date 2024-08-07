@@ -83,7 +83,14 @@
 
                                     <p class="mb-1 fw-bold">College Roll No :&nbsp; &nbsp; <%=locals.appliedUser.collegeRollNumber %></p>
 
-                                    <p class="mb-1 fw-bold">Uni. Registration No. :&nbsp; &nbsp; &nbsp; <%= locals.appliedUser.uniRegNumber %></p>
+                                    <% if (locals.appliedUser.uniRegNumber) { %>
+                                        <p class="mb-1 fw-bold">Uni. Registration No. :&nbsp; &nbsp; &nbsp; <%= locals.appliedUser.uniRegNumber %></p>
+                                    <% } %>
+
+                                    <% if (locals.extraInfo.certificateType === "TC") { %>
+                                        <p class="mb-1 fw-bold">Course :&nbsp; &nbsp; &nbsp; <%= locals.appliedUser.courseName %></p>
+                                    <% } %>
+
                                     
                                 </div>
                             </div>
@@ -181,7 +188,7 @@
                                 <div class="float-end">
                                     <a href="javascript:window.print()" class="btn btn-success me-1"><i
                                             class="fa fa-print"></i></a>
-                                    <a href="/bonafied" class="btn btn-primary w-md">Back to Home
+                                    <a href="/<%= locals.extraInfo.certificateType.toLowerCase() %>" class="btn btn-primary w-md">Back to Home
                                         Page</a>
                                 </div>
                             </div>

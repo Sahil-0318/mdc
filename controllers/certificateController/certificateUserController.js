@@ -1,8 +1,12 @@
 import User from '../../models/userModel/userSchema.js'
 import Bonafied from '../../models/certificateModels/bonafied.js'
+import TC from '../../models/certificateModels/tc.js'
+
+
 import FileUpload from '../../fileUpload/fileUpload.js'
 import qrcode from 'qrcode'
 
+// ========================= Bonafied ===================================
 export const bonafiedForm = async (req, res) =>{
     try {
         const user = await User.findOne({ _id: req.id })
@@ -61,6 +65,66 @@ export const bonafiedFormPost = async (req, res) =>{
     }
 }
 
+// ================================ TC ======================================
+export const tcForm = async (req, res) =>{
+    try {
+        const user = await User.findOne({ _id: req.id })
+        const appliedUser = await TC.findOne({ appliedBy: user._id.toString() })
+        if (appliedUser != null){
+            return res.render('tcForm', { user, appliedUser })
+        }
+        return res.render('tcForm', { user })
+    } catch (error) {
+        console.log("Error in TCForm => ", error)
+    }
+}
+
+export const tcFormPost = async (req, res) =>{
+    try {
+        const user = await User.findOne({ _id: req.id })
+        const {fullName,fatherName, motherName, aadharNumber, mobileNumber, email, dOB, session, course, courseName, honoursName, collegeClass, lastPassedClass, collegeRollNumber, collegeFrom, collegeTo } = req.body
+
+        const appliedUser = await TC.findOne({ appliedBy: user._id.toString() })
+        const appliedCollegeRollNumber = await TC.findOne({ collegeRollNumber })
+
+        if (appliedCollegeRollNumber === null){
+            const images = req.files
+            let marksheetPhoto = ""
+            let studentPhoto = ""
+            let lastAdmissionReceipt = ""
+
+
+            if (images.length == 3) {
+                const marksheetPhotoUpload = await FileUpload(images[0].buffer)
+                marksheetPhoto = marksheetPhotoUpload.secure_url
+                
+                const studentPhotoUpload = await FileUpload(images[1].buffer)
+                studentPhoto = studentPhotoUpload.secure_url
+                
+                const lastAdmissionReceiptUpload = await FileUpload(images[2].buffer)
+                lastAdmissionReceipt = lastAdmissionReceiptUpload.secure_url
+            } else {
+                const marksheetPhotoUpload = await FileUpload(images[0].buffer)
+                marksheetPhoto = marksheetPhotoUpload.secure_url
+                
+                const studentPhotoUpload = await FileUpload(images[1].buffer)
+                studentPhoto = studentPhotoUpload.secure_url
+            }
+            
+            const newTCForm  = new TC ({
+                fullName, fatherName, motherName, aadharNumber, mobileNumber, email, dOB, session, course, courseName, honoursName, collegeClass, lastPassedClass, collegeRollNumber, collegeFrom, collegeTo, marksheetPhoto, studentPhoto, lastAdmissionReceipt, appliedBy: user._id
+            })
+            
+            await newTCForm.save()
+            res.redirect("/certificateFee/tc")
+        }
+        
+    } catch (error) {
+        console.log("Error in TCFormPost => ", error)
+    }
+}
+
+// Certificate Payment 
 export const certificateFeePay = async (req, res) =>{
     try {
         const {certificateType} = req.params
@@ -77,6 +141,16 @@ export const certificateFeePay = async (req, res) =>{
             extraInfo.upiId = process.env.UPI_ID
             extraInfo.noteEnglish = "If payment screenshot is not valid then bonafied receipt will be invalid so upload valid payment screenshot."
             extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Bonafied रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+        }
+
+        if (certificateType === "tc" ) {
+            appliedUser = await TC.findOne({ appliedBy: user._id.toString() })
+
+            // extra info
+            extraInfo.title = "TC"
+            extraInfo.upiId = process.env.UPI_ID
+            extraInfo.noteEnglish = "If payment screenshot is not valid then TC receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो TC रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
         }
         
         qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(appliedUser.feeAmount)}&tn=${appliedUser.fullName}`, function (err, src) {
@@ -109,6 +183,18 @@ export const certificateFeePayPost = async (req, res) =>{
             extraInfo.noteEnglish = "If payment screenshot is not valid then bonafied receipt will be invalid so upload valid payment screenshot."
             extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Bonafied रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
         }
+
+        if (certificateType === "TC") {
+            appliedUser = await TC.findOne({ appliedBy: user._id.toString() })
+            existPaymentId = await TC.findOne({ paymentRefNo: refNo })
+
+            certificateSchema = TC
+            // extra info
+            extraInfo.title = "TC"
+            extraInfo.upiId = process.env.UPI_ID
+            extraInfo.noteEnglish = "If payment screenshot is not valid then TC receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो TC रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+        }
         
 
         if (existPaymentId === null) {
@@ -129,7 +215,7 @@ export const certificateFeePayPost = async (req, res) =>{
             res.redirect(`/certificateReceipt/${certificateType.toLowerCase()}`)
 
         } else {
-            qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(appliedUser.feeAmount)}&tn=${appliedUser.studentName}`, function (err, src) {
+            qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(appliedUser.feeAmount)}&tn=${appliedUser.fullName}`, function (err, src) {
                 res.status(201).render('certificatePaymentPage', { "qrcodeUrl": src, user, appliedUser, extraInfo, invalid: "Please enter valid UTR / Ref no. (कृपया वैध यूटीआर/रेफ नंबर दर्ज करें।)" })
             })
         }
@@ -153,10 +239,21 @@ export const certificateReceipt = async (req, res) =>{
 
             // extra Info
             extraInfo.certificateType = "Bonafied"
+
+            if (!appliedUser.isPaid){
+                res.redirect("/bonafied")
+            }
         }
 
-        if (!appliedUser.isPaid){
-            res.redirect("/bonafied")
+        if (certificateType === "tc") {
+            appliedUser = await TC.findOne({ appliedBy: user._id.toString() })
+
+            // extra Info
+            extraInfo.certificateType = "TC"
+
+            if (!appliedUser.isPaid){
+                res.redirect("/tc")
+            }
         }
 
         res.render("certificateReceipt", { appliedUser, user, extraInfo })
