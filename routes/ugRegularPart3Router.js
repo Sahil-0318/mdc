@@ -19,9 +19,6 @@ const userAuth = async (req, res , next)=>{
         res.status(401).redirect('/ugRegularPart3Login')
     }
 }
-
-
-// const storage = multer.diskStorage({})
   
 const upload = multer({
     storage: multer.memoryStorage()

@@ -23,7 +23,7 @@
                                     <label for="userName">User Name</label>
                                 </div>
                                 <div class="form-floating mb-4">
-                                    <input name="password" type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                                    <input name="password" type="password" class="form-control" id="password" placeholder="Enter your password" required oninput="this.value = this.value.toUpperCase()">
                                     <label for="password">Password</label>
                                 </div>
                                 <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Log In</button>

@@ -148,6 +148,7 @@ import apiRouter from './routes/apiRouter.js'
 import bca3Router from './routes/bca3Router.js'
 import ugRegularPart3Router from './routes/ugRegularPart3Router.js'
 import portalOnOffRouter from './routes/portalOnOffRouter.js'
+import bonafiedUserRouter from "./routes/certificatesRoutes/bonafiedUserRouter.js"
 
 
 // Set template engine
@@ -172,6 +173,7 @@ app.use('/api', apiRouter)
 app.use('/', bca3Router)
 app.use('/', ugRegularPart3Router)
 app.use('/', portalOnOffRouter)
+app.use('/', bonafiedUserRouter)
 
 // // Get the current directory name (ES Modules don't have __dirname)
 // const __filename = fileURLToPath(import.meta.url);

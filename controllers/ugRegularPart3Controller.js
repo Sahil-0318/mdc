@@ -41,7 +41,7 @@ const signupPost = async (req, res) => {
         // Generate Paaword Function
         let genPassword = ""
         function generatePassword() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
+            const characters = 'ABC0DEF1GHI2JKL3MNO4PQR5STU6VWX7Y89';
             let otp = '';
             for (let i = 0; i < 8; i++) {
               const randomIndex = Math.floor(Math.random() * characters.length);
@@ -197,30 +197,16 @@ const admissionFormPost = async (req, res) => {
 
             // -------
             if (gender === "MALE") {
-                if (user.course === "Bachelor of Science" || paper1 === "Psychology") {
-                    if (category === "GENERAL" || category === "BC-2") {
-                        admissionFee = 2755
-                    } else if (category === "BC-1") {
-                        admissionFee = 2155
-                    } else {
-                        admissionFee = 1350
-                    }
+                if (category === "GENERAL" || category === "BC-2") {
+                    admissionFee = 3330
+                } else if (category === "BC-1") {
+                    admissionFee = 3160
                 } else {
-                    if (category === "GENERAL" || category === "BC-2") {
-                        admissionFee = 2155
-                    } else if (category === "BC-1") {
-                        admissionFee = 1555
-                    } else {
-                        admissionFee = 750
-                    }
+                    admissionFee = 1100
                 }
 
             } else {
-                if (user.course === "Bachelor of Science" || paper1 === "Psychology") {
-                    admissionFee = 1350
-                } else {
-                    admissionFee = 750
-                }
+                admissionFee = 1100
             }
 
             const newAdmissionForm = new ugRegularPart3AdmissionForm({
