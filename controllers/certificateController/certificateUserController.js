@@ -54,7 +54,7 @@ export const bonafiedFormPost = async (req, res) =>{
             }
             
             const newBonafiedForm  = new Bonafied ({
-                fullName, sonDaughter, fatherName, motherName, collegeRollNumber, uniRegNumber, mobileNumber, email, course, courseName, honoursName, partSem, partSemName, courseSession, gender, marksheetPhoto, studentPhoto, lastAdmissionReceipt, appliedBy: user._id
+                fullName : fullName.trim(), sonDaughter, fatherName : fatherName.trim(), motherName : motherName.trim(), collegeRollNumber : collegeRollNumber.trim(), uniRegNumber : uniRegNumber.trim(), mobileNumber, email, course, courseName, honoursName : honoursName.trim(), partSem, partSemName, courseSession : courseSession.trim(), gender, marksheetPhoto, studentPhoto, lastAdmissionReceipt, appliedBy: user._id
             })
             
             await newBonafiedForm.save()
@@ -113,7 +113,7 @@ export const tcFormPost = async (req, res) =>{
             }
             
             const newTCForm  = new TC ({
-                fullName, fatherName, motherName, aadharNumber, mobileNumber, email, dOB, session, course, courseName, honoursName, collegeClass, lastPassedClass, collegeRollNumber, collegeFrom, collegeTo, marksheetPhoto, studentPhoto, lastAdmissionReceipt, appliedBy: user._id
+                fullName : fullName.trim(), fatherName : fatherName.trim(), motherName : motherName.trim(), aadharNumber : aadharNumber.trim(), mobileNumber, email, dOB, session : session.trim(), course, courseName, honoursName : honoursName.trim(), collegeClass : collegeClass.trim(), lastPassedClass : lastPassedClass.trim(), collegeRollNumber : collegeRollNumber.trim(), collegeFrom : collegeFrom.trim(), collegeTo : collegeTo.trim(), marksheetPhoto, studentPhoto, lastAdmissionReceipt, appliedBy: user._id
             })
             
             await newTCForm.save()
@@ -156,7 +156,7 @@ export const ccFormPost = async (req, res) =>{
             let serialNo = characterCertificateCount + 1
             
             const newCCForm  = new CC({
-                fullName, fatherName, motherName, courseName, session,collegeRollNumber, appliedBy: user._id, serialNo, studentId : `MDC-${generateRandom4DigitNumber()}${collegeRollNumber}`
+                fullName : fullName.trim(), fatherName : fatherName.trim(), motherName : motherName.trim(), courseName, session : session.trim(),collegeRollNumber : collegeRollNumber.trim(), appliedBy: user._id, serialNo, studentId : `MDC-${generateRandom4DigitNumber()}${collegeRollNumber}`
             })
             
             await newCCForm.save()
