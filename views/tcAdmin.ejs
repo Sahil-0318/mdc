@@ -21,7 +21,7 @@
                 </div> -->
 
                 <div class="col-sm-12 col-xl-12 pt-4 px-4">
-                    <form action="/cclist" method="get">
+                    <form action="/tclist" method="get">
                         <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
                             <!-- filter category -->
                             <div>
@@ -44,6 +44,10 @@
                                 <input type="number" class="form-control" id="collegeRollNumber" name="collegeRollNumber" placeholder="Enter college Roll No" />
                             </div>
 
+                            <div>
+                                <input type="number" class="form-control" id="mobileNumber" name="mobileNumber" placeholder="Enter mobile No" />
+                            </div>
+
                             <button class="btn btn-success" type="submit">Search</button>
                         </div>
                     </form>
@@ -59,7 +63,7 @@
                                     <div class="bg-light rounded h-100 p-0">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <h6 class="my-3 ">
-                                                Character Certificates List (<%= locals.cclist.length %>)
+                                                TC List (<%= locals.tclist.length %>)
                                             </h6>
                                         </div>
                                         <div class="table-responsive">
@@ -69,6 +73,7 @@
                                                         <th scope="col">S.No.</th>
                                                         <th scope="col">Full Name</th>
                                                         <th scope="col">Father's Name</th>
+                                                        <th scope="col">Mobile No</th>
                                                         <th scope="col">College Roll No.</th>
                                                         <th scope="col">Course</th>
                                                         <th scope="col">Session</th>
@@ -76,8 +81,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <% if (locals.cclist) { %>
-                                                        <% cclist.reverse().forEach((element, index)=> { %>
+                                                    <% if (locals.tclist) { %>
+                                                        <% tclist.reverse().forEach((element, index)=> { %>
                                                             <tr>
                                                                 <th scope="row">
                                                                     <%= index + 1%>
@@ -89,6 +94,9 @@
                                                                     <%= element.fatherName%>
                                                                 </td>
                                                                 <td>
+                                                                    <%= element.mobileNumber%>
+                                                                </td>
+                                                                <td>
                                                                     <%= element.collegeRollNumber%>
                                                                 </td>
                                                                 <td>
@@ -98,16 +106,16 @@
                                                                     <%= element.session%>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="/cc/<%= element._id %>" class="px-4 btn btn-warning w-md ">Download</a>
+                                                                    <a href="/tc/<%= element._id %>" class="px-4 btn btn-warning w-md ">Download</a>
                                                                 </td>
                                                             </tr>
                                                             <% }); %>
                                                                 <% } %>
                                                 </tbody>
                                             </table>
-                                            <% if (locals.cclist) { %>
-                                                <% if (locals.cclist.length===0) { %>
-                                                    <h3>Character Certificate not found ...</h3>
+                                            <% if (locals.tclist) { %>
+                                                <% if (locals.tclist.length===0) { %>
+                                                    <h3>TC not found ...</h3>
 
                                                     <% } %>
                                                         <% } %>
