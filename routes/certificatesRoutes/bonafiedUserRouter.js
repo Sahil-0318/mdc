@@ -3,8 +3,13 @@ import { userAuth } from '../../middlewares/userMiddleware.js'
 import {
     // bonafied
     bonafiedForm, bonafiedFormPost,
+
     //TC
     tcForm, tcFormPost,
+
+    //Character Certificate
+    ccForm, ccFormPost,
+
     //Certificate Payment Routes
     certificateFeePay, certificateFeePayPost, certificateReceipt
 } from "../../controllers/certificateController/certificateUserController.js"
@@ -24,6 +29,9 @@ bonafiedUserRouter.post('/bonafied', upload.array('bonafiedFormPhotos'), userAut
 bonafiedUserRouter.get('/tc', userAuth, tcForm)
 bonafiedUserRouter.post('/tc', upload.array('TCFormPhotos'), userAuth, tcFormPost)
 
+//Character Certificate
+bonafiedUserRouter.get('/cc', userAuth, ccForm)
+bonafiedUserRouter.post('/cc', userAuth, ccFormPost)
 
 
 bonafiedUserRouter.get('/certificateFee/:certificateType', userAuth, certificateFeePay)

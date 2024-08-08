@@ -1,6 +1,7 @@
 import User from '../../models/userModel/userSchema.js'
 import Bonafied from '../../models/certificateModels/bonafied.js'
 import TC from '../../models/certificateModels/tc.js'
+import CC from '../../models/certificateModels/cc.js'
 
 
 import FileUpload from '../../fileUpload/fileUpload.js'
@@ -124,11 +125,54 @@ export const tcFormPost = async (req, res) =>{
     }
 }
 
+// ====================== Character Certificate ================================
+export const ccForm = async (req, res) =>{
+    try {
+        const user = await User.findOne({ _id: req.id })
+        const appliedUser = await CC.findOne({ appliedBy: user._id.toString() })
+        if (appliedUser != null){
+            return res.render('cc', { user, appliedUser })
+        }
+        return res.render('cc', { user })
+    } catch (error) {
+        console.log("Error in cc Form => ", error)
+    }
+}
+
+export const ccFormPost = async (req, res) =>{
+    try {
+        const user = await User.findOne({ _id: req.id })
+        const { fullName,fatherName, motherName, courseName, session, collegeRollNumber } = req.body
+
+        const appliedUser = await CC.findOne({ appliedBy: user._id.toString() })
+        const appliedCollegeRollNumber = await CC.findOne({ collegeRollNumber })
+
+        if (appliedCollegeRollNumber === null){
+            function generateRandom4DigitNumber() {
+                return Math.floor(1000 + Math.random() * 9000);
+            }
+
+            const characterCertificateCount = await CC.countDocuments()
+            let serialNo = characterCertificateCount + 1
+            
+            const newCCForm  = new CC({
+                fullName, fatherName, motherName, courseName, session,collegeRollNumber, appliedBy: user._id, serialNo, studentId : `MDC-${generateRandom4DigitNumber()}${collegeRollNumber}`
+            })
+            
+            await newCCForm.save()
+            res.redirect("/certificateFee/cc")
+        }
+        
+    } catch (error) {
+        console.log("Error in cc Form Post => ", error)
+    }
+}
+
 // Certificate Payment 
 export const certificateFeePay = async (req, res) =>{
     try {
         const {certificateType} = req.params
-        
+        // console.log("certificateFeePay",certificateType)
         const user = await User.findOne({ _id: req.id })
         let appliedUser = ""
         let extraInfo = {}
@@ -152,6 +196,16 @@ export const certificateFeePay = async (req, res) =>{
             extraInfo.noteEnglish = "If payment screenshot is not valid then TC receipt will be invalid so upload valid payment screenshot."
             extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो TC रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
         }
+
+        if (certificateType === "cc" ) {
+            appliedUser = await CC.findOne({ appliedBy: user._id.toString() })
+
+            // extra info
+            extraInfo.title = "cc"
+            extraInfo.upiId = process.env.UPI_ID
+            extraInfo.noteEnglish = "If payment screenshot is not valid then Character Certificate receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Character Certificate रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+        }
         
         qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(appliedUser.feeAmount)}&tn=${appliedUser.fullName}`, function (err, src) {
             res.status(201).render('certificatePaymentPage', { "qrcodeUrl": src, user, appliedUser, extraInfo })
@@ -165,6 +219,7 @@ export const certificateFeePay = async (req, res) =>{
 export const certificateFeePayPost = async (req, res) =>{
     try {
         const { refNo, certificateType } = req.body
+        // console.log("certificateFeePayPost",certificateType)
         const user = await User.findOne({ _id: req.id })
 
         let extraInfo = {}
@@ -194,6 +249,18 @@ export const certificateFeePayPost = async (req, res) =>{
             extraInfo.upiId = process.env.UPI_ID
             extraInfo.noteEnglish = "If payment screenshot is not valid then TC receipt will be invalid so upload valid payment screenshot."
             extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो TC रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+        }
+
+        if (certificateType === "cc") {
+            appliedUser = await CC.findOne({ appliedBy: user._id.toString() })
+            existPaymentId = await CC.findOne({ paymentRefNo: refNo })
+            
+            certificateSchema = CC
+            // extra info
+            extraInfo.title = "cc"
+            extraInfo.upiId = process.env.UPI_ID
+            extraInfo.noteEnglish = "If payment screenshot is not valid then CharacterCertificate receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो CharacterCertificate रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
         }
         
 
@@ -253,6 +320,17 @@ export const certificateReceipt = async (req, res) =>{
 
             if (!appliedUser.isPaid){
                 res.redirect("/tc")
+            }
+        }
+
+        if (certificateType === "cc") {
+            appliedUser = await CC.findOne({ appliedBy: user._id.toString() })
+
+            // extra Info
+            extraInfo.certificateType = "CC"
+
+            if (!appliedUser.isPaid){
+                res.redirect("/cc")
             }
         }
 
