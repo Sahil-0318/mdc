@@ -100,6 +100,8 @@
                         <div class="col-sm-12 col-xl-12 pt-4 px-4">
                             <div><h5 class="fw-bold text-success">Download Admission List Excel : </h5></div>
                             <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
+                                <div class="btn btn-success"><a class="text-light" href="/UG_Reg_Part_III_Adm_List">All Adm List</a></div>
+
                                 <div class="btn btn-success"><a class="text-light" href="/UG_Reg_Part_III_BA_Adm_List">Adm List B.A</a></div>
                                 
                                 <div class="btn btn-success"><a class="text-light" href="/UG_Reg_Part_III_BSc_Adm_List">Adm List B.Sc</a></div>
@@ -120,23 +122,9 @@
                                     </div>
 
                                     <div>
-                                        <select id="course" class="form-select" name="course" onchange="updateHonSubjectOption()">
-                                            <option value="all" selected>All Courses</option>
-                                            <option value="Bachelor of Arts">B.A</option>
-                                            <option value="Bachelor of Science">B.Sc</option>
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <select id="honSubject" class="form-select" name="honSubject">
-
-                                        </select>
-                                    </div>
-
-                                    <div>
                                         <select id="category" class="form-select" name="category">
                                             <option value="all" selected>Select Category</option>
-                                            <option value="General">General</option>
+                                            <option value="GENERAL">General</option>
                                             <option value="BC-2">BC-2</option>
                                             <option value="BC-1">BC-1</option>
                                             <option value="SC">SC</option>
@@ -348,47 +336,6 @@
 
             // Set the value of the input field to the formatted date
             document.getElementById("findAdmDateTo").value = formattedDate;
-        </script>
-
-        <script>
-            function updateHonSubjectOption() {
-                const course = document.getElementById('course').value;
-                const honSubject = document.getElementById('honSubject');
-                honSubject.innerHTML = '';
-
-                let options = [];
-
-                if (course === 'Bachelor of Arts') {
-                    options = [
-                        { value: 'all', text: 'Select Subject' },
-                        { value: 'Economics', text: 'Economics' },
-                        { value: 'History', text: 'History' },
-                        { value: 'Political Science', text: 'Political Science' },
-                        { value: 'Psychology', text: 'Psychology' },
-                        { value: 'Sociology', text: 'Sociology' },
-                        { value: 'English', text: 'English' },
-                        { value: 'Hindi', text: 'Hindi' },
-                        { value: 'Urdu', text: 'Urdu' },
-                        { value: 'Philosophy', text: 'Philosophy' }
-                    ];
-                } else if (course === 'Bachelor of Science') {
-                    options = [
-                        { value: 'all', text: 'Select Subject' },
-                        { value: 'Physics', text: 'Physics' },
-                        { value: 'Chemistry', text: 'Chemistry' },
-                        { value: 'Zoology', text: 'Zoology' },
-                        { value: 'Botany', text: 'Botany' },
-                        { value: 'Mathematics', text: 'Mathematics' }
-                    ];
-                } 
-
-                options.forEach(option => {
-                    const newOption = document.createElement('option');
-                    newOption.value = option.value;
-                    newOption.text = option.text;
-                    honSubject.appendChild(newOption);
-                });
-            }
         </script>
 
         </body>

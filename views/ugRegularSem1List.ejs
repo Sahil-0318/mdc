@@ -77,16 +77,62 @@
 
                         <div class="col-sm-12 col-xl-12 pt-4 px-4">
                             <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
-                                <div class="btn btn-secondary"><a class="text-light" href="/UG_Reg_Sem_I_BA_Adm_List">Adm List B.A</a></div>
+                                <div class="btn btn-secondary"><a class="text-light"
+                                        href="/UG_Reg_Sem_I_Adm_List">All Adm List</a></div>
 
-                                <div class="btn btn-secondary"><a class="text-light" href="/UG_Reg_Sem_I_BA_SS_Adm_List">Adm List B.A(S.S)</a></div>
+                                <div class="btn btn-secondary"><a class="text-light"
+                                        href="/UG_Reg_Sem_I_BA_Adm_List">Adm List B.A</a></div>
 
-                                <div class="btn btn-secondary"><a class="text-light" href="/UG_Reg_Sem_I_BA_Hum_Adm_List">Adm List B.A(Hum.)</a></div>
+                                <!-- <div class="btn btn-secondary"><a class="text-light"
+                                        href="/UG_Reg_Sem_I_BA_SS_Adm_List">Adm List B.A(S.S)</a></div>
 
-                                <div class="btn btn-secondary"><a class="text-light" href="/UG_Reg_Sem_I_BSc_Adm_List">Adm List B.Sc</a></div>
+                                <div class="btn btn-secondary"><a class="text-light"
+                                        href="/UG_Reg_Sem_I_BA_Hum_Adm_List">Adm List B.A(Hum.)</a></div> -->
+
+                                <div class="btn btn-secondary"><a class="text-light"
+                                        href="/UG_Reg_Sem_I_BSc_Adm_List">Adm List B.Sc</a></div>
                             </div>
                         </div>
 
+                        <div class="col-sm-12 col-xl-12 pt-4 px-4">
+                            <div>
+                                <h5 class="fw-bold">Filter Students : </h5>
+                            </div>
+                            <form action="/ugRegularSem1List" method="get">
+                                <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
+                                    <!-- filter category -->
+
+                                    <div>
+                                        <select id="isPaid" class="form-select" name="isPaid">
+                                            <option value="all" selected>All Students</option>
+                                            <option value="true">Paid</option>
+                                            <option value="false">Unpaid</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <select id="category" class="form-select" name="category">
+                                            <option value="all" selected>Select Category</option>
+                                            <option value="GENERAL">General</option>
+                                            <option value="BC-2">BC-2</option>
+                                            <option value="BC-1">BC-1</option>
+                                            <option value="SC">SC</option>
+                                            <option value="ST">ST</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <select id="gender" class="form-select" name="gender">
+                                            <option value="all" selected>Select Gender</option>
+                                            <option value="MALE">MALE</option>
+                                            <option value="FEMALE">FEMALE</option>
+                                        </select>
+                                    </div>
+
+                                    <button class="btn btn-success" type="submit">Search</button>
+                                </div>
+                            </form>
+                        </div>
 
 
                         <!-- Blank Start -->
@@ -166,7 +212,8 @@
                                                                         </td>
                                                                         <td>
                                                                             <a href="/ugRegularSem1StudentEdit/<%= element._id %>"
-                                                                                class="px-4 btn btn-danger w-md">Edit</a>                                                                 </td>
+                                                                                class="px-4 btn btn-danger w-md">Edit</a>
+                                                                        </td>
 
                                                                     </tr>
                                                                     <% }); %>
@@ -237,6 +284,7 @@
                 submitPopUp.innerHTML = ''
             }, 3000);
         </script>
+
         <script>
             // Get the current date
             const currentDate = new Date();
@@ -250,6 +298,7 @@
             // Set the value of the input field to the formatted date
             document.getElementById("findAdmDateTo").value = formattedDate;
         </script>
+        
         </body>
 
         </html>

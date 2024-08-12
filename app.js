@@ -150,6 +150,7 @@ import ugRegularPart3Router from './routes/ugRegularPart3Router.js'
 import portalOnOffRouter from './routes/portalOnOffRouter.js'
 import bonafiedUserRouter from "./routes/certificatesRoutes/bonafiedUserRouter.js"
 import certificateAdminRouter from './routes/certificatesRoutes/certificateAdminRouter.js'
+import miscellaneousFeeRouter from "./routes/miscellaneousFeeRoutes.js"
 
 
 // Set template engine
@@ -176,6 +177,7 @@ app.use('/', ugRegularPart3Router)
 app.use('/', portalOnOffRouter)
 app.use('/', bonafiedUserRouter)
 app.use('/', certificateAdminRouter)
+app.use('/', miscellaneousFeeRouter)
 
 // // Get the current directory name (ES Modules don't have __dirname)
 // const __filename = fileURLToPath(import.meta.url);

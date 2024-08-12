@@ -34,6 +34,7 @@ import {
     ugRegSem1StuEdit,
     ugRegSem1StuEditPost,
     datewiseUgRegSem1List,
+    UG_Reg_Sem_I_Adm_List,
     UG_Reg_Sem_I_BA_Adm_List,
     UG_Reg_Sem_I_BA_SS_Adm_List,
     UG_Reg_Sem_I_BA_Hum_Adm_List,
@@ -49,6 +50,7 @@ import {
     ugRegSem3StuView,
     ugRegSem3StuEdit,
     ugRegSem3StuEditPost,
+    UG_Reg_Sem_III_Adm_List,    
     UG_Reg_Sem_III_BA_Adm_List,
     UG_Reg_Sem_III_BA_SS_Adm_List,
     UG_Reg_Sem_III_BA_Hum_Adm_List,
@@ -68,6 +70,7 @@ import {
     ugRegPart3StuView,
     ugRegPart3StuEdit,
     ugRegPart3StuEditPost,
+    UG_Reg_Part_III_Adm_List,
     UG_Reg_Part_III_BA_Adm_List,
     UG_Reg_Part_III_BSc_Adm_List
 }
@@ -138,6 +141,8 @@ adminRouter.post('/ugRegularSem1StudentEditPost/:editId', adminAuth, ugRegSem1St
 
 adminRouter.post('/datewiseUgRegSem1List', adminAuth, datewiseUgRegSem1List)
 
+adminRouter.get('/UG_Reg_Sem_I_Adm_List', adminAuth, UG_Reg_Sem_I_Adm_List)
+
 adminRouter.get('/UG_Reg_Sem_I_BA_Adm_List', adminAuth, UG_Reg_Sem_I_BA_Adm_List)
 
 adminRouter.get('/UG_Reg_Sem_I_BA_SS_Adm_List', adminAuth, UG_Reg_Sem_I_BA_SS_Adm_List)
@@ -164,6 +169,8 @@ adminRouter.get('/ugRegularSem3StudentView/:stuId', adminAuth, ugRegSem3StuView)
 adminRouter.get('/ugRegularSem3StudentEdit/:stuId', adminAuth, ugRegSem3StuEdit)
 
 adminRouter.post('/ugRegularSem3StudentEditPost/:editId', adminAuth, ugRegSem3StuEditPost)
+
+adminRouter.get('/UG_Reg_Sem_III_Adm_List', adminAuth, UG_Reg_Sem_III_Adm_List)
 
 adminRouter.get('/UG_Reg_Sem_III_BA_Adm_List', adminAuth, UG_Reg_Sem_III_BA_Adm_List)
 
@@ -196,6 +203,8 @@ adminRouter.get('/ugRegularPart3StudentView/:stuId', adminAuth, ugRegPart3StuVie
 adminRouter.get('/ugRegularPart3StudentEdit/:stuId', adminAuth, ugRegPart3StuEdit)
 
 adminRouter.post('/ugRegularPart3StudentEditPost/:editId', adminAuth, ugRegPart3StuEditPost)
+
+adminRouter.get('/UG_Reg_Part_III_Adm_List', adminAuth, UG_Reg_Part_III_Adm_List)
 
 adminRouter.get('/UG_Reg_Part_III_BA_Adm_List', adminAuth, UG_Reg_Part_III_BA_Adm_List)
 
