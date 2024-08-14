@@ -18,13 +18,13 @@
                         <div class="col-12 col-md-10">
                             <div class="bg-light rounded  p-4">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <h6 class="mb-4">Marksheet Miscellaneous Fee Form</h6>
+                                    <h6 class="mb-4"><%= locals.title %> Miscellaneous Fee Form</h6>
                                 </div>
 
                                 <% if (locals.appliedUser) { %>
-                                    <h4 class="text-primary">Bonafied form is filled by you.</h4>
+                                    <h4 class="text-primary"><%= locals.title %> form is filled by you.</h4>
                                     <% } else { %>
-                                        <form action="/bonafied" method="post" enctype="multipart/form-data">
+                                        <form action="/miscellaneousFee/<%= locals.formType %>" method="post">
                                             <div class="col-md-12 mb-3">
                                                 <label for="fullName" class="form-label">Full Name <span
                                                         class="text-danger">*</span></label>
@@ -77,18 +77,16 @@
                                         <% } %>
 
                                             <% if (locals.appliedUser) { %>
-                                                <% if (locals.appliedUser.isPaid==true) { %>
+                                                <% if (locals.extraInfo.isPaid==true) { %>
                                                     <button class="btn btn-secondary my-4"><a class="text-light "
-                                                            href="/certificateReceipt/bonafied">Print
+                                                            href="/miscellaneousReceipt/<%= locals.extraInfo.printURL %>">Print
                                                             Receipt</a></button>
 
                                                     <button class="btn btn-success my-4"><a class="text-light"
-                                                            href="/certificateFee/bonafied">Re-pay Bonafied
-                                                            Fee</a></button>
+                                                            href="/miscellaneousFeePayment/<%= locals.extraInfo.printURL %>">Re-pay Fee</a></button>
                                                     <% } else { %>
                                                         <button class="btn btn-success my-4"><a class="text-light"
-                                                                href="/certificateFee/bonafied">Pay Bonafied
-                                                                Fee</a></button>
+                                                                href="/miscellaneousFeePayment/<%= locals.extraInfo.printURL %>">Pay Fee</a></button>
                                                         <% } %>
                                                             <% } %>
 
