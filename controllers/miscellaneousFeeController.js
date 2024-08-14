@@ -49,46 +49,50 @@ export const opci = async (req, res) => {
 
 // ===================================== Forwading (Degree/Migration) ================================================================
 export const fdm = async (req, res) => {
-    try {
-        const user = await User.findOne({ _id: req.id })
-        const appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
-        if (appliedUser != null) {
-            return res.render('miscellaneousFeeForm', { user, title: "Forwading (Degree/Migration)", appliedUser })
-        }
-        return res.render('miscellaneousFeeForm', { user, title: "Forwading (Degree/Migration)", formType: "fdm" })
-    } catch (error) {
-        console.log("Error in fdm get method", error)
-    }
+    // try {
+    //     const user = await User.findOne({ _id: req.id })
+    //     const appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
+    //     if (appliedUser != null) {
+    //         return res.render('miscellaneousFeeForm', { user, title: "Forwading (Degree/Migration)", appliedUser })
+    //     }
+    //     return res.render('miscellaneousFeeForm', { user, title: "Forwading (Degree/Migration)", formType: "fdm" })
+    // } catch (error) {
+    //     console.log("Error in fdm get method", error)
+    // }
+    res.send("Page is under construction. I will ressume after sometime. Please wait <h1>Go back</h1>")
+    
 }
 
 
 // ===================================== Registration Forwading =======================================================================
 export const rf = async (req, res) => {
-    try {
-        const user = await User.findOne({ _id: req.id })
-        const appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
-        if (appliedUser != null) {
-            return res.render('miscellaneousFeeForm', { user, title: "Registration Forwading", appliedUser })
-        }
-        return res.render('miscellaneousFeeForm', { user, title: "Registration Forwading", formType: "rf" })
-    } catch (error) {
-        console.log("Error in rf get method", error)
-    }
+    // try {
+    //     const user = await User.findOne({ _id: req.id })
+    //     const appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
+    //     if (appliedUser != null) {
+    //         return res.render('miscellaneousFeeForm', { user, title: "Registration Forwading", appliedUser })
+    //     }
+    //     return res.render('miscellaneousFeeForm', { user, title: "Registration Forwading", formType: "rf" })
+    // } catch (error) {
+    //     console.log("Error in rf get method", error)
+    // }
+    res.send("Page is under construction. I will ressume after sometime. Please wait <h1>Go back</h1>")
 }
 
 
 // ===================================== Document Verification (Private) ===============================================================
 export const dvp = async (req, res) => {
-    try {
-        const user = await User.findOne({ _id: req.id })
-        const appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
-        if (appliedUser != null) {
-            return res.render('miscellaneousFeeForm', { user, title: "Document Verification (Private)", appliedUser })
-        }
-        return res.render('miscellaneousFeeForm', { user, title: "Document Verification (Private)", formType: "dvp" })
-    } catch (error) {
-        console.log("Error in marksheet get method", error)
-    }
+    // try {
+    //     const user = await User.findOne({ _id: req.id })
+    //     const appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
+    //     if (appliedUser != null) {
+    //         return res.render('miscellaneousFeeForm', { user, title: "Document Verification (Private)", appliedUser })
+    //     }
+    //     return res.render('miscellaneousFeeForm', { user, title: "Document Verification (Private)", formType: "dvp" })
+    // } catch (error) {
+    //     console.log("Error in marksheet get method", error)
+    // }
+    res.send("Page is under construction. I will ressume after sometime. Please wait <h1>Go back</h1>")
 }
 
 
