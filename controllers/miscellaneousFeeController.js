@@ -49,57 +49,72 @@ export const opci = async (req, res) => {
 
 // ===================================== Forwading (Degree/Migration) ================================================================
 export const fdm = async (req, res) => {
-    // try {
-    //     const user = await User.findOne({ _id: req.id })
-    //     const appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
-    //     if (appliedUser != null) {
-    //         return res.render('miscellaneousFeeForm', { user, title: "Forwading (Degree/Migration)", appliedUser })
-    //     }
-    //     return res.render('miscellaneousFeeForm', { user, title: "Forwading (Degree/Migration)", formType: "fdm" })
-    // } catch (error) {
-    //     console.log("Error in fdm get method", error)
-    // }
-    res.send("Page is under construction. I will ressume after sometime. Please wait <h1>Go back</h1>")
+    try {
+        const user = await User.findOne({ _id: req.id })
+        const appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
+
+        let extraInfo = {}
+
+        if (appliedUser != null) {
+            extraInfo.isPaid = appliedUser.isFdmPaid
+            extraInfo.printURL = "fdm"
+
+            return res.render('miscellaneousFeeForm', { user, title: "Forwading (Degree/Migration)", appliedUser, extraInfo })
+        }
+        return res.render('miscellaneousFeeForm', { user, title: "Forwading (Degree/Migration)", formType: "fdm" })
+    } catch (error) {
+        console.log("Error in fdm get method", error)
+    }
     
 }
 
 
 // ===================================== Registration Forwading =======================================================================
 export const rf = async (req, res) => {
-    // try {
-    //     const user = await User.findOne({ _id: req.id })
-    //     const appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
-    //     if (appliedUser != null) {
-    //         return res.render('miscellaneousFeeForm', { user, title: "Registration Forwading", appliedUser })
-    //     }
-    //     return res.render('miscellaneousFeeForm', { user, title: "Registration Forwading", formType: "rf" })
-    // } catch (error) {
-    //     console.log("Error in rf get method", error)
-    // }
-    res.send("Page is under construction. I will ressume after sometime. Please wait <h1>Go back</h1>")
+    try {
+        const user = await User.findOne({ _id: req.id })
+        const appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
+
+        let extraInfo = {}
+
+        if (appliedUser != null) {
+            extraInfo.isPaid = appliedUser.isRfPaid
+            extraInfo.printURL = "rf"
+
+            return res.render('miscellaneousFeeForm', { user, title: "Registration Forwading", appliedUser, extraInfo })
+        }
+        return res.render('miscellaneousFeeForm', { user, title: "Registration Forwading", formType: "rf" })
+    } catch (error) {
+        console.log("Error in rf get method", error)
+    }
 }
 
 
 // ===================================== Document Verification (Private) ===============================================================
 export const dvp = async (req, res) => {
-    // try {
-    //     const user = await User.findOne({ _id: req.id })
-    //     const appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
-    //     if (appliedUser != null) {
-    //         return res.render('miscellaneousFeeForm', { user, title: "Document Verification (Private)", appliedUser })
-    //     }
-    //     return res.render('miscellaneousFeeForm', { user, title: "Document Verification (Private)", formType: "dvp" })
-    // } catch (error) {
-    //     console.log("Error in marksheet get method", error)
-    // }
-    res.send("Page is under construction. I will ressume after sometime. Please wait <h1>Go back</h1>")
+    try {
+        const user = await User.findOne({ _id: req.id })
+        const appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
+
+        let extraInfo = {}
+
+        if (appliedUser != null) {
+            extraInfo.isPaid = appliedUser.isDvpPaid
+            extraInfo.printURL = "dvp"
+
+            return res.render('miscellaneousFeeForm', { user, title: "Document Verification (Private)", appliedUser, extraInfo })
+        }
+        return res.render('miscellaneousFeeForm', { user, title: "Document Verification (Private)", formType: "dvp" })
+    } catch (error) {
+        console.log("Error in marksheet get method", error)
+    }
 }
 
 
 // ===================================== Miscellaneous Form Post ===============================================================
 export const miscellaneousFormPost = async (req, res) => {
     let { formType } = req.params
-    console.log("Miscellaneous Form Post", formType)
+
     const { fullName, collegeRollNumber, uniRegNumber, mobileNumber, courseName } = req.body
     try {
         const user = await User.findOne({ _id: req.id })
@@ -123,7 +138,7 @@ export const miscellaneousFormPost = async (req, res) => {
 // ===================================== Miscellaneous Fee Payment ===============================================================
 export const miscellaneousFeePayment = async (req, res) => {
     let { formType } = req.params
-    console.log("In miscellaneousFeePayment", formType)
+    
     try {
         const user = await User.findOne({ _id: req.id })
         let appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
@@ -146,16 +161,47 @@ export const miscellaneousFeePayment = async (req, res) => {
             extraInfo.title = "Original Passing Certificate (Inter)"
             extraInfo.postURL = "opci"
             extraInfo.upiId = process.env.UPI_ID
-            extraInfo.noteEnglish = "If payment screenshot is not valid then Marksheet receipt will be invalid so upload valid payment screenshot."
-            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Marksheet रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+            extraInfo.noteEnglish = "If payment screenshot is not valid then Original Passing Certificate (Inter) receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Original Passing Certificate (Inter) रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
             extraInfo.feeAmount = appliedUser.opciFeeAmount
+        }
+
+        if (formType === "fdm") {
+
+            // extra info
+            extraInfo.title = "Forwading (Degree/Migration)"
+            extraInfo.postURL = "fdm"
+            extraInfo.upiId = process.env.UPI_ID
+            extraInfo.noteEnglish = "If payment screenshot is not valid then Forwading (Degree/Migration) receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Forwading (Degree/Migration) रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+            extraInfo.feeAmount = appliedUser.fdmFeeAmount
+        }
+
+        if (formType === "rf") {
+
+            // extra info
+            extraInfo.title = "Registration Forwading"
+            extraInfo.postURL = "rf"
+            extraInfo.upiId = process.env.UPI_ID
+            extraInfo.noteEnglish = "If payment screenshot is not valid then Registration Forwading receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Registration Forwading रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+            extraInfo.feeAmount = appliedUser.rfFeeAmount
+        }
+
+        if (formType === "dvp") {
+
+            // extra info
+            extraInfo.title = "Document Verification (Private)"
+            extraInfo.postURL = "dvp"
+            extraInfo.upiId = process.env.UPI_ID
+            extraInfo.noteEnglish = "If payment screenshot is not valid then Document Verification (Private) receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Document Verification (Private) रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+            extraInfo.feeAmount = appliedUser.dvpFeeAmount
         }
 
         qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(extraInfo.feeAmount)}&tn=${appliedUser.fullName}`, function (err, src) {
             res.status(201).render('miscellaneousFeePayment', { "qrcodeUrl": src, user, appliedUser, extraInfo })
         })
-
-
 
     } catch (error) {
         console.log("Error in Miscellaneous Fee Payment method", error)
@@ -167,7 +213,7 @@ export const miscellaneousFeePayment = async (req, res) => {
 export const miscellaneousFeePaymentPost = async (req, res) => {
     try {
         const { refNo, formType } = req.body
-        console.log("miscellaneousFeePaymentPost", formType, refNo)
+        
         const user = await User.findOne({ _id: req.id })
         let appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
 
@@ -199,6 +245,42 @@ export const miscellaneousFeePaymentPost = async (req, res) => {
             extraInfo.feeAmount = appliedUser.opciFeeAmount
         }
 
+        if (formType === "fdm") {
+            existPaymentId = await MiscellaneousFee.findOne({ fdmPaymentRefNo: refNo })
+
+            // extra info
+            extraInfo.title = "Forwading (Degree/Migration)"
+            extraInfo.postURL = "fdm"
+            extraInfo.upiId = process.env.UPI_ID
+            extraInfo.noteEnglish = "If payment screenshot is not valid then Forwading (Degree/Migration) receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Forwading (Degree/Migration) रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+            extraInfo.feeAmount = appliedUser.fdmFeeAmount
+        }
+
+        if (formType === "rf") {
+            existPaymentId = await MiscellaneousFee.findOne({ rfPaymentRefNo: refNo })
+
+            // extra info
+            extraInfo.title = "Registration Forwading"
+            extraInfo.postURL = "rf"
+            extraInfo.upiId = process.env.UPI_ID
+            extraInfo.noteEnglish = "If payment screenshot is not valid then Registration Forwading receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Registration Forwading रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+            extraInfo.feeAmount = appliedUser.rfFeeAmount
+        }
+
+        if (formType === "dvp") {
+            existPaymentId = await MiscellaneousFee.findOne({ dvpPaymentRefNo: refNo })
+
+            // extra info
+            extraInfo.title = "Document Verification (Private)"
+            extraInfo.postURL = "dvp"
+            extraInfo.upiId = process.env.UPI_ID
+            extraInfo.noteEnglish = "If payment screenshot is not valid then Document Verification (Private) receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Document Verification (Private) रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+            extraInfo.feeAmount = appliedUser.dvpFeeAmount
+        }
+
         if (existPaymentId === null) {
             const photoUpload = await FileUpload(req.file.buffer)
             const paymentSS = photoUpload.secure_url
@@ -222,7 +304,20 @@ export const miscellaneousFeePaymentPost = async (req, res) => {
 
             }
 
-            // await MiscellaneousFee.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS, paidAt, paymentRefNo:refNo, isPaid:true, paymentReceipt : `MDC-${Date.now()}`} })
+            if (formType === "fdm") {
+                await MiscellaneousFee.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { fdmPaymentSS: paymentSS, fdmPaymentDate: paidAt, fdmPaymentRefNo: refNo, isFdmPaid: true, fdmReceiptNo: `MDC-${Date.now()}` } })
+
+            }
+
+            if (formType === "rf") {
+                await MiscellaneousFee.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { rfPaymentSS: paymentSS, rfPaymentDate: paidAt, rfPaymentRefNo: refNo, isRfPaid: true, rfReceiptNo: `MDC-${Date.now()}` } })
+
+            }
+
+            if (formType === "dvp") {
+                await MiscellaneousFee.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { dvpPaymentSS: paymentSS, dvpPaymentDate: paidAt, dvpPaymentRefNo: refNo, isDvpPaid: true, dvpReceiptNo: `MDC-${Date.now()}` } })
+
+            }
 
             res.redirect(`/miscellaneousReceipt/${formType.toLowerCase()}`)
 
@@ -230,17 +325,7 @@ export const miscellaneousFeePaymentPost = async (req, res) => {
             qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(extraInfo.feeAmount)}&tn=${appliedUser.fullName}`, function (err, src) {
                 res.status(201).render('miscellaneousFeePayment', { "qrcodeUrl": src, user, appliedUser, extraInfo, invalid: "Please enter valid UTR / Ref no. (कृपया वैध यूटीआर/रेफ नंबर दर्ज करें।)" })
             })
-
-
-            // if (formType === "opci") {
-            //     qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(appliedUser.marksheetFeeAmount)}&tn=${appliedUser.fullName}`, function (err, src) {
-            //         res.status(201).render('miscellaneousFeePayment', { "qrcodeUrl": src, user, appliedUser, extraInfo, invalid: "Please enter valid UTR / Ref no. (कृपया वैध यूटीआर/रेफ नंबर दर्ज करें।)" })
-            //     })
-            // }
-
         }
-
-
 
     } catch (error) {
         console.log("Error in Miscellaneous Fee Payment Post method", error)
@@ -252,7 +337,7 @@ export const miscellaneousFeePaymentPost = async (req, res) => {
 export const miscellaneousReceipt = async (req, res) => {
     try {
         const { formType } = req.params
-        console.log("Miscellaneous Receipt", formType)
+        
         const user = await User.findOne({ _id: req.id })
         let appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
         let extraInfo = {}
@@ -282,6 +367,48 @@ export const miscellaneousReceipt = async (req, res) => {
 
             if (!appliedUser.isOpciPaid) {
                 res.redirect("/miscellaneousFee/original-passing-certificate-inter")
+            }
+        }
+
+        if (formType === "fdm") {
+
+            // extra Info
+            extraInfo.formType = "Forwading (Degree/Migration)"
+            extraInfo.paymentReceipt = appliedUser.fdmReceiptNo
+            extraInfo.feeAmount = appliedUser.fdmFeeAmount
+            extraInfo.paidAt = appliedUser.fdmPaymentDate
+            extraInfo.paymentRefNo = appliedUser.fdmPaymentRefNo
+
+            if (!appliedUser.isFdmPaid) {
+                res.redirect("/miscellaneousFee/forwading-degree-migration")
+            }
+        }
+
+        if (formType === "rf") {
+
+            // extra Info
+            extraInfo.formType = "Registration Forwading"
+            extraInfo.paymentReceipt = appliedUser.rfReceiptNo
+            extraInfo.feeAmount = appliedUser.rfFeeAmount
+            extraInfo.paidAt = appliedUser.rfPaymentDate
+            extraInfo.paymentRefNo = appliedUser.rfPaymentRefNo
+
+            if (!appliedUser.isFdmPaid) {
+                res.redirect("/miscellaneousFee/registration-forwading")
+            }
+        }
+
+        if (formType === "dvp") {
+
+            // extra Info
+            extraInfo.formType = "Document Verification (Private)"
+            extraInfo.paymentReceipt = appliedUser.dvpReceiptNo
+            extraInfo.feeAmount = appliedUser.dvpFeeAmount
+            extraInfo.paidAt = appliedUser.dvpPaymentDate
+            extraInfo.paymentRefNo = appliedUser.dvpPaymentRefNo
+
+            if (!appliedUser.isFdmPaid) {
+                res.redirect("/miscellaneousFee/document-verification-private")
             }
         }
 
