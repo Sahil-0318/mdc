@@ -33,7 +33,7 @@ const miscellaneousFeeSchema = mongoose.Schema({
     // marksheet
     marksheetFeeAmount:{
         type : Number,
-        default: 20
+        default: 100
     },
     marksheetReceiptNo:{
         type : String
@@ -151,6 +151,31 @@ const miscellaneousFeeSchema = mongoose.Schema({
         default: "NA"
     },
     dvpPaymentDate: {
+        type : String,
+        default: "NA"
+    },
+
+    // Miscellaneous
+    miscellaneousFeeAmount:{
+        type : Number,
+        default: 100
+    },
+    miscellaneousReceiptNo:{
+        type : String
+    },
+    isMiscellaneousPaid :{
+        type: Boolean,
+        default: false
+    },
+    miscellaneousPaymentRefNo:{
+        type : String,
+        default: "NA"
+    },
+    miscellaneousPaymentSS: {
+        type : String,
+        default: "NA"
+    },
+    miscellaneousPaymentDate: {
         type : String,
         default: "NA"
     },

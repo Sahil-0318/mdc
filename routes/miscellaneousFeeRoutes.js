@@ -7,6 +7,7 @@ import {
     fdm,
     rf,
     dvp,
+    miscellaneous,
     miscellaneousFormPost,
     miscellaneousFeePayment,
     miscellaneousFeePaymentPost,
@@ -30,6 +31,8 @@ miscellaneousFeeRouter.get('/miscellaneousFee/forwading-degree-migration', userA
 miscellaneousFeeRouter.get('/miscellaneousFee/registration-forwading', userAuth, rf)
 
 miscellaneousFeeRouter.get('/miscellaneousFee/document-verification-private', userAuth, dvp)
+
+miscellaneousFeeRouter.get('/miscellaneousFee/miscellaneous', userAuth, miscellaneous)
 
 miscellaneousFeeRouter.post('/miscellaneousFee/:formType', userAuth, miscellaneousFormPost)
 

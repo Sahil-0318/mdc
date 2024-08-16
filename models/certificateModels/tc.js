@@ -83,7 +83,7 @@ const tcSchema = mongoose.Schema({
     },
     feeAmount:{
         type : Number,
-        default: 300
+        default: 600
     },
     paymentReceipt:{
         type : String

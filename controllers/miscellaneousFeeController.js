@@ -111,6 +111,27 @@ export const dvp = async (req, res) => {
 }
 
 
+// ===================================== Miscellaneous ===============================================================
+export const miscellaneous = async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.id })
+        const appliedUser = await MiscellaneousFee.findOne({ appliedBy: user._id.toString() })
+
+        let extraInfo = {}
+
+        if (appliedUser != null) {
+            extraInfo.isPaid = appliedUser.isMiscellaneousPaid
+            extraInfo.printURL = "miscellaneous"
+
+            return res.render('miscellaneousFeeForm', { user, title: "Miscellaneous", appliedUser, extraInfo })
+        }
+        return res.render('miscellaneousFeeForm', { user, title: "Miscellaneous", formType: "miscellaneous" })
+    } catch (error) {
+        console.log("Error in miscellaneous get method", error)
+    }
+}
+
+
 // ===================================== Miscellaneous Form Post ===============================================================
 export const miscellaneousFormPost = async (req, res) => {
     let { formType } = req.params
@@ -199,6 +220,17 @@ export const miscellaneousFeePayment = async (req, res) => {
             extraInfo.feeAmount = appliedUser.dvpFeeAmount
         }
 
+        if (formType === "miscellaneous") {
+
+            // extra info
+            extraInfo.title = "Miscellaneous"
+            extraInfo.postURL = "miscellaneous"
+            extraInfo.upiId = process.env.UPI_ID
+            extraInfo.noteEnglish = "If payment screenshot is not valid then Miscellaneous receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Miscellaneous रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+            extraInfo.feeAmount = appliedUser.miscellaneousFeeAmount
+        }
+
         qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(extraInfo.feeAmount)}&tn=${appliedUser.fullName}`, function (err, src) {
             res.status(201).render('miscellaneousFeePayment', { "qrcodeUrl": src, user, appliedUser, extraInfo })
         })
@@ -281,6 +313,18 @@ export const miscellaneousFeePaymentPost = async (req, res) => {
             extraInfo.feeAmount = appliedUser.dvpFeeAmount
         }
 
+        if (formType === "miscellaneous") {
+            existPaymentId = await MiscellaneousFee.findOne({ miscellaneousPaymentRefNo: refNo })
+
+            // extra info
+            extraInfo.title = "Miscellaneous"
+            extraInfo.postURL = "miscellaneous"
+            extraInfo.upiId = process.env.UPI_ID
+            extraInfo.noteEnglish = "If payment screenshot is not valid then Miscellaneous receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Miscellaneous रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+            extraInfo.feeAmount = appliedUser.miscellaneousFeeAmount
+        }
+
         if (existPaymentId === null) {
             const photoUpload = await FileUpload(req.file.buffer)
             const paymentSS = photoUpload.secure_url
@@ -316,6 +360,11 @@ export const miscellaneousFeePaymentPost = async (req, res) => {
 
             if (formType === "dvp") {
                 await MiscellaneousFee.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { dvpPaymentSS: paymentSS, dvpPaymentDate: paidAt, dvpPaymentRefNo: refNo, isDvpPaid: true, dvpReceiptNo: `MDC-${Date.now()}` } })
+
+            }
+
+            if (formType === "miscellaneous") {
+                await MiscellaneousFee.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { miscellaneousPaymentSS: paymentSS, miscellaneousPaymentDate: paidAt, miscellaneousPaymentRefNo: refNo, isMiscellaneousPaid: true, miscellaneousReceiptNo: `MDC-${Date.now()}` } })
 
             }
 
@@ -393,7 +442,7 @@ export const miscellaneousReceipt = async (req, res) => {
             extraInfo.paidAt = appliedUser.rfPaymentDate
             extraInfo.paymentRefNo = appliedUser.rfPaymentRefNo
 
-            if (!appliedUser.isFdmPaid) {
+            if (!appliedUser.isRfPaid) {
                 res.redirect("/miscellaneousFee/registration-forwading")
             }
         }
@@ -407,8 +456,22 @@ export const miscellaneousReceipt = async (req, res) => {
             extraInfo.paidAt = appliedUser.dvpPaymentDate
             extraInfo.paymentRefNo = appliedUser.dvpPaymentRefNo
 
-            if (!appliedUser.isFdmPaid) {
+            if (!appliedUser.isDvpPaid) {
                 res.redirect("/miscellaneousFee/document-verification-private")
+            }
+        }
+
+        if (formType === "miscellaneous") {
+
+            // extra Info
+            extraInfo.formType = "Miscellaneous"
+            extraInfo.paymentReceipt = appliedUser.miscellaneousReceiptNo
+            extraInfo.feeAmount = appliedUser.miscellaneousFeeAmount
+            extraInfo.paidAt = appliedUser.miscellaneousPaymentDate
+            extraInfo.paymentRefNo = appliedUser.miscellaneousPaymentRefNo
+
+            if (!appliedUser.isMiscellaneousPaid) {
+                res.redirect("/miscellaneousFee/miscellaneous")
             }
         }
 
