@@ -1,6 +1,9 @@
 import User from '../models/userModel/userSchema.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import unirest from 'unirest'
+
+import ugRegularPart3User from "../models/userModel/UG-Regular-Part-3/user.js"
 
 const login = (req, res) => {
     res.render('login')
@@ -79,8 +82,82 @@ const logout = async (req, res) => {
     res.status(201).redirect('https://www.mdcollegenaubatpur.ac.in/')
 }
 
+const forgotPassword = async (req, res) =>{
+    try {
+        const portal = req.params.portal
+        let registerRoute = ''
+        if (portal === "ugRegularPart3") {
+            registerRoute = "ugRegularPart3Signup"
+        }
+        
+        res.render("forgotPassword", {portal, registerRoute})
+        
+    } catch (error) {
+        console.log("Error in forgotPassword", error)
+    }
+}
+
+const forgotPasswordPost = async (req, res) =>{
+    try {
+        const {mobileNumber, portal} = req.body
+        let foundUser = ''
+        let userId = ""
+        let password = ""
+        let registerRoute = ""
+
+        if (portal === "ugRegularPart3") {
+           foundUser = await ugRegularPart3User.findOne({mobileNumber})
+           registerRoute = "ugRegularPart3Signup"
+           if (foundUser !== null){
+            userId = foundUser.userId
+            password = foundUser.password
+           }
+        }
+
+
+        if (foundUser !== null) {
+            var req = unirest("POST", "https://www.fast2sms.com/dev/bulkV2");
+
+            req.headers({
+                "authorization": process.env.FAST2SMS_API
+            });
+
+            req.form({
+                "sender_id": process.env.DLT_USER_PSSWORD_SENDER_ID,
+                "message": process.env.YOUR_USER_PSSWORD_MESSAGE_ID,
+                "variables_values": `${userId}|${password}`,
+                "route": "dlt",
+                "numbers": mobileNumber,
+            });
+
+            req.end(function (res) {
+                if (res.error) {
+                    console.error('Request error:', res.error);
+                    return; // Exit the function if there's an error
+                }
+
+                if (res.status >= 400) {
+                    console.error('Error response:', res.status, res.body);
+                    return; // Exit the function if the response status code indicates an error
+                }
+
+                console.log('Success:', res.body);
+            });
+
+            res.status(201).redirect('ugRegularPart3Login')
+           } else {
+            res.render("forgotPassword", {portal, registerRoute, invalid : "Please enter registerd mobile number."})
+           }
+        
+    } catch (error) {
+        console.log("Error in forgotPasswordPost", error)
+    }
+}
+
 export {
     login,
     loginPost,
-    logout
+    logout,
+    forgotPassword,
+    forgotPasswordPost
 }
