@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import express from 'express'
 import cors from "cors"
+import uploadBCA1Meritlist from "./fileUpload/bca1MeritListUpload.js"
 
 // Error log
 // import fs from 'fs'
@@ -18,11 +19,6 @@ app.use(cors({
   origin: CORS_URL
 }));
 
-// importing csv file to mongodb atlas
-// import fs from 'fs'
-// import csv from 'csv-parser'
-// ============================================
-
 //DB Connection
 mongoose.connect(process.env.DB_CONNECTION).then(() => {
   console.log('DB Connected Successfully');
@@ -30,109 +26,8 @@ mongoose.connect(process.env.DB_CONNECTION).then(() => {
   console.log(err);
 })
 
-// importing csv file to mongodb atlas
-// Define a Mongoose schema (adjust this according to your CSV data structure)
-// const Schema = mongoose.Schema;
-// const DataSchema = new Schema({
-//   srNo: {
-//     type: Number
-//   },
-//   type: {
-//     type: String
-//   },
-//   ovrRnk: {
-//     type: Number
-//   },
-//   catRnk: {
-//     type: Number
-//   },
-//   resRnk: {
-//     type: Number
-//   },
-//   pref: {
-//     type: Number
-//   },
-//   appNo: {
-//     type: String
-//   },
-//   candidateName: {
-//     type: String
-//   },
-//   vert: {
-//     type: String
-//   },
-//   gender: {
-//     type: String
-//   },
-//   dOB: {
-//     type: String
-//   },
-//   fatherName: {
-//     type: String
-//   },
-//   domicile: {
-//     type: String
-//   },
-//   mobileNo: {
-//     type: Number
-//   },
-//   email: {
-//     type: String
-//   },
-//   board: {
-//     type: String
-//   },
-//   twelthRoll: {
-//     type: Number
-//   },
-//   twelthStream: {
-//     type: String
-//   },
-//   twelthPer: {
-//     type: Number
-//   },
-//   meritIndex: {
-//     type: Number
-//   },
-//   majorSubject: {
-//     type: String
-//   }
-// }, { strict: false });
-// const DataModel = mongoose.model('Data6', DataSchema, 'ugRegularSem1MeritList6'); // Replace 'yourcollection' with your actual collection name
-// ====================================================================================
 
-// importing csv file to mongodb atlas
-// Function to read CSV and import to MongoDB
-// async function importCsvToMongoDB(filePath) {
-//   const jsonData = [];
-
-//   // Read the CSV file
-//   fs.createReadStream(filePath)
-//     .pipe(csv())
-//     .on('data', (row) => {
-//       jsonData.push(row);
-//     })
-//     .on('end', async () => {
-//       try {
-//         // Insert the JSON data into MongoDB
-//         await DataModel.insertMany(jsonData);
-//         console.log('Data imported successfully');
-//       } catch (err) {
-//         console.error('Error importing data:', err);
-//       } finally {
-//         // Close the MongoDB connection
-//         mongoose.connection.close();
-//       }
-//     });
-// }
-// =========================================================================================
-
-// importing csv file to mongodb atlas
-// Path to your CSV file
-// const filePath = 'Spot-Round-2.csv'; // Replace with the path to your CSV file
-// importCsvToMongoDB(filePath);
-// ===========================================================================================
-
+// uploadBCA1Meritlist("bca1meritlist1.csv")
 
 
 import userRouter from './routes/userRouter.js'
@@ -151,6 +46,7 @@ import portalOnOffRouter from './routes/portalOnOffRouter.js'
 import bonafiedUserRouter from "./routes/certificatesRoutes/bonafiedUserRouter.js"
 import certificateAdminRouter from './routes/certificatesRoutes/certificateAdminRouter.js'
 import miscellaneousFeeRouter from "./routes/miscellaneousFeeRoutes.js"
+import bca1Router from "./routes/bca1Router.js"
 
 
 // Set template engine
@@ -178,6 +74,7 @@ app.use('/', portalOnOffRouter)
 app.use('/', bonafiedUserRouter)
 app.use('/', certificateAdminRouter)
 app.use('/', miscellaneousFeeRouter)
+app.use('/', bca1Router)
 
 // // Get the current directory name (ES Modules don't have __dirname)
 // const __filename = fileURLToPath(import.meta.url);
