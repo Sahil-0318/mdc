@@ -26,9 +26,10 @@ export const bca1SignupPost = async (req, res) => {
         const isExistAppNoInMeritList = await bca1MeritList1.findOne({ appNo })
 
         if (isExistAppNoInMeritList != null) {
+            const isExistAppNoInUserModel = await bca1UserModel.findOne({ appNo })
             const isExistMobileNumber = await bca1UserModel.findOne({ mobileNumber })
 
-            if (isExistMobileNumber == null) {
+            if (isExistAppNoInUserModel == null && isExistMobileNumber == null) {
 
                 // Generate Paaword Function
                 let password = ""
@@ -87,7 +88,7 @@ export const bca1SignupPost = async (req, res) => {
                 res.status(201).redirect('bca1Login')
 
             } else {
-                res.render('bca1Signup', { "invalid": 'Mobile Number already exists' })
+                res.render('bca1Signup', { "invalid": 'Application or Mobile Number already exists' })
             }
 
         } else {
