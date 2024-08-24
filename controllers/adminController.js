@@ -10,6 +10,7 @@ import Csv from 'json2csv'
 const CsvParser = Csv.Parser
 import FileUpload from '../fileUpload/fileUpload.js'
 import FileDelete from '../fileUpload/fileDelete.js'
+import noticeUpload from "../fileUpload/noticeUpload.js"
 
 // UG Regular Sem 1
 import ugRegularSem1AdmissionForm from "../models/userModel/ugRegularSem1AdmissionFormSchema.js"
@@ -278,7 +279,8 @@ const notice = async (req, res) => {
 const noticePost = async (req, res) => {
   try {
     const { noticeTitle } = req.body
-    const photoUpload = await FileUpload(req.file.path)
+    // const photoUpload = await FileUpload(req.file.path)
+    const photoUpload = await noticeUpload(req.file.path)
     const noticePDF = photoUpload.secure_url
     const notice = new Notice({
       noticeTitle,
@@ -313,7 +315,8 @@ const editNoticePost = async (req, res) => {
     const { id } = req.params
     const foundNotice = await Notice.findOne({ _id: id })
     const { noticeTitle } = req.body
-    const photoUpload = await FileUpload(req.file.path)
+    // const photoUpload = await FileUpload(req.file.path)
+    const photoUpload = await noticeUpload(req.file.path)
     const noticePDF = photoUpload.secure_url
 
     await Notice.findOneAndUpdate({ _id: id }, { $set: { noticeTitle, noticePDF } })
