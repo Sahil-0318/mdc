@@ -3,6 +3,8 @@ const certificateAdminRouter = express.Router()
 import { adminAuth } from '../../middlewares/adminMiddleware.js'
 
 import {
+    // CLC
+    clclist, downloadclc,
     // Character Certificate
     cclist, downloadcc,
     // TC
@@ -10,6 +12,10 @@ import {
     // Bonafied
     bonafiedlist, downloadbonafied
 } from "../../controllers/certificateController/certificateAdminController.js"
+
+// Character certificate
+certificateAdminRouter.get("/clcListAdmin", adminAuth, clclist )
+certificateAdminRouter.get("/clcListAdmin/:id", adminAuth, downloadclc )
 
 // Character certificate
 certificateAdminRouter.get("/cclist", adminAuth, cclist )

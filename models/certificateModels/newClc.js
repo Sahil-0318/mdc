@@ -92,6 +92,9 @@ const newClcSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    normalIssuedAt: {
+        type : String,
+    },
     normalPaymentReceipt:{
         type : String
     },
@@ -121,6 +124,9 @@ const newClcSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    urgentIssuedAt: {
+        type : String,
+    },
     urgentPaymentReceipt:{
         type : String
     },
@@ -149,6 +155,9 @@ const newClcSchema = new mongoose.Schema({
     isDuplicateIssued :{
         type: Boolean,
         default: false
+    },
+    duplicateIssuedAt: {
+        type : String,
     },
     duplicatePaymentReceipt:{
         type : String

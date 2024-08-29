@@ -399,17 +399,17 @@ export const certificateFeePayPost = async (req, res) =>{
 
             if (certificateType === "clc") {
                 if (type === "normal") {
-                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { normalPaymentSS:  paymentSS, normalPaidAt : paidAt, normalPaymentRefNo : refNo, isNormalPaid : true, normalPaymentReceipt : `MDC-${Date.now()}`} })
+                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { normalPaymentSS:  paymentSS, normalPaidAt : paidAt, normalPaymentRefNo : refNo, isNormalPaid : true, isNormalIssued : false, normalPaymentReceipt : `MDC-${Date.now()}`} })
 
                     res.redirect(`/certificateReceipt/${certificateType.toLowerCase()}?type=normal`)
                 }
                 if (type === "urgent") {
-                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { urgentPaymentSS:  paymentSS, urgentPaidAt : paidAt, urgentPaymentRefNo : refNo, isUrgentPaid : true, urgentPaymentReceipt : `MDC-${Date.now()}`} })
+                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { urgentPaymentSS:  paymentSS, urgentPaidAt : paidAt, urgentPaymentRefNo : refNo, isUrgentPaid : true, isUrgentIssued : false, urgentPaymentReceipt : `MDC-${Date.now()}`} })
 
                     res.redirect(`/certificateReceipt/${certificateType.toLowerCase()}?type=urgent`)
                 }
                 if (type === "duplicate") {
-                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { duplicatePaymentSS:  paymentSS, duplicatePaidAt : paidAt, duplicatePaymentRefNo : refNo, isDuplicatePaid : true, duplicatePaymentReceipt : `MDC-${Date.now()}`} })
+                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { duplicatePaymentSS:  paymentSS, duplicatePaidAt : paidAt, duplicatePaymentRefNo : refNo, isDuplicatePaid : true, isDuplicateIssued : false, duplicatePaymentReceipt : `MDC-${Date.now()}`} })
 
                     res.redirect(`/certificateReceipt/${certificateType.toLowerCase()}?type=duplicate`)
                 }
