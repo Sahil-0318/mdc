@@ -1,4 +1,5 @@
 import User from '../../models/userModel/userSchema.js'
+import NewClc from '../../models/certificateModels/newClc.js'
 import Bonafied from '../../models/certificateModels/bonafied.js'
 import TC from '../../models/certificateModels/tc.js'
 import CC from '../../models/certificateModels/cc.js'
@@ -6,6 +7,71 @@ import CC from '../../models/certificateModels/cc.js'
 
 import FileUpload from '../../fileUpload/fileUpload.js'
 import qrcode from 'qrcode'
+
+// ========================= CLC ===================================
+export const clcApply = async (req, res) =>{
+    try {
+        const { type } = req.query
+        const user = await User.findOne({ _id: req.id })
+        const appliedUser = await NewClc.findOne({ appliedBy: user._id.toString() })
+        // console.log(appliedUser)
+        if (type === undefined) {
+            if (appliedUser != null){
+                return res.render('clcForm', { user, type : "normal", appliedUser })
+            }
+            return res.render('clcForm', { user, type : "normal" })
+        } else {
+            if (appliedUser != null){
+                return res.render('clcForm', { user, type, appliedUser })
+            }
+            return res.render('clcForm', { user, type })
+        }
+        
+    } catch (error) {
+        console.log("Error in NewClc Form => ", error)
+    }
+}
+
+export const clcApplyPost = async (req, res) =>{
+    try {
+        const { type } = req.query
+        console.log("Line 30 type in clcApplyPost",type)
+        const user = await User.findOne({ _id: req.id })
+        const {fullName, fatherName, motherName, aadharNumber, parmanentAddress, dOB, course, session, dOAdm, classRollNumber,yearOfExam, resultDivision, regNumber, uniRollNumber } = req.body
+
+        const appliedUser = await NewClc.findOne({ appliedBy: user._id.toString() })
+        const appliedUniRegNumber = await NewClc.findOne({ regNumber })
+
+        if (appliedUniRegNumber === null){
+            const collCount = await NewClc.countDocuments()
+            // console.log(collCount);
+            let serialNo = collCount + 1
+            // console.log(serialNo);
+            const existSerialNo = await NewClc.findOne({ serialNo })
+            if (existSerialNo != null) {
+                serialNo = existSerialNo.serialNo + 1
+            } else {
+                serialNo = collCount + 1
+            }
+
+            let studentId = "MDC/" + uniRollNumber
+            
+            const newCLCForm  = new NewClc ({
+                fullName : fullName.trim(), fatherName : fatherName.trim(), motherName : motherName.trim(), aadharNumber, parmanentAddress : parmanentAddress.trim(), dOB, course, session, dOAdm, classRollNumber : classRollNumber.trim(), yearOfExam, resultDivision, regNumber : regNumber.trim(), uniRollNumber : uniRollNumber.trim(),
+                serialNo,
+                studentId,
+                appliedBy: user._id,
+                isFormFilled : true
+            })
+            
+            await newCLCForm.save()
+            res.redirect(`/certificateFee/clc?type=${type}`)
+        }
+        
+    } catch (error) {
+        console.log("Error in bonafiedFormPost => ", error)
+    }
+}
 
 // ========================= Bonafied ===================================
 export const bonafiedForm = async (req, res) =>{
@@ -168,20 +234,43 @@ export const ccFormPost = async (req, res) =>{
     }
 }
 
-// Certificate Payment 
+// ========================== Certificate Payment ==================================
 export const certificateFeePay = async (req, res) =>{
     try {
         const {certificateType} = req.params
-        // console.log("certificateFeePay",certificateType)
+        console.log("Line 233 certificateType in certificateFeePay",certificateType)
+        const { type } = req.query
+        console.log("Line 235 type in certificateFeePay",type)
+
         const user = await User.findOne({ _id: req.id })
         let appliedUser = ""
         let extraInfo = {}
 
-        if (certificateType === "bonafied" ) {
-            appliedUser = await Bonafied.findOne({ appliedBy: user._id.toString() })
+        if (certificateType === "clc" ) {
+            appliedUser = await NewClc.findOne({ appliedBy: user._id.toString() })
 
             // extra info
+            if (type === "normal") {
+                extraInfo.title = "normal"
+                extraInfo.feeAmount = appliedUser.normalClcFee
+            } else if (type === "urgent") {
+                extraInfo.title = "urgent"
+                extraInfo.feeAmount = appliedUser.urgentClcFee
+            } else if (type === "duplicate") {
+                extraInfo.title = "duplicate"
+                extraInfo.feeAmount = appliedUser.duplicateClcFee
+            }
+            extraInfo.upiId = process.env.UPI_ID
+            extraInfo.noteEnglish = "If payment screenshot is not valid then CLC receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो CLC रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+        }
+        
+        if (certificateType === "bonafied" ) {
+            appliedUser = await Bonafied.findOne({ appliedBy: user._id.toString() })
+            
+            // extra info
             extraInfo.title = "Bonafied"
+            extraInfo.feeAmount = appliedUser.feeAmount
             extraInfo.upiId = process.env.UPI_ID
             extraInfo.noteEnglish = "If payment screenshot is not valid then bonafied receipt will be invalid so upload valid payment screenshot."
             extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Bonafied रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
@@ -192,6 +281,7 @@ export const certificateFeePay = async (req, res) =>{
 
             // extra info
             extraInfo.title = "TC"
+            extraInfo.feeAmount = appliedUser.feeAmount
             extraInfo.upiId = process.env.UPI_ID
             extraInfo.noteEnglish = "If payment screenshot is not valid then TC receipt will be invalid so upload valid payment screenshot."
             extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो TC रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
@@ -202,13 +292,14 @@ export const certificateFeePay = async (req, res) =>{
 
             // extra info
             extraInfo.title = "cc"
+            extraInfo.feeAmount = appliedUser.feeAmount
             extraInfo.upiId = process.env.UPI_ID
             extraInfo.noteEnglish = "If payment screenshot is not valid then Character Certificate receipt will be invalid so upload valid payment screenshot."
             extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Character Certificate रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
         }
         
-        qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(appliedUser.feeAmount)}&tn=${appliedUser.fullName}`, function (err, src) {
-            res.status(201).render('certificatePaymentPage', { "qrcodeUrl": src, user, appliedUser, extraInfo })
+        qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(extraInfo.feeAmount)}&tn=${appliedUser.fullName}`, function (err, src) {
+            res.status(201).render('certificatePaymentPage', { "qrcodeUrl": src, user, appliedUser, extraInfo, type })
         })
 
     } catch (error) {
@@ -219,7 +310,10 @@ export const certificateFeePay = async (req, res) =>{
 export const certificateFeePayPost = async (req, res) =>{
     try {
         const { refNo, certificateType } = req.body
-        // console.log("certificateFeePayPost",certificateType)
+        console.log("Line 305 certificateType in certificateFeePayPost",certificateType)
+        const { type } = req.query
+        console.log("Line 307 type in certificateFeePayPost",type)
+
         const user = await User.findOne({ _id: req.id })
 
         let extraInfo = {}
@@ -227,9 +321,33 @@ export const certificateFeePayPost = async (req, res) =>{
         let existPaymentId = ""
         let certificateSchema = ""
 
+        if (certificateType === "clc") {
+            appliedUser = await NewClc.findOne({ appliedBy: user._id.toString() })
+            certificateSchema = NewClc
+
+            if (type === "normal") {
+                extraInfo.title = "normal"
+                extraInfo.feeAmount = appliedUser.normalClcFee
+                existPaymentId = await NewClc.findOne({ normalPaymentRefNo: refNo })
+            } else if (type === "urgent") {
+                extraInfo.title = "urgent"
+                extraInfo.feeAmount = appliedUser.urgentClcFee
+                existPaymentId = await NewClc.findOne({ urgentPaymentRefNo: refNo })
+            } else if (type === "duplicate") {
+                extraInfo.title = "duplicate"
+                extraInfo.feeAmount = appliedUser.duplicateClcFee
+                existPaymentId = await NewClc.findOne({ duplicatePaymentRefNo: refNo })
+            }
+            // extra info
+            extraInfo.upiId = process.env.UPI_ID
+            extraInfo.noteEnglish = "If payment screenshot is not valid then CLC receipt will be invalid so upload valid payment screenshot."
+            extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो CLC रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
+        }
+
         if (certificateType === "Bonafied") {
             appliedUser = await Bonafied.findOne({ appliedBy: user._id.toString() })
             existPaymentId = await Bonafied.findOne({ paymentRefNo: refNo })
+            extraInfo.feeAmount = appliedUser.feeAmount
 
             certificateSchema = Bonafied
             // extra info
@@ -246,6 +364,7 @@ export const certificateFeePayPost = async (req, res) =>{
             certificateSchema = TC
             // extra info
             extraInfo.title = "TC"
+            extraInfo.feeAmount = appliedUser.feeAmount
             extraInfo.upiId = process.env.UPI_ID
             extraInfo.noteEnglish = "If payment screenshot is not valid then TC receipt will be invalid so upload valid payment screenshot."
             extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो TC रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
@@ -258,6 +377,7 @@ export const certificateFeePayPost = async (req, res) =>{
             certificateSchema = CC
             // extra info
             extraInfo.title = "cc"
+            extraInfo.feeAmount = appliedUser.feeAmount
             extraInfo.upiId = process.env.UPI_ID
             extraInfo.noteEnglish = "If payment screenshot is not valid then CharacterCertificate receipt will be invalid so upload valid payment screenshot."
             extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो CharacterCertificate रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
@@ -277,13 +397,31 @@ export const certificateFeePayPost = async (req, res) =>{
             const seconds = String(now.getSeconds()).padStart(2, '0');
             const paidAt = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`
 
-            await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS, paidAt, paymentRefNo:refNo, isPaid:true, paymentReceipt : `MDC-${Date.now()}`} })
+            if (certificateType === "clc") {
+                if (type === "normal") {
+                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { normalPaymentSS:  paymentSS, normalPaidAt : paidAt, normalPaymentRefNo : refNo, isNormalPaid : true, normalPaymentReceipt : `MDC-${Date.now()}`} })
 
-            res.redirect(`/certificateReceipt/${certificateType.toLowerCase()}`)
+                    res.redirect(`/certificateReceipt/${certificateType.toLowerCase()}?type=normal`)
+                }
+                if (type === "urgent") {
+                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { urgentPaymentSS:  paymentSS, urgentPaidAt : paidAt, urgentPaymentRefNo : refNo, isUrgentPaid : true, urgentPaymentReceipt : `MDC-${Date.now()}`} })
+
+                    res.redirect(`/certificateReceipt/${certificateType.toLowerCase()}?type=urgent`)
+                }
+                if (type === "duplicate") {
+                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { duplicatePaymentSS:  paymentSS, duplicatePaidAt : paidAt, duplicatePaymentRefNo : refNo, isDuplicatePaid : true, duplicatePaymentReceipt : `MDC-${Date.now()}`} })
+
+                    res.redirect(`/certificateReceipt/${certificateType.toLowerCase()}?type=duplicate`)
+                }
+            } else {
+                await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS, paidAt, paymentRefNo:refNo, isPaid:true, paymentReceipt : `MDC-${Date.now()}`} })
+
+                res.redirect(`/certificateReceipt/${certificateType.toLowerCase()}`)
+            }
 
         } else {
-            qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(appliedUser.feeAmount)}&tn=${appliedUser.fullName}`, function (err, src) {
-                res.status(201).render('certificatePaymentPage', { "qrcodeUrl": src, user, appliedUser, extraInfo, invalid: "Please enter valid UTR / Ref no. (कृपया वैध यूटीआर/रेफ नंबर दर्ज करें।)" })
+            qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(extraInfo.feeAmount)}&tn=${appliedUser.fullName}`, function (err, src) {
+                res.status(201).render('certificatePaymentPage', { "qrcodeUrl": src, user, appliedUser, extraInfo, type, invalid: "Please enter valid UTR / Ref no. (कृपया वैध यूटीआर/रेफ नंबर दर्ज करें।)" })
             })
         }
 
@@ -297,9 +435,32 @@ export const certificateFeePayPost = async (req, res) =>{
 export const certificateReceipt = async (req, res) =>{
     try {
         const {certificateType} = req.params
+        console.log("Line 430 certificateType in certificateReceipt", certificateType)
+        const {type} = req.query
+        console.log("Line 432 certificateType in certificateReceipt", type)
         const user = await User.findOne({ _id: req.id })
         let appliedUser = ""
         let extraInfo = {}
+
+        if (certificateType === "clc") {
+            appliedUser = await NewClc.findOne({ appliedBy: user._id.toString() })
+
+            // extra Info
+            extraInfo.certificateType = "clc"
+            extraInfo.type = type
+
+            if (appliedUser.isNormalPaid === false){
+                res.redirect("/clcApply?type=normal")
+            }
+
+            if (appliedUser.isUrgentPaid === false){
+                res.redirect("/clcApply?type=urgent")
+            }
+
+            if (appliedUser.isDuplicatePaid  === false ){
+                res.redirect("/clcApply?type=duplicate")
+            }
+        }
 
         if (certificateType === "bonafied") {
             appliedUser = await Bonafied.findOne({ appliedBy: user._id.toString() })

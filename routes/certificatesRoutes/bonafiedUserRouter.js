@@ -1,6 +1,9 @@
 import express from 'express'
 import { userAuth } from '../../middlewares/userMiddleware.js'
 import {
+    // clc
+    clcApply, clcApplyPost,
+
     // bonafied
     bonafiedForm, bonafiedFormPost,
 
@@ -20,6 +23,10 @@ import multer from 'multer'
 const upload = multer({
     storage: multer.memoryStorage()
 })
+
+// clc
+bonafiedUserRouter.get('/clcApply', userAuth, clcApply)
+bonafiedUserRouter.post('/clcApply', userAuth, clcApplyPost)
 
 // bonafied
 bonafiedUserRouter.get('/bonafied', userAuth, bonafiedForm)

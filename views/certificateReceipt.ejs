@@ -76,7 +76,18 @@
                         <hr class="my-4">
                         <% if (locals.extraInfo.certificateType === "CC") { %>
                             <div class="text-center mb-3"><b>Character Certificate</b> E-Receipt [College Copy]</div>
-                         <% } else { %>
+                        <% } else if (locals.extraInfo.certificateType === "clc") { %>
+                            <% if (locals.extraInfo.type === "normal") { %>
+                                <div class="text-center mb-3"><b>Normal CLC</b> E-Receipt [College Copy]</div>
+                            <% } %>
+                            <% if (locals.extraInfo.type === "urgent") { %>
+                                <div class="text-center mb-3"><b>Urgent CLC</b> E-Receipt [College Copy]</div>
+                            <% } %>
+                            <% if (locals.extraInfo.type === "duplicate") { %>
+                                <div class="text-center mb-3"><b>Duplicate CLC</b> E-Receipt [College Copy]</div>
+                            <% } %>
+                            
+                        <% } else { %>
                             <div class="text-center mb-3"><b><%= locals.extraInfo.certificateType %></b> E-Receipt [College Copy]</div>
                         <% } %>
 
@@ -85,10 +96,18 @@
                                 <div class="text-muted">
                                     <p class="mb-1 fw-bold">Name :&nbsp; &nbsp; &nbsp; <%= locals.appliedUser.fullName %></p>
 
-                                    <p class="mb-1 fw-bold">College Roll No :&nbsp; &nbsp; <%=locals.appliedUser.collegeRollNumber %></p>
+                                    <% if (locals.extraInfo.certificateType === "clc") { %>
+                                        <p class="mb-1 fw-bold">College Roll No :&nbsp; &nbsp; <%=locals.appliedUser.classRollNumber %></p>
+                                    <% } else { %>
+                                        <p class="mb-1 fw-bold">College Roll No :&nbsp; &nbsp; <%=locals.appliedUser.collegeRollNumber %></p>
+                                    <% } %>
 
                                     <% if (locals.appliedUser.uniRegNumber) { %>
                                         <p class="mb-1 fw-bold">Uni. Registration No. :&nbsp; &nbsp; &nbsp; <%= locals.appliedUser.uniRegNumber %></p>
+                                    <% } %>
+
+                                    <% if (locals.appliedUser.regNumber) { %>
+                                        <p class="mb-1 fw-bold">Uni. Registration No. :&nbsp; &nbsp; &nbsp; <%= locals.appliedUser.regNumber %></p>
                                     <% } %>
 
                                     <% if (locals.extraInfo.certificateType === "TC") { %>
@@ -113,11 +132,26 @@
                                     <% if (locals.extraInfo.certificateType === "CC") { %>
                                         <p class="mb-1 fw-bold">Course :&nbsp; &nbsp; &nbsp; <%= locals.appliedUser.courseName %></p>
                                     <% } %>
-                                    
 
-                                    <p class="mb-1 fw-bold">Receipt No :&nbsp; &nbsp; <%= locals.appliedUser.paymentReceipt
-                                            %>
-                                    </p>
+                                    <% if (locals.extraInfo.certificateType === "clc") { %>
+                                        <p class="mb-1 fw-bold">Course :&nbsp; &nbsp; &nbsp; <%= locals.appliedUser.course %></p>
+                                    <% } %>
+                                    
+                                    <% if (locals.extraInfo.certificateType === "clc") { %>
+                                        <% if (locals.extraInfo.type === "normal") { %>
+                                            <p class="mb-1 fw-bold">Receipt No :&nbsp; &nbsp; <%= locals.appliedUser.normalPaymentReceipt %></p>
+                                        <% } %>
+                                        <% if (locals.extraInfo.type === "urgent") { %>
+                                            <p class="mb-1 fw-bold">Receipt No :&nbsp; &nbsp; <%= locals.appliedUser.urgentPaymentReceipt %></p>
+                                        <% } %>
+                                        <% if (locals.extraInfo.type === "duplicate") { %>
+                                            <p class="mb-1 fw-bold">Receipt No :&nbsp; &nbsp; <%= locals.appliedUser.duplicatePaymentReceipt %></p>
+                                        <% } %>
+                                    <% } else { %>
+                                        <p class="mb-1 fw-bold">Receipt No :&nbsp; &nbsp; <%= locals.appliedUser.paymentReceipt
+                                            %></p>
+                                    <% } %>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -143,6 +177,16 @@
                                                 <div>
                                                     <% if (locals.extraInfo.certificateType === "CC") { %>
                                                         <h5 class="text-truncate font-size-14 mb-1">Character Certificate Fee</h5>
+                                                        <% } else if (locals.extraInfo.certificateType === "clc") { %>
+                                                            <% if (locals.extraInfo.type === "normal") { %>
+                                                                <h5 class="text-truncate font-size-14 mb-1">Normal CLC Fee</h5>
+                                                            <% } %>
+                                                            <% if (locals.extraInfo.type === "urgent") { %>
+                                                                <h5 class="text-truncate font-size-14 mb-1">Urgent CLC Fee</h5>
+                                                            <% } %>
+                                                            <% if (locals.extraInfo.type === "duplicate") { %>
+                                                                <h5 class="text-truncate font-size-14 mb-1">Duplicate CLC Fee</h5>
+                                                            <% } %>
                                                      <% } else { %>
                                                         <h5 class="text-truncate font-size-14 mb-1"><%= locals.extraInfo.certificateType %> Fee</h5>
                                                     <% } %>
@@ -150,8 +194,24 @@
                                             </td>
                                             <td></td>
                                             <td></td>
-                                            <td class="text-end">₹<%= locals.appliedUser.feeAmount %>
-                                            </td>
+                                            <% if (locals.extraInfo.certificateType === "clc") { %>
+                                                <% if (locals.extraInfo.type === "normal") { %>
+                                                    <td class="text-end">₹ <%= locals.appliedUser.normalClcFee %>
+                                                    </td>
+                                                <% } %>
+                                                <% if (locals.extraInfo.type === "urgent") { %>
+                                                    <td class="text-end">₹ <%= locals.appliedUser.urgentClcFee %>
+                                                    </td>
+                                                <% } %>
+                                                <% if (locals.extraInfo.type === "duplicate") { %>
+                                                    <td class="text-end">₹ <%= locals.appliedUser.duplicateClcFee %>
+                                                    </td>
+                                                <% } %>
+                                            <% } else { %>
+                                                <td class="text-end">₹ <%= locals.appliedUser.feeAmount %>
+                                                </td>
+                                            <% } %>
+                                            
                                         </tr>
                                         <!-- end tr -->
                                     </tbody><!-- end tbody -->
@@ -172,8 +232,23 @@
                                         <div class="text-muted">
                                             <p class="mb-1">Online</p>
                                             <p class="mb-1">UPI</p>
-                                            <p class="mb-1 fw-bold">₹<%= locals.appliedUser.feeAmount %>
-                                            </p>
+                                            <% if (locals.extraInfo.certificateType === "clc") { %>
+                                                <% if (locals.extraInfo.type === "normal") { %>
+                                                    <p class="mb-1 fw-bold">₹<%= locals.appliedUser.normalClcFee %>
+                                                    </p>
+                                                <% } %>
+                                                <% if (locals.extraInfo.type === "urgent") { %>
+                                                    <p class="mb-1 fw-bold">₹<%= locals.appliedUser.urgentClcFee %>
+                                                    </p>
+                                                <% } %>
+                                                <% if (locals.extraInfo.type === "duplicate") { %>
+                                                    <p class="mb-1 fw-bold">₹<%= locals.appliedUser.duplicateClcFee %>
+                                                    </p>
+                                                <% } %>
+                                            <% } else { %>
+                                                <p class="mb-1 fw-bold">₹<%= locals.appliedUser.feeAmount %>
+                                                </p>
+                                            <% } %>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -184,12 +259,49 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="text-muted text-end">
-                                            <p class="mb-1">
-                                                <%= locals.appliedUser.paidAt %>
-                                            </p>
-                                            <p class="mb-1">
-                                                <%= locals.appliedUser.paymentRefNo %>
-                                            </p>
+                                            <% if (locals.extraInfo.certificateType === "clc") { %>
+                                                <% if (locals.extraInfo.type === "normal") { %>
+                                                    <p class="mb-1">
+                                                        <%= locals.appliedUser.normalPaidAt %>
+                                                    </p>
+                                                <% } %>
+                                                <% if (locals.extraInfo.type === "urgent") { %>
+                                                    <p class="mb-1">
+                                                        <%= locals.appliedUser.urgentPaidAt %>
+                                                    </p>
+                                                <% } %>
+                                                <% if (locals.extraInfo.type === "duplicate") { %>
+                                                    <p class="mb-1">
+                                                        <%= locals.appliedUser.duplicatePaidAt %>
+                                                    </p>
+                                                <% } %>
+                                            <% } else { %>
+                                                <p class="mb-1">
+                                                    <%= locals.appliedUser.paidAt %>
+                                                </p>
+                                            <% } %>
+                                            
+                                            <% if (locals.extraInfo.certificateType === "clc") { %>
+                                                <% if (locals.extraInfo.type === "normal") { %>
+                                                    <p class="mb-1">
+                                                        <%= locals.appliedUser.normalPaymentRefNo %>
+                                                    </p>
+                                                <% } %>
+                                                <% if (locals.extraInfo.type === "urgent") { %>
+                                                    <p class="mb-1">
+                                                        <%= locals.appliedUser.urgentPaymentRefNo %>
+                                                    </p>
+                                                <% } %>
+                                                <% if (locals.extraInfo.type === "duplicate") { %>
+                                                    <p class="mb-1">
+                                                        <%= locals.appliedUser.duplicatePaymentRefNo %>
+                                                    </p>
+                                                <% } %>
+                                            <% } else { %>
+                                                <p class="mb-1">
+                                                    <%= locals.appliedUser.paymentRefNo %>
+                                                </p>
+                                            <% } %>
                                         </div>
                                     </div>
                                 </div>
@@ -202,10 +314,21 @@
 
                             <div class="d-print-none mt-4">
                                 <div class="float-end">
-                                    <a href="javascript:window.print()" class="btn btn-success me-1"><i
-                                            class="fa fa-print"></i></a>
-                                    <a href="/<%= locals.extraInfo.certificateType.toLowerCase() %>" class="btn btn-primary w-md">Back to Home
-                                        Page</a>
+                                    <a href="javascript:window.print()" class="btn btn-success me-1"><i class="fa fa-print"></i></a>
+                                    
+                                        <% if (locals.extraInfo.certificateType === "clc") { %>
+                                            <% if (locals.extraInfo.type === "normal") { %>
+                                                <a href="/clcApply?type=normal" class="btn btn-primary w-md">Back to Home Page</a>
+                                            <% } %>
+                                            <% if (locals.extraInfo.type === "urgent") { %>
+                                                <a href="/clcApply?type=urgent" class="btn btn-primary w-md">Back to Home Page</a>
+                                            <% } %>
+                                            <% if (locals.extraInfo.type === "duplicate") { %>
+                                                <a href="/clcApply?type=duplicate" class="btn btn-primary w-md">Back to Home Page</a>
+                                            <% } %>
+                                        <% } else { %>
+                                            <a href="/<%= locals.extraInfo.certificateType.toLowerCase() %>" class="btn btn-primary w-md">Back to Home Page</a>
+                                        <% } %>
                                 </div>
                             </div>
                         </div>
