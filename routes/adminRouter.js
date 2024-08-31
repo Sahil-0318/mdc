@@ -72,7 +72,8 @@ import {
     ugRegPart3StuEditPost,
     UG_Reg_Part_III_Adm_List,
     UG_Reg_Part_III_BA_Adm_List,
-    UG_Reg_Part_III_BSc_Adm_List
+    UG_Reg_Part_III_BSc_Adm_List,
+    oldClcList
 }
     from '../controllers/adminController.js'
 
@@ -209,5 +210,7 @@ adminRouter.get('/UG_Reg_Part_III_Adm_List', adminAuth, UG_Reg_Part_III_Adm_List
 adminRouter.get('/UG_Reg_Part_III_BA_Adm_List', adminAuth, UG_Reg_Part_III_BA_Adm_List)
 
 adminRouter.get('/UG_Reg_Part_III_BSc_Adm_List', adminAuth, UG_Reg_Part_III_BSc_Adm_List)
+
+adminRouter.get('/oldClcList', adminAuth, oldClcList)
 
 export default adminRouter

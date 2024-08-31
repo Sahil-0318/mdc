@@ -2130,6 +2130,35 @@ const UG_Reg_Part_III_BSc_Adm_List = async (req, res) => {
   }
 }
 
+
+const oldClcList = async (req, res) => {
+  try {
+    let users = []
+
+    const userData = await clcSchema.find()
+
+    userData.forEach((admUser) => {
+      const { _id, fullName, fatherName, motherName, aadharNumber, parmanentAddress, dOB, course, session, dOAdm, classRollNumber, yearOfExam, resultDivision, regNumber, uniRollNumber, remark, serialNo, studentId, isPaid, isIssued, isCharIssued, clcFee, paymentSS, refNo, clcFeePayDate, dOLC, dOCC, certificateType, status, appliedBy, createdAt, updatedAt, __v } = admUser
+
+      users.push({
+        _id, fullName, fatherName, motherName, aadharNumber, parmanentAddress, dOB, course, session, dOAdm, classRollNumber, yearOfExam, resultDivision, regNumber, uniRollNumber, remark, serialNo, studentId, isPaid, isIssued, isCharIssued, clcFee, paymentSS, refNo, clcFeePayDate, dOLC, dOCC, certificateType, status, appliedBy, createdAt, updatedAt, __v
+      })
+    })
+
+    const csvParser = new CsvParser()
+    const csvData = csvParser.parse(users)
+
+    res.setHeader("Content-type", "text/csv")
+    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_I_BSc_Adm_List.csv")
+
+    res.status(200).end(csvData)
+
+
+  } catch (error) {
+    res.status(401)
+  }
+}
+
 export {
   adminPage,
   admissionFormList,
@@ -2199,5 +2228,6 @@ export {
   ugRegPart3StuEditPost,
   UG_Reg_Part_III_Adm_List,
   UG_Reg_Part_III_BA_Adm_List,
-  UG_Reg_Part_III_BSc_Adm_List
+  UG_Reg_Part_III_BSc_Adm_List,
+  oldClcList
 }
