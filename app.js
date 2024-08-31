@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import express from 'express'
 import cors from "cors"
 import uploadBCA1Meritlist from "./fileUpload/bca1MeritListUpload.js"
+import clcList from './fileUpload/uploadCLC.js'
 
 // Error log
 // import fs from 'fs'
@@ -28,6 +29,7 @@ mongoose.connect(process.env.DB_CONNECTION).then(() => {
 
 
 // uploadBCA1Meritlist("bca1meritlist1.csv")
+// clcList("New-CLC-List.csv")
 
 
 import userRouter from './routes/userRouter.js'
@@ -75,44 +77,6 @@ app.use('/', bonafiedUserRouter)
 app.use('/', certificateAdminRouter)
 app.use('/', miscellaneousFeeRouter)
 app.use('/', bca1Router)
-
-// // Get the current directory name (ES Modules don't have __dirname)
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// // Define the path to the error log file
-// const logFilePath = path.join(__dirname, 'error.log');
-
-// // Create a write stream for the log file
-// const errorLogStream = fs.createWriteStream(logFilePath, { flags: 'a' });
-
-// // Redirect stderr to the error log file
-// process.stderr.write = errorLogStream.write.bind(errorLogStream);
-
-// // Example usage: log an error to stderr
-// console.error("This is an error message");
-
-// // Example function that throws an error
-// function throwError() {
-//   throw new Error("Something went wrong!");
-// }
-
-// // Catch unhandled exceptions and log them to stderr
-// process.on('uncaughtException', (err) => {
-//   console.error('Unhandled Exception:', err);
-// });
-
-// // Catch unhandled promise rejections and log them to stderr
-// process.on('unhandledRejection', (reason, promise) => {
-//   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-// });
-
-// // Trigger an error
-// try {
-//   throwError();
-// } catch (err) {
-//   console.error(err);
-// }
 
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`)

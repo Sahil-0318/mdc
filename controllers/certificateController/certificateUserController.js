@@ -9,40 +9,40 @@ import FileUpload from '../../fileUpload/fileUpload.js'
 import qrcode from 'qrcode'
 
 // ========================= CLC ===================================
-export const clcApply = async (req, res) =>{
+export const clcApply = async (req, res) => {
     try {
         const { type } = req.query
         const user = await User.findOne({ _id: req.id })
         const appliedUser = await NewClc.findOne({ appliedBy: user._id.toString() })
         // console.log(appliedUser)
         if (type === undefined) {
-            if (appliedUser != null){
-                return res.render('clcForm', { user, type : "normal", appliedUser })
+            if (appliedUser != null) {
+                return res.render('clcForm', { user, type: "normal", appliedUser })
             }
-            return res.render('clcForm', { user, type : "normal" })
+            return res.render('clcForm', { user, type: "normal" })
         } else {
-            if (appliedUser != null){
+            if (appliedUser != null) {
                 return res.render('clcForm', { user, type, appliedUser })
             }
             return res.render('clcForm', { user, type })
         }
-        
+
     } catch (error) {
         console.log("Error in NewClc Form => ", error)
     }
 }
 
-export const clcApplyPost = async (req, res) =>{
+export const clcApplyPost = async (req, res) => {
     try {
         const { type } = req.query
-        console.log("Line 30 type in clcApplyPost",type)
+        console.log("Line 30 type in clcApplyPost", type)
         const user = await User.findOne({ _id: req.id })
-        const {fullName, fatherName, motherName, aadharNumber, parmanentAddress, dOB, course, session, dOAdm, classRollNumber,yearOfExam, resultDivision, regNumber, uniRollNumber } = req.body
+        const { fullName, fatherName, motherName, aadharNumber, parmanentAddress, dOB, course, session, dOAdm, classRollNumber, yearOfExam, resultDivision, regNumber, uniRollNumber } = req.body
 
         const appliedUser = await NewClc.findOne({ appliedBy: user._id.toString() })
         const appliedUniRegNumber = await NewClc.findOne({ regNumber })
 
-        if (appliedUniRegNumber === null){
+        if (appliedUniRegNumber === null) {
             const collCount = await NewClc.countDocuments()
             // console.log(collCount);
             let serialNo = collCount + 1
@@ -55,30 +55,30 @@ export const clcApplyPost = async (req, res) =>{
             }
 
             let studentId = "MDC/" + uniRollNumber
-            
-            const newCLCForm  = new NewClc ({
-                fullName : fullName.trim(), fatherName : fatherName.trim(), motherName : motherName.trim(), aadharNumber, parmanentAddress : parmanentAddress.trim(), dOB, course, session, dOAdm, classRollNumber : classRollNumber.trim(), yearOfExam, resultDivision, regNumber : regNumber.trim(), uniRollNumber : uniRollNumber.trim(),
+
+            const newCLCForm = new NewClc({
+                fullName: fullName.trim(), fatherName: fatherName.trim(), motherName: motherName.trim(), aadharNumber, parmanentAddress: parmanentAddress.trim(), dOB, course, session, dOAdm, classRollNumber: classRollNumber.trim(), yearOfExam, resultDivision, regNumber: regNumber.trim(), uniRollNumber: uniRollNumber.trim(),
                 serialNo,
                 studentId,
                 appliedBy: user._id,
-                isFormFilled : true
+                isFormFilled: true
             })
-            
+
             await newCLCForm.save()
             res.redirect(`/certificateFee/clc?type=${type}`)
         }
-        
+
     } catch (error) {
         console.log("Error in bonafiedFormPost => ", error)
     }
 }
 
 // ========================= Bonafied ===================================
-export const bonafiedForm = async (req, res) =>{
+export const bonafiedForm = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
         const appliedUser = await Bonafied.findOne({ appliedBy: user._id.toString() })
-        if (appliedUser != null){
+        if (appliedUser != null) {
             return res.render('bonafiedForm', { user, appliedUser })
         }
         return res.render('bonafiedForm', { user })
@@ -87,15 +87,15 @@ export const bonafiedForm = async (req, res) =>{
     }
 }
 
-export const bonafiedFormPost = async (req, res) =>{
+export const bonafiedFormPost = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
-        const {fullName, sonDaughter, fatherName, motherName, collegeRollNumber, uniRegNumber, mobileNumber, email, course, courseName, honoursName, partSem, partSemName, courseSession, gender } = req.body
+        const { fullName, sonDaughter, fatherName, motherName, collegeRollNumber, uniRegNumber, mobileNumber, email, course, courseName, honoursName, partSem, partSemName, courseSession, gender } = req.body
 
         const appliedUser = await Bonafied.findOne({ appliedBy: user._id.toString() })
         const appliedUniRegNumber = await Bonafied.findOne({ uniRegNumber })
 
-        if (appliedUniRegNumber === null){
+        if (appliedUniRegNumber === null) {
             const images = req.files
             let marksheetPhoto = ""
             let studentPhoto = ""
@@ -105,39 +105,39 @@ export const bonafiedFormPost = async (req, res) =>{
             if (images.length == 3) {
                 const marksheetPhotoUpload = await FileUpload(images[0].buffer)
                 marksheetPhoto = marksheetPhotoUpload.secure_url
-                
+
                 const studentPhotoUpload = await FileUpload(images[1].buffer)
                 studentPhoto = studentPhotoUpload.secure_url
-                
+
                 const lastAdmissionReceiptUpload = await FileUpload(images[2].buffer)
                 lastAdmissionReceipt = lastAdmissionReceiptUpload.secure_url
             } else {
                 const marksheetPhotoUpload = await FileUpload(images[0].buffer)
                 marksheetPhoto = marksheetPhotoUpload.secure_url
-                
+
                 const studentPhotoUpload = await FileUpload(images[1].buffer)
                 studentPhoto = studentPhotoUpload.secure_url
             }
-            
-            const newBonafiedForm  = new Bonafied ({
-                fullName : fullName.trim(), sonDaughter, fatherName : fatherName.trim(), motherName : motherName.trim(), collegeRollNumber : collegeRollNumber.trim(), uniRegNumber : uniRegNumber.trim(), mobileNumber, email, course, courseName, honoursName : honoursName.trim(), partSem, partSemName, courseSession : courseSession.trim(), gender, marksheetPhoto, studentPhoto, lastAdmissionReceipt, appliedBy: user._id
+
+            const newBonafiedForm = new Bonafied({
+                fullName: fullName.trim(), sonDaughter, fatherName: fatherName.trim(), motherName: motherName.trim(), collegeRollNumber: collegeRollNumber.trim(), uniRegNumber: uniRegNumber.trim(), mobileNumber, email, course, courseName, honoursName: honoursName.trim(), partSem, partSemName, courseSession: courseSession.trim(), gender, marksheetPhoto, studentPhoto, lastAdmissionReceipt, appliedBy: user._id
             })
-            
+
             await newBonafiedForm.save()
             res.redirect("/certificateFee/bonafied")
         }
-        
+
     } catch (error) {
         console.log("Error in bonafiedFormPost => ", error)
     }
 }
 
 // ================================ TC ======================================
-export const tcForm = async (req, res) =>{
+export const tcForm = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
         const appliedUser = await TC.findOne({ appliedBy: user._id.toString() })
-        if (appliedUser != null){
+        if (appliedUser != null) {
             return res.render('tcForm', { user, appliedUser })
         }
         return res.render('tcForm', { user })
@@ -146,15 +146,15 @@ export const tcForm = async (req, res) =>{
     }
 }
 
-export const tcFormPost = async (req, res) =>{
+export const tcFormPost = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
-        const {fullName,fatherName, motherName, aadharNumber, mobileNumber, email, dOB, session, course, courseName, honoursName, collegeClass, lastPassedClass, collegeRollNumber, collegeFrom, collegeTo } = req.body
+        const { fullName, fatherName, motherName, aadharNumber, mobileNumber, email, dOB, session, course, courseName, honoursName, collegeClass, lastPassedClass, collegeRollNumber, collegeFrom, collegeTo } = req.body
 
         const appliedUser = await TC.findOne({ appliedBy: user._id.toString() })
         const appliedCollegeRollNumber = await TC.findOne({ collegeRollNumber })
 
-        if (appliedCollegeRollNumber === null){
+        if (appliedCollegeRollNumber === null) {
             const images = req.files
             let marksheetPhoto = ""
             let studentPhoto = ""
@@ -164,39 +164,39 @@ export const tcFormPost = async (req, res) =>{
             if (images.length == 3) {
                 const marksheetPhotoUpload = await FileUpload(images[0].buffer)
                 marksheetPhoto = marksheetPhotoUpload.secure_url
-                
+
                 const studentPhotoUpload = await FileUpload(images[1].buffer)
                 studentPhoto = studentPhotoUpload.secure_url
-                
+
                 const lastAdmissionReceiptUpload = await FileUpload(images[2].buffer)
                 lastAdmissionReceipt = lastAdmissionReceiptUpload.secure_url
             } else {
                 const marksheetPhotoUpload = await FileUpload(images[0].buffer)
                 marksheetPhoto = marksheetPhotoUpload.secure_url
-                
+
                 const studentPhotoUpload = await FileUpload(images[1].buffer)
                 studentPhoto = studentPhotoUpload.secure_url
             }
-            
-            const newTCForm  = new TC ({
-                fullName : fullName.trim(), fatherName : fatherName.trim(), motherName : motherName.trim(), aadharNumber : aadharNumber.trim(), mobileNumber, email, dOB, session : session.trim(), course, courseName, honoursName : honoursName.trim(), collegeClass : collegeClass.trim(), lastPassedClass : lastPassedClass.trim(), collegeRollNumber : collegeRollNumber.trim(), collegeFrom : collegeFrom.trim(), collegeTo : collegeTo.trim(), marksheetPhoto, studentPhoto, lastAdmissionReceipt, appliedBy: user._id
+
+            const newTCForm = new TC({
+                fullName: fullName.trim(), fatherName: fatherName.trim(), motherName: motherName.trim(), aadharNumber: aadharNumber.trim(), mobileNumber, email, dOB, session: session.trim(), course, courseName, honoursName: honoursName.trim(), collegeClass: collegeClass.trim(), lastPassedClass: lastPassedClass.trim(), collegeRollNumber: collegeRollNumber.trim(), collegeFrom: collegeFrom.trim(), collegeTo: collegeTo.trim(), marksheetPhoto, studentPhoto, lastAdmissionReceipt, appliedBy: user._id
             })
-            
+
             await newTCForm.save()
             res.redirect("/certificateFee/tc")
         }
-        
+
     } catch (error) {
         console.log("Error in TCFormPost => ", error)
     }
 }
 
 // ====================== Character Certificate ================================
-export const ccForm = async (req, res) =>{
+export const ccForm = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
         const appliedUser = await CC.findOne({ appliedBy: user._id.toString() })
-        if (appliedUser != null){
+        if (appliedUser != null) {
             return res.render('cc', { user, appliedUser })
         }
         return res.render('cc', { user })
@@ -205,48 +205,48 @@ export const ccForm = async (req, res) =>{
     }
 }
 
-export const ccFormPost = async (req, res) =>{
+export const ccFormPost = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
-        const { fullName,fatherName, motherName, courseName, session, collegeRollNumber } = req.body
+        const { fullName, fatherName, motherName, courseName, session, collegeRollNumber } = req.body
 
         const appliedUser = await CC.findOne({ appliedBy: user._id.toString() })
         const appliedCollegeRollNumber = await CC.findOne({ collegeRollNumber })
 
-        if (appliedCollegeRollNumber === null){
+        if (appliedCollegeRollNumber === null) {
             function generateRandom4DigitNumber() {
                 return Math.floor(1000 + Math.random() * 9000);
             }
 
             const characterCertificateCount = await CC.countDocuments()
             let serialNo = characterCertificateCount + 1
-            
-            const newCCForm  = new CC({
-                fullName : fullName.trim(), fatherName : fatherName.trim(), motherName : motherName.trim(), courseName, session : session.trim(),collegeRollNumber : collegeRollNumber.trim(), appliedBy: user._id, serialNo, studentId : `MDC-${generateRandom4DigitNumber()}${collegeRollNumber}`
+
+            const newCCForm = new CC({
+                fullName: fullName.trim(), fatherName: fatherName.trim(), motherName: motherName.trim(), courseName, session: session.trim(), collegeRollNumber: collegeRollNumber.trim(), appliedBy: user._id, serialNo, studentId: `MDC-${generateRandom4DigitNumber()}${collegeRollNumber}`
             })
-            
+
             await newCCForm.save()
             res.redirect("/certificateFee/cc")
         }
-        
+
     } catch (error) {
         console.log("Error in cc Form Post => ", error)
     }
 }
 
 // ========================== Certificate Payment ==================================
-export const certificateFeePay = async (req, res) =>{
+export const certificateFeePay = async (req, res) => {
     try {
-        const {certificateType} = req.params
-        console.log("Line 233 certificateType in certificateFeePay",certificateType)
+        const { certificateType } = req.params
+        console.log("Line 233 certificateType in certificateFeePay", certificateType)
         const { type } = req.query
-        console.log("Line 235 type in certificateFeePay",type)
+        console.log("Line 235 type in certificateFeePay", type)
 
         const user = await User.findOne({ _id: req.id })
         let appliedUser = ""
         let extraInfo = {}
 
-        if (certificateType === "clc" ) {
+        if (certificateType === "clc") {
             appliedUser = await NewClc.findOne({ appliedBy: user._id.toString() })
 
             // extra info
@@ -264,10 +264,10 @@ export const certificateFeePay = async (req, res) =>{
             extraInfo.noteEnglish = "If payment screenshot is not valid then CLC receipt will be invalid so upload valid payment screenshot."
             extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो CLC रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
         }
-        
-        if (certificateType === "bonafied" ) {
+
+        if (certificateType === "bonafied") {
             appliedUser = await Bonafied.findOne({ appliedBy: user._id.toString() })
-            
+
             // extra info
             extraInfo.title = "Bonafied"
             extraInfo.feeAmount = appliedUser.feeAmount
@@ -276,7 +276,7 @@ export const certificateFeePay = async (req, res) =>{
             extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Bonafied रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
         }
 
-        if (certificateType === "tc" ) {
+        if (certificateType === "tc") {
             appliedUser = await TC.findOne({ appliedBy: user._id.toString() })
 
             // extra info
@@ -287,7 +287,7 @@ export const certificateFeePay = async (req, res) =>{
             extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो TC रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
         }
 
-        if (certificateType === "cc" ) {
+        if (certificateType === "cc") {
             appliedUser = await CC.findOne({ appliedBy: user._id.toString() })
 
             // extra info
@@ -297,7 +297,7 @@ export const certificateFeePay = async (req, res) =>{
             extraInfo.noteEnglish = "If payment screenshot is not valid then Character Certificate receipt will be invalid so upload valid payment screenshot."
             extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो Character Certificate रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
         }
-        
+
         qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(extraInfo.feeAmount)}&tn=${appliedUser.fullName}`, function (err, src) {
             res.status(201).render('certificatePaymentPage', { "qrcodeUrl": src, user, appliedUser, extraInfo, type })
         })
@@ -307,12 +307,12 @@ export const certificateFeePay = async (req, res) =>{
     }
 }
 
-export const certificateFeePayPost = async (req, res) =>{
+export const certificateFeePayPost = async (req, res) => {
     try {
         const { refNo, certificateType } = req.body
-        console.log("Line 305 certificateType in certificateFeePayPost",certificateType)
+        console.log("Line 305 certificateType in certificateFeePayPost", certificateType)
         const { type } = req.query
-        console.log("Line 307 type in certificateFeePayPost",type)
+        console.log("Line 307 type in certificateFeePayPost", type)
 
         const user = await User.findOne({ _id: req.id })
 
@@ -373,7 +373,7 @@ export const certificateFeePayPost = async (req, res) =>{
         if (certificateType === "cc") {
             appliedUser = await CC.findOne({ appliedBy: user._id.toString() })
             existPaymentId = await CC.findOne({ paymentRefNo: refNo })
-            
+
             certificateSchema = CC
             // extra info
             extraInfo.title = "cc"
@@ -382,7 +382,7 @@ export const certificateFeePayPost = async (req, res) =>{
             extraInfo.noteEnglish = "If payment screenshot is not valid then CharacterCertificate receipt will be invalid so upload valid payment screenshot."
             extraInfo.noteHindi = "यदि भुगतान स्क्रीनशॉट वैध नहीं है तो CharacterCertificate रसीद अमान्य होगी इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।"
         }
-        
+
 
         if (existPaymentId === null) {
             const photoUpload = await FileUpload(req.file.buffer)
@@ -399,22 +399,22 @@ export const certificateFeePayPost = async (req, res) =>{
 
             if (certificateType === "clc") {
                 if (type === "normal") {
-                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { normalPaymentSS:  paymentSS, normalPaidAt : paidAt, normalPaymentRefNo : refNo, isNormalPaid : true, isNormalIssued : false, normalPaymentReceipt : `MDC-${Date.now()}`} })
+                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { normalPaymentSS: paymentSS, normalPaidAt: paidAt, normalPaymentRefNo: refNo, isNormalPaid: true, isNormalIssued: false, normalPaymentReceipt: `MDC-${Date.now()}` } })
 
                     res.redirect(`/certificateReceipt/${certificateType.toLowerCase()}?type=normal`)
                 }
                 if (type === "urgent") {
-                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { urgentPaymentSS:  paymentSS, urgentPaidAt : paidAt, urgentPaymentRefNo : refNo, isUrgentPaid : true, isUrgentIssued : false, urgentPaymentReceipt : `MDC-${Date.now()}`} })
+                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { urgentPaymentSS: paymentSS, urgentPaidAt: paidAt, urgentPaymentRefNo: refNo, isUrgentPaid: true, isUrgentIssued: false, urgentPaymentReceipt: `MDC-${Date.now()}` } })
 
                     res.redirect(`/certificateReceipt/${certificateType.toLowerCase()}?type=urgent`)
                 }
                 if (type === "duplicate") {
-                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { duplicatePaymentSS:  paymentSS, duplicatePaidAt : paidAt, duplicatePaymentRefNo : refNo, isDuplicatePaid : true, isDuplicateIssued : false, duplicatePaymentReceipt : `MDC-${Date.now()}`} })
+                    await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { duplicatePaymentSS: paymentSS, duplicatePaidAt: paidAt, duplicatePaymentRefNo: refNo, isDuplicatePaid: true, isDuplicateIssued: false, duplicatePaymentReceipt: `MDC-${Date.now()}` } })
 
                     res.redirect(`/certificateReceipt/${certificateType.toLowerCase()}?type=duplicate`)
                 }
             } else {
-                await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS, paidAt, paymentRefNo:refNo, isPaid:true, paymentReceipt : `MDC-${Date.now()}`} })
+                await certificateSchema.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS, paidAt, paymentRefNo: refNo, isPaid: true, paymentReceipt: `MDC-${Date.now()}` } })
 
                 res.redirect(`/certificateReceipt/${certificateType.toLowerCase()}`)
             }
@@ -425,18 +425,18 @@ export const certificateFeePayPost = async (req, res) =>{
             })
         }
 
-        
+
 
     } catch (error) {
         console.log("Error in certificateFeePayPost => ", error)
     }
 }
 
-export const certificateReceipt = async (req, res) =>{
+export const certificateReceipt = async (req, res) => {
     try {
-        const {certificateType} = req.params
+        const { certificateType } = req.params
         console.log("Line 430 certificateType in certificateReceipt", certificateType)
-        const {type} = req.query
+        const { type } = req.query
         console.log("Line 432 certificateType in certificateReceipt", type)
         const user = await User.findOne({ _id: req.id })
         let appliedUser = ""
@@ -449,16 +449,22 @@ export const certificateReceipt = async (req, res) =>{
             extraInfo.certificateType = "clc"
             extraInfo.type = type
 
-            if (appliedUser.isNormalPaid === false){
-                res.redirect("/clcApply?type=normal")
+            if (type === "normal") {
+                if (appliedUser.isNormalPaid === false) {
+                    res.redirect("/clcApply?type=normal")
+                }
             }
 
-            if (appliedUser.isUrgentPaid === false){
-                res.redirect("/clcApply?type=urgent")
+            if (type === "urgent") {
+                if (appliedUser.isUrgentPaid === false) {
+                    res.redirect("/clcApply?type=urgent")
+                }
             }
 
-            if (appliedUser.isDuplicatePaid  === false ){
-                res.redirect("/clcApply?type=duplicate")
+            if (type === "duplicate") {
+                if (appliedUser.isDuplicatePaid === false) {
+                    res.redirect("/clcApply?type=duplicate")
+                }
             }
         }
 
@@ -468,7 +474,7 @@ export const certificateReceipt = async (req, res) =>{
             // extra Info
             extraInfo.certificateType = "Bonafied"
 
-            if (!appliedUser.isPaid){
+            if (!appliedUser.isPaid) {
                 res.redirect("/bonafied")
             }
         }
@@ -479,7 +485,7 @@ export const certificateReceipt = async (req, res) =>{
             // extra Info
             extraInfo.certificateType = "TC"
 
-            if (!appliedUser.isPaid){
+            if (!appliedUser.isPaid) {
                 res.redirect("/tc")
             }
         }
@@ -490,7 +496,7 @@ export const certificateReceipt = async (req, res) =>{
             // extra Info
             extraInfo.certificateType = "CC"
 
-            if (!appliedUser.isPaid){
+            if (!appliedUser.isPaid) {
                 res.redirect("/cc")
             }
         }
