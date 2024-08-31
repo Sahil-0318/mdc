@@ -129,6 +129,9 @@ const bca1FormSchema = mongoose.Schema({
     isVerified : {
         type : Boolean,
         default : false
+    },
+    collegeRollNumber : {
+        type : Number
     }
     
 })
