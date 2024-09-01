@@ -388,7 +388,34 @@ export const downloadcc = async (req, res) => {
 }
 
 
-// ====================== Character Certificate ================================
+export const ccEdit = async (req, res) => {
+    try {
+        const { id } = req.params 
+        const user = await User.findOne({ _id: req.id })
+        const cc = await CC.findOne({_id : id})
+        res.render("ccEditForm", { user, cc})
+    } catch (error) {
+        console.log("Error in ccEdit => ", error)
+    }
+}
+
+
+export const ccEditPost = async (req, res) => {
+    try {
+        const { id } = req.params 
+        const { fullName, fatherName, motherName, courseName, session, collegeRollNumber } = req.body
+        const user = await User.findOne({ _id: req.id })
+        const clc = await CC.findOneAndUpdate({_id : id}, {$set : {
+            fullName: fullName.trim(), fatherName: fatherName.trim(), motherName: motherName.trim(), courseName, session: session.trim(), collegeRollNumber: collegeRollNumber.trim(),
+        }})
+        res.redirect('/cclist')
+    } catch (error) {
+        console.log("Error in ccEditPost => ", error)
+    }
+}
+
+
+// ====================== TC Certificate ================================
 export const tclist = async (req, res) => {
     const filterQueries = req.query;
     try {

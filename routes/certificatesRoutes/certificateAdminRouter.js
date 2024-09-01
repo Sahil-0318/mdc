@@ -6,7 +6,7 @@ import {
     // CLC
     clclist, downloadclc, clcEdit, clcEditPost,
     // Character Certificate
-    cclist, downloadcc,
+    cclist, downloadcc, ccEdit, ccEditPost,
     // TC
     tclist, downloadtc,
     // Bonafied
@@ -22,6 +22,8 @@ certificateAdminRouter.post("/clcEdit/:id", adminAuth, clcEditPost )
 // Character certificate
 certificateAdminRouter.get("/cclist", adminAuth, cclist )
 certificateAdminRouter.get("/cc/:id", adminAuth, downloadcc )
+certificateAdminRouter.get("/ccEdit/:id", adminAuth, ccEdit )
+certificateAdminRouter.post("/ccEdit/:id", adminAuth, ccEditPost )
 
 // TC
 certificateAdminRouter.get("/tclist", adminAuth, tclist )

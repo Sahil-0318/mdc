@@ -18,11 +18,7 @@
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <h6 class="mb-4">Edit CLC</h6> 
                                             </div>
-
-                                            <% if (locals.appliedUser) { %>
-                                                <h4 class="text-primary">CLC form is filled by you.</h4>
-                                            <% } else { %>
-
+                                            
                                             <form action="/clcEdit/<%= locals.clc._id %>" method="post">
                                                 <div class="col-md-12 mb-3">
                                                     <label for="fullName" class="form-label">1. Full Name</label>
@@ -123,7 +119,6 @@
 
                                                 <button type="submit" class="btn btn-warning">Update</button>
                                             </form>
-                                            <% } %>
                                         </div>
 
                                     </div>

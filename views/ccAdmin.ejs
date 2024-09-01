@@ -27,8 +27,7 @@
                             <div>
                                 <select id="courseName" class="form-select" name="courseName">
                                     <option value="all" selected>All Courses</option>
-                                    <option value="I.A">I.A</option>
-                                    <option value="I.Sc">I.Sc</option>
+                                    <option value="Intermediate">Intermediate</option>
                                     <option value="B.A">B.A</option>
                                     <option value="B.Sc">B.Sc</option>
                                     <option value="BCA">BCA</option>
@@ -73,6 +72,7 @@
                                                         <th scope="col">Course</th>
                                                         <th scope="col">Session</th>
                                                         <th scope="col">Download</th>
+                                                        <th scope="col">Edit</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -99,6 +99,9 @@
                                                                 </td>
                                                                 <td>
                                                                     <a href="/cc/<%= element._id %>" class="px-4 btn btn-warning w-md ">Download</a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="/ccEdit/<%= element._id %>" class="px-4 btn btn-secondary w-md ">Edit</a>
                                                                 </td>
                                                             </tr>
                                                             <% }); %>
