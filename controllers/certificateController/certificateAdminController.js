@@ -244,7 +244,7 @@ export const clcEditPost = async (req, res) => {
         const clc = await NewClc.findOneAndUpdate({_id : id}, {$set : {
             fullName: fullName.trim(), fatherName: fatherName.trim(), motherName: motherName.trim(), aadharNumber, parmanentAddress: parmanentAddress.trim(), dOB, course, session, dOAdm, classRollNumber: classRollNumber.trim(), yearOfExam, resultDivision, regNumber: regNumber.trim(), uniRollNumber: uniRollNumber.trim(),
         }})
-        res.redirect(`${id}`)
+        res.redirect('/clcListAdmin')
     } catch (error) {
         console.log("Error in clcEditPost => ", error)
     }

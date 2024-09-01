@@ -121,40 +121,8 @@
                                                     <textarea name="uniRollNumber" rows="1" class="form-control" oninput="this.value = this.value.toUpperCase()"><%= locals.clc.uniRollNumber%></textarea>
                                                 </div>
 
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                                <button type="reset" class="btn btn-secondary">Reset</button>
+                                                <button type="submit" class="btn btn-warning">Update</button>
                                             </form>
-                                            <% } %>
-
-                                            <% if (locals.appliedUser) { %>
-                                                <% if (locals.type === "normal") { %>
-                                                    <% if (locals.appliedUser.isNormalPaid == true) { %>
-                                                        <button class="btn btn-secondary my-4"><a class="text-light " href="/certificateReceipt/clc?type=normal">Print Receipt</a></button>
-                                                    <% } else { %>
-                                                        <button class="btn btn-success my-4"><a class="text-light" href="/certificateFee/clc?type=normal">Pay Normal CLC Fee</a></button>
-                                                    <% } %>
-
-                                                <% } else if (locals.type === "urgent") { %>
-                                                    <% if (locals.appliedUser.isUrgentPaid == true) { %>
-                                                        <button class="btn btn-secondary my-4"><a class="text-light " href="/certificateReceipt/clc?type=urgent">Print Receipt</a></button>
-                                                    <% } else { %>
-                                                        <button class="btn btn-success my-4"><a class="text-light" href="/certificateFee/clc?type=urgent">Pay Urgent CLC Fee</a></button>
-                                                    <% } %>
-
-                                                <% } else if (locals.type === "duplicate") { %>
-                                                    <% if (locals.appliedUser.isDuplicatePaid == true) { %>
-                                                        <button class="btn btn-secondary my-4"><a class="text-light " href="/certificateReceipt/clc?type=duplicate">Print Receipt</a></button>
-
-                                                        <button class="btn btn-success my-4"><a class="text-light" href="/certificateFee/clc?type=duplicate">Re-Pay Duplicate CLC Fee</a></button>
-                                                    <% } else { %>
-                                                        <button class="btn btn-success my-4"><a class="text-light" href="/certificateFee/clc?type=duplicate">Pay Duplicate CLC Fee</a></button>
-                                                    <% } %>
-
-                                                <% } else { %>
-                                                     
-                                                 
-                                                <% } %>
-                                                
                                             <% } %>
                                         </div>
 
