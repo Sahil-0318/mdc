@@ -224,6 +224,33 @@ export const downloadclc = async (req, res) => {
 }
 
 
+export const clcEdit = async (req, res) => {
+    try {
+        const { id } = req.params 
+        const user = await User.findOne({ _id: req.id })
+        const clc = await NewClc.findOne({_id : id})
+        res.render("clcEditForm", { user, clc})
+    } catch (error) {
+        console.log("Error in clcEdit => ", error)
+    }
+}
+
+
+export const clcEditPost = async (req, res) => {
+    try {
+        const { id } = req.params 
+        const { fullName, fatherName, motherName, aadharNumber, parmanentAddress, dOB, course, session, dOAdm, classRollNumber, yearOfExam, resultDivision, regNumber, uniRollNumber } = req.body
+        const user = await User.findOne({ _id: req.id })
+        const clc = await NewClc.findOneAndUpdate({_id : id}, {$set : {
+            fullName: fullName.trim(), fatherName: fatherName.trim(), motherName: motherName.trim(), aadharNumber, parmanentAddress: parmanentAddress.trim(), dOB, course, session, dOAdm, classRollNumber: classRollNumber.trim(), yearOfExam, resultDivision, regNumber: regNumber.trim(), uniRollNumber: uniRollNumber.trim(),
+        }})
+        res.redirect(`${id}`)
+    } catch (error) {
+        console.log("Error in clcEditPost => ", error)
+    }
+}
+
+
 // ====================== Character Certificate ================================
 export const cclist = async (req, res) => {
     const filterQueries = req.query;

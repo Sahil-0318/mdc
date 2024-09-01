@@ -4,7 +4,7 @@ import { adminAuth } from '../../middlewares/adminMiddleware.js'
 
 import {
     // CLC
-    clclist, downloadclc,
+    clclist, downloadclc, clcEdit, clcEditPost,
     // Character Certificate
     cclist, downloadcc,
     // TC
@@ -16,6 +16,8 @@ import {
 // Character certificate
 certificateAdminRouter.get("/clcListAdmin", adminAuth, clclist )
 certificateAdminRouter.get("/clcListAdmin/:id", adminAuth, downloadclc )
+certificateAdminRouter.get("/clcEdit/:id", adminAuth, clcEdit )
+certificateAdminRouter.post("/clcEdit/:id", adminAuth, clcEditPost )
 
 // Character certificate
 certificateAdminRouter.get("/cclist", adminAuth, cclist )
