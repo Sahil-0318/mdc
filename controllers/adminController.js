@@ -28,6 +28,10 @@ import bca3UserModel from "../models/userModel/BCA-3/user.js"
 import ugRegularPart3User from "../models/userModel/UG-Regular-Part-3/user.js"
 import ugRegularPart3AdmissionForm from "../models/userModel/UG-Regular-Part-3/admForm.js"
 
+// BCA 1 List
+import bca1UserModel from "../models/userModel/BCA-1/user.js"
+import bca1FormModel from "../models/userModel/BCA-1/form.js"
+
 
 
 const adminPage = async (req, res) => {
@@ -2159,6 +2163,45 @@ const oldClcList = async (req, res) => {
   }
 }
 
+
+// BCA Part 1
+const bca1List = async (req, res) => {
+  const filterQueries = req.query;
+  try {
+    // Find the user based on request ID
+    const user = await User.findOne({ _id: req.id });
+
+    // Initialize the query object
+    const query = {};
+    let status = "All"
+
+    // Construct the query object based on filterQueries
+    if (filterQueries.isPaid && filterQueries.isPaid !== 'all') {
+      query.isPaid = filterQueries.isPaid === 'true';
+      if (query.isPaid == true) {
+        status = "Paid"
+      } else {
+        status = "Unpaid"
+      }
+    }
+    if (filterQueries.category && filterQueries.category !== 'all') {
+      query.category = filterQueries.category;
+      status += " " + query.category
+    }
+    if (filterQueries.gender && filterQueries.gender !== 'all') {
+      query.gender = filterQueries.gender;
+      status += " " + query.gender
+    }
+
+    // Find students based on the constructed query
+    const bca1AdmissionList = await bca1FormModel.find(query)
+    // console.log(bca1AdmissionList);
+    res.render('bca1List', { list: bca1AdmissionList, status, noOfForms: bca1AdmissionList.length, user })
+  } catch (error) {
+    console.log("Error in get bca1List", error);
+  }
+}
+
 export {
   adminPage,
   admissionFormList,
@@ -2229,5 +2272,8 @@ export {
   UG_Reg_Part_III_Adm_List,
   UG_Reg_Part_III_BA_Adm_List,
   UG_Reg_Part_III_BSc_Adm_List,
-  oldClcList
+  oldClcList,
+
+  //BCA Part 1
+  bca1List,
 }

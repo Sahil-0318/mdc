@@ -73,7 +73,10 @@ import {
     UG_Reg_Part_III_Adm_List,
     UG_Reg_Part_III_BA_Adm_List,
     UG_Reg_Part_III_BSc_Adm_List,
-    oldClcList
+    oldClcList,
+
+    //BCA Part 1
+    bca1List
 }
     from '../controllers/adminController.js'
 
@@ -212,5 +215,8 @@ adminRouter.get('/UG_Reg_Part_III_BA_Adm_List', adminAuth, UG_Reg_Part_III_BA_Ad
 adminRouter.get('/UG_Reg_Part_III_BSc_Adm_List', adminAuth, UG_Reg_Part_III_BSc_Adm_List)
 
 adminRouter.get('/oldClcList', adminAuth, oldClcList)
+
+// BCA Part 1 List
+adminRouter.get('/bca1List', adminAuth, bca1List)
 
 export default adminRouter
