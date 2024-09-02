@@ -21,6 +21,7 @@ loginRouter.get('/logout', logout)
 
 // Main Password Recovery
 loginRouter.get('/recoverPassword', recoverPassword)
+
 loginRouter.post('/recoverPassword', recoverPasswordPost)
 
 // Portal Password Recovery

@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import unirest from 'unirest'
 
 import ugRegularPart3User from "../models/userModel/UG-Regular-Part-3/user.js"
+import bca1UserModel from "../models/userModel/BCA-1/user.js"
 
 const login = (req, res) => {
     res.render('login')
@@ -159,6 +160,10 @@ const forgotPassword = async (req, res) =>{
         if (portal === "ugRegularPart3") {
             registerRoute = "ugRegularPart3Signup"
         }
+
+        if (portal === "bcaPart1") {
+            registerRoute = "bca1Signup"
+        }
         
         res.render("forgotPassword", {portal, registerRoute})
         
@@ -178,6 +183,15 @@ const forgotPasswordPost = async (req, res) =>{
         if (portal === "ugRegularPart3") {
            foundUser = await ugRegularPart3User.findOne({mobileNumber})
            registerRoute = "ugRegularPart3Signup"
+           if (foundUser !== null){
+            userId = foundUser.userId
+            password = foundUser.password
+           }
+        }
+
+        if (portal === "bcaPart1") {
+           foundUser = await bca1UserModel.findOne({mobileNumber})
+           registerRoute = "bca1Signup"
            if (foundUser !== null){
             userId = foundUser.userId
             password = foundUser.password

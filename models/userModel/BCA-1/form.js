@@ -131,7 +131,8 @@ const bca1FormSchema = mongoose.Schema({
         default : false
     },
     collegeRollNumber : {
-        type : Number
+        type : String,
+        default : 'NA'
     }
     
 })

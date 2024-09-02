@@ -106,22 +106,16 @@
 
                         <div class="col-sm-12 col-xl-12 pt-4 px-4">
                             <div><h5 class="fw-bold">Filter Students : </h5></div>
-                            <!-- <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
-                                <div class="btn btn-secondary"><a class="text-light" href="/bca3List">Get All Students</a></div>
 
-                                <div class="btn btn-secondary"><a class="text-light" href="/bca3List?isPaid=true">Paid Students</a></div>
-
-                                <div class="btn btn-secondary"><a class="text-light" href="/bca3List?isPaid=false">Not paid Students</a></div>
-                            </div> -->
                             <form action="/bca1List" method="get">
                                 <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
                                     <!-- filter category -->
 
                                     <div>
-                                        <select id="isPaid" class="form-select" name="isPaid">
+                                        <select id="collegeRollNumber" class="form-select" name="collegeRollNumber">
                                             <option value="all" selected>All Students</option>
-                                            <option value="true">Paid</option>
-                                            <option value="false">Unpaid</option>
+                                            <option value="Having Roll No">Having Roll No</option>
+                                            <option value="Haven't Roll No">Haven't Roll No</option>
                                         </select>
                                     </div>
 
@@ -139,8 +133,8 @@
                                     <div>
                                         <select id="gender" class="form-select" name="gender">
                                             <option value="all" selected>Select Gender</option>
-                                            <option value="MALE">MALE</option>
-                                            <option value="FEMALE">FEMALE</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
                                         </select>
                                     </div>
 
@@ -174,9 +168,9 @@
                                                     </div>
                                                     <!-- <div class="my-3"> -->
                                                     <form class="d-flex gap-2" action="/bca1List"
-                                                        method="post">
-                                                        <input type="text" class="form-control" id="findStuRefNo"
-                                                            name="findStuMobileNo" placeholder="Enter Mobile Number"
+                                                        method="get">
+                                                        <input type="text" class="form-control" id="appNo"
+                                                            name="appNo" placeholder="Enter Application Number"
                                                             oninput="this.value = this.value.toUpperCase()" />
                                                         <button type="submit" class="btn btn-primary">Find</button>
                                                     </form>

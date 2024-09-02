@@ -2167,6 +2167,7 @@ const oldClcList = async (req, res) => {
 // BCA Part 1
 const bca1List = async (req, res) => {
   const filterQueries = req.query;
+  // console.log(filterQueries)
   try {
     // Find the user based on request ID
     const user = await User.findOne({ _id: req.id });
@@ -2175,14 +2176,17 @@ const bca1List = async (req, res) => {
     const query = {};
     let status = "All"
 
+    if (filterQueries.appNo && filterQueries.appNo !== '') {
+      query.appNo = filterQueries.appNo;
+      status = "Found"
+    }
+
     // Construct the query object based on filterQueries
-    if (filterQueries.isPaid && filterQueries.isPaid !== 'all') {
-      query.isPaid = filterQueries.isPaid === 'true';
-      if (query.isPaid == true) {
-        status = "Paid"
-      } else {
-        status = "Unpaid"
-      }
+    if (filterQueries.collegeRollNumber && filterQueries.collegeRollNumber !== 'all') {
+      if (filterQueries.collegeRollNumber === "Haven't Roll No") {
+        query.collegeRollNumber = 'NA';
+        status = "Found"
+      } 
     }
     if (filterQueries.category && filterQueries.category !== 'all') {
       query.category = filterQueries.category;
@@ -2193,6 +2197,8 @@ const bca1List = async (req, res) => {
       status += " " + query.gender
     }
 
+    console.log(query)
+
     // Find students based on the constructed query
     const bca1AdmissionList = await bca1FormModel.find(query)
     // console.log(bca1AdmissionList);
@@ -2201,6 +2207,7 @@ const bca1List = async (req, res) => {
     console.log("Error in get bca1List", error);
   }
 }
+
 
 export {
   adminPage,
@@ -2275,5 +2282,5 @@ export {
   oldClcList,
 
   //BCA Part 1
-  bca1List,
+  bca1List
 }
