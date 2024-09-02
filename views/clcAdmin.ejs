@@ -72,6 +72,7 @@
                                                         <th scope="col">Normal</th>
                                                         <th scope="col">Urgent</th>
                                                         <th scope="col">Duplicate</th>
+                                                        <th scope="col">Character</th>
                                                         <th scope="col">Edit</th>
                                                     </tr>
                                                 </thead>
@@ -111,6 +112,9 @@
                                                                     <% } else { %>
                                                                         <a href="/clcListAdmin/<%= element._id %>?type=duplicate" class="px-4 btn btn-warning w-md disabled">Download</a>
                                                                     <% } %>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="/downloadCCInCLC/<%= element._id %>" class="px-4 btn btn-primary w-md">Download</a>
                                                                 </td>
                                                                 <td>
                                                                     <a href="/clcEdit/<%= element._id %>" class="px-4 btn btn-secondary w-md">Edit</a>
