@@ -82,6 +82,76 @@ const logout = async (req, res) => {
     res.status(201).redirect('https://www.mdcollegenaubatpur.ac.in/')
 }
 
+
+// Main Password Recovery
+const recoverPassword = async (req, res) =>{
+    try {
+        res.render("recoverPassword")
+        
+    } catch (error) {
+        console.log("Error in recoverPassword", error)
+    }
+}
+
+const recoverPasswordPost = async (req, res) =>{
+    try {
+        const {mobileNumber} = req.body
+
+        const foundUser = await User.findOne({mobileNumber})
+        // Generate Password Function
+        let generatePassword = () => {
+            let pass = ""
+            for (let index = 0; index < 8; index++) {
+                pass = pass + Math.floor(Math.random() * 10)
+            }
+            return pass
+        }
+        let createdPassword = generatePassword()
+
+        if (foundUser !== null) {
+            const hashpassword = await bcrypt.hash(createdPassword, 10)
+            await User.findOneAndUpdate({mobileNumber}, {$set : {password : hashpassword}})
+
+            var req = unirest("POST", "https://www.fast2sms.com/dev/bulkV2");
+
+            req.headers({
+                "authorization": process.env.FAST2SMS_API
+            });
+
+            req.form({
+                "sender_id": process.env.DLT_USER_PSSWORD_SENDER_ID,
+                "message": process.env.YOUR_USER_PSSWORD_MESSAGE_ID,
+                "variables_values": `${foundUser.userName}|${createdPassword}`,
+                "route": "dlt",
+                "numbers": mobileNumber,
+            });
+
+            req.end(function (res) {
+                if (res.error) {
+                    console.error('Request error:', res.error);
+                    return; // Exit the function if there's an error
+                }
+
+                if (res.status >= 400) {
+                    console.error('Error response:', res.status, res.body);
+                    return; // Exit the function if the response status code indicates an error
+                }
+
+                console.log('Success:', res.body);
+            });
+
+            res.status(201).redirect('/login')
+           } else {
+            res.render("recoverPassword", {invalid : "Please enter registerd mobile number."})
+           }
+        
+    } catch (error) {
+        console.log("Error in recoverPasswordPost", error)
+    }
+}
+
+
+// portal Password Recovery
 const forgotPassword = async (req, res) =>{
     try {
         const portal = req.params.portal
@@ -158,6 +228,10 @@ export {
     login,
     loginPost,
     logout,
+    // Main Password Recovery
+    recoverPassword,
+    recoverPasswordPost,
+    // Portal Password Recovery
     forgotPassword,
     forgotPasswordPost
 }
