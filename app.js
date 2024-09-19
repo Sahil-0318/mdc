@@ -49,6 +49,7 @@ import bonafiedUserRouter from "./routes/certificatesRoutes/bonafiedUserRouter.j
 import certificateAdminRouter from './routes/certificatesRoutes/certificateAdminRouter.js'
 import miscellaneousFeeRouter from "./routes/miscellaneousFeeRoutes.js"
 import bca1Router from "./routes/bca1Router.js"
+import interExamFormRouter from './routes/interExamFormRouter.js'
 
 
 // Set template engine
@@ -77,6 +78,7 @@ app.use('/', bonafiedUserRouter)
 app.use('/', certificateAdminRouter)
 app.use('/', miscellaneousFeeRouter)
 app.use('/', bca1Router)
+app.use('/', interExamFormRouter)
 
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`)

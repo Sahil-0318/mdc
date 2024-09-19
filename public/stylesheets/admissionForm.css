@@ -30,11 +30,11 @@ body {
 }
 
 .studentInfoData {
-    width: 75%;
+    width: 80%;
 }
 
 .studentInfoPicture {
-    width: 25%;
+    width: 20%;
 }
 
 .studentInfoDataUpper .fields {
@@ -91,7 +91,7 @@ body {
 
 .studentSign {
     width: 100%;
-    height: 150px;
+    height: 100px;
     /* overflow: hidden; */
     object-fit: contain;
 }
@@ -270,14 +270,14 @@ body {
     }
 
     .studentPhoto img {
-        height: 180px;
+        height: 150px;
         object-fit: cover;
         object-position: center;
     }
 
     .studentSign {
         width: 100%;
-        height: 80px;
+        height: 70px;
         /* overflow: hidden; */
         /* object-fit: contain; */
     }
