@@ -7,7 +7,8 @@ import qrcode from 'qrcode'
 
 export const signup = async (req, res) => {
     try {
-        res.render("interExamFormSignup")
+        // res.render("interExamFormSignup")
+        res.send('Server is down. please wait')
 
     } catch (error) {
         console.log("Error in exam form signup", error)
