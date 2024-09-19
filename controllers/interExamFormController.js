@@ -7,8 +7,7 @@ import qrcode from 'qrcode'
 
 export const signup = async (req, res) => {
     try {
-        // res.render("interExamFormSignup")
-        res.send('Server is down. please wait')
+        res.render("interExamFormSignup")
 
     } catch (error) {
         console.log("Error in exam form signup", error)
@@ -142,7 +141,7 @@ export const interExamFormPost = async (req, res) => {
     try {
         const user = await InterExamFormList.findOne({ _id: req.id })
         
-        const { registrationNoAndYear, BSEBUniqueId, studentCategory, collegeCode, collegeName, districtName, studentName, fatherName, motherName, dOB, matricPassingBoardName, matricBoardRollCode, matricBoardRollNumber, matricBoardPassingYear, gender, casteCategory, differentlyAbled, nationality, religion, aadharNumber, compulsorySubject1, compulsorySubject2, electiveSubject1, electiveSubject2, electiveSubject3, additionalSubject } = req.body
+        const { registrationNoAndYear, BSEBUniqueId, studentCategory, collegeCode, collegeName, districtName, studentName, fatherName, motherName, dOB, matricPassingBoardName, matricBoardRollCode, matricBoardRollNumber, matricBoardPassingYear, gender, casteCategory, differentlyAbled, nationality, religion, aadharNumber, qualifyingCategoryRollCode, qualifyingCategoryRollNumber, qualifyingCategoryPassingYear, qualifyingCategoryInstitutionArea, qualifyingCategoryInstitutionSubDivision, qualifyingCategoryMobileNumber, qualifyingCategoryEmail, qualifyingCategoryStudentName, qualifyingCategoryFatherName, qualifyingCategoryMotherName, qualifyingCategoryAddress, qualifyingCategoryMaritalStatus, qualifyingCategoryStudentBankAccountNumber, qualifyingCategoryIFSCCode, qualifyingCategoryBankAndBranchName, qualifyingCategoryTwoIdentificationMarks, qualifyingCategoryMediumOfExam, compulsorySubject1, compulsorySubject2, electiveSubject1, electiveSubject2, electiveSubject3, additionalSubject } = req.body
 
         const appliedUser = await interExamForm.findOne({ appliedBy: user._id.toString() })
         let examFee = ""
@@ -175,7 +174,9 @@ export const interExamFormPost = async (req, res) => {
             }
 
             const newInterExamForm = new interExamForm({
-                registrationNoAndYear, BSEBUniqueId, studentCategory, collegeCode, collegeName, districtName, studentName, fatherName, motherName, dOB, matricPassingBoardName, matricBoardRollCode, matricBoardRollNumber, matricBoardPassingYear, gender, casteCategory, differentlyAbled, nationality, religion, aadharNumber, compulsorySubject1, compulsorySubject2, electiveSubject1, electiveSubject2, electiveSubject3, additionalSubject,
+                registrationNoAndYear, BSEBUniqueId, studentCategory, collegeCode, collegeName, districtName, studentName, fatherName, motherName, dOB, matricPassingBoardName, matricBoardRollCode, matricBoardRollNumber, matricBoardPassingYear, gender, casteCategory, differentlyAbled, nationality, religion, aadharNumber,
+                qualifyingCategoryRollCode, qualifyingCategoryRollNumber, qualifyingCategoryPassingYear, qualifyingCategoryInstitutionArea, qualifyingCategoryInstitutionSubDivision, qualifyingCategoryMobileNumber, qualifyingCategoryEmail, qualifyingCategoryStudentName, qualifyingCategoryFatherName, qualifyingCategoryMotherName, qualifyingCategoryAddress, qualifyingCategoryMaritalStatus, qualifyingCategoryStudentBankAccountNumber, qualifyingCategoryIFSCCode, qualifyingCategoryBankAndBranchName, qualifyingCategoryTwoIdentificationMarks, qualifyingCategoryMediumOfExam,
+                compulsorySubject1, compulsorySubject2, electiveSubject1, electiveSubject2, electiveSubject3, additionalSubject,
                 faculty : user.faculty,
                 studentPhoto: photoURL,
                 studentSign: signURL,

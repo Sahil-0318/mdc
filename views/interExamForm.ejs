@@ -118,20 +118,20 @@
                                                     <form action="/interExamForm" method="post"
                                                 enctype="multipart/form-data">
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="registrationNoAndYear" class="form-label"><b>Registration No and Year :</b></label>     
+                                                    <label for="registrationNoAndYear" class="form-label"><b>1. Registration No and Year :</b></label>     
                                           
                                                     <textarea id="registrationNoAndYear" name="registrationNoAndYear" rows="1" class="form-control" required readonly><%= user.registrationNumber.toUpperCase() %> and 2024</textarea>
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="BSEBUniqueId" class="form-label"><b>BSEB Unique Id :</b></label>     
+                                                    <label for="BSEBUniqueId" class="form-label"><b>2. BSEB Unique Id :</b></label>     
                                           
                                                     <input type="text" class="form-control" id="BSEBUniqueId"
                                                         name="BSEBUniqueId" required />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="studentCategory" class="form-label"><b>Student Category :</b></label>
+                                                    <label for="studentCategory" class="form-label"><b>3. Student Category :</b></label>
                                                     <select id="studentCategory" class="form-select" name="studentCategory" required>
                                                         <option>--- Select Student Category ---</option>
                                                         <option value="Regular">Regular</option>
@@ -142,46 +142,46 @@
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="collegeCode" class="form-label"><b>College Code :</b></label>
+                                                    <label for="collegeCode" class="form-label"><b>4. College Code :</b></label>
                                                     <input type="number" class="form-control" id="collegeCode"
                                                         name="collegeCode" required />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="collegeName" class="form-label"><b>College Name :</b></label>
+                                                    <label for="collegeName" class="form-label"><b>5. College Name :</b></label>
                                                     <input type="text" class="form-control" id="collegeName"
                                                         name="collegeName" oninput="this.value = this.value.toUpperCase()" required />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="districtName" class="form-label"><b>District Name :</b></label>
+                                                    <label for="districtName" class="form-label"><b>6. District Name :</b></label>
                                                     <input type="text" class="form-control" id="districtName"
                                                         name="districtName" oninput="this.value = this.value.toUpperCase()" required />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="studentName" class="form-label"><b>Student's Name :</b></label>                            
+                                                    <label for="studentName" class="form-label"><b>7. Student's Name :</b></label>                            
                                                     <textarea id="studentName" name="studentName" rows="1" class="form-control" required readonly><%= user.fullName.toUpperCase() %></textarea>
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="fatherName" class="form-label"><b>Father's Name :</b></label>
+                                                    <label for="fatherName" class="form-label"><b>8. Father's Name :</b></label>
                                                     <textarea id="fatherName" name="fatherName" rows="1" class="form-control" required readonly><%= user.fatherName.toUpperCase() %></textarea>
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="motherName" class="form-label"><b>Mother's Name :</b></label>
+                                                    <label for="motherName" class="form-label"><b>9. Mother's Name :</b></label>
                                                     <input type="text" class="form-control" id="motherName"
                                                         name="motherName" oninput="this.value = this.value.toUpperCase()" required />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="dOB" class="form-label"><b>Date Of Birth :</b></label>
+                                                    <label for="dOB" class="form-label"><b>10. Date Of Birth :</b></label>
                                                     <input type="date" class="form-control" id="dOB" name="dOB" required/>
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="matricPassingBoardName" class="form-label"><b>Matric Passing Board Name :</b></label>
+                                                    <label for="matricPassingBoardName" class="form-label"><b>11. Matric Passing Board Name :</b></label>
                                                     <select id="matricPassingBoardName" class="form-select" name="matricPassingBoardName" required>
                                                         <option value="BSEB">BSEB</option>
                                                         <option value="CBSE">CBSE</option>
@@ -190,25 +190,25 @@
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="matricBoardRollCode" class="form-label"><b>Matric Board Roll Code :</b></label>
+                                                    <label for="matricBoardRollCode" class="form-label"><b>12.1. Matric Board Roll Code :</b></label>
                                                     <input type="text" class="form-control" id="matricBoardRollCode"
                                                         name="matricBoardRollCode" oninput="this.value = this.value.toUpperCase()" required />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="matricBoardRollNumber" class="form-label"><b>Matric Board Roll Number :</b></label>
+                                                    <label for="matricBoardRollNumber" class="form-label"><b>12.2. Matric Board Roll Number :</b></label>
                                                     <input type="text" class="form-control" id="matricBoardRollNumber"
                                                         name="matricBoardRollNumber" oninput="this.value = this.value.toUpperCase()" required />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="matricBoardPassingYear" class="form-label"><b>Matric Board Passing Year :</b></label>
+                                                    <label for="matricBoardPassingYear" class="form-label"><b>12.3. Matric Board Passing Year :</b></label>
                                                     <input type="text" class="form-control" id="matricBoardPassingYear"
                                                         name="matricBoardPassingYear" oninput="this.value = this.value.toUpperCase()" required />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="gender" class="form-label"><b>Gender :</b></label>
+                                                    <label for="gender" class="form-label"><b>13. Gender :</b></label>
                                                     <select id="gender" class="form-select" name="gender" required>
                                                         <option value="MALE">MALE</option>
                                                         <option value="FEMALE">FEMALE</option>
@@ -216,7 +216,7 @@
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="casteCategory" class="form-label"><b>Caste Category :</b></label>
+                                                    <label for="casteCategory" class="form-label"><b>14. Caste Category :</b></label>
                                                     <select id="casteCategory" class="form-select" name="casteCategory"
                                                         required>
                                                         <option value="GENERAL">GENERAL</option>
@@ -228,7 +228,7 @@
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="differentlyAbled" class="form-label"><b>Differently Abled :</b></label>
+                                                    <label for="differentlyAbled" class="form-label"><b>15. Differently Abled :</b></label>
                                                     <select id="differentlyAbled" class="form-select" name="differentlyAbled"
                                                         required>
                                                         <option value="No">No</option>
@@ -237,7 +237,7 @@
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="nationality" class="form-label"><b>Nationality :</b></label>
+                                                    <label for="nationality" class="form-label"><b>16. Nationality :</b></label>
                                                     <select id="nationality" class="form-select" name="nationality"
                                                         required>
                                                         <option value="Indian">Indian</option>
@@ -246,7 +246,7 @@
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="religion" class="form-label"><b>Religion :</b></label>
+                                                    <label for="religion" class="form-label"><b>17. Religion :</b></label>
                                                     <select id="religion" class="form-select" name="religion" required>
                                                         <option value="HINDU">HINDU</option>
                                                         <option value="ISLAM">ISLAM</option>
@@ -259,62 +259,122 @@
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="aadharNumber" class="form-label"><b>Aadhar Number :</b></label>
+                                                    <label for="aadharNumber" class="form-label"><b>18. Aadhar Number :</b></label>
                                                     <input type="number" class="form-control" id="aadharNumber"
                                                         name="aadharNumber" maxlength="12" pattern="[0-9]{12}"
                                                         required />
                                                 </div>
 
-                                                <!-- <h5>Details of Intermediate examination passed by qualifying category candidates</h5>
-                                                <h5>( क्वालीफाइंग कोटि के परीक्षार्थी द्वारा इन्टरमीडिएट उत्तीर्ण परीक्षा का विवरण )</h5> -->
+                                                <h5>19. Details of Intermediate examination passed by qualifying category candidates</h5>
+                                                <h5>( क्वालीफाइंग कोटि के परीक्षार्थी द्वारा इन्टरमीडिएट उत्तीर्ण परीक्षा का विवरण )</h5>
 
-                                                <!-- <div class="col-md-12 mb-3">
-                                                    <label for="qualifyingCategoryRollCode" class="form-label"><b>Qualifying Category Roll Code :</b></label>
+                                                    <div class="col-md-12 mb-3">
+                                                    <label for="qualifyingCategoryRollCode" class="form-label"><b>19.1.  Roll Code :</b></label>
                                                     <input type="text" class="form-control" id="qualifyingCategoryRollCode"
-                                                        name="qualifyingCategoryRollCode" oninput="this.value = this.value.toUpperCase()" required />
+                                                        name="qualifyingCategoryRollCode" oninput="this.value = this.value.toUpperCase()" />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="qualifyingCategoryRollNumber" class="form-label"><b>Qualifying Category Roll Number :</b></label>
+                                                    <label for="qualifyingCategoryRollNumber" class="form-label"><b>19.2.  Roll Number :</b></label>
                                                     <input type="text" class="form-control" id="qualifyingCategoryRollNumber"
-                                                        name="qualifyingCategoryRollNumber" oninput="this.value = this.value.toUpperCase()" required />
+                                                        name="qualifyingCategoryRollNumber" oninput="this.value = this.value.toUpperCase()" />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="qualifyingCategoryPassingYear" class="form-label"><b>Qualifying Category Passing Year :</b></label>
+                                                    <label for="qualifyingCategoryPassingYear" class="form-label"><b>19.3.  Passing Year :</b></label>
                                                     <input type="text" class="form-control" id="qualifyingCategoryPassingYear"
-                                                        name="qualifyingCategoryPassingYear" oninput="this.value = this.value.toUpperCase()" required />
+                                                        name="qualifyingCategoryPassingYear" oninput="this.value = this.value.toUpperCase()" />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="qualifyingCategoryInstitutionArea" class="form-label"><b>Qualifying Category Institution Area :</b></label>
-                                                    <input type="text" class="form-control" id="qualifyingCategoryInstitutionArea"
-                                                        name="qualifyingCategoryInstitutionArea" oninput="this.value = this.value.toUpperCase()" required />
+                                                    <label for="qualifyingCategoryInstitutionArea" class="form-label"><b>20. Area where the institution is situtated :</b></label>
+                                                    <select id="qualifyingCategoryInstitutionArea" class="form-select" name="qualifyingCategoryInstitutionArea" required>
+                                                        <option value="Rural">Rural</option>
+                                                        <option value="Urban">Urban</option>
+                                                    </select> 
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="qualifyingCategoryInstitutionSubDivision" class="form-label"><b>Qualifying Category Institution Sub Division :</b></label>
+                                                    <label for="qualifyingCategoryInstitutionSubDivision" class="form-label"><b>21. Sub-Division (where the institution is situtated) :</b></label>
                                                     <input type="text" class="form-control" id="qualifyingCategoryInstitutionSubDivision"
                                                         name="qualifyingCategoryInstitutionSubDivision" oninput="this.value = this.value.toUpperCase()" required />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="qualifyingCategoryMobileNumber" class="form-label"><b>Qualifying Category Mobile Number :</b></label>
+                                                    <label for="qualifyingCategoryMobileNumber" class="form-label"><b>22. Mobile Number :</b></label>
                                                     <input type="number" class="form-control" id="qualifyingCategoryMobileNumber"
                                                         name="qualifyingCategoryMobileNumber" required />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="qualifyingCategoryEmail" class="form-label"><b>Qualifying Category Email :</b></label>
-                                                    <input type="text" class="form-control" id="qualifyingCategoryEmail"
+                                                    <label for="qualifyingCategoryEmail" class="form-label"><b>23. Email :</b></label>
+                                                    <input type="email" class="form-control" id="qualifyingCategoryEmail"
                                                         name="qualifyingCategoryEmail" oninput="this.value = this.value.toLowerCase()" required />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="qualifyingCategoryEmail" class="form-label"><b>Qualifying Category Email :</b></label>
-                                                    <input type="text" class="form-control" id="qualifyingCategoryEmail"
-                                                        name="qualifyingCategoryEmail" oninput="this.value = this.value.toUpperCase()" required />
-                                                </div> -->
+                                                    <label for="qualifyingCategoryStudentName" class="form-label"><b>24. Student's Name in Hindi :</b></label>
+                                                    <input type="text" class="form-control" id="qualifyingCategoryStudentName"
+                                                        name="qualifyingCategoryStudentName" required />
+                                                </div>
+
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="qualifyingCategoryFatherName" class="form-label"><b>25. Father's Name in Hindi :</b></label>
+                                                    <input type="text" class="form-control" id="qualifyingCategoryFatherName"
+                                                        name="qualifyingCategoryFatherName" required />
+                                                </div>
+
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="qualifyingCategoryMotherName" class="form-label"><b>26. Mother's Name in Hindi :</b></label>
+                                                    <input type="text" class="form-control" id="qualifyingCategoryMotherName"
+                                                        name="qualifyingCategoryMotherName" required />
+                                                </div>
+
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="qualifyingCategoryAddress" class="form-label"><b>27. Student' Address in English :</b></label>
+                                                    <input type="text" class="form-control" id="qualifyingCategoryAddress"
+                                                        name="qualifyingCategoryAddress" oninput="this.value = this.value.toUpperCase()" required />
+                                                </div>
+
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="qualifyingCategoryMaritalStatus" class="form-label"><b>28. Marital Status :</b></label>
+                                                    <select id="qualifyingCategoryMaritalStatus" class="form-select" name="qualifyingCategoryMaritalStatus" required>
+                                                        <option value="Unmarried">Unmarried</option>
+                                                        <option value="Married">Married</option>
+                                                    </select> 
+                                                </div>
+                                                
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="qualifyingCategoryStudentBankAccountNumber" class="form-label"><b>29. Student's Bank A/C No :</b></label>
+                                                    <input type="number" class="form-control" id="qualifyingCategoryStudentBankAccountNumber"
+                                                        name="qualifyingCategoryStudentBankAccountNumber" />
+                                                </div>
+                                                
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="qualifyingCategoryIFSCCode" class="form-label"><b>30. IFSC Code :</b></label>
+                                                    <input type="text" class="form-control" id="qualifyingCategoryIFSCCode"
+                                                        name="qualifyingCategoryIFSCCode" oninput="this.value = this.value.toUpperCase()" />
+                                                </div>
+                                                
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="qualifyingCategoryBankAndBranchName" class="form-label"><b>31. Bank & Branch Name :</b></label>
+                                                    <input type="text" class="form-control" id="qualifyingCategoryBankAndBranchName"
+                                                        name="qualifyingCategoryBankAndBranchName" oninput="this.value = this.value.toUpperCase()"  />
+                                                </div>
+
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="qualifyingCategoryTwoIdentificationMarks" class="form-label"><b>32. Two identification marks of student :</b></label>
+                                                    <input type="text" class="form-control" id="qualifyingCategoryTwoIdentificationMarks"
+                                                        name="qualifyingCategoryTwoIdentificationMarks" oninput="this.value = this.value.toUpperCase()" required />
+                                                </div>
+
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="qualifyingCategoryMediumOfExam" class="form-label"><b>33. Medium (language) of appearing in examination :</b></label>
+                                                    <select id="qualifyingCategoryMediumOfExam" class="form-select" name="qualifyingCategoryMediumOfExam" required>
+                                                        <option value="Hindi">Hindi</option>
+                                                        <option value="English">English</option>
+                                                    </select> 
+                                                </div>
 
                                                 <!-- <div class="col-md-12 mb-3">
                                                     <label for="faculty" class="form-label">Faculty :</label>
@@ -328,7 +388,7 @@
 
                                                 <div class="col-md-12 mb-3">
                                                     <br>
-                                                    <h4>Subject details with their numerical codes :</h4>
+                                                    <h4>34. Subject details with their numerical codes :</h4>
                                                 </div>
 
                                                 <% if (locals.user.faculty === "ARTS") { %>
@@ -494,14 +554,14 @@
                                                 <% } %>
 
                                                 <div class="mb-3">
-                                                    <label for="studentPhoto" class="form-label">Passport Size
-                                                        Photo</label>
+                                                    <label for="studentPhoto" class="form-label"><b>35. Passport Size
+                                                        Photo</b></label>
                                                     <input class="form-control form-control-sm" id="studentPhoto"
                                                         name="studentPhoto" type="file" accept="image/*" required>
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="studentPhoto" class="form-label">Student Sign</label>
+                                                    <label for="studentPhoto" class="form-label"><b>36. Student Sign</b></label>
                                                     <input class="form-control form-control-sm" id="studentPhoto"
                                                         name="studentPhoto" type="file" accept="image/*" required>
                                                 </div>

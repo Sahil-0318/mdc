@@ -119,12 +119,15 @@ const interExamFormSchema = mongoose.Schema({
     },
     qualifyingCategoryStudentBankAccountNumber:{
         type : String,
+        default : "N/A"
     },
     qualifyingCategoryIFSCCode:{
         type : String,
+        default : "N/A"
     },
     qualifyingCategoryBankAndBranchName:{
         type : String,
+        default : "N/A"
     },
     qualifyingCategoryTwoIdentificationMarks:{
         type : String,
