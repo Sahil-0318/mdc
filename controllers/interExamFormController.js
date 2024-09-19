@@ -64,7 +64,7 @@ export const signupPost = async (req, res) => {
                 console.log('Success:', res.body);
             });
 
-            await InterExamFormList.findOneAndUpdate({ registrationNumber }, { $set: { password, registered: true, userID : registrationNumber } })
+            await InterExamFormList.findOneAndUpdate({ registrationNumber }, { $set: { mobileNumber, password, registered: true, userID : registrationNumber } })
 
             res.redirect("/interExamFormLogin")
 
