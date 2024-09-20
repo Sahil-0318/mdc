@@ -4,10 +4,17 @@ import InterExamFormList from "../models/adminModel/interExamFormList.js"
 import interExamForm from "../models/userModel/interExamFormSchema.js"
 import FileUpload from '../fileUpload/fileUpload.js'
 import qrcode from 'qrcode'
+import PortalOnOff from '../models/adminModel/portalOnOffSchema.js'
 
 export const signup = async (req, res) => {
     try {
-        res.render("interExamFormSignup")
+        const portal = await PortalOnOff.findOne({portal : "interExamFormPortal"})
+        if (portal.isOn == true) {
+            return res.render("interExamFormSignup")
+        }  
+        if (portal.isOn == false) {
+            return res.render('pageNotFound', {status : "Intermediate Exam Form (2023 - 25) Portal has been closed.", loginPage : "interExamFormLogin"})
+        }
 
     } catch (error) {
         console.log("Error in exam form signup", error)

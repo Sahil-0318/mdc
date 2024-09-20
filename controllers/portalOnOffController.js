@@ -126,11 +126,33 @@ const bca2202326 = async (req, res) => {
 }
 
 
+const interExamFormPortal = async (req, res) => {
+    try {
+        let queries = req.query
+        const user = await User.findOne({ _id: req.id })
+
+        if (queries.isOn === "true") {
+            await PortalOnOff.findOneAndUpdate({portal : "interExamFormPortal"}, { $set : {isOn : false} })
+        }  
+
+        if (queries.isOn === "false") {
+            await PortalOnOff.findOneAndUpdate({portal : "interExamFormPortal"}, { $set : {isOn : true} })
+        }
+
+        const portal = await PortalOnOff.findOne({portal : "interExamFormPortal"})
+        res.render('portalOnOff', { url : "interExamFormPortal", session : "Intermediate Exam Form (2023 - 25)", user, portal : portal.isOn })
+    } catch (error) {
+        console.log("Error in interExamFormPortal Get Method =====>", error)
+    }
+}
+
+
 export {
     ugRegularSem1Potal202428,
     ugRegularPart3Potal202225,
     ugRegularPart3Potal202327,
     bca1202427,
     bca3202225,
-    bca2202326
+    bca2202326,
+    interExamFormPortal
 }
