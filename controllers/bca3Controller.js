@@ -149,8 +149,8 @@ const bca3LoginPost = async (req, res) => {
 const logout = async (req, res) => {
     try {
         res.clearCookie("uid");
-        // res.status(201).redirect('https://www.mdcollegenaubatpur.ac.in/')
-        res.status(201).redirect('/bca3Login')
+        res.status(201).redirect('https://www.mdcollegenaubatpur.ac.in/')
+        // res.status(201).redirect('/bca3Login')
     } catch (error) {
         console.log("Error in get method logout", error)
     }

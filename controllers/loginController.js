@@ -5,6 +5,8 @@ import unirest from 'unirest'
 
 import ugRegularPart3User from "../models/userModel/UG-Regular-Part-3/user.js"
 import bca1UserModel from "../models/userModel/BCA-1/user.js"
+import bca2UserModel from "../models/userModel/BCA-2/user.js"
+import InterExamFormList from "../models/adminModel/interExamFormList.js"
 
 const login = (req, res) => {
     res.render('login')
@@ -164,6 +166,14 @@ const forgotPassword = async (req, res) =>{
         if (portal === "bcaPart1") {
             registerRoute = "bca1Signup"
         }
+
+        if (portal === "bcaPart2") {
+            registerRoute = "bca2Signup"
+        }
+
+        if (portal === "interExamForm") {
+            registerRoute = "interExamFormSignup"
+        }
         
         res.render("forgotPassword", {portal, registerRoute})
         
@@ -179,6 +189,7 @@ const forgotPasswordPost = async (req, res) =>{
         let userId = ""
         let password = ""
         let registerRoute = ""
+        let redirectLink = ""
 
         if (portal === "ugRegularPart3") {
            foundUser = await ugRegularPart3User.findOne({mobileNumber})
@@ -187,6 +198,7 @@ const forgotPasswordPost = async (req, res) =>{
             userId = foundUser.userId
             password = foundUser.password
            }
+           redirectLink = "ugRegularPart3Login"
         }
 
         if (portal === "bcaPart1") {
@@ -196,6 +208,27 @@ const forgotPasswordPost = async (req, res) =>{
             userId = foundUser.userId
             password = foundUser.password
            }
+           redirectLink = "bca1Login"
+        }
+
+        if (portal === "bcaPart2") {
+           foundUser = await bca2UserModel.findOne({mobileNumber})
+           registerRoute = "bca2Signup"
+           if (foundUser !== null){
+            userId = foundUser.userId
+            password = foundUser.password
+           }
+           redirectLink = "bca2Login"
+        }
+
+        if (portal === "interExamForm") {
+           foundUser = await InterExamFormList.findOne({mobileNumber})
+           registerRoute = "interExamFormSignup"
+           if (foundUser !== null){
+            userId = foundUser.userID
+            password = foundUser.password
+           }
+           redirectLink = "interExamFormLogin"
         }
 
 
@@ -228,7 +261,7 @@ const forgotPasswordPost = async (req, res) =>{
                 console.log('Success:', res.body);
             });
 
-            res.status(201).redirect('ugRegularPart3Login')
+            res.status(201).redirect(redirectLink)
            } else {
             res.render("forgotPassword", {portal, registerRoute, invalid : "Please enter registerd mobile number."})
            }
