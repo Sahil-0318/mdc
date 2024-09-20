@@ -2,13 +2,20 @@ import unirest from 'unirest'
 import jwt from 'jsonwebtoken'
 import FileUpload from '../fileUpload/fileUpload.js'
 import qrcode from 'qrcode'
+import PortalOnOff from '../models/adminModel/portalOnOffSchema.js'
 
 import bca2UserModel from "../models/userModel/BCA-2/user.js"
 import bca2FormModel from "../models/userModel/BCA-2/form.js"
 
 export const bca2Signup = async (req, res) =>{
     try {
-        res.render("bca2Signup")
+        const portal = await PortalOnOff.findOne({portal : "bca2_23-26"})
+        if (portal.isOn == true) {
+            return res.render("bca2Signup")
+        }  
+        if (portal.isOn == false) {
+            return res.render('pageNotFound', {status : "BCA Part 2 (2023 - 26) admission has been closed.", loginPage : "bca2Login"})
+        }
     } catch (error) {
         console.log("Error in bca2Signup", error)
     }

@@ -4,6 +4,7 @@ import unirest from 'unirest'
 import jwt from 'jsonwebtoken'
 import FileUpload from '../fileUpload/fileUpload.js'
 import qrcode from 'qrcode'
+import PortalOnOff from '../models/adminModel/portalOnOffSchema.js'
 
 //Error Page
 // const bca3Signup = async (req, res) => {
@@ -12,7 +13,13 @@ import qrcode from 'qrcode'
 
 const bca3Signup = async (req, res) => {
     try {
-        res.render("bca3Signup")
+        const portal = await PortalOnOff.findOne({portal : "bca3_22-25"})
+        if (portal.isOn == true) {
+            return res.render("bca3Signup")
+        }  
+        if (portal.isOn == false) {
+            return res.render('pageNotFound', {status : "BCA Part 3 (2022 - 25) admission has been closed.", loginPage : "bca3Login"})
+        }
     } catch (error) {
         console.log("Error in get method bca3Signup", error)
     }

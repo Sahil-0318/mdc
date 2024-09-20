@@ -63,8 +63,74 @@ const ugRegularPart3Potal202327 = async (req, res) => {
 }
 
 
+const bca1202427 = async (req, res) => {
+    try {
+        let queries = req.query
+        const user = await User.findOne({ _id: req.id })
+
+        if (queries.isOn === "true") {
+            await PortalOnOff.findOneAndUpdate({portal : "bca1_24-27"}, { $set : {isOn : false} })
+        }  
+
+        if (queries.isOn === "false") {
+            await PortalOnOff.findOneAndUpdate({portal : "bca1_24-27"}, { $set : {isOn : true} })
+        }
+
+        const portal = await PortalOnOff.findOne({portal : "bca1_24-27"})
+        res.render('portalOnOff', { url : "bca1202427", session : "BCA Part 1 (2024 - 27)", user, portal : portal.isOn })
+    } catch (error) {
+        console.log("Error in BCA Part 1 Potal 2024-27 Get Method =====>", error)
+    }
+}
+
+
+const bca3202225 = async (req, res) => {
+    try {
+        let queries = req.query
+        const user = await User.findOne({ _id: req.id })
+
+        if (queries.isOn === "true") {
+            await PortalOnOff.findOneAndUpdate({portal : "bca3_22-25"}, { $set : {isOn : false} })
+        }  
+
+        if (queries.isOn === "false") {
+            await PortalOnOff.findOneAndUpdate({portal : "bca3_22-25"}, { $set : {isOn : true} })
+        }
+
+        const portal = await PortalOnOff.findOne({portal : "bca3_22-25"})
+        res.render('portalOnOff', { url : "bca3202225", session : "BCA Part 3 (2022 - 25)", user, portal : portal.isOn })
+    } catch (error) {
+        console.log("Error in BCA Part 3 Potal 2022-25 Get Method =====>", error)
+    }
+}
+
+
+const bca2202326 = async (req, res) => {
+    try {
+        let queries = req.query
+        const user = await User.findOne({ _id: req.id })
+
+        if (queries.isOn === "true") {
+            await PortalOnOff.findOneAndUpdate({portal : "bca2_23-26"}, { $set : {isOn : false} })
+        }  
+
+        if (queries.isOn === "false") {
+            await PortalOnOff.findOneAndUpdate({portal : "bca2_23-26"}, { $set : {isOn : true} })
+        }
+
+        const portal = await PortalOnOff.findOne({portal : "bca2_23-26"})
+        res.render('portalOnOff', { url : "bca2202326", session : "BCA Part 2 (2023 - 26)", user, portal : portal.isOn })
+    } catch (error) {
+        console.log("Error in BCA Part 2 Potal 2023-26 Get Method =====>", error)
+    }
+}
+
+
 export {
     ugRegularSem1Potal202428,
     ugRegularPart3Potal202225,
-    ugRegularPart3Potal202327
+    ugRegularPart3Potal202327,
+    bca1202427,
+    bca3202225,
+    bca2202326
 }
