@@ -2237,9 +2237,9 @@ const interExamFormList = async (req, res) => {
       query.studentCategory = filterQueries.studentCategory;
       status += " " + query.studentCategory
     }
-    if (filterQueries.gender && filterQueries.gender !== 'all') {
-      query.gender = filterQueries.gender;
-      status += " " + query.gender
+    if (filterQueries.faculty && filterQueries.faculty !== 'all') {
+      query.faculty = filterQueries.faculty;
+      status += " " + query.faculty
     }
     if (filterQueries.registrationNoAndYear) {
       query.registrationNoAndYear = filterQueries.registrationNoAndYear + " and 2024";
