@@ -1,6 +1,6 @@
 import express from 'express'
 import {userAuth} from '../middlewares/userMiddleware.js'
-import { index, userPage, admissionForm, admissionFormPost, bbaAdmissionForm, bbaAdmissionFormPost, clc, clcPost,userNotice, eachUserNotice, admissionFormPP, admissionFormPostPP} from '../controllers/userController.js'
+import { index, userPage, admissionForm, admissionFormPost, bbaAdmissionForm, bbaAdmissionFormPost, clc, clcPost,userNotice, eachUserNotice} from '../controllers/userController.js'
 const userRouter = express.Router()
 import multer from 'multer'
 
@@ -17,13 +17,13 @@ userRouter.get('/', index)
 userRouter.get('/userPage',userAuth, userPage)
 
 // PP Test
-// userRouter.get('/admissionForm',userAuth, admissionForm)
+userRouter.get('/admissionForm',userAuth, admissionForm)
 
-// userRouter.post('/admissionForm',userAuth, upload.array('photo'),  admissionFormPost)
+userRouter.post('/admissionForm',userAuth, upload.array('photo'),  admissionFormPost)
 
-userRouter.get('/admissionFormPP',userAuth, admissionFormPP)
+// userRouter.get('/admissionFormPP',userAuth, admissionFormPP)
 
-userRouter.post('/admissionFormPP',userAuth, upload.array('photo'),  admissionFormPostPP)
+// userRouter.post('/admissionFormPP',userAuth, upload.array('photo'),  admissionFormPostPP)
 
 // ================================================================================================
 
