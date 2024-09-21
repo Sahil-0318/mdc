@@ -32,6 +32,10 @@ import ugRegularPart3AdmissionForm from "../models/userModel/UG-Regular-Part-3/a
 import bca1UserModel from "../models/userModel/BCA-1/user.js"
 import bca1FormModel from "../models/userModel/BCA-1/form.js"
 
+// Inter Exam Form List
+import InterExamFormList from "../models/adminModel/interExamFormList.js"
+import interExamForm from "../models/userModel/interExamFormSchema.js"
+
 
 
 const adminPage = async (req, res) => {
@@ -2209,6 +2213,135 @@ const bca1List = async (req, res) => {
 }
 
 
+// Inter Exam Form List
+const interExamFormList = async (req, res) => {
+  const filterQueries = req.query;
+  try {
+    // Find the user based on request ID
+    const user = await User.findOne({ _id: req.id });
+
+    // Initialize the query object
+    const query = {};
+    let status = "All"
+
+    // Construct the query object based on filterQueries
+    if (filterQueries.isPaid && filterQueries.isPaid !== 'all') {
+      query.isPaid = filterQueries.isPaid === 'true';
+      if (query.isPaid == true) {
+        status = "Paid"
+      } else {
+        status = "Unpaid"
+      }
+    }
+    if (filterQueries.studentCategory && filterQueries.studentCategory !== 'all') {
+      query.studentCategory = filterQueries.studentCategory;
+      status += " " + query.studentCategory
+    }
+    if (filterQueries.gender && filterQueries.gender !== 'all') {
+      query.gender = filterQueries.gender;
+      status += " " + query.gender
+    }
+    if (filterQueries.registrationNoAndYear) {
+      query.registrationNoAndYear = filterQueries.registrationNoAndYear + " and 2024";
+      status = 'Found'
+    }
+
+    // Find students based on the constructed query
+    const interExamFormList = await interExamForm.find(query);
+
+
+    // Render the template with the filtered list
+    res.render('interExamFormList', {
+      list: interExamFormList,
+      noOfForms: interExamFormList.length,
+      user,
+      status
+    });
+  } catch (error) {
+    console.log("Error in get interExamFormList", error);
+  }
+}
+
+
+const interExamFormExcelList = async (req, res) => {
+  const { studentCategory, faculty} = req.params
+  try {
+
+    const query = {};
+    query.studentCategory = studentCategory
+    query.isPaid = true
+
+    if (faculty !== "All") {
+      query.faculty = faculty
+    }
+
+    const userData = await interExamForm.find(query)
+
+    const users = userData.map(examForm => {
+      const { registrationNoAndYear, BSEBUniqueId, studentCategory, collegeCode, collegeName, districtName, studentName, fatherName, motherName, dOB, matricPassingBoardName, matricBoardRollCode, matricBoardRollNumber, matricBoardPassingYear, gender, casteCategory, differentlyAbled, nationality, religion, aadharNumber, qualifyingCategoryRollCode, qualifyingCategoryRollNumber, qualifyingCategoryPassingYear, qualifyingCategoryInstitutionArea, qualifyingCategoryInstitutionSubDivision, qualifyingCategoryMobileNumber, qualifyingCategoryEmail, qualifyingCategoryStudentName, qualifyingCategoryFatherName, qualifyingCategoryMotherName, qualifyingCategoryAddress, qualifyingCategoryMaritalStatus, qualifyingCategoryStudentBankAccountNumber, qualifyingCategoryIFSCCode, qualifyingCategoryBankAndBranchName, qualifyingCategoryTwoIdentificationMarks, qualifyingCategoryMediumOfExam, compulsorySubject1, compulsorySubject2, electiveSubject1, electiveSubject2, electiveSubject3, additionalSubject, faculty } = examForm;
+
+      return {
+        'Registration Number': registrationNoAndYear.split(" ")[0],
+        'BSEB Unique Id': BSEBUniqueId,
+        'Faculty': faculty,
+        'Student Category': studentCategory,
+        'Student Name': studentName,
+        'FatherName': fatherName,
+        'MotherName': motherName,
+        'Date of Birth': dOB,
+        'Compulsory Subject 1': compulsorySubject1,
+        'Compulsory Subject 2': compulsorySubject2,
+        'Elective Subject 1': electiveSubject1,
+        'Elective Subject 2': electiveSubject2,
+        'Elective Subject 3': electiveSubject3,
+        'Additional Subject': additionalSubject,
+        'College Code': collegeCode,
+        'College Name': collegeName,
+        'District Name': districtName,
+        'Matric Passing Board Name': matricPassingBoardName,
+        'Matric Board Roll Code': matricBoardRollCode,
+        'Matric Board Roll Number': matricBoardRollNumber,
+        'Matric Board Passing Year': matricBoardPassingYear,
+        'Gender': gender,
+        'Caste Category': casteCategory,
+        'Differently Abled': differentlyAbled,
+        'Nationality': nationality,
+        'Religion': religion,
+        'Aadhar Number': aadharNumber,
+        'Qualifying Category Roll Code': qualifyingCategoryRollCode,
+        'Qualifying Category Roll Number': qualifyingCategoryRollNumber,
+        'Qualifying Category Passing Year': qualifyingCategoryPassingYear,
+        'Institution Area': qualifyingCategoryInstitutionArea,
+        'Institution Sub-Division': qualifyingCategoryInstitutionSubDivision,
+        'Mobile Number': qualifyingCategoryMobileNumber,
+        'Email': qualifyingCategoryEmail,
+        'Student Name in Hindi': qualifyingCategoryStudentName,
+        'Father Name in Hindi': qualifyingCategoryFatherName,
+        'Mother Name in Hindi': qualifyingCategoryMotherName,
+        'Address': qualifyingCategoryAddress,
+        'Marital Status': qualifyingCategoryMaritalStatus,
+        'Student Bank Account Number': qualifyingCategoryStudentBankAccountNumber,
+        'IFSC Code': qualifyingCategoryIFSCCode,
+        'Bank and Branch Name': qualifyingCategoryBankAndBranchName,
+        'Two Identification Marks': qualifyingCategoryTwoIdentificationMarks,
+        'Medium of Exam': qualifyingCategoryMediumOfExam
+      };
+    });
+
+    const csvParser = new CsvParser();
+    const csvData = csvParser.parse(users);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", `attachment; filename=Inter-Exam-Form-List-${studentCategory}-${faculty}.csv`);
+
+    res.status(200).end(csvData);
+  } catch (error) {
+    console.error('Error generating Inter Exam Form CSV:', error);
+    res.status(500).send(`Server Error - <b>${studentCategory} students</b> list not available`);
+  }
+}
+
+
 export {
   adminPage,
   admissionFormList,
@@ -2282,5 +2415,9 @@ export {
   oldClcList,
 
   //BCA Part 1
-  bca1List
+  bca1List,
+
+  // Inter Exam Form List
+  interExamFormList,
+  interExamFormExcelList
 }

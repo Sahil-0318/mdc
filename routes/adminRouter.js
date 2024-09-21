@@ -76,7 +76,11 @@ import {
     oldClcList,
 
     //BCA Part 1
-    bca1List
+    bca1List,
+
+    // Inter Exam Form List
+    interExamFormList,
+    interExamFormExcelList
 }
     from '../controllers/adminController.js'
 
@@ -218,5 +222,11 @@ adminRouter.get('/oldClcList', adminAuth, oldClcList)
 
 // BCA Part 1 List
 adminRouter.get('/bca1List', adminAuth, bca1List)
+
+
+// Inter Exam Form List (2023 - 25)
+adminRouter.get('/interExamFormList', adminAuth, interExamFormList)
+
+adminRouter.get('/interExamFormExcelList/:studentCategory/:faculty', adminAuth, interExamFormExcelList)
 
 export default adminRouter
