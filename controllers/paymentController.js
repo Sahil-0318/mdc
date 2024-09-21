@@ -5,7 +5,7 @@ const SALT_KEY = process.env.SALT_KEY
 import axios from 'axios'
 import uniqid from 'uniqid'
 import sha256 from 'sha256'
-// import AdmissionForm from '../models/userModel/admissionFormSchema.js'
+import AdmissionForm from '../models/userModel/admissionFormSchema.js'
 import AdmissionFormPP from '../models/userModel/admissionFormSchemaPP.js'
 import UgRegularAdmissionForm from '../models/userModel/ugRegularAdmissionFormSchema.js'
 import BBAadmissionForm from '../models/userModel/bbaAdmissionFormSchema.js'
@@ -146,11 +146,11 @@ const refNoPost = async (req, res) => {
     // console.log(paymentSSURL);
     const paidAt = photoUpload.created_at.slice(0, 10)
 
-    await AdmissionFormPP.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
-    await AdmissionFormPP.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paidAt } })
-    await AdmissionFormPP.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo: refNo } })
+    await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL } })
+    await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paidAt } })
+    await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { refNo: refNo } })
 
-    const appliedUser = await AdmissionFormPP.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: "true" } })
+    const appliedUser = await AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPaid: "true" } })
 
     if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
         fee = 3000
@@ -163,7 +163,7 @@ const refNoPost = async (req, res) => {
 
 const getSlipPost = async (req, res) => {
     const user = await User.findOne({ _id: req.id })
-    const appliedUser = await AdmissionFormPP.findOne({ appliedBy: user._id.toString() })
+    const appliedUser = await AdmissionForm.findOne({ appliedBy: user._id.toString() })
 
     if (appliedUser.category === "General" || appliedUser.category === "BC-2") {
         fee = 3000
