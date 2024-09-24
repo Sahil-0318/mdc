@@ -209,7 +209,7 @@ export const bca1FormPost = async (req, res) => {
 
         }
     } catch (error) {
-        console.log("Error in post method bca1FormPost", error)
+        console.log("Error in post method bca 1 FormPost", error)
     }
 }
 
