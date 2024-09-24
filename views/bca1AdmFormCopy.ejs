@@ -16,7 +16,7 @@
     <div class="container myCont">
         <div class="row">
             <div class="col-lg-12">
-                <div class="note"> <b>Note : Submit this admission form and admission fee (₹15,250) in college</b></div>
+                <!-- <div class="note"> <b>Note : Submit this admission form and admission fee (₹15,250) in college</b></div> -->
                 <div class="card">
                     <div class="card-body">
                         <div class=" d-flex justify-content-between">
@@ -27,7 +27,7 @@
                                 <h2>M. D. COLLEGE, NAUBATPUR</h2>
                                 <h6>ADMISSION FORM - BCA Part-I
                                 </h6>
-                                <h3>SESSION 2024-27, Application No: <%= locals.appliedUser.appNo %></h3>
+                                <h3>SESSION 2024-27, College Roll No: <%= locals.appliedUser.collegeRollNumber %></h3>
                                 <div><b>College Copy</b></div>
                             </div>
                             <div class="mb-4">
@@ -66,8 +66,8 @@
                                         <div class="lowerFieldNameValue"><%= locals.appliedUser.dOB %></div>
                                         <div>Aadhar No:</div>
                                         <div class="lowerFieldNameValue"><%= locals.appliedUser.aadharNumber %></div>
-                                        <div>Application No:</div>
-                                        <div class="lowerFieldNameValue"><%= locals.appliedUser.appNo %></div>
+                                        <div>College Roll Number </div>
+                                        <div class="lowerFieldNameValue"><%= locals.appliedUser.collegeRollNumber %></div>
                                     </div>
 
                                     <div class="lowerCol2">
@@ -75,8 +75,10 @@
                                         <div class="lowerFieldNameValue"><%= locals.appliedUser.gender %></div>
                                         <div>Category :</div>
                                         <div class="lowerFieldNameValue"><%= locals.appliedUser.category %></div>
-                                        <div>College Roll Number </div>
-                                        <div class="lowerFieldNameValue"><%= locals.appliedUser.collegeRollNumber %></div>
+                                        <% if (locals.appliedUser.appNo) { %>
+                                            <div>Application No:</div>
+                                            <div class="lowerFieldNameValue"><%= locals.appliedUser.appNo %></div>
+                                        <% } %>
                                     </div>
 
                                     <div class="lowerCol3">

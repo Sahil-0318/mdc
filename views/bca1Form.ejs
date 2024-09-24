@@ -123,15 +123,16 @@
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="fatherName" class="form-label"><b>Father's Name :</b></label>
-                                                    <textarea id="fatherName" name="fatherName" rows="1" class="form-control" required readonly><%= user.fatherName.trim().toUpperCase() %></textarea>    
+                                                    <label for="fatherName" class="form-label"><b>Father's Name :</b></label>  
+                                                    <input type="text" class="form-control" id="fatherName"
+                                                        name="fatherName" oninput="this.value = this.value.toUpperCase()" required />
                                                 </div>
 
-                                                <div class="col-md-12 mb-3">
+                                                <!-- <div class="col-md-12 mb-3">
                                                     <label for="appNo" class="form-label">Application Number :</label>
                                                     <input type="text" class="form-control" id="appNo"
                                                         name="appNo" value=<%= locals.user.appNo %> required readonly />
-                                                </div>
+                                                </div> -->
 
                                                 <div class="col-md-12 mb-3">
                                                     <label for="mobileNumber" class="form-label">Mobile
@@ -148,7 +149,7 @@
 
                                                 <div class="col-md-12 mb-3">
                                                     <label for="dOB" class="form-label">Date Of Birth :</label>
-                                                    <input type="date" class="form-control" id="dOB" name="dOB" value=<%= locals.user.dOB.slice(0,10) %> required readonly />
+                                                    <input type="date" class="form-control" id="dOB" name="dOB" required />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
@@ -219,9 +220,9 @@
                                                         required />
                                                 </div>
 
-                                                <div class="col-md-12 mb-3">
+                                                <!-- <div class="col-md-12 mb-3">
                                                     <label for="address" class="form-label"> <b>Course Details :</b></label>
-                                                </div>
+                                                </div> -->
 
                                                 <!-- <div class="col-md-12 mb-3">
                                                     <label for="subject" class="form-label">Subject :</label>
@@ -302,9 +303,22 @@
                                             </form>
                                                 <% } %>
                                             <% } %>
-                                            <% if (locals.user.isFormFilled == true) { %>
-                                                <h4 class="py-2 text-danger"> <b>Note :</b> Submit the Print of Admission form & Admission Fee (₹15,250) to College</h4>
-                                                <button class="btn btn-primary my-4"><a class="text-light" href="/bca1AdmFormCopy">Print Admission form</a></button>
+
+                                            <% if (locals.appliedUser) { %>
+                                                <% if (locals.user.appNo) { %>
+                                                    <button class="btn btn-primary my-4"><a class="text-light" href="/bca1AdmFormCopy">Print Admission form</a></button>
+                                                <% } else { %>
+
+                                                    <% if (locals.appliedUser.isPaid == true) { %>
+                                                        <button class="btn btn-primary my-4"><a class="text-light " href="/bca1Receipt">Print Receipt</a></button>
+    
+                                                        <button class="btn btn-primary my-4"><a class="text-light" href="/bca1AdmFormCopy">Print Admission form</a></button>
+                                                    <% } else { %>
+                                                        <button class="btn btn-success my-4"><a class="text-light" href="bca1Pay">Pay Admission Fee</a></button>
+                                                    <% } %>
+
+                                                <% } %>
+                                                    
                                             <% } %>
                                         </div>
                                         

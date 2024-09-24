@@ -20,13 +20,21 @@
                         </div>
                         <form id="registerForm" action="/bca1Signup" method="post">
 
-                            <div class="form-floating mb-4">
+                            <!-- <div class="form-floating mb-4">
                                 <input name="appNo" type="text" class="form-control" id="appNo" placeholder="Application Number" required>
                                 <label for="appNo">Application Number</label>
+                            </div> -->
+                            <div class="form-floating mb-4">
+                                <input name="fullName" type="text" class="form-control" id="fullName" placeholder="Enter Full Name" required>
+                                <label for="fullName">Enter Full Name</label>
                             </div>
                             <div class="form-floating mb-4">
-                                <input name="mobileNumber" type="text" class="form-control" id="mobileNumber" placeholder="Mobile Number" required>
-                                <label for="mobileNumber">Mobile Number</label>
+                                <input name="mobileNumber" type="text" class="form-control" id="mobileNumber" placeholder="Enter Mobile Number" required>
+                                <label for="mobileNumber">Enter Mobile Number</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input name="email" type="text" class="form-control" id="email" placeholder="Enter Email" required>
+                                <label for="email">Enter Email</label>
                             </div>
                             <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Register</button>
                             <p class="text-center mb-0">Already Registered? <a href="/bca1Login">Login</a></p>

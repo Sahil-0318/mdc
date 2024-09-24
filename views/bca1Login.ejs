@@ -20,7 +20,7 @@
                             <form id="loginForm" action="/bca1Login" method="post">
                                 <div class="form-floating mb-3">
                                     <input name="userId" type="text" class="form-control" id="userId"
-                                        placeholder="Enter userId" required>
+                                        placeholder="Enter userId" oninput="this.value = this.value.toUpperCase()" required>
                                     <label for="userId">User Id</label>
                                 </div>
                                 <div class="form-floating mb-3">

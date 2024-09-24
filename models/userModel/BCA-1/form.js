@@ -11,8 +11,7 @@ const bca1FormSchema = mongoose.Schema({
         required : true
     },
     appNo:{
-        type : String,
-        required : true
+        type : String
     },
     motherName:{
         type : String,
