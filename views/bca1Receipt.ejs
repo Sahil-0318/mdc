@@ -177,11 +177,8 @@
                                         <div class="text-muted">
                                             <p class="mb-1">Online</p>
                                             <p class="mb-1">UPI</p>
-                                            <% if (locals.appliedUser.admissionFee == 15500) { %>
-                                                <p class="mb-1 fw-bold">₹ 15500 </p>
-                                            <% } else { %>
-                                                <p class="mb-1 fw-bold">₹ 15250 </p>
-                                            <% } %>
+                                            <p class="mb-1 fw-bold">₹ <%= locals.appliedUser.admissionFee %> </p>
+                                            
                                             
                                         </div>
                                     </div>
