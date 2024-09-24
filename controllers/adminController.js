@@ -2180,8 +2180,8 @@ const bca1List = async (req, res) => {
     const query = {};
     let status = "All"
 
-    if (filterQueries.appNo && filterQueries.appNo !== '') {
-      query.appNo = filterQueries.appNo;
+    if (filterQueries.mobileNumber && filterQueries.mobileNumber !== '') {
+      query.mobileNumber = filterQueries.mobileNumber;
       status = "Found"
     }
 
@@ -2201,7 +2201,7 @@ const bca1List = async (req, res) => {
       status += " " + query.gender
     }
 
-    console.log(query)
+    // console.log(query)
 
     // Find students based on the constructed query
     const bca1AdmissionList = await bca1FormModel.find(query)
@@ -2212,6 +2212,49 @@ const bca1List = async (req, res) => {
   }
 }
 
+
+const bca1StuView = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+
+    const foundStudent = await bca1FormModel.findOne({ _id: stuId })
+
+    res.render('bca1StudentView', { foundStudent, user })
+  } catch (error) {
+    console.log("Error in get bca1StuView", error)
+  }
+}
+
+
+const bca1StuEdit = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+    const foundStudent = await bca1FormModel.findOne({ _id: stuId })
+    res.render("bca1StudentEdit", { user, foundStudent })
+  } catch (error) {
+    console.log("Error in get bca1StuEdit", error)
+  }
+}
+
+
+const bca1StuEditPost = async (req, res) => {
+  try {
+    const { fullName, fatherName, motherName, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee } = req.body
+    const { editId } = req.params
+
+    await bca1FormModel.findOneAndUpdate({ _id: editId }, { $set: { fullName, fatherName, motherName, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee } })
+
+    const foundUserLogin = await bca1FormModel.findOne({ _id: editId })
+    await bca1UserModel.findOneAndUpdate({ _id: foundUserLogin.appliedBy }, { $set: { fullName, email, mobileNumber } })
+
+    res.redirect('/bca1List')
+  } catch (error) {
+    console.log("Error in post bca1StuEditPost", error)
+
+  }
+}
 
 // Inter Exam Form List
 const interExamFormList = async (req, res) => {
@@ -2416,6 +2459,9 @@ export {
 
   //BCA Part 1
   bca1List,
+  bca1StuView,
+  bca1StuEdit,
+  bca1StuEditPost,
 
   // Inter Exam Form List
   interExamFormList,

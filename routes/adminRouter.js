@@ -77,6 +77,9 @@ import {
 
     //BCA Part 1
     bca1List,
+    bca1StuView,
+    bca1StuEdit,
+    bca1StuEditPost,
 
     // Inter Exam Form List
     interExamFormList,
@@ -222,6 +225,12 @@ adminRouter.get('/oldClcList', adminAuth, oldClcList)
 
 // BCA Part 1 List
 adminRouter.get('/bca1List', adminAuth, bca1List)
+
+adminRouter.get('/bca1StudentView/:stuId', adminAuth, bca1StuView)
+
+adminRouter.get('/bca1StudentEdit/:stuId', adminAuth, bca1StuEdit)
+
+adminRouter.post('/bca1StudentEditPost/:editId', adminAuth, bca1StuEditPost)
 
 
 // Inter Exam Form List (2023 - 25)
