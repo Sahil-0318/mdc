@@ -100,7 +100,7 @@
                         <div class="col-sm-12 col-xl-12 pt-4 px-4">
                             <div><h5 class="fw-bold text-success">Download Admission List Excel : </h5></div>
                             <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
-                                <div class="btn btn-success"><a class="text-light" href="/BCA_Adm_List">Adm List B.C.A Part 3</a></div>
+                                <div class="btn btn-success"><a class="text-light" href="/BCA_Adm_List_Part_2">Adm List B.C.A Part 2</a></div>
                             </div>
                         </div>
 
@@ -113,7 +113,7 @@
 
                                 <div class="btn btn-secondary"><a class="text-light" href="/bca3List?isPaid=false">Not paid Students</a></div>
                             </div> -->
-                            <form action="/bca3List" method="get">
+                            <form action="/bca2List" method="get">
                                 <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
                                     <!-- filter category -->
 
@@ -173,10 +173,10 @@
                                                         
                                                     </div>
                                                     <!-- <div class="my-3"> -->
-                                                    <form class="d-flex gap-2" action="/bca3List"
-                                                        method="post">
-                                                        <input type="text" class="form-control" id="findStuRefNo"
-                                                            name="findStuMobileNo" placeholder="Enter Mobile Number"
+                                                    <form class="d-flex gap-2" action="/bca2List"
+                                                        method="get">
+                                                        <input type="text" class="form-control" id="mobileNumber"
+                                                            name="mobileNumber" placeholder="Enter Mobile Number"
                                                             oninput="this.value = this.value.toUpperCase()" />
                                                         <button type="submit" class="btn btn-primary">Find</button>
                                                     </form>
@@ -234,11 +234,11 @@
                                                                             <%= element.paymentId%>
                                                                         </td>
                                                                         <td>
-                                                                            <a href="/bca3StudentView/<%= element._id %>"
+                                                                            <a href="/bca2StudentView/<%= element._id %>"
                                                                                 class="px-4 btn btn-warning w-md">View</a>
                                                                         </td>
                                                                         <td>
-                                                                            <a href="/bca3StudentEdit/<%= element._id %>"
+                                                                            <a href="/bca2StudentEdit/<%= element._id %>"
                                                                                 class="px-4 btn btn-danger w-md">Edit</a>
                                                                         </td>
                                                                         <!-- <td>

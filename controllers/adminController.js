@@ -32,6 +32,10 @@ import ugRegularPart3AdmissionForm from "../models/userModel/UG-Regular-Part-3/a
 import bca1UserModel from "../models/userModel/BCA-1/user.js"
 import bca1FormModel from "../models/userModel/BCA-1/form.js"
 
+// BCA 1 List
+import bca2UserModel from "../models/userModel/BCA-2/user.js"
+import bca2FormModel from "../models/userModel/BCA-2/form.js"
+
 // Inter Exam Form List
 import InterExamFormList from "../models/adminModel/interExamFormList.js"
 import interExamForm from "../models/userModel/interExamFormSchema.js"
@@ -1797,7 +1801,7 @@ const bca3StuEditPost = async (req, res) => {
     const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } = req.body
     const { editId } = req.params
 
-    await bca3FormModel.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } })
+    await bca3FormModel.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } })
 
     const foundUserLogin = await bca3FormModel.findOne({ _id: editId })
     await bca3UserModel.findOneAndUpdate({ _id: foundUserLogin.appliedBy }, { $set: { fullName: studentName, email, mobileNumber } })
@@ -2256,6 +2260,190 @@ const bca1StuEditPost = async (req, res) => {
   }
 }
 
+
+const BCA_Adm_List_Part_1 = async (req, res) => {
+  try {
+    const studentsBySubject = await bca1FormModel.find({ isPaid: true })
+
+    const userData = studentsBySubject.sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
+
+    const users = userData.map(admUser => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, subject, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
+
+      return {
+        'Student Name': studentName,
+        'Uni. Reg. Number': uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': "BCA",
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Subject': subject,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment.slice(0, 10),
+        "Payment SS": paymentSS
+      };
+    });
+
+    const csvParser = new CsvParser();
+    const csvData = csvParser.parse(users);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=BCA_Adm_List_Part_1.csv");
+
+    res.status(200).end(csvData);
+  } catch (error) {
+    console.error('Error generating CSV:', error);
+    res.status(500).send('Server Error');
+  }
+}
+
+
+// BCA Part 2
+const bca2List = async (req, res) => {
+  const filterQueries = req.query;
+  try {
+    // Find the user based on request ID
+    const user = await User.findOne({ _id: req.id });
+
+    // Initialize the query object
+    const query = {};
+    let status = "All"
+
+    // Construct the query object based on filterQueries
+    if (filterQueries.mobileNumber && filterQueries.mobileNumber !== '') {
+      query.mobileNumber = filterQueries.mobileNumber;
+      status = "Found"
+    }
+
+    if (filterQueries.isPaid && filterQueries.isPaid !== 'all') {
+      query.isPaid = filterQueries.isPaid === 'true';
+      if (query.isPaid == true) {
+        status = "Paid"
+      } else {
+        status = "Unpaid"
+      }
+    }
+    if (filterQueries.category && filterQueries.category !== 'all') {
+      query.category = filterQueries.category;
+      status += " " + query.category
+    }
+    if (filterQueries.gender && filterQueries.gender !== 'all') {
+      query.gender = filterQueries.gender;
+      status += " " + query.gender
+    }
+
+    // Find students based on the constructed query
+    const bca2AdmissionList = await bca2FormModel.find(query)
+    // console.log(bca3AdmissionList);
+    res.render('bca2List', { list: bca2AdmissionList, status, noOfForms: bca2AdmissionList.length, user })
+  } catch (error) {
+    console.log("Error in get bca2List", error);
+  }
+}
+
+
+const bca2StuView = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+
+    const foundStudent = await bca2FormModel.findOne({ _id: stuId })
+
+    res.render('bca2StudentView', { foundStudent, user })
+  } catch (error) {
+    console.log("Error in get bca2StuView", error)
+  }
+}
+
+
+const bca2StuEdit = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+    const foundStudent = await bca2FormModel.findOne({ _id: stuId })
+    res.render("bca2StudentEdit", { user, foundStudent })
+  } catch (error) {
+    console.log("Error in get bca2StuEdit", error)
+  }
+}
+
+
+const bca2StuEditPost = async (req, res) => {
+  try {
+    const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } = req.body
+    const { editId } = req.params
+
+    await bca2FormModel.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } })
+
+    const foundUserLogin = await bca2FormModel.findOne({ _id: editId })
+    await bca2UserModel.findOneAndUpdate({ _id: foundUserLogin.appliedBy }, { $set: { fullName: studentName, email, mobileNumber } })
+
+    res.redirect('/bca2List')
+  } catch (error) {
+    console.log("Error in post bca2StuEditPost", error)
+
+  }
+}
+
+
+const BCA_Adm_List_Part_2 = async (req, res) => {
+  try {
+    const studentsBySubject = await bca2FormModel.find({ isPaid: true })
+
+    const userData = studentsBySubject.sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
+
+    const users = userData.map(admUser => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, subject, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
+
+      return {
+        'Student Name': studentName,
+        'Uni. Reg. Number': uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': "BCA",
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Subject': subject,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment.slice(0, 10),
+        "Payment SS": paymentSS
+      };
+    });
+
+    const csvParser = new CsvParser();
+    const csvData = csvParser.parse(users);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=BCA_Adm_List_Part_2.csv");
+
+    res.status(200).end(csvData);
+  } catch (error) {
+    console.error('Error generating CSV:', error);
+    res.status(500).send('Server Error');
+  }
+}
+
 // Inter Exam Form List
 const interExamFormList = async (req, res) => {
   const filterQueries = req.query;
@@ -2462,6 +2650,14 @@ export {
   bca1StuView,
   bca1StuEdit,
   bca1StuEditPost,
+  BCA_Adm_List_Part_1,
+
+  //BCA Part 2
+  bca2List,
+  bca2StuView,
+  bca2StuEdit,
+  bca2StuEditPost,
+  BCA_Adm_List_Part_2,
 
   // Inter Exam Form List
   interExamFormList,
