@@ -2263,17 +2263,17 @@ const bca1StuEditPost = async (req, res) => {
 
 const BCA_Adm_List_Part_1 = async (req, res) => {
   try {
-    const studentsBySubject = await bca1FormModel.find({ isPaid: true })
+    const studentsBySubject = await bca1FormModel.find({ collegeRollNumber: { $ne: "NA" } })
+    // console.log(studentsBySubject)
 
     const userData = studentsBySubject.sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
 
     const users = userData.map(admUser => {
-      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, subject, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
+      const { fullName, appNo, fatherName, motherName, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, subject, subsidiary1, subsidiary2, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
 
       return {
-        'Student Name': studentName,
-        'Uni. Reg. Number': uniRegNumber,
-        'Uni. Roll Number': uniRollNumber,
+        'Student Name': fullName,
+        'Application Number': appNo,
         'College Roll No.': collegeRollNumber,
         'Course': "BCA",
         'Session': session,
@@ -2282,6 +2282,8 @@ const BCA_Adm_List_Part_1 = async (req, res) => {
         'Gender': gender,
         'Category': category,
         'Subject': subject,
+        'Subsidiary 1': subsidiary1,
+        'Subsidiary 2': subsidiary2,
         "Father's Name": fatherName,
         "Mother's Name": motherName,
         'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
@@ -2290,7 +2292,7 @@ const BCA_Adm_List_Part_1 = async (req, res) => {
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
-        "Admission Date": dateAndTimeOfPayment.slice(0, 10),
+        "Admission Date": dateAndTimeOfPayment,
         "Payment SS": paymentSS
       };
     });
