@@ -263,8 +263,10 @@ export const bca1PayPost = async (req, res) => {
             const dateAndTimeOfPayment = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`
 
             let receiptNo = `MDC-${Date.now()}`
-            const paidCount = await bca1FormModel.find({isPaid: true})
-            const collegeRollNumber = Number(paidCount) + 1
+            let paidCount = await bca1FormModel.find({isPaid: true})
+            // console.log(paidCount)
+            let collegeRollNumber = Number(paidCount.length) + 21
+            // console.log(collegeRollNumber)
 
             await bca1FormModel.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL, dateAndTimeOfPayment, paymentId: refNo, isPaid: true, receiptNo, collegeRollNumber } })
 
