@@ -2059,7 +2059,7 @@ const UG_Reg_Part_III_BA_Adm_List = async (req, res) => {
     const userData = studentsBySubject.flat().sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
 
     const users = userData.map(admUser => {
-      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser;
 
       return {
         'Student Name': studentName,
