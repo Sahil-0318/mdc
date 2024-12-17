@@ -809,7 +809,7 @@ const UG_Reg_Sem_I_Adm_List = async (req, res) => {
     console.log(userData.length)
 
     userData.forEach((admUser) => {
-      const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
+      const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser
 
       let course = ""
 
@@ -846,6 +846,7 @@ const UG_Reg_Sem_I_Adm_List = async (req, res) => {
         'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -887,7 +888,7 @@ const UG_Reg_Sem_I_BA_Adm_List = async (req, res) => {
     const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents, ...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
 
     userData.forEach((admUser) => {
-      const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
+      const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser
 
       let course = ""
 
@@ -924,6 +925,7 @@ const UG_Reg_Sem_I_BA_Adm_List = async (req, res) => {
         'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -961,7 +963,7 @@ const UG_Reg_Sem_I_BA_SS_Adm_List = async (req, res) => {
     const userData = [...economicsStudents, ...historyStudents, ...politicalScienceStudents, ...psychologyStudents, ...sociologyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
 
     userData.forEach((admUser) => {
-      const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
+      const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser
 
       let course = ""
 
@@ -998,6 +1000,7 @@ const UG_Reg_Sem_I_BA_SS_Adm_List = async (req, res) => {
         'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -1034,7 +1037,7 @@ const UG_Reg_Sem_I_BA_Hum_Adm_List = async (req, res) => {
     const userData = [...englishStudents, ...hindiStudents, ...urduStudents, ...philosophyStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
 
     userData.forEach((admUser) => {
-      const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
+      const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser
 
       let course = ""
 
@@ -1071,6 +1074,7 @@ const UG_Reg_Sem_I_BA_Hum_Adm_List = async (req, res) => {
         'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -1107,7 +1111,7 @@ const UG_Reg_Sem_I_BSc_Adm_List = async (req, res) => {
     const userData = [...physicsStudents, ...chemistryStudents, ...zoologyStudents, ...botanyStudents, ...mathematicsStudents].sort((a, b) => a.collegeRollNo.slice(2) - b.collegeRollNo.slice(2))
 
     userData.forEach((admUser) => {
-      const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
+      const { studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, ppuConfidentialNumber, studentPhoto, studentSign, session, collegeRollNo, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser
 
       let course = ""
 
@@ -1144,6 +1148,7 @@ const UG_Reg_Sem_I_BSc_Adm_List = async (req, res) => {
         'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -1369,7 +1374,7 @@ const UG_Reg_Sem_III_Adm_List = async (req, res) => {
     console.log(userData.length)
 
     const users = userData.map(admUser => {
-      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser;
 
       let course = "";
       if (["Economics", "History", "Political Science", "Psychology", "Sociology"].includes(paper1)) {
@@ -1402,6 +1407,7 @@ const UG_Reg_Sem_III_Adm_List = async (req, res) => {
         'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -1433,7 +1439,7 @@ const UG_Reg_Sem_III_BA_Adm_List = async (req, res) => {
     const userData = studentsBySubject.flat().sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
 
     const users = userData.map(admUser => {
-      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser;
 
       let course = "";
       if (["Economics", "History", "Political Science", "Psychology", "Sociology"].includes(paper1)) {
@@ -1466,6 +1472,7 @@ const UG_Reg_Sem_III_BA_Adm_List = async (req, res) => {
         'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -1503,7 +1510,7 @@ const UG_Reg_Sem_III_BA_SS_Adm_List = async (req, res) => {
 
 
     userData.forEach((admUser) => {
-      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser
 
       let course = ""
 
@@ -1540,6 +1547,7 @@ const UG_Reg_Sem_III_BA_SS_Adm_List = async (req, res) => {
         'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -1578,7 +1586,7 @@ const UG_Reg_Sem_III_BA_Hum_Adm_List = async (req, res) => {
 
 
     userData.forEach((admUser) => {
-      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser
 
       let course = ""
 
@@ -1615,6 +1623,7 @@ const UG_Reg_Sem_III_BA_Hum_Adm_List = async (req, res) => {
         'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -1653,7 +1662,7 @@ const UG_Reg_Sem_III_BSc_Adm_List = async (req, res) => {
 
 
     userData.forEach((admUser) => {
-      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser
 
       let course = ""
 
@@ -1690,6 +1699,7 @@ const UG_Reg_Sem_III_BSc_Adm_List = async (req, res) => {
         'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -1821,7 +1831,7 @@ const BCA_Adm_List = async (req, res) => {
     const userData = studentsBySubject.sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
 
     const users = userData.map(admUser => {
-      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, subject, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, subject, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser;
 
       return {
         'Student Name': studentName,
@@ -1840,6 +1850,7 @@ const BCA_Adm_List = async (req, res) => {
         'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -1995,7 +2006,7 @@ const UG_Reg_Part_III_Adm_List = async (req, res) => {
     console.log(userData.length)
 
     const users = userData.map(admUser => {
-      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser;
 
       return {
         'Student Name': studentName,
@@ -2016,6 +2027,7 @@ const UG_Reg_Part_III_Adm_List = async (req, res) => {
         'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -2068,6 +2080,7 @@ const UG_Reg_Part_III_BA_Adm_List = async (req, res) => {
         'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -2099,7 +2112,7 @@ const UG_Reg_Part_III_BSc_Adm_List = async (req, res) => {
     const userData = studentsBySubject.flat().sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
 
     const users = userData.map(admUser => {
-      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser;
       console.log(course)
 
       return {
@@ -2121,6 +2134,7 @@ const UG_Reg_Part_III_BSc_Adm_List = async (req, res) => {
         'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -2269,7 +2283,7 @@ const BCA_Adm_List_Part_1 = async (req, res) => {
     const userData = studentsBySubject.sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
 
     const users = userData.map(admUser => {
-      const { fullName, appNo, fatherName, motherName, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, subject, subsidiary1, subsidiary2, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
+      const { fullName, appNo, fatherName, motherName, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, subject, subsidiary1, subsidiary2, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser;
 
       return {
         'Student Name': fullName,
@@ -2289,6 +2303,7 @@ const BCA_Adm_List_Part_1 = async (req, res) => {
         'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -2406,7 +2421,7 @@ const BCA_Adm_List_Part_2 = async (req, res) => {
     const userData = studentsBySubject.sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
 
     const users = userData.map(admUser => {
-      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, subject, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo } = admUser;
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, subject, studentPhoto, studentSign, session, paymentSS, dateAndTimeOfPayment, receiptNo, admissionFee } = admUser;
 
       return {
         'Student Name': studentName,
@@ -2425,6 +2440,7 @@ const BCA_Adm_List_Part_2 = async (req, res) => {
         'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
         'Mobile No.': mobileNumber,
         'Email': email,
+        'Admission Fee': admissionFee,
         "Student's Photo": studentPhoto,
         "Student's Sign": studentSign,
         "Payment Receipt No.": receiptNo,
@@ -2511,7 +2527,7 @@ const interExamFormExcelList = async (req, res) => {
     const userData = await interExamForm.find(query)
 
     const users = userData.map(examForm => {
-      const { registrationNoAndYear, BSEBUniqueId, studentCategory, collegeCode, collegeName, districtName, studentName, fatherName, motherName, dOB, matricPassingBoardName, matricBoardRollCode, matricBoardRollNumber, matricBoardPassingYear, gender, casteCategory, differentlyAbled, nationality, religion, aadharNumber, qualifyingCategoryRollCode, qualifyingCategoryRollNumber, qualifyingCategoryPassingYear, qualifyingCategoryInstitutionArea, qualifyingCategoryInstitutionSubDivision, qualifyingCategoryMobileNumber, qualifyingCategoryEmail, qualifyingCategoryStudentName, qualifyingCategoryFatherName, qualifyingCategoryMotherName, qualifyingCategoryAddress, qualifyingCategoryMaritalStatus, qualifyingCategoryStudentBankAccountNumber, qualifyingCategoryIFSCCode, qualifyingCategoryBankAndBranchName, qualifyingCategoryTwoIdentificationMarks, qualifyingCategoryMediumOfExam, compulsorySubject1, compulsorySubject2, electiveSubject1, electiveSubject2, electiveSubject3, additionalSubject, faculty } = examForm;
+      const { registrationNoAndYear, BSEBUniqueId, studentCategory, collegeCode, collegeName, districtName, studentName, fatherName, motherName, dOB, matricPassingBoardName, matricBoardRollCode, matricBoardRollNumber, matricBoardPassingYear, gender, casteCategory, differentlyAbled, nationality, religion, aadharNumber, qualifyingCategoryRollCode, qualifyingCategoryRollNumber, qualifyingCategoryPassingYear, qualifyingCategoryInstitutionArea, qualifyingCategoryInstitutionSubDivision, qualifyingCategoryMobileNumber, qualifyingCategoryEmail, qualifyingCategoryStudentName, qualifyingCategoryFatherName, qualifyingCategoryMotherName, qualifyingCategoryAddress, qualifyingCategoryMaritalStatus, qualifyingCategoryStudentBankAccountNumber, qualifyingCategoryIFSCCode, qualifyingCategoryBankAndBranchName, qualifyingCategoryTwoIdentificationMarks, qualifyingCategoryMediumOfExam, compulsorySubject1, compulsorySubject2, electiveSubject1, electiveSubject2, electiveSubject3, additionalSubject, faculty, admFee } = examForm;
 
       return {
         'Registration Number': registrationNoAndYear.split(" ")[0],
@@ -2548,6 +2564,7 @@ const interExamFormExcelList = async (req, res) => {
         'Institution Sub-Division': qualifyingCategoryInstitutionSubDivision,
         'Mobile Number': qualifyingCategoryMobileNumber,
         'Email': qualifyingCategoryEmail,
+        'Admission Fee': admFee,
         'Student Name in Hindi': qualifyingCategoryStudentName,
         'Father Name in Hindi': qualifyingCategoryFatherName,
         'Mother Name in Hindi': qualifyingCategoryMotherName,
