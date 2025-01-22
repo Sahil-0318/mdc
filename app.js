@@ -51,6 +51,7 @@ import miscellaneousFeeRouter from "./routes/miscellaneousFeeRoutes.js"
 import bca1Router from "./routes/bca1Router.js"
 import bca2Router from "./routes/bca2Router.js"
 import interExamFormRouter from './routes/interExamFormRouter.js'
+import ugRegularSem4Router from './routes/ugRegularSem4Router.js'
 
 
 // Set template engine
@@ -81,6 +82,7 @@ app.use('/', miscellaneousFeeRouter)
 app.use('/', bca1Router)
 app.use('/', bca2Router)
 app.use('/', interExamFormRouter)
+app.use('/', ugRegularSem4Router)
 
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`)

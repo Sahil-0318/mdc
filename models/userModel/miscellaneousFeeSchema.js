@@ -133,7 +133,7 @@ const miscellaneousFeeSchema = mongoose.Schema({
     // Document verification (Private) (DVP)
     dvpFeeAmount:{
         type : Number,
-        default: 250
+        default: 200
     },
     dvpReceiptNo:{
         type : String

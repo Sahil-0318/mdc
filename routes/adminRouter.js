@@ -91,7 +91,21 @@ import {
 
     // Inter Exam Form List
     interExamFormList,
-    interExamFormExcelList
+    interExamFormExcelList,
+
+    // UG Regular Sem 4 List
+    ugRegularSem4List,
+    findStuInUGRegSem4Adm,
+    ugRegSem4StuView,
+    ugRegSem4StuEdit,
+    ugRegSem4StuEditPost,
+    UG_Reg_Sem_IV_Adm_List,
+    UG_Reg_Sem_IV_BA_Adm_List,
+    UG_Reg_Sem_IV_BA_SS_Adm_List,
+    UG_Reg_Sem_IV_BA_Hum_Adm_List,
+    UG_Reg_Sem_IV_BSc_Adm_List,
+    ugRegSem4Password,
+    ugRegSem4PasswordPost
 }
     from '../controllers/adminController.js'
 
@@ -258,5 +272,31 @@ adminRouter.get('/BCA_Adm_List_Part_2', adminAuth, BCA_Adm_List_Part_2)
 adminRouter.get('/interExamFormList', adminAuth, interExamFormList)
 
 adminRouter.get('/interExamFormExcelList/:studentCategory/:faculty', adminAuth, interExamFormExcelList)
+
+// UG Regular Sem 4 Form List (2023 - 25)
+adminRouter.get('/ugRegularSem4List', adminAuth, ugRegularSem4List)
+
+adminRouter.post('/ugRegularSem4List', adminAuth, findStuInUGRegSem4Adm)
+
+adminRouter.get('/ugRegularSem4StudentView/:stuId', adminAuth, ugRegSem4StuView)
+
+adminRouter.get('/ugRegularSem4StudentEdit/:stuId', adminAuth, ugRegSem4StuEdit)
+
+adminRouter.post('/ugRegularSem4StudentEditPost/:editId', adminAuth, ugRegSem4StuEditPost)
+
+adminRouter.get('/UG_Reg_Sem_IV_Adm_List', adminAuth, UG_Reg_Sem_IV_Adm_List)
+
+adminRouter.get('/UG_Reg_Sem_IV_BA_Adm_List', adminAuth, UG_Reg_Sem_IV_BA_Adm_List)
+
+adminRouter.get('/UG_Reg_Sem_IV_BA_SS_Adm_List', adminAuth, UG_Reg_Sem_IV_BA_SS_Adm_List)
+
+adminRouter.get('/UG_Reg_Sem_IV_BA_Hum_Adm_List', adminAuth, UG_Reg_Sem_IV_BA_Hum_Adm_List)
+
+adminRouter.get('/UG_Reg_Sem_IV_BSc_Adm_List', adminAuth, UG_Reg_Sem_IV_BSc_Adm_List)
+
+adminRouter.get('/ugRegSem4Password', adminAuth, ugRegSem4Password)
+
+adminRouter.post('/ugRegSem4Password', adminAuth, ugRegSem4PasswordPost)
+
 
 export default adminRouter

@@ -70,7 +70,7 @@ const registerPost = async (req, res) => {
 
             transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
-                    console.error('Error:', error);
+                    console.error('Error while sending credentials to email ::', error);
                 } else {
                     console.log('Email sent:', info.response);
                 }

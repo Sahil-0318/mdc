@@ -147,6 +147,27 @@ const interExamFormPortal = async (req, res) => {
 }
 
 
+const ugRegularSem43Potal202327 = async (req, res) => {
+    try {
+        let queries = req.query
+        const user = await User.findOne({ _id: req.id })
+
+        if (queries.isOn === "true") {
+            await PortalOnOff.findOneAndUpdate({portal : "ugRegularSem4_23-27"}, { $set : {isOn : false} })
+        }  
+
+        if (queries.isOn === "false") {
+            await PortalOnOff.findOneAndUpdate({portal : "ugRegularSem4_23-27"}, { $set : {isOn : true} })
+        }
+
+        const portal = await PortalOnOff.findOne({portal : "ugRegularSem4_23-27"})
+        res.render('portalOnOff', { url : "ugRegularSem4Potal202327", session : "UG Regular Sem 4 (2023 - 27)", user, portal : portal.isOn })
+    } catch (error) {
+        console.log("Error in UG Regular Sem 4 Potal 2022-25 Get Method =====>", error)
+    }
+}
+
+
 export {
     ugRegularSem1Potal202428,
     ugRegularPart3Potal202225,
@@ -154,5 +175,6 @@ export {
     bca1202427,
     bca3202225,
     bca2202326,
-    interExamFormPortal
+    interExamFormPortal,
+    ugRegularSem43Potal202327
 }
