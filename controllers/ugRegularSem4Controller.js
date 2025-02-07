@@ -260,7 +260,7 @@ export const admissionFormPost = async (req, res) => {
                 studentPhoto: photoURL,
                 studentSign: signURL,
                 appliedBy: user._id,
-                admissionFee
+                admissionFee : admissionFee + 100
             })
 
             const savedForm = await newAdmissionForm.save()

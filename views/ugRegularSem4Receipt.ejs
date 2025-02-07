@@ -34,12 +34,14 @@
                 margin: 1cm;
             }
 
-            body{
+            body {
                 margin-top: 0;
             }
+
             .card {
                 width: 100vw;
             }
+
             .myCont {
                 margin: 0;
                 padding: 0;
@@ -80,7 +82,7 @@
                                     <p class="mb-1 fw-bold">Name :&nbsp; &nbsp; &nbsp; <%=
                                             locals.appliedUser.studentName %>
                                     </p>
-                                    
+
                                     <% if (locals.user.course==="Bachelor of Arts (Social Science Subjects)" ||
                                         locals.user.course==="Bachelor of Arts (Humanities Subjects)" ) { %>
                                         <p class="mb-1 fw-bold">Class :&nbsp; &nbsp; &nbsp; B.A Sem - 4 (2023-27)</p>
@@ -90,9 +92,9 @@
 
                                             <% } %>
 
-                                            <p class="mb-1 fw-bold">Uni. Registration No. :&nbsp; &nbsp; &nbsp; <%=
-                                            locals.appliedUser.uniRegNumber %>
-                                    </p>
+                                                <p class="mb-1 fw-bold">Uni. Registration No. :&nbsp; &nbsp; &nbsp; <%=
+                                                        locals.appliedUser.uniRegNumber %>
+                                                </p>
 
                                                 <p class="mb-1 fw-bold">Uni. Roll No. :&nbsp; &nbsp; &nbsp; <%=
                                                         locals.appliedUser.uniRollNumber %>
@@ -142,14 +144,40 @@
                                             <th scope="row">01</th>
                                             <td>
                                                 <div>
-                                                    <h5 class="text-truncate font-size-14 mb-1">Admission Fee</h5>
+                                                    <h5 class="text-truncate font-size-14 mb-1">Admission
+                                                        Fee</h5>
                                                 </div>
                                             </td>
                                             <td></td>
                                             <td></td>
-                                            <td class="text-end">₹<%= locals.appliedUser.admissionFee %>
+
+                                            <% if ( locals.appliedUser.admissionFee === "2905" || locals.appliedUser.admissionFee === "2305" || locals.appliedUser.admissionFee === "1500" || locals.appliedUser.admissionFee === "1705" ||  locals.appliedUser.admissionFee === "900" ) { %>
+                                                <td class="text-end">₹<%= locals.appliedUser.admissionFee %></td>
+                                            <% } else { %>
+                                                <td class="text-end">₹<%= locals.appliedUser.admissionFee - 100 %></td>
+
+                                            <% } %>
+
+                                            
+                                        </tr>
+
+                                        <% if ( locals.appliedUser.admissionFee === "3005" || locals.appliedUser.admissionFee === "2405" || locals.appliedUser.admissionFee === "1600" || locals.appliedUser.admissionFee === "1805" ||  locals.appliedUser.admissionFee === "1000" ) { %>
+                                            <tr>
+                                            <th scope="row">02</th>
+                                            <td>
+                                                <div>
+                                                    <h5 class="text-truncate font-size-14 mb-1">Late Fee</h5>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-end">₹100
                                             </td>
                                         </tr>
+                                        <% } else { %>
+                                            
+                                        <% } %>
+
                                         <!-- end tr -->
                                     </tbody><!-- end tbody -->
                                 </table><!-- end table -->
@@ -169,7 +197,7 @@
                                         <div class="text-muted">
                                             <p class="mb-1">Online</p>
                                             <p class="mb-1">UPI</p>
-                                            <p class="mb-1 fw-bold">₹<%= locals.appliedUser.admissionFee %>
+                                            <p class="mb-1 text-dark fw-bold">₹<%= locals.appliedUser.admissionFee %>
                                             </p>
                                         </div>
                                     </div>
@@ -201,7 +229,8 @@
                                 <div class="float-end">
                                     <a href="javascript:window.print()" class="btn btn-success me-1"><i
                                             class="fa fa-print"></i></a>
-                                    <a href="/ugRegularSem4AdmissionForm" class="btn btn-primary w-md">Back to Home Page</a>
+                                    <a href="/ugRegularSem4AdmissionForm" class="btn btn-primary w-md">Back to Home
+                                        Page</a>
                                 </div>
                             </div>
                         </div>

@@ -2689,30 +2689,59 @@ const ugRegSem4StuEditPost = async (req, res) => {
     let { studentName, fatherName, motherName, guardianName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, paper1, paper2, paper3, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } = req.body
     const { editId } = req.params
 
-    if (gender === "MALE") {
-      if (course === "Bachelor of Science" || paper1 === "Psychology") {
-        if (category === "GENERAL" || category === "BC-2") {
-          admissionFee = 2905
-        } else if (category === "BC-1") {
-          admissionFee = 2305
+    if (admissionFee === "3005" || admissionFee === "2405" || admissionFee === "1600" || admissionFee === "1805" || admissionFee === "1000") {
+      if (gender === "MALE") {
+        if (course === "Bachelor of Science" || paper1 === "Psychology") {
+          if (category === "GENERAL" || category === "BC-2") {
+            admissionFee = 3005
+          } else if (category === "BC-1") {
+            admissionFee = 2405
+          } else {
+            admissionFee = 1600
+          }
         } else {
-          admissionFee = 1500
+          if (category === "GENERAL" || category === "BC-2") {
+            admissionFee = 2405
+          } else if (category === "BC-1") {
+            admissionFee = 1805
+          } else {
+            admissionFee = 1000
+          }
         }
+  
       } else {
-        if (category === "GENERAL" || category === "BC-2") {
-          admissionFee = 2305
-        } else if (category === "BC-1") {
-          admissionFee = 1705
+        if (course === "Bachelor of Science" || paper1 === "Psychology") {
+          admissionFee = 1600
+        } else {
+          admissionFee = 1000
+        }
+      }
+    } else {
+      if (gender === "MALE") {
+        if (course === "Bachelor of Science" || paper1 === "Psychology") {
+          if (category === "GENERAL" || category === "BC-2") {
+            admissionFee = 2905
+          } else if (category === "BC-1") {
+            admissionFee = 2305
+          } else {
+            admissionFee = 1500
+          }
+        } else {
+          if (category === "GENERAL" || category === "BC-2") {
+            admissionFee = 2305
+          } else if (category === "BC-1") {
+            admissionFee = 1705
+          } else {
+            admissionFee = 900
+          }
+        }
+  
+      } else {
+        if (course === "Bachelor of Science" || paper1 === "Psychology") {
+          admissionFee = 1500
         } else {
           admissionFee = 900
         }
-      }
-
-    } else {
-      if (course === "Bachelor of Science" || paper1 === "Psychology") {
-        admissionFee = 1500
-      } else {
-        admissionFee = 900
       }
     }
 
