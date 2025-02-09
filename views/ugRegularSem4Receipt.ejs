@@ -151,34 +151,33 @@
                                             <td></td>
                                             <td></td>
 
-                                            <% if ( locals.appliedUser.admissionFee === "2905" || locals.appliedUser.admissionFee === "2305" || locals.appliedUser.admissionFee === "1500" || locals.appliedUser.admissionFee === "1705" ||  locals.appliedUser.admissionFee === "900" ) { %>
-                                                <td class="text-end">₹<%= locals.appliedUser.admissionFee %></td>
+                                            <% if ( locals.appliedUser.admissionFee==="2905" ||
+                                                locals.appliedUser.admissionFee==="2305" ||
+                                                locals.appliedUser.admissionFee==="1500" ||
+                                                locals.appliedUser.admissionFee==="1705" ||
+                                                locals.appliedUser.admissionFee==="900" ) { %>
+                                                <td class="text-end">₹<%= locals.appliedUser.admissionFee %>
+                                                </td>
+                                                <% } else { %>
+                                                    <td class="text-end">₹<%= locals.appliedUser.admissionFee %>
+                                                    </td>
+
+                                                    <% } %>
+
+
+                                        </tr>
+
+                                        <% if ( locals.appliedUser.admissionFee==="3005" ||
+                                            locals.appliedUser.admissionFee==="2405" ||
+                                            locals.appliedUser.admissionFee==="1600" ||
+                                            locals.appliedUser.admissionFee==="1805" ||
+                                            locals.appliedUser.admissionFee==="1000" ) { %>
+                                            
                                             <% } else { %>
-                                                <td class="text-end">₹<%= locals.appliedUser.admissionFee - 100 %></td>
 
-                                            <% } %>
+                                                <% } %>
 
-                                            
-                                        </tr>
-
-                                        <% if ( locals.appliedUser.admissionFee === "3005" || locals.appliedUser.admissionFee === "2405" || locals.appliedUser.admissionFee === "1600" || locals.appliedUser.admissionFee === "1805" ||  locals.appliedUser.admissionFee === "1000" ) { %>
-                                            <tr>
-                                            <th scope="row">02</th>
-                                            <td>
-                                                <div>
-                                                    <h5 class="text-truncate font-size-14 mb-1">Late Fee</h5>
-                                                </div>
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="text-end">₹100
-                                            </td>
-                                        </tr>
-                                        <% } else { %>
-                                            
-                                        <% } %>
-
-                                        <!-- end tr -->
+                                                    <!-- end tr -->
                                     </tbody><!-- end tbody -->
                                 </table><!-- end table -->
                             </div><!-- end table responsive -->
