@@ -568,24 +568,17 @@
                                         </div>
                                         <% if (locals.appliedUser) { %>
                                          
-                                        <% if (locals.appliedUser.isPaid == true) { %>
+                                        <% if (locals.appliedUser.isPracticalPaid == true) { %>
                                             <!-- <button class="btn btn-success my-4" disabled><a class="text-light" href="">Pay Admission Fee</a></button> -->
                                         <% } else { %>
-                                            <button class="btn btn-success my-4"><a class="text-light" href="/ug-reg-sen-1-pay">Pay Admission Fee</a></button>
+                                            <button class="btn btn-success my-4"><a class="text-light" href="/ug-reg-sem-1-pay-practical">Pay Practical Fee</a></button>
                                         <% } %>
                                         <% } %>
 
                                         <% if (locals.appliedUser) { %>
                                          
-                                        <% if (locals.appliedUser.isPaid == true) { %>
-                                            <button class="btn btn-primary my-4"><a class="text-light" href="/ugRegularSem1Receipt">Print Receipt</a></button>
-                                        <% } %>
-                                        <% } %>
-
-                                        <% if (locals.appliedUser) { %>
-                                         
-                                        <% if (locals.appliedUser.isPaid == true) { %>
-                                            <button class="btn btn-primary my-4"><a class="text-light" href="/ugRegularSem1ExamForm">Print Admission form</a></button>
+                                        <% if (locals.appliedUser.isPracticalPaid == true) { %>
+                                            <button class="btn btn-primary my-4"><a class="text-light" href="/ugRegularSem1PracticalReceipt">Print Practical Receipt</a></button>
                                         <% } %>
                                         <% } %>
 

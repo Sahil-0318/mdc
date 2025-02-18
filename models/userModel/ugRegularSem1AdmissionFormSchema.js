@@ -184,6 +184,22 @@ const ugRegularSem1AdmissionFormSchema = mongoose.Schema({
     receiptNo :{
         type : String
     },
+    isPracticalPaid :{
+        type : Boolean,
+        default : false
+    },
+    practicalPaymentId :{
+        type : Number
+    },
+    practicalDateAndTimeOfPayment : {
+        type : String
+    },
+    practicalPaymentSS :{
+        type : String
+    },
+    practicalReceiptNo :{
+        type : String
+    },
     collegeRollNo :{
         type : String
     },

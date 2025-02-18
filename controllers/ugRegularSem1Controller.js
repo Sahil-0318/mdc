@@ -16,12 +16,12 @@ import PortalOnOff from '../models/adminModel/portalOnOffSchema.js'
 
 const ugRegularSem1 = async (req, res) => {
     try {
-        const portal = await PortalOnOff.findOne({portal : "ugRegularSem1_24-28"})
+        const portal = await PortalOnOff.findOne({ portal: "ugRegularSem1_24-28" })
         if (portal.isOn == true) {
             return res.render("ugRegularSem1")
-        }  
+        }
         if (portal.isOn == false) {
-            return res.render('pageNotFound', {status : "UG Regular Sem 1 (2024 - 28) admission has been closed.", loginPage : "ug-regular-sem-1-login"})
+            return res.render('pageNotFound', { status: "UG Regular Sem 1 (2024 - 28) admission has been closed.", loginPage: "ug-regular-sem-1-login" })
         }
     } catch (error) {
         console.log("Error in Signup UG Part 3 Get Method =====>", error)
@@ -137,15 +137,15 @@ const otpForm = async (req, res) => {
         // console.log(foundUser, "otp submission time")
         if (foundUser != null) {
             // if (otpInput === foundUser.password) {
-                const token = jwt.sign({
-                    id: foundUser._id,
-                    course: foundUser.course,
-                    referenceNumber: foundUser.referenceNumber
-                }, process.env.SECRET_KEY,
-                    { expiresIn: "7d" })
-                res.cookie('uid', token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true })
+            const token = jwt.sign({
+                id: foundUser._id,
+                course: foundUser.course,
+                referenceNumber: foundUser.referenceNumber
+            }, process.env.SECRET_KEY,
+                { expiresIn: "7d" })
+            res.cookie('uid', token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true })
 
-                res.status(201).redirect('ug-reg-adm-form')
+            res.status(201).redirect('ug-reg-adm-form')
         } else {
             res.render('otp', { OTPComesFrom: "Login", OTPNumber: OTPNum, "invalid": "Invalid OTP, You can request resend OTP" })
         }
@@ -304,12 +304,12 @@ const ugRegularSem1AdmForm = async (req, res) => {
     // meritListTwoData.dOB = convertDateFormat(meritListTwoData.dOB);
     // console.log(meritListTwoData)
 
-    const portal = await PortalOnOff.findOne({portal : "ugRegularSem1_24-28"})
+    const portal = await PortalOnOff.findOne({ portal: "ugRegularSem1_24-28" })
 
     if (appliedUser != null) {
         res.render('ugRegularSem1AdmForm', { user, appliedUser })
     } else {
-        res.render('ugRegularSem1AdmForm', { user, meritListTwoData, portal : portal.isOn })
+        res.render('ugRegularSem1AdmForm', { user, meritListTwoData, portal: portal.isOn })
     }
 
 }
@@ -503,6 +503,89 @@ const ugRegularSem1PayPage = async (req, res) => {
     }
 }
 
+const ugRegularSem1PayPracticalFee = async (req, res) => {
+
+    const user = await ugRegularSem1AdmissionPortal.findOne({ _id: req.id })
+    // console.log(user)
+    const appliedUser = await ugRegularSem1AdmissionForm.findOne({ appliedBy: user._id.toString() })
+
+    res.render('ugRegularSem1PayPracticalFee', { user, appliedUser })
+    
+
+}
+
+const ugRegularSem1PayPractical = async (req, res) => {
+    try {
+        const user = await ugRegularSem1AdmissionPortal.findOne({ _id: req.id })
+        const appliedUser = await ugRegularSem1AdmissionForm.findOne({ appliedBy: user._id.toString() })
+
+
+        qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=100&tn="Practical Fee"`, function (err, src) {
+            res.status(201).render('ugRegularSem1PayPracticalPage', { "qrcodeUrl": src, user, appliedUser })
+        })
+
+    } catch (error) {
+
+    }
+}
+
+const ugRegularSem1PayPracticalPost = async (req, res) => {
+    try {
+        const { refNo } = req.body
+        const user = await ugRegularSem1AdmissionPortal.findOne({ _id: req.id })
+        const appliedUser = await ugRegularSem1AdmissionForm.findOne({ appliedBy: user._id.toString() })
+
+        const founfRefNo = await ugRegularSem1AdmissionForm.findOne({ practicalPaymentId: refNo })
+
+        if (founfRefNo !== null) {
+            qrcode.toDataURL(`upi://pay?pa=boim-440583400035@boi&am=100&tn="Practical Fee"`, function (err, src) {
+                res.status(201).render('ugRegularSem1PayPracticalPage', { "qrcodeUrl": src, user, appliedUser, invalid : "Please enter valid UTR / Ref no. (कृपया वैध यूटीआर/रेफ नंबर दर्ज करें।)" })
+            })
+        }
+
+        const photoUpload = await FileUpload(req.file.path)
+        const paymentSSURL = photoUpload.secure_url
+
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const year = now.getFullYear();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const practicalDateAndTimeOfPayment = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`
+
+        let practicalReceiptNo = "25MDC" + appliedUser.referenceNumber.substring(3, 10);
+
+        await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { practicalPaymentSS: paymentSSURL } })
+
+        await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { practicalDateAndTimeOfPayment } })
+
+        await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { practicalPaymentId: refNo } })
+        await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { isPracticalPaid: true } })
+        await ugRegularSem1AdmissionForm.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { practicalReceiptNo } })
+
+        res.redirect("ugRegularSem1PracticalReceipt")
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const ugRegularSem1PracticalReceipt = async (req, res) => {
+    try {
+        const user = await ugRegularSem1AdmissionPortal.findOne({ _id: req.id })
+        const appliedUser = await ugRegularSem1AdmissionForm.findOne({ appliedBy: user._id.toString() })
+        if (appliedUser.isPracticalPaid === true) {
+            res.render("ugRegularSem1PracticalReceipt", { appliedUser, user })
+        } else {
+            res.redirect("ug-reg-sem-1-pay-practical")
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 const ugRegularSem1Receipt = async (req, res) => {
     try {
         const user = await ugRegularSem1AdmissionPortal.findOne({ _id: req.id })
@@ -545,6 +628,10 @@ export {
     ugRegularSem1AdmFormPost,
     ugRegularSem1Pay,
     ugRegularSem1PayPage,
+    ugRegularSem1PayPracticalFee,
+    ugRegularSem1PayPractical,
+    ugRegularSem1PayPracticalPost,
+    ugRegularSem1PracticalReceipt,
     ugRegularSem1Receipt,
     ugRegularSem1ExamForm
 }

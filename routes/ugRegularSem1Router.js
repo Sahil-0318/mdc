@@ -15,6 +15,10 @@ import {
     ugRegularSem1AdmFormPost,
     ugRegularSem1Pay,
     ugRegularSem1PayPage,
+    ugRegularSem1PayPracticalFee,
+    ugRegularSem1PayPractical,
+    ugRegularSem1PayPracticalPost,
+    ugRegularSem1PracticalReceipt,
     ugRegularSem1Receipt,
     ugRegularSem1ExamForm
 } from '../controllers/ugRegularSem1Controller.js'
@@ -51,6 +55,10 @@ ugRegularSem1Router.get('/ug-reg-adm-form', userAuth, ugRegularSem1AdmForm)
 ugRegularSem1Router.post('/ug-reg-adm-form', userAuth, upload.array('studentPhoto'), ugRegularSem1AdmFormPost)
 ugRegularSem1Router.get('/ug-reg-sen-1-pay', userAuth, ugRegularSem1Pay)
 ugRegularSem1Router.post('/ugRegularSem1PayPage', userAuth, upload.single('paymentSS'), ugRegularSem1PayPage)
+ugRegularSem1Router.get('/ug-reg-sem-1-pay-practical-fee', userAuth, ugRegularSem1PayPracticalFee)
+ugRegularSem1Router.get('/ug-reg-sem-1-pay-practical', userAuth, ugRegularSem1PayPractical)
+ugRegularSem1Router.post('/ug-reg-sem-1-pay-practical', userAuth, upload.single('paymentSS'), ugRegularSem1PayPracticalPost)
+ugRegularSem1Router.get('/ugRegularSem1PracticalReceipt', userAuth, ugRegularSem1PracticalReceipt)
 ugRegularSem1Router.get('/ugRegularSem1Receipt', userAuth, ugRegularSem1Receipt)
 ugRegularSem1Router.get('/ugRegularSem1ExamForm', userAuth, ugRegularSem1ExamForm)
 
