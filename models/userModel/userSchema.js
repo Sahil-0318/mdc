@@ -42,6 +42,10 @@ const userSchema = new mongoose.Schema({
     isRecordRoom :{
         type: Boolean,
         default: false
+    },
+    isSubAdmin :{
+        type: Boolean,
+        default: false
     }
 },{timestamps:true})
 
