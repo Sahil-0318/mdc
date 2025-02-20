@@ -162,6 +162,10 @@ export const ugRegularSem_2_24_28_Receipt = async (req, res) => {
         const {uniRegNumber} = req.params
         const appliedUser = await ugRegularSem_2_24_28_Adm.findOne({ uniRegNumber })
 
+        if (appliedUser == null) {
+            return res.status(201).render('ugRegSem2_24_28_AdmForm', { user, alreadysubmitted: `Uni. Reg.No ${uniRegNumber} has not submitted the admission form` })
+        }
+
         if (appliedUser.isPaid === true) {
             res.render("ugRegularSem_2_24_28_Receipt", { appliedUser, user })
         } else {
@@ -178,6 +182,9 @@ export const ugRegularSem_2_24_28_Form = async (req, res) => {
         const user = await User.findOne({ _id: req.id })
         const {uniRegNumber} = req.params
         const appliedUser = await ugRegularSem_2_24_28_Adm.findOne({ uniRegNumber })
+        if (appliedUser == null) {
+            return res.status(201).render('ugRegSem2_24_28_AdmForm', { user, alreadysubmitted: `Uni. Reg.No ${uniRegNumber} has not submitted the admission form` })
+        }
 
         if (appliedUser.isPaid === true) {
             res.render("ugRegularSem_2_24_28_Form", { appliedUser, user })

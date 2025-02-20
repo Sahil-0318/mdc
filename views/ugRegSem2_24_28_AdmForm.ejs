@@ -107,339 +107,450 @@
                             </div>
                             <% }%>
 
-                                <div class="row">
-                                    <div class="col-12 col-md-10">
-                                        <div class="bg-light rounded  p-4">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <h3 class="mb-4 text-primary"> UG Regular Sem 2 (2024-208) Admission
-                                                    Form
-                                                </h3>
+
+
+                                <div class="col-sm-12 col-xl-12 pt-4 px-4">
+                                    <form id="admissionForm" method="get">
+                                        <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
+                                            <div>
+                                                <input type="text" class="form-control" id="uniRegNumber"
+                                                    name="uniRegNumber" oninput="this.value = this.value.toUpperCase()"
+                                                    required placeholder="Enter Uni. Reg No." />
                                             </div>
-
-
-                                            <form action="/ugRegSem2-24-28-AdmForm" method="post"
-                                                enctype="multipart/form-data">
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="course" class="form-label"><b>Course :</b></label>
-                                                    <select id="course" class="form-select" name="course" required>
-                                                        <option>--------------- Select course ---------------</option>
-                                                        <option value="BA_SS">
-                                                            Bachelor of Arts (Social Science Subjects)</option>
-                                                        <option value="BA_H">Bachelor
-                                                            of Arts (Humanities Subjects)</option>
-                                                        <option value="BSC">Bachelor of Science</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="studentName" class="form-label"><b>1. Student's Name
-                                                            :</b></label>
-                                                    <input type="text" class="form-control" id="studentName"
-                                                        name="studentName"
-                                                        oninput="this.value = this.value.toUpperCase()" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="fatherName" class="form-label"><b>2. Father's Name
-                                                            :</b></label>
-                                                    <input type="text" class="form-control" id="fatherName"
-                                                        name="fatherName"
-                                                        oninput="this.value = this.value.toUpperCase()" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="motherName" class="form-label"><b>3. Mother's Name
-                                                            :</b></label>
-                                                    <input type="text" class="form-control" id="motherName"
-                                                        name="motherName"
-                                                        oninput="this.value = this.value.toUpperCase()" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="guardianName" class="form-label"><b>4. Guardian's Name
-                                                            :</b></label>
-                                                    <input type="text" class="form-control" id="guardianName"
-                                                        name="guardianName"
-                                                        oninput="this.value = this.value.toUpperCase()" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="uniRegNumber" class="form-label">University Registration
-                                                        Number :</label>
-                                                    <input type="text" class="form-control" id="uniRegNumber"
-                                                        name="uniRegNumber" oninput="this.value = this.value.toUpperCase()" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="uniRollNumber" class="form-label">University Roll Number
-                                                        :</label>
-                                                    <input type="text" class="form-control" id="uniRollNumber"
-                                                        name="uniRollNumber" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="collegeRollNumber" class="form-label">College Roll
-                                                        Number :</label>
-                                                    <input type="text" class="form-control" id="collegeRollNumber"
-                                                        name="collegeRollNumber" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="email" class="form-label">Email Id :</label>
-                                                    <input type="email" class="form-control" id="email" name="email"
-                                                        oninput="this.value = this.value.toLowerCase()" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="dOB" class="form-label">Date Of Birth :</label>
-                                                    <input type="date" class="form-control" id="dOB" name="dOB"
-                                                        required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="gender" class="form-label">Gender :</label>
-                                                    <select id="gender" class="form-select" name="gender" required>
-                                                        <option value="MALE">MALE</option>
-                                                        <option value="FEMALE">FEMALE</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="religion" class="form-label">Religion :</label>
-                                                    <select id="religion" class="form-select" name="religion" required>
-                                                        <option value="HINDU">HINDU</option>
-                                                        <option value="MUSLIM">MUSLIM</option>
-                                                        <option value="SIKH">SIKH</option>
-                                                        <option value="CHRISTIAN">CHRISTIAN</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="category" class="form-label">Category :</label>
-                                                    <select id="category" class="form-select" name="category" required>
-                                                        <option value="GENERAL">GENERAL</option>
-                                                        <option value="BC-2">BC-2</option>
-                                                        <option value="BC-1">BC-1</option>
-                                                        <option value="SC">SC</option>
-                                                        <option value="ST">ST</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="bloodGroup" class="form-label">Blood Group :</label>
-                                                    <input type="text" class="form-control" id="bloodGroup"
-                                                        name="bloodGroup"
-                                                        oninput="this.value = this.value.toUpperCase()" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="physicallyChallenged" class="form-label">Physically
-                                                        Challenged :</label>
-                                                    <select id="physicallyChallenged" class="form-select"
-                                                        name="physicallyChallenged" required>
-                                                        <option value="NO">NO</option>
-                                                        <option value="YES">YES</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="maritalStatus" class="form-label">Marital Status
-                                                        :</label>
-                                                    <select id="maritalStatus" class="form-select" name="maritalStatus"
-                                                        required>
-                                                        <option value="UNMARRIED">UNMARRIED</option>
-                                                        <option value="MARRIED">MARRIED</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="aadharNumber" class="form-label">Applicant Aadhar Number
-                                                        :</label>
-                                                    <input type="number" class="form-control" id="aadharNumber"
-                                                        name="aadharNumber" maxlength="12" pattern="[0-9]{12}"
-                                                        required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="mobileNumber" class="form-label">Mobile
-                                                        Number :</label>
-                                                    <input type="number" class="form-control" id="mobileNumber"
-                                                        name="mobileNumber" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="whatsAppNumber" class="form-label">WhatsApp Number
-                                                        :</label>
-                                                    <input type="number" class="form-control" id="whatsAppNumber"
-                                                        name="whatsAppNumber" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="address" class="form-label"> <b>5. Address for
-                                                            Correspondence : </b></label>
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="address" class="form-label">Address :</label>
-                                                    <input type="text" class="form-control" id="address" name="address"
-                                                        oninput="this.value = this.value.toUpperCase()" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="district" class="form-label">District :</label>
-                                                    <input type="text" class="form-control" id="district"
-                                                        name="district" oninput="this.value = this.value.toUpperCase()"
-                                                        required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="policeStation" class="form-label">Police Station
-                                                        :</label>
-                                                    <input type="text" class="form-control" id="policeStation"
-                                                        name="policeStation"
-                                                        oninput="this.value = this.value.toUpperCase()" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="state" class="form-label">State :</label>
-                                                    <input type="text" class="form-control" id="state" name="state"
-                                                        oninput="this.value = this.value.toUpperCase()" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="pinCode" class="form-label">PIN Code :</label>
-                                                    <input type="number" class="form-control" id="pinCode"
-                                                        name="pinCode" maxlength="12" pattern="[0-9]{6}" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="address" class="form-label"> <b>6. Course Details
-                                                            :</b></label>
-                                                </div>
-
-
-                                                <!-- =========================================== -->
-                                                <div id="subjects">
-
-                                                </div>
-
-
-                                                <!-- =========================================== -->
-                                                
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="paper3" class="form-label">Multidisiplinary Cource-II
-                                                        (Paper-3):</label>
-                                                    <select id="paper3" class="form-select" name="paper3" required>
-                                                        <option value="">नीचे दी गई विषयों की सूची में से MDC-I के लिए
-                                                            चुने गए विषय को छोड़कर किसी एक विषय का चयन करें</option>
-
-                                                        <option value="Indian Social values & Ethics">Indian Social
-                                                            values & Ethics</option>
-
-                                                        <option value="Sports Science">Sports Science</option>
-
-                                                        <option value="Glimpse of India">Glimpse of India</option>
-
-                                                        <option
-                                                            value="Acquaintance to Electrical & Electronics Appliances">
-                                                            Acquaintance to Electrical & Electronics Appliances</option>
-
-                                                        <option value="E.Commerce">E.Commerce</option>
-
-                                                        <option value="Functional Languages">Functional Languages
-                                                        </option>
-                                                    </select>
-                                                </div>
-
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="paper4" class="form-label">AEC-II (Paper-4):</label>
-                                                    <select id="paper4" class="form-select" name="paper4" required>
-                                                        <option value="Course on Disaster Risk Management">Environmental
-                                                            Science</option>
-                                                    </select>
-                                                </div>
-
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="paper5" class="form-label">Skill Enhancement Cource-II
-                                                        (Paper-5):</label>
-                                                    <select id="paper5" class="form-select" name="paper5" required>
-                                                        <option value="Personality development and communication">
-                                                            Personality development and communication</option>
-                                                    </select>
-                                                </div>
-
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="paper6" class="form-label">Value Added Cource-II
-                                                        (Paper-6):</label>
-                                                    <select id="paper6" class="form-select" name="paper6" required>
-                                                        <option value="Constitutional Values and Fundamental duties">
-                                                            Constitutional Values and Fundamental duties</option>
-                                                    </select>
-                                                </div>
-
-                                                <!-- =========================================== -->
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label class="form-label"> <b>7. Last Exam
-                                                            Passed:</b></label>
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="examResult" class="form-label">Exam Result :</label>
-                                                    <select id="examResult" class="form-select" name="examResult"
-                                                        required>
-                                                        <option value="1st Division">1st Division</option>
-                                                        <option value="2nd Division">2nd Division</option>
-                                                        <option value="3rd Division">3rd Division</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="obtMarks" class="form-label">Obtained Marks/Gr :</label>
-                                                    <input type="number" class="form-control" id="obtMarks"
-                                                        name="obtMarks" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="fullMarks" class="form-label">Full Marks/Gr :</label>
-                                                    <input type="number" class="form-control" id="fullMarks"
-                                                        name="fullMarks" required />
-                                                </div>
-
-                                                <div class="col-md-12 mb-3">
-                                                    <label for="obtPercent" class="form-label">Obtained % :</label>
-                                                    <input type="text" class="form-control" id="obtPercent"
-                                                        name="obtPercent" required />
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="studentPhoto" class="form-label">Passport Size
-                                                        Photo</label>
-                                                    <input class="form-control form-control-sm" id="studentPhoto"
-                                                        name="studentPhoto" type="file" required>
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="studentPhoto" class="form-label">Student Sign</label>
-                                                    <input class="form-control form-control-sm" id="studentPhoto"
-                                                        name="studentPhoto" type="file" required>
-                                                </div>
-
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                                <button type="reset" class="btn btn-secondary">Reset</button>
-
-                                            </form>
-
+                                            <button class="btn btn-success" type="submit">Print Admission Form</button>
                                         </div>
+                                    </form>
+                                    <form id="receiptForm" method="get">
+                                        <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
+                                            <div>
+                                                <input type="text" class="form-control" id="uniRegNumberR"
+                                                    name="uniRegNumber" oninput="this.value = this.value.toUpperCase()"
+                                                    required placeholder="Enter Uni. Reg No." />
+                                            </div>
+                                            <button class="btn btn-success" type="submit">Print Receipt</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                                <!-- Blank Start -->
+                                <div class="container-fluid pt-4 px-4">
+                                    <div class="row bg-light rounded justify-content-center m-0 p-2">
+                                        <section class="section">
+                                            <div class="row">
+                                                <div class="col-12 col-md-10">
+                                                    <div class="bg-light rounded  p-4">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <h3 class="mb-4 text-primary"> UG Regular Sem 2 (2024-208)
+                                                                Admission
+                                                                Form
+                                                            </h3>
+                                                        </div>
+
+
+                                                        <form action="/ugRegSem2-24-28-AdmForm" method="post"
+                                                            enctype="multipart/form-data">
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="course" class="form-label"><b>Course
+                                                                        :</b></label>
+                                                                <select id="course" class="form-select" name="course"
+                                                                    required>
+                                                                    <option>--------------- Select course
+                                                                        ---------------</option>
+                                                                    <option value="BA_SS">
+                                                                        Bachelor of Arts (Social Science Subjects)
+                                                                    </option>
+                                                                    <option value="BA_H">Bachelor
+                                                                        of Arts (Humanities Subjects)</option>
+                                                                    <option value="BSC">Bachelor of Science</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="studentName" class="form-label"><b>1.
+                                                                        Student's Name
+                                                                        :</b></label>
+                                                                <input type="text" class="form-control" id="studentName"
+                                                                    name="studentName"
+                                                                    oninput="this.value = this.value.toUpperCase()"
+                                                                    required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="fatherName" class="form-label"><b>2.
+                                                                        Father's Name
+                                                                        :</b></label>
+                                                                <input type="text" class="form-control" id="fatherName"
+                                                                    name="fatherName"
+                                                                    oninput="this.value = this.value.toUpperCase()"
+                                                                    required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="motherName" class="form-label"><b>3.
+                                                                        Mother's Name
+                                                                        :</b></label>
+                                                                <input type="text" class="form-control" id="motherName"
+                                                                    name="motherName"
+                                                                    oninput="this.value = this.value.toUpperCase()"
+                                                                    required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="guardianName" class="form-label"><b>4.
+                                                                        Guardian's Name
+                                                                        :</b></label>
+                                                                <input type="text" class="form-control"
+                                                                    id="guardianName" name="guardianName"
+                                                                    oninput="this.value = this.value.toUpperCase()"
+                                                                    required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="uniRegNumber" class="form-label">University
+                                                                    Registration
+                                                                    Number :</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="uniRegNumber" name="uniRegNumber"
+                                                                    oninput="this.value = this.value.toUpperCase()"
+                                                                    required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="uniRollNumber" class="form-label">University
+                                                                    Roll Number
+                                                                    :</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="uniRollNumber" name="uniRollNumber" required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="collegeRollNumber"
+                                                                    class="form-label">College Roll
+                                                                    Number :</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="collegeRollNumber" name="collegeRollNumber"
+                                                                    required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="email" class="form-label">Email Id :</label>
+                                                                <input type="email" class="form-control" id="email"
+                                                                    name="email"
+                                                                    oninput="this.value = this.value.toLowerCase()"
+                                                                    required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="dOB" class="form-label">Date Of Birth
+                                                                    :</label>
+                                                                <input type="date" class="form-control" id="dOB"
+                                                                    name="dOB" required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="gender" class="form-label">Gender :</label>
+                                                                <select id="gender" class="form-select" name="gender"
+                                                                    required>
+                                                                    <option value="MALE">MALE</option>
+                                                                    <option value="FEMALE">FEMALE</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="religion" class="form-label">Religion
+                                                                    :</label>
+                                                                <select id="religion" class="form-select"
+                                                                    name="religion" required>
+                                                                    <option value="HINDU">HINDU</option>
+                                                                    <option value="MUSLIM">MUSLIM</option>
+                                                                    <option value="SIKH">SIKH</option>
+                                                                    <option value="CHRISTIAN">CHRISTIAN</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="category" class="form-label">Category
+                                                                    :</label>
+                                                                <select id="category" class="form-select"
+                                                                    name="category" required>
+                                                                    <option value="GENERAL">GENERAL</option>
+                                                                    <option value="BC-2">BC-2</option>
+                                                                    <option value="BC-1">BC-1</option>
+                                                                    <option value="SC">SC</option>
+                                                                    <option value="ST">ST</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="bloodGroup" class="form-label">Blood Group
+                                                                    :</label>
+                                                                <input type="text" class="form-control" id="bloodGroup"
+                                                                    name="bloodGroup"
+                                                                    oninput="this.value = this.value.toUpperCase()"
+                                                                    required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="physicallyChallenged"
+                                                                    class="form-label">Physically
+                                                                    Challenged :</label>
+                                                                <select id="physicallyChallenged" class="form-select"
+                                                                    name="physicallyChallenged" required>
+                                                                    <option value="NO">NO</option>
+                                                                    <option value="YES">YES</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="maritalStatus" class="form-label">Marital
+                                                                    Status
+                                                                    :</label>
+                                                                <select id="maritalStatus" class="form-select"
+                                                                    name="maritalStatus" required>
+                                                                    <option value="UNMARRIED">UNMARRIED</option>
+                                                                    <option value="MARRIED">MARRIED</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="aadharNumber" class="form-label">Applicant
+                                                                    Aadhar Number
+                                                                    :</label>
+                                                                <input type="number" class="form-control"
+                                                                    id="aadharNumber" name="aadharNumber" maxlength="12"
+                                                                    pattern="[0-9]{12}" required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="mobileNumber" class="form-label">Mobile
+                                                                    Number :</label>
+                                                                <input type="number" class="form-control"
+                                                                    id="mobileNumber" name="mobileNumber" required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="whatsAppNumber" class="form-label">WhatsApp
+                                                                    Number
+                                                                    :</label>
+                                                                <input type="number" class="form-control"
+                                                                    id="whatsAppNumber" name="whatsAppNumber"
+                                                                    required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="address" class="form-label"> <b>5. Address
+                                                                        for
+                                                                        Correspondence : </b></label>
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="address" class="form-label">Address
+                                                                    :</label>
+                                                                <input type="text" class="form-control" id="address"
+                                                                    name="address"
+                                                                    oninput="this.value = this.value.toUpperCase()"
+                                                                    required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="district" class="form-label">District
+                                                                    :</label>
+                                                                <input type="text" class="form-control" id="district"
+                                                                    name="district"
+                                                                    oninput="this.value = this.value.toUpperCase()"
+                                                                    required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="policeStation" class="form-label">Police
+                                                                    Station
+                                                                    :</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="policeStation" name="policeStation"
+                                                                    oninput="this.value = this.value.toUpperCase()"
+                                                                    required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="state" class="form-label">State :</label>
+                                                                <input type="text" class="form-control" id="state"
+                                                                    name="state"
+                                                                    oninput="this.value = this.value.toUpperCase()"
+                                                                    required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="pinCode" class="form-label">PIN Code
+                                                                    :</label>
+                                                                <input type="number" class="form-control" id="pinCode"
+                                                                    name="pinCode" maxlength="12" pattern="[0-9]{6}"
+                                                                    required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="address" class="form-label"> <b>6. Course
+                                                                        Details
+                                                                        :</b></label>
+                                                            </div>
+
+
+                                                            <!-- =========================================== -->
+                                                            <div id="subjects">
+
+                                                            </div>
+
+
+                                                            <!-- =========================================== -->
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="paper3" class="form-label">Multidisiplinary
+                                                                    Cource-II
+                                                                    (Paper-3):</label>
+                                                                <select id="paper3" class="form-select" name="paper3"
+                                                                    required>
+                                                                    <option value="">नीचे दी गई विषयों की सूची में से
+                                                                        MDC-I के लिए
+                                                                        चुने गए विषय को छोड़कर किसी एक विषय का चयन करें
+                                                                    </option>
+
+                                                                    <option value="Indian Social values & Ethics">Indian
+                                                                        Social
+                                                                        values & Ethics</option>
+
+                                                                    <option value="Sports Science">Sports Science
+                                                                    </option>
+
+                                                                    <option value="Glimpse of India">Glimpse of India
+                                                                    </option>
+
+                                                                    <option
+                                                                        value="Acquaintance to Electrical & Electronics Appliances">
+                                                                        Acquaintance to Electrical & Electronics
+                                                                        Appliances</option>
+
+                                                                    <option value="E.Commerce">E.Commerce</option>
+
+                                                                    <option value="Functional Languages">Functional
+                                                                        Languages
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="paper4" class="form-label">AEC-II
+                                                                    (Paper-4):</label>
+                                                                <select id="paper4" class="form-select" name="paper4"
+                                                                    required>
+                                                                    <option value="Course on Disaster Risk Management">
+                                                                        Environmental
+                                                                        Science</option>
+                                                                </select>
+                                                            </div>
+
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="paper5" class="form-label">Skill Enhancement
+                                                                    Cource-II
+                                                                    (Paper-5):</label>
+                                                                <select id="paper5" class="form-select" name="paper5"
+                                                                    required>
+                                                                    <option
+                                                                        value="Personality development and communication">
+                                                                        Personality development and communication
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="paper6" class="form-label">Value Added
+                                                                    Cource-II
+                                                                    (Paper-6):</label>
+                                                                <select id="paper6" class="form-select" name="paper6"
+                                                                    required>
+                                                                    <option
+                                                                        value="Constitutional Values and Fundamental duties">
+                                                                        Constitutional Values and Fundamental duties
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+
+                                                            <!-- =========================================== -->
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label class="form-label"> <b>7. Last Exam
+                                                                        Passed:</b></label>
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="examResult" class="form-label">Exam Result
+                                                                    :</label>
+                                                                <select id="examResult" class="form-select"
+                                                                    name="examResult" required>
+                                                                    <option value="1st Division">1st Division</option>
+                                                                    <option value="2nd Division">2nd Division</option>
+                                                                    <option value="3rd Division">3rd Division</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="obtMarks" class="form-label">Obtained
+                                                                    Marks/Gr :</label>
+                                                                <input type="number" class="form-control" id="obtMarks"
+                                                                    name="obtMarks" required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="fullMarks" class="form-label">Full Marks/Gr
+                                                                    :</label>
+                                                                <input type="number" class="form-control" id="fullMarks"
+                                                                    name="fullMarks" required />
+                                                            </div>
+
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="obtPercent" class="form-label">Obtained %
+                                                                    :</label>
+                                                                <input type="text" class="form-control" id="obtPercent"
+                                                                    name="obtPercent" required />
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label for="studentPhoto" class="form-label">Passport
+                                                                    Size
+                                                                    Photo</label>
+                                                                <input class="form-control form-control-sm"
+                                                                    id="studentPhoto" name="studentPhoto" type="file"
+                                                                    required>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label for="studentPhoto" class="form-label">Student
+                                                                    Sign</label>
+                                                                <input class="form-control form-control-sm"
+                                                                    id="studentPhoto" name="studentPhoto" type="file"
+                                                                    required>
+                                                            </div>
+
+                                                            <button type="submit"
+                                                                class="btn btn-primary">Submit</button>
+                                                            <button type="reset"
+                                                                class="btn btn-secondary">Reset</button>
+
+                                                        </form>
+
+                                                    </div>
 
 
 
+                                                </div>
+                                            </div>
+                                        </section>
                                     </div>
                                 </div>
+                                <!-- Blank End -->
             </div>
 
             <!-- Form End -->
@@ -905,8 +1016,38 @@
     <script>
         const submitPopUp = document.querySelector('#submitPopUp')
         setInterval(() => {
-          submitPopUp.innerHTML = ''
+            submitPopUp.innerHTML = ''
         }, 3000);
+    </script>
+
+    <script>
+        document.getElementById("admissionForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            let uniRegNumber = document.getElementById("uniRegNumber").value.trim();
+
+            if (uniRegNumber) {
+                this.action = `/ugRegularSem-2-24-28-Form/${encodeURIComponent(uniRegNumber)}`;
+                this.submit(); // Submit form with updated action
+            } else {
+                alert("Please enter a valid Uni. Reg No.");
+            }
+        });
+    </script>
+
+    <script>
+        document.getElementById("receiptForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            let uniRegNumber = document.getElementById("uniRegNumberR").value.trim();
+
+            if (uniRegNumber) {
+                this.action = `/ugRegularSem-2-24-28-Receipt/${encodeURIComponent(uniRegNumber)}`;
+                this.submit(); // Submit form with updated action
+            } else {
+                alert("Please enter a valid Uni. Reg No.");
+            }
+        });
     </script>
 </body>
 
