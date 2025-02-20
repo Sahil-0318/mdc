@@ -82,7 +82,7 @@ export const ugRegSem2_24_28_AdmFormPost = async (req, res) => {
             admissionFee
         })
 
-        const savedForm = await newAdmissionForm.save()
+        await newAdmissionForm.save()
         res.redirect(`/ugRegularSem-2-24-28-Pay/${uniRegNumber}`)
     } catch (error) {
         console.log("Error in ugRegSem2_24_28_AdmFormPost =====>", error)
@@ -95,6 +95,9 @@ export const ugRegularSem_2_24_28_Pay = async (req, res) => {
         const user = await User.findOne({ _id: req.id })
         const {uniRegNumber} = req.params
         const appliedStudent = await ugRegularSem_2_24_28_Adm.findOne({ uniRegNumber })
+        if (appliedStudent.isPaid === true) {
+            return res.redirect(`/ugRegularSem-2-24-28-Receipt/${uniRegNumber}`)
+        }
         res.status(201).render('ugRegSem2_24_28_Pay_Page', { user, appliedStudent })
     } catch (error) {
         console.log("Error in ugRegularSem_2_24_28_Pay =====>", error)
@@ -169,7 +172,7 @@ export const ugRegularSem_2_24_28_Receipt = async (req, res) => {
         if (appliedUser.isPaid === true) {
             res.render("ugRegularSem_2_24_28_Receipt", { appliedUser, user })
         } else {
-            res.redirect("/ugRegSem2-24-28-AdmForm")
+            res.redirect(`/ugRegularSem-2-24-28-Pay/${uniRegNumber}`)
         }
     } catch (error) {
         console.log("Error in ugRegularSem_2_24_28_Receipt =====>", error)
@@ -189,7 +192,7 @@ export const ugRegularSem_2_24_28_Form = async (req, res) => {
         if (appliedUser.isPaid === true) {
             res.render("ugRegularSem_2_24_28_Form", { appliedUser, user })
         } else {
-            res.redirect("/ugRegSem2-24-28-AdmForm")
+            res.redirect(`/ugRegularSem-2-24-28-Pay/${uniRegNumber}`)
         }
     } catch (error) {
         console.log("Error in ugRegularSem_2_24_28_Receipt =====>", error)

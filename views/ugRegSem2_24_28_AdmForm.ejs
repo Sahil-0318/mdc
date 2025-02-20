@@ -130,6 +130,16 @@
                                             <button class="btn btn-success" type="submit">Print Receipt</button>
                                         </div>
                                     </form>
+                                    <form id="payFee" method="get">
+                                        <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
+                                            <div>
+                                                <input type="text" class="form-control" id="uniRegNumberPF"
+                                                    name="uniRegNumber" oninput="this.value = this.value.toUpperCase()"
+                                                    required placeholder="Enter Uni. Reg No." />
+                                            </div>
+                                            <button class="btn btn-warning" type="submit">Pay Fee</button>
+                                        </div>
+                                    </form>
                                 </div>
 
 
@@ -1043,6 +1053,21 @@
 
             if (uniRegNumber) {
                 this.action = `/ugRegularSem-2-24-28-Receipt/${encodeURIComponent(uniRegNumber)}`;
+                this.submit(); // Submit form with updated action
+            } else {
+                alert("Please enter a valid Uni. Reg No.");
+            }
+        });
+    </script>
+
+    <script>
+        document.getElementById("payFee").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            let uniRegNumber = document.getElementById("uniRegNumberPF").value.trim();
+
+            if (uniRegNumber) {
+                this.action = `/ugRegularSem-2-24-28-Pay/${encodeURIComponent(uniRegNumber)}`;
                 this.submit(); // Submit form with updated action
             } else {
                 alert("Please enter a valid Uni. Reg No.");
