@@ -45,6 +45,10 @@ import ugRegularSem4User from "../models/userModel/UG-Regular-Sem-4/user.js"
 import ugRegularSem4AdmissionForm from "../models/userModel/UG-Regular-Sem-4/admForm.js"
 
 
+// UG Regular Sem 2 (2024 - 2028)
+import ugRegularSem_2_24_28_Adm from '../models/userModel/ugRegSem_2_24_28.js'
+
+
 
 const adminPage = async (req, res) => {
   try {
@@ -3146,6 +3150,324 @@ const ugRegSem4PasswordPost = async (req, res) => {
 }
 
 
+// UG Regular Sem 2 Form List
+const ugRegularSem2List2428 = async (req, res) => {
+  const filterQueries = req.query;
+  try {
+    // Find the user based on request ID
+    const user = await User.findOne({ _id: req.id });
+
+    // Initialize the query object
+    const query = {};
+    let status = "All"
+
+    // Construct the query object based on filterQueries
+    if (filterQueries.isPaid && filterQueries.isPaid !== 'all') {
+      query.isPaid = filterQueries.isPaid === 'true';
+      if (query.isPaid == true) {
+        status = "Paid"
+      } else {
+        status = "Unpaid"
+      }
+    }
+    if (filterQueries.category && filterQueries.category !== 'all') {
+      query.category = filterQueries.category;
+      status += " " + query.category
+    }
+    if (filterQueries.gender && filterQueries.gender !== 'all') {
+      query.gender = filterQueries.gender;
+      status += " " + query.gender
+    }
+
+    // Find students based on the constructed query
+    const ugRegularSem2AdmissionList = await ugRegularSem_2_24_28_Adm.find(query)
+
+    // console.log(ugRegularSem2AdmissionList);
+    res.render('ugRegularSem2List2428', { list: ugRegularSem2AdmissionList, status, noOfForms: ugRegularSem2AdmissionList.length, user })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+const findStuInUGRegSem2Adm = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    let { findStuMobileNo } = req.body
+
+    if (findStuMobileNo !== '') {
+      let foundStudent = await ugRegularSem_2_24_28_Adm.find({ mobileNumber: findStuMobileNo })
+      res.render('ugRegularSem2List2428', { list: foundStudent, status: "Found", noOfForms: foundStudent.length, user })
+
+    } else if (findStuMobileNo === '') {
+      const foundStudent = await ugRegularSem_2_24_28_Adm.find({ isPaid: true })
+      res.render('ugRegularSem2List2428', { list: foundStudent, status: "All", formAlert: "Please, Enter Mobile No", noOfForms: foundStudent.length, user })
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+const ugRegSem2StuView = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+
+    const foundStudent = await ugRegularSem_2_24_28_Adm.findOne({ _id: stuId })
+
+    res.render('ugRegularSem22428StudentView', { foundStudent, user })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+const ugRegSem2StuEdit = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+    const foundStudent = await ugRegularSem_2_24_28_Adm.findOne({ _id: stuId })
+
+    res.render("ugRegularSem22428StudentEdit", { user, foundStudent })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+const ugRegSem2StuEditPost = async (req, res) => {
+  try {
+    let { studentName, fatherName, motherName, guardianName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, paper1, paper2, paper3, paper4, paper5, paper6, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo, paymentMethod } = req.body
+    const { editId } = req.params
+
+
+    if (gender === "MALE") {
+      if (course === "BSC" || paper1 === "Psychology") {
+        if (category === "GENERAL" || category === "BC-2") {
+          admissionFee = 2905
+        } else if (category === "BC-1") {
+          admissionFee = 2305
+        } else {
+          admissionFee = 1500
+        }
+      } else {
+        if (category === "GENERAL" || category === "BC-2") {
+          admissionFee = 2305
+        } else if (category === "BC-1") {
+          admissionFee = 1705
+        } else {
+          admissionFee = 900
+        }
+      }
+
+    } else {
+      if (course === "BSC" || paper1 === "Psychology") {
+        admissionFee = 1500
+      } else {
+        admissionFee = 900
+      }
+    }
+
+    await ugRegularSem_2_24_28_Adm.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, guardianName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, paper1, paper2, paper3, paper4, paper5, paper6, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo, paymentMethod } })
+
+    res.redirect('/ugRegularSem2List2428')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+const UG_Reg_Sem_II_2428_Adm_List = async (req, res) => {
+  try {
+    const userData = await ugRegularSem_2_24_28_Adm.find({ isPaid: true })
+
+    console.log(userData.length)
+
+    const users = userData.map(admUser => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, studentPhoto, studentSign, session, dateAndTimeOfPayment, receiptNo, admissionFee, paymentMethod } = admUser;
+
+      let course = "";
+      if (["Ancient Indian & Archology culture", "Economics", "Geography", "History", "Home Science", "Political Science", "Psychology", "Rural Economics / Cooperative", "Sociology"].includes(paper1)) {
+        course = "Bachelor of Arts (Social Science Subjects)";
+      } else if (["Arabic", "Bengali", "English", "Hindi", "Maithili", "Music", "Pali", "Persian", "Philosophy", "Sanskrit", "Urdu", "Prakrit"].includes(paper1)) {
+        course = "Bachelor of Arts (Humanities Subjects)";
+      } else {
+        course = "Bachelor of Science";
+      }
+
+      return {
+        'Student Name': studentName,
+        'Uni. Reg. Number': uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Religion': religion,
+        'MJC-2': paper1,
+        'MIC-2': paper2,
+        'MDC-2': paper3,
+        'AEC-2': paper4,
+        'SEC-2': paper5,
+        'VAC-2': paper6,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        'Admission Fee': admissionFee,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment.slice(0, 10),
+        "Payment Methods": paymentMethod
+      };
+    });
+
+    const csvParser = new CsvParser();
+    const csvData = csvParser.parse(users);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=UG_Reg_Sem_II_2428_All_Adm_List.csv");
+
+    res.status(200).end(csvData);
+  } catch (error) {
+    console.error('Error generating CSV:', error);
+    res.status(500).send('Server Error');
+  }
+};
+
+
+const UG_Reg_Sem_II_2428_BA_Adm_List = async (req, res) => {
+  try {
+    const subjects = ["Ancient Indian & Archology culture", "Economics", "Geography", "History", "Home Science", "Political Science", "Psychology", "Rural Economics / Cooperative", "Sociology", "Arabic", "Bengali", "English", "Hindi", "Maithili", "Music", "Pali", "Persian", "Philosophy", "Sanskrit", "Urdu", "Prakrit"];
+    const promises = subjects.map(subject => ugRegularSem_2_24_28_Adm.find({ isPaid: true, paper1: subject }));
+    const studentsBySubject = await Promise.all(promises);
+
+    const userData = studentsBySubject.flat().sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
+
+    const users = userData.map(admUser => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, studentPhoto, studentSign, session, dateAndTimeOfPayment, receiptNo, admissionFee, paymentMethod } = admUser;
+
+      let course = "";
+      if (["Ancient Indian & Archology culture", "Economics", "Geography", "History", "Home Science", "Political Science", "Psychology", "Rural Economics / Cooperative", "Sociology"].includes(paper1)) {
+        course = "Bachelor of Arts (Social Science Subjects)";
+      } else if (["Arabic", "Bengali", "English", "Hindi", "Maithili", "Music", "Pali", "Persian", "Philosophy", "Sanskrit", "Urdu", "Prakrit"].includes(paper1)) {
+        course = "Bachelor of Arts (Humanities Subjects)";
+      } else {
+        course = "Bachelor of Science";
+      }
+
+      return {
+        'Student Name': studentName,
+        'Uni. Reg. Number': uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Religion': religion,
+        'MJC-2': paper1,
+        'MIC-2': paper2,
+        'MDC-2': paper3,
+        'AEC-2': paper4,
+        'SEC-2': paper5,
+        'VAC-2': paper6,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        'Admission Fee': admissionFee,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment.slice(0, 10),
+        "Payment Methods": paymentMethod
+      };
+    });
+
+    const csvParser = new CsvParser();
+    const csvData = csvParser.parse(users);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=UG_Reg_Sem_II_2428_BA_Adm_List.csv");
+
+    res.status(200).end(csvData);
+  } catch (error) {
+    console.error('Error generating CSV:', error);
+    res.status(500).send('Server Error');
+  }
+};
+
+
+const UG_Reg_Sem_II_2428_BSc_Adm_List = async (req, res) => {
+  try {
+    const subjects = ["Physics", "Chemistry", "Mathematics", "Botany", "Zoology", "Electronics"];
+    const promises = subjects.map(subject => ugRegularSem_2_24_28_Adm.find({ isPaid: true, paper1: subject }));
+    const studentsBySubject = await Promise.all(promises);
+
+    const userData = studentsBySubject.flat().sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
+
+    const users = userData.map(admUser => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, studentPhoto, studentSign, session, dateAndTimeOfPayment, receiptNo, admissionFee, paymentMethod } = admUser;
+
+      let course = "Bachelor of Science"
+
+      return {
+        'Student Name': studentName,
+        'Uni. Reg. Number': uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Religion': religion,
+        'MJC-2': paper1,
+        'MIC-2': paper2,
+        'MDC-2': paper3,
+        'AEC-2': paper4,
+        'SEC-2': paper5,
+        'VAC-2': paper6,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        'Admission Fee': admissionFee,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment.slice(0, 10),
+        "Payment Methods": paymentMethod
+      };
+    });
+
+    const csvParser = new CsvParser();
+    const csvData = csvParser.parse(users);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=UG_Reg_Sem_II_2428_BSc_Adm_List.csv");
+
+    res.status(200).end(csvData);
+  } catch (error) {
+    console.error('Error generating CSV:', error);
+    res.status(500).send('Server Error');
+  }
+}
+
+
 export {
   adminPage,
   admissionFormList,
@@ -3248,5 +3570,15 @@ export {
   UG_Reg_Sem_IV_BA_Hum_Adm_List,
   UG_Reg_Sem_IV_BSc_Adm_List,
   ugRegSem4Password,
-  ugRegSem4PasswordPost
+  ugRegSem4PasswordPost,
+
+  // UG Regular Sem 4
+  ugRegularSem2List2428,
+  findStuInUGRegSem2Adm,
+  ugRegSem2StuView,
+  ugRegSem2StuEdit,
+  ugRegSem2StuEditPost,
+  UG_Reg_Sem_II_2428_Adm_List,
+  UG_Reg_Sem_II_2428_BA_Adm_List,
+  UG_Reg_Sem_II_2428_BSc_Adm_List
 }

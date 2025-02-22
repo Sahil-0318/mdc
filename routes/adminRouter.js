@@ -105,7 +105,17 @@ import {
     UG_Reg_Sem_IV_BA_Hum_Adm_List,
     UG_Reg_Sem_IV_BSc_Adm_List,
     ugRegSem4Password,
-    ugRegSem4PasswordPost
+    ugRegSem4PasswordPost,
+
+    // UG Regular Sem 2 List
+    ugRegularSem2List2428,
+    findStuInUGRegSem2Adm,
+    ugRegSem2StuView,
+    ugRegSem2StuEdit,
+    ugRegSem2StuEditPost,
+    UG_Reg_Sem_II_2428_Adm_List,
+    UG_Reg_Sem_II_2428_BA_Adm_List,
+    UG_Reg_Sem_II_2428_BSc_Adm_List
 }
     from '../controllers/adminController.js'
 
@@ -297,6 +307,23 @@ adminRouter.get('/UG_Reg_Sem_IV_BSc_Adm_List', adminAuth, UG_Reg_Sem_IV_BSc_Adm_
 adminRouter.get('/ugRegSem4Password', adminAuth, ugRegSem4Password)
 
 adminRouter.post('/ugRegSem4Password', adminAuth, ugRegSem4PasswordPost)
+
+// UG Regular Sem 2 Form List (2024 - 28)
+adminRouter.get('/ugRegularSem2List2428', adminAuth, ugRegularSem2List2428)
+
+adminRouter.post('/ugRegularSem2List2428', adminAuth, findStuInUGRegSem2Adm)
+
+adminRouter.get('/ugRegularSem22428StudentView/:stuId', adminAuth, ugRegSem2StuView)
+
+adminRouter.get('/ugRegularSem22428StudentEdit/:stuId', adminAuth, ugRegSem2StuEdit)
+
+adminRouter.post('/ugRegularSem22428StudentEditPost/:editId', adminAuth, ugRegSem2StuEditPost)
+
+adminRouter.get('/UG_Reg_Sem_II_2428_Adm_List', adminAuth, UG_Reg_Sem_II_2428_Adm_List)
+
+adminRouter.get('/UG_Reg_Sem_II_2428_BA_Adm_List', adminAuth, UG_Reg_Sem_II_2428_BA_Adm_List)
+
+adminRouter.get('/UG_Reg_Sem_II_2428_BSc_Adm_List', adminAuth, UG_Reg_Sem_II_2428_BSc_Adm_List)
 
 
 export default adminRouter
