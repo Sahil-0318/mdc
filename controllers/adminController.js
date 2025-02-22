@@ -3170,6 +3170,10 @@ const ugRegularSem2List2428 = async (req, res) => {
         status = "Unpaid"
       }
     }
+    if (filterQueries.paymentMethod && filterQueries.paymentMethod !== 'all') {
+      query.paymentMethod = filterQueries.paymentMethod
+      status += " " + query.paymentMethod
+    }
     if (filterQueries.category && filterQueries.category !== 'all') {
       query.category = filterQueries.category;
       status += " " + query.category
