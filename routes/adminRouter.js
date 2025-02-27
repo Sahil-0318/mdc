@@ -115,7 +115,17 @@ import {
     ugRegSem2StuEditPost,
     UG_Reg_Sem_II_2428_Adm_List,
     UG_Reg_Sem_II_2428_BA_Adm_List,
-    UG_Reg_Sem_II_2428_BSc_Adm_List
+    UG_Reg_Sem_II_2428_BSc_Adm_List,
+
+    // UG Regular Sem 2 List Portal
+    ugRegularSem2List2428Portal,
+    findStuInUGRegSem2AdmPortal,
+    ugRegSem2StuViewPortal,
+    ugRegSem2StuEditPortal,
+    ugRegSem2StuEditPostPortal,
+    UG_Reg_Sem_II_2428_Adm_List_Portal,
+    UG_Reg_Sem_II_2428_BA_Adm_List_Portal,
+    UG_Reg_Sem_II_2428_BSc_Adm_List_Portal
 }
     from '../controllers/adminController.js'
 
@@ -324,6 +334,23 @@ adminRouter.get('/UG_Reg_Sem_II_2428_Adm_List', adminAuth, UG_Reg_Sem_II_2428_Ad
 adminRouter.get('/UG_Reg_Sem_II_2428_BA_Adm_List', adminAuth, UG_Reg_Sem_II_2428_BA_Adm_List)
 
 adminRouter.get('/UG_Reg_Sem_II_2428_BSc_Adm_List', adminAuth, UG_Reg_Sem_II_2428_BSc_Adm_List)
+
+// UG Regular Sem 2 Form Portal List (2024 - 28)
+adminRouter.get('/ugRegularSem2List2428Portal', adminAuth, ugRegularSem2List2428Portal)
+
+adminRouter.post('/ugRegularSem2List2428Portal', adminAuth, findStuInUGRegSem2AdmPortal)
+
+adminRouter.get('/ugRegularSem22428StudentViewPortal/:stuId', adminAuth, ugRegSem2StuViewPortal)
+
+adminRouter.get('/ugRegularSem22428StudentEditPortal/:stuId', adminAuth, ugRegSem2StuEditPortal)
+
+adminRouter.post('/ugRegularSem22428StudentEditPostPortal/:editId', adminAuth, ugRegSem2StuEditPostPortal)
+
+adminRouter.get('/UG_Reg_Sem_II_2428_Adm_List_Portal', adminAuth, UG_Reg_Sem_II_2428_Adm_List_Portal)
+
+adminRouter.get('/UG_Reg_Sem_II_2428_BA_Adm_List_Portal', adminAuth, UG_Reg_Sem_II_2428_BA_Adm_List_Portal)
+
+adminRouter.get('/UG_Reg_Sem_II_2428_BSc_Adm_List_Portal', adminAuth, UG_Reg_Sem_II_2428_BSc_Adm_List_Portal)
 
 
 export default adminRouter

@@ -48,6 +48,9 @@ import ugRegularSem4AdmissionForm from "../models/userModel/UG-Regular-Sem-4/adm
 // UG Regular Sem 2 (2024 - 2028)
 import ugRegularSem_2_24_28_Adm from '../models/userModel/ugRegSem_2_24_28.js'
 
+// UG Regular Sem 2 (2024 - 2028) Portal
+import ugRegularSem2_24_28_User from '../models/UG-Regular-Sem-2-24-28/user.js'
+import ugRegularSem2_24_28_AdmissionForm from '../models/UG-Regular-Sem-2-24-28/admForm.js'
 
 
 const adminPage = async (req, res) => {
@@ -2216,7 +2219,7 @@ const bca1List = async (req, res) => {
       if (filterQueries.collegeRollNumber === "Haven't Roll No") {
         query.collegeRollNumber = 'NA';
         status = "Found"
-      } 
+      }
     }
     if (filterQueries.category && filterQueries.category !== 'all') {
       query.category = filterQueries.category;
@@ -2521,7 +2524,7 @@ const interExamFormList = async (req, res) => {
 
 
 const interExamFormExcelList = async (req, res) => {
-  const { studentCategory, faculty} = req.params
+  const { studentCategory, faculty } = req.params
   try {
 
     const query = {};
@@ -2712,7 +2715,7 @@ const ugRegSem4StuEditPost = async (req, res) => {
             admissionFee = 1000
           }
         }
-  
+
       } else {
         if (course === "Bachelor of Science" || paper1 === "Psychology") {
           admissionFee = 1600
@@ -2739,7 +2742,7 @@ const ugRegSem4StuEditPost = async (req, res) => {
             admissionFee = 900
           }
         }
-  
+
       } else {
         if (course === "Bachelor of Science" || paper1 === "Psychology") {
           admissionFee = 1500
@@ -3471,6 +3474,347 @@ const UG_Reg_Sem_II_2428_BSc_Adm_List = async (req, res) => {
   }
 }
 
+// UG Regular Sem 2 Form List portal
+const ugRegularSem2List2428Portal = async (req, res) => {
+  const filterQueries = req.query;
+  try {
+    // Find the user based on request ID
+    const user = await User.findOne({ _id: req.id });
+
+    // Initialize the query object
+    const query = {};
+    let status = "All"
+
+    // Construct the query object based on filterQueries
+    if (filterQueries.isPaid && filterQueries.isPaid !== 'all') {
+      query.isPaid = filterQueries.isPaid === 'true';
+      if (query.isPaid == true) {
+        status = "Paid"
+      } else {
+        status = "Unpaid"
+      }
+    }
+    if (filterQueries.paymentMethod && filterQueries.paymentMethod !== 'all') {
+      query.paymentMethod = filterQueries.paymentMethod
+      status += " " + query.paymentMethod
+    }
+    if (filterQueries.category && filterQueries.category !== 'all') {
+      query.category = filterQueries.category;
+      status += " " + query.category
+    }
+    if (filterQueries.gender && filterQueries.gender !== 'all') {
+      query.gender = filterQueries.gender;
+      status += " " + query.gender
+    }
+
+    // Find students based on the constructed query
+    const ugRegularSem2AdmissionList = await ugRegularSem2_24_28_AdmissionForm.find(query)
+
+    // console.log(ugRegularSem2AdmissionList);
+    res.render('ugRegularSem2List2428Portal', { list: ugRegularSem2AdmissionList, status, noOfForms: ugRegularSem2AdmissionList.length, user })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+const findStuInUGRegSem2AdmPortal = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    let { findStuMobileNo } = req.body
+
+    if (findStuMobileNo !== '') {
+      let foundStudent = await ugRegularSem2_24_28_AdmissionForm.find({ mobileNumber: findStuMobileNo })
+      res.render('ugRegularSem2List2428Portal', { list: foundStudent, status: "Found", noOfForms: foundStudent.length, user })
+
+    } else if (findStuMobileNo === '') {
+      const foundStudent = await ugRegularSem2_24_28_AdmissionForm.find({ isPaid: true })
+      res.render('ugRegularSem2List2428Portal', { list: foundStudent, status: "All", formAlert: "Please, Enter Mobile No", noOfForms: foundStudent.length, user })
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+const ugRegSem2StuViewPortal = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+
+    const foundStudent = await ugRegularSem2_24_28_AdmissionForm.findOne({ _id: stuId })
+    const foundStudentID = await ugRegularSem2_24_28_User.findOne({ _id: foundStudent.appliedBy })
+
+    res.render('ugRegularSem22428StudentViewPortal', { foundStudentID, foundStudent, user })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+const ugRegSem2StuEditPortal = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const { stuId } = req.params
+    const foundStudent = await ugRegularSem2_24_28_AdmissionForm.findOne({ _id: stuId })
+    const foundStudentID = await ugRegularSem2_24_28_User.findOne({ _id: foundStudent.appliedBy })
+    res.render("ugRegularSem22428StudentEditPortal", { user, foundStudent, foundStudentID })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+const ugRegSem2StuEditPostPortal = async (req, res) => {
+  try {
+    let { studentName, fatherName, motherName, guardianName, uniRegNumber, uniRollNumber, collegeRollNumber, course, email, paper1, paper2, paper3, paper4, paper5, paper6, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } = req.body
+    const { editId } = req.params
+
+    if (gender === "MALE") {
+      if (course === "BSC" || paper1 === "Psychology") {
+        if (category === "GENERAL" || category === "BC-2") {
+          admissionFee = 2905
+        } else if (category === "BC-1") {
+          admissionFee = 2305
+        } else {
+          admissionFee = 1500
+        }
+      } else {
+        if (category === "GENERAL" || category === "BC-2") {
+          admissionFee = 2305
+        } else if (category === "BC-1") {
+          admissionFee = 1705
+        } else {
+          admissionFee = 900
+        }
+      }
+
+    } else {
+      if (course === "BSC" || paper1 === "Psychology") {
+        admissionFee = 1500
+      } else {
+        admissionFee = 900
+      }
+    }
+
+    await ugRegularSem2_24_28_AdmissionForm.findOneAndUpdate({ _id: editId }, { $set: { studentName, fatherName, motherName, guardianName, uniRegNumber, uniRollNumber, collegeRollNumber, email, paper1, paper2, paper3, paper4, paper5, paper6, dOB, gender, category, religion, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, examResult, obtMarks, fullMarks, obtPercent, session, admissionFee, paymentId, receiptNo } })
+
+    const foundUserLogin = await ugRegularSem2_24_28_AdmissionForm.findOne({ _id: editId })
+    await ugRegularSem2_24_28_User.findOneAndUpdate({ _id: foundUserLogin.appliedBy }, { $set: { fullName: studentName, course, email, mobileNumber } })
+
+    res.redirect('/ugRegularSem2List2428Portal')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+const UG_Reg_Sem_II_2428_Adm_List_Portal = async (req, res) => {
+  try {
+    let userData = []
+    let offlineList = await ugRegularSem_2_24_28_Adm.find({ isPaid: true })
+    let onlineList = await ugRegularSem2_24_28_AdmissionForm.find({ isPaid: true })
+
+    userData = [...offlineList, ...onlineList].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+
+
+
+    console.log(userData.length)
+
+    const users = userData.map(admUser => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, studentPhoto, studentSign, session, admissionFee } = admUser;
+
+      let course = "";
+      if (["Physics", "Chemistry", "Zoology", "Botany", "Mathematics", "Electronics"].includes(paper1)) {
+        course = "Bachelor of Science";
+      } else if (["Arabic", "Bengali", "English", "Hindi", "Maithili", "Music", "Pali", "Persian", "Urdu", "Philosophy", "Sanskrit", "Prakrit"].includes(paper1)) {
+        course = "Bachelor of Arts (Humanities Subjects)";
+      } else {
+        course = "Bachelor of Arts (Social Science Subjects)";
+      }
+
+      return {
+        'Student Name': studentName,
+        'Uni. Reg. Number': uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Religion': religion,
+        'MJC-II': paper1,
+        'MIC-II': paper2,
+        'MDC-II': paper3,
+        'AEC-II': paper4,
+        'SEC-II': paper5,
+        'VAC-II': paper6,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        'Admission Fee': admissionFee,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign
+      };
+    });
+
+    const csvParser = new CsvParser();
+    const csvData = csvParser.parse(users);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=UG_Reg_Sem_II_24_28_Adm_List.csv");
+
+    res.status(200).end(csvData);
+  } catch (error) {
+    console.error('Error generating CSV:', error);
+    res.status(500).send('Server Error');
+  }
+};
+
+
+const UG_Reg_Sem_II_2428_BA_Adm_List_Portal = async (req, res) => {
+  try {
+    let studentsBySubject = []
+    const subjects = ["Ancient Indian & Archology culture", "Economics", "Geography", "History", "Home Science", "Political Science", "Psychology", "Sociology", "Rural Economics / Cooperative", "Arabic", "Bengali", "English", "Hindi", "Maithili", "Music", "Pali", "Persian", "Urdu", "Philosophy", "Sanskrit", "Prakrit"];
+    const offlinePromises = subjects.map(subject => ugRegularSem_2_24_28_Adm.find({ isPaid: true, paper1: subject }));
+    const onlinePromises = subjects.map(subject => ugRegularSem2_24_28_AdmissionForm.find({ isPaid: true, paper1: subject }));
+    let offlineStudents = await Promise.all(offlinePromises);
+    let onlineStudents = await Promise.all(onlinePromises);
+    studentsBySubject = [...offlineStudents, ...onlineStudents]
+
+    const userData = studentsBySubject.flat().sort((a, b) => a.collegeRollNumber - b.collegeRollNumber);
+
+    const users = userData.map(admUser => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, studentPhoto, studentSign, session, admissionFee } = admUser;
+
+      let course = "";
+      if (["Ancient Indian & Archology culture", "Economics", "Geography", "History", "Home Science", "Political Science", "Psychology", "Sociology", "Rural Economics / Cooperative"].includes(paper1)) {
+        course = "Bachelor of Arts (Social Science Subjects)";
+      } else if (["Arabic", "Bengali", "English", "Hindi", "Maithili", "Music", "Pali", "Persian", "Urdu", "Philosophy", "Sanskrit", "Prakrit"].includes(paper1)) {
+        course = "Bachelor of Arts (Humanities Subjects)";
+      } else {
+        course = "Bachelor of Science";
+      }
+
+      return {
+        'Student Name': studentName,
+        'Uni. Reg. Number': uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Religion': religion,
+        'MJC-II': paper1,
+        'MIC-II': paper2,
+        'MDC-II': paper3,
+        'AEC-II': paper4,
+        'SEC-II': paper5,
+        'VAC-II': paper6,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `Add - ${address}, District - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        'Admission Fee': admissionFee,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign
+      };
+    });
+
+    const csvParser = new CsvParser();
+    const csvData = csvParser.parse(users);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=UG_Reg_Sem_II_24_28_BA_Adm_List.csv");
+
+    res.status(200).end(csvData);
+  } catch (error) {
+    console.error('Error generating CSV:', error);
+    res.status(500).send('Server Error');
+  }
+};
+
+
+const UG_Reg_Sem_II_2428_BSc_Adm_List_Portal = async (req, res) => {
+  try {
+    let users = []
+    const physicsStudents = await ugRegularSem2_24_28_AdmissionForm.find({ isPaid: true, paper1: "Physics" })
+    const chemistryStudents = await ugRegularSem2_24_28_AdmissionForm.find({ isPaid: true, paper1: "Chemistry" })
+    const zoologyStudents = await ugRegularSem2_24_28_AdmissionForm.find({ isPaid: true, paper1: "Zoology" })
+    const botanyStudents = await ugRegularSem2_24_28_AdmissionForm.find({ isPaid: true, paper1: "Botany" })
+    const mathematicsStudents = await ugRegularSem2_24_28_AdmissionForm.find({ isPaid: true, paper1: "Mathematics" })
+    const electronicsStudents = await ugRegularSem2_24_28_AdmissionForm.find({ isPaid: true, paper1: "Electronics" })
+
+    const physicsStudentsOffline = await ugRegularSem_2_24_28_Adm.find({ isPaid: true, paper1: "Physics" })
+    const chemistryStudentsOffline = await ugRegularSem_2_24_28_Adm.find({ isPaid: true, paper1: "Chemistry" })
+    const zoologyStudentsOffline = await ugRegularSem_2_24_28_Adm.find({ isPaid: true, paper1: "Zoology" })
+    const botanyStudentsOffline = await ugRegularSem_2_24_28_Adm.find({ isPaid: true, paper1: "Botany" })
+    const mathematicsStudentsOffline = await ugRegularSem_2_24_28_Adm.find({ isPaid: true, paper1: "Mathematics" })
+    const electronicsStudentsOffline = await ugRegularSem_2_24_28_Adm.find({ isPaid: true, paper1: "Electronics" })
+
+    console.log(physicsStudents.length, chemistryStudents.length, zoologyStudents.length, botanyStudents.length, mathematicsStudents.length, electronicsStudents.length, physicsStudentsOffline.length, chemistryStudentsOffline.length, zoologyStudentsOffline.length, botanyStudentsOffline.length, mathematicsStudentsOffline.length, electronicsStudentsOffline.length)
+
+    const userData = [...physicsStudents, ...chemistryStudents, ...zoologyStudents, ...botanyStudents, ...mathematicsStudents, ...electronicsStudents, ...physicsStudentsOffline, ...chemistryStudentsOffline, ...zoologyStudentsOffline, ...botanyStudentsOffline, ...mathematicsStudentsOffline, ...electronicsStudentsOffline].sort((a, b) => a.collegeRollNumber - b.collegeRollNumber)
+
+
+    userData.forEach((admUser) => {
+      const { studentName, fatherName, motherName, uniRegNumber, uniRollNumber, collegeRollNumber, email, dOB, gender, religion, category, aadharNumber, mobileNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, studentPhoto, studentSign, session, admissionFee } = admUser
+
+      let course = "Bachelor of Science"
+
+      users.push({
+        'Student Name': studentName,
+        'Uni. Reg. Number': uniRegNumber,
+        'Uni. Roll Number': uniRollNumber,
+        'College Roll No.': collegeRollNumber,
+        'Course': course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'Religion': religion,
+        'MJC-1': paper1,
+        'MIC-1': paper2,
+        'MDC-1': paper3,
+        'AEC-1': paper4,
+        'SEC-1': paper5,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        'Admission Fee': admissionFee,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign
+
+      })
+    })
+
+    const csvParser = new CsvParser()
+    const csvData = csvParser.parse(users)
+
+    res.setHeader("Content-type", "text/csv")
+    res.setHeader("Content-Disposition", "attachment: filename=UG_Reg_Sem_II_24_28_BSc_Adm_List.csv")
+
+    res.status(200).end(csvData)
+
+
+  } catch (error) {
+    res.status(401)
+  }
+}
+
+
 
 export {
   adminPage,
@@ -3576,7 +3920,7 @@ export {
   ugRegSem4Password,
   ugRegSem4PasswordPost,
 
-  // UG Regular Sem 4
+  // UG Regular Sem 2
   ugRegularSem2List2428,
   findStuInUGRegSem2Adm,
   ugRegSem2StuView,
@@ -3584,5 +3928,15 @@ export {
   ugRegSem2StuEditPost,
   UG_Reg_Sem_II_2428_Adm_List,
   UG_Reg_Sem_II_2428_BA_Adm_List,
-  UG_Reg_Sem_II_2428_BSc_Adm_List
+  UG_Reg_Sem_II_2428_BSc_Adm_List,
+
+  // UG Regular Sem 2 Portal
+  ugRegularSem2List2428Portal,
+  findStuInUGRegSem2AdmPortal,
+  ugRegSem2StuViewPortal,
+  ugRegSem2StuEditPortal,
+  ugRegSem2StuEditPostPortal,
+  UG_Reg_Sem_II_2428_Adm_List_Portal,
+  UG_Reg_Sem_II_2428_BA_Adm_List_Portal,
+  UG_Reg_Sem_II_2428_BSc_Adm_List_Portal
 }
