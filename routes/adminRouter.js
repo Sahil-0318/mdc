@@ -335,7 +335,7 @@ adminRouter.get('/UG_Reg_Sem_II_2428_BA_Adm_List', adminAuth, UG_Reg_Sem_II_2428
 
 adminRouter.get('/UG_Reg_Sem_II_2428_BSc_Adm_List', adminAuth, UG_Reg_Sem_II_2428_BSc_Adm_List)
 
-// UG Regular Sem 2 Form Portal List (2024 - 28)
+// UG Regular Sem 2 Form List (2024 - 28) Portal
 adminRouter.get('/ugRegularSem2List2428Portal', adminAuth, ugRegularSem2List2428Portal)
 
 adminRouter.post('/ugRegularSem2List2428Portal', adminAuth, findStuInUGRegSem2AdmPortal)
