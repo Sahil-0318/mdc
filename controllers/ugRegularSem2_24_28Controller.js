@@ -14,7 +14,7 @@ export const signup = async (req, res) => {
             return res.render("ugRegularSem2_24_28Signup")
         }
         if (portal.isOn == false) {
-            return res.render('pageNotFound', { status: "UG Regular Sem 2 (2024 - 28) admission has been closed. Thankyou", loginPage: "ugRegularSem2_24_28Login" })
+            return res.render('pageNotFound', { status: "UG Regular Sem 2 (2024 - 28) admission has been closed. Thankyou", loginPage: "ugRegularSem2_24_28_Login" })
         }
     } catch (error) {
         console.log("Error in Ug Reg Sem 2 24-28 Signup Get Method =====>", error)
