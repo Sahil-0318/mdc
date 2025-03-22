@@ -125,7 +125,9 @@ import {
     ugRegSem2StuEditPostPortal,
     UG_Reg_Sem_II_2428_Adm_List_Portal,
     UG_Reg_Sem_II_2428_BA_Adm_List_Portal,
-    UG_Reg_Sem_II_2428_BSc_Adm_List_Portal
+    UG_Reg_Sem_II_2428_BSc_Adm_List_Portal,
+    ugRegSem22428Password,
+    ugRegSem22428PasswordPost
 }
     from '../controllers/adminController.js'
 
@@ -351,6 +353,10 @@ adminRouter.get('/UG_Reg_Sem_II_2428_Adm_List_Portal', adminAuth, UG_Reg_Sem_II_
 adminRouter.get('/UG_Reg_Sem_II_2428_BA_Adm_List_Portal', adminAuth, UG_Reg_Sem_II_2428_BA_Adm_List_Portal)
 
 adminRouter.get('/UG_Reg_Sem_II_2428_BSc_Adm_List_Portal', adminAuth, UG_Reg_Sem_II_2428_BSc_Adm_List_Portal)
+
+adminRouter.get('/ugRegSem22428Password', adminAuth, ugRegSem22428Password)
+
+adminRouter.post('/ugRegSem22428Password', adminAuth, ugRegSem22428PasswordPost)
 
 
 export default adminRouter

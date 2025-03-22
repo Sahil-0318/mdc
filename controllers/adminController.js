@@ -3816,6 +3816,38 @@ const UG_Reg_Sem_II_2428_BSc_Adm_List_Portal = async (req, res) => {
 }
 
 
+const ugRegSem22428Password = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const userIdAndPasswordList = await ugRegularSem2_24_28_User.find({})
+    res.render("ugRegSem22428PasswordList", { list: userIdAndPasswordList, status: "All", noOfForms: userIdAndPasswordList.length, user })
+  } catch (error) {
+    console.log(error)
+  }
+
+}
+
+
+const ugRegSem22428PasswordPost = async (req, res) => {
+  try {
+    const mobileNumber = req.body.mobileNumber
+    const user = await User.findOne({ _id: req.id })
+
+    if (mobileNumber !== '') {
+      let foundMobileNumber = await ugRegularSem2_24_28_User.find({ mobileNumber })
+      res.render("ugRegSem22428PasswordList", { list: foundMobileNumber, status: "Found", noOfForms: foundMobileNumber.length, user })
+
+    } else if (mobileNumber === '') {
+      const foundMobileNumber = await ugRegularSem2_24_28_User.find({})
+      res.render("ugRegSem22428PasswordList", { list: foundMobileNumber, status: "All", formAlert: "Please, Enter Mobile No", noOfForms: foundMobileNumber.length, user })
+    }
+  } catch (error) {
+    console.log(error)
+  }
+
+}
+
+
 
 export {
   adminPage,
@@ -3939,5 +3971,7 @@ export {
   ugRegSem2StuEditPostPortal,
   UG_Reg_Sem_II_2428_Adm_List_Portal,
   UG_Reg_Sem_II_2428_BA_Adm_List_Portal,
-  UG_Reg_Sem_II_2428_BSc_Adm_List_Portal
+  UG_Reg_Sem_II_2428_BSc_Adm_List_Portal,
+  ugRegSem22428Password,
+  ugRegSem22428PasswordPost
 }
