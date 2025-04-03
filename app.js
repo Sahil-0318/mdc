@@ -54,6 +54,7 @@ import interExamFormRouter from './routes/interExamFormRouter.js'
 import ugRegularSem4Router from './routes/ugRegularSem4Router.js'
 import ugRegSem2_24_28_Router from './routes/subAdminRoutes/ugRegSem2_24_28.js'
 import ugRegularSem2_24_28Router from './routes/ugRegularSem2_24_28Route.js'
+import interCopmpartmentRouter from './routes/interCompartmentRouter.js'
 
 
 // Set template engine
@@ -87,6 +88,7 @@ app.use('/', interExamFormRouter)
 app.use('/', ugRegularSem4Router)
 app.use('/', ugRegSem2_24_28_Router)
 app.use('/', ugRegularSem2_24_28Router)
+app.use('/', interCopmpartmentRouter)
 
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`)
