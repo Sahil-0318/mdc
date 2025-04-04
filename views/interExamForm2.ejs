@@ -121,7 +121,7 @@
                                                     <label for="registrationNoAndYear" class="form-label"><b>1. Registration No and Year :</b></label>     
                                           
                                                     <input type="text" class="form-control" id="registrationNoAndYear"
-                                                        name="registrationNoAndYear" required />
+                                                        name="registrationNoAndYear" oninput="this.value = this.value.toUpperCase()" required />
                                                 </div>
 
                                                 <div class="col-md-12 mb-3">
@@ -397,6 +397,7 @@
                                                         <label for="compulsorySubject1" class="form-label"><b>Compulsory Subject Group-1 (100 Marks) :</b></label>
                                                         <select id="compulsorySubject1" class="form-select" name="compulsorySubject1" onchange="updateCompulsorySubject2Option()" required>
                                                             <option>-- Select Compulsory Subject Group-1 --</option>
+                                                            <option value="NA">NA</option>
                                                             <option value="English 305">English 305</option>
                                                             <option value="Hindi 306">Hindi 306</option>
                                                         </select>
@@ -445,7 +446,8 @@
                                                     <div class="col-md-12 mb-3">
                                                         <label for="additionalSubject" class="form-label"><b>Additional Subject Group (100 Marks) :</b></label>
                                                         <select id="additionalSubject" class="form-select" name="additionalSubject">
-                                                            <option value="NA">Select Additional Subject (If any)</option>
+                                                            <option value="NA">Select Additional Subject (If any)</option>,
+                                                            <option value="NA">NA</option>
                                                             <option value="Yoga & Phy. Edu. 317">Yoga & Phy. Edu. 317</option>
                                                             <option value="Music 318">Music 318</option>
                                                             <option value="Home Science 319">Home Science 319</option>
@@ -480,6 +482,7 @@
                                                         <label for="compulsorySubject1" class="form-label"><b>Compulsory Subject Group-1 (100 Marks) :</b></label>
                                                         <select id="compulsorySubject1" class="form-select" name="compulsorySubject1" onchange="updateCompulsorySubject2Option()" required>
                                                             <option>-- Select Compulsory Subject Group-1 --</option>
+                                                            <option value="NA">NA</option>
                                                             <option value="English 105">English 105</option>
                                                             <option value="Hindi 106">Hindi 106</option>
                                                         </select>
@@ -529,6 +532,7 @@
                                                         <label for="additionalSubject" class="form-label"><b>Additional Subject Group (100 Marks) :</b></label>
                                                         <select id="additionalSubject" class="form-select" name="additionalSubject">
                                                             <option value="NA">Select Additional Subject (If any)</option>
+                                                            <option value="NA">NA</option>
                                                             <option value="Physics 117">Physics 117</option>
                                                             <option value="Chemistry 118">Chemistry 118</option>
                                                             <option value="Biology 119">Biology 119</option>
@@ -665,6 +669,7 @@
 
             if (compulsorySubject1 === 'English 305') {
                 options = [
+                    { value: 'NA', text: 'NA' },
                     { value: 'Hindi 306', text: 'Hindi 306' },
                     { value: 'Urdu 307', text: 'Urdu 307' },
                     { value: 'Maithili 308', text: 'Maithili 308' },
@@ -679,6 +684,7 @@
                 ];
             } else if (compulsorySubject1 === 'Hindi 306') {
                 options = [
+                    { value: 'NA', text: 'NA' },
                     { value: 'English 305', text: 'English 305' },
                     { value: 'Urdu 307', text: 'Urdu 307' },
                     { value: 'Maithili 308', text: 'Maithili 308' },
@@ -693,6 +699,7 @@
                 ];
             } else if (compulsorySubject1 === 'English 105') {
                 options = [
+                    { value: 'NA', text: 'NA' },
                     { value: 'Hindi 106', text: 'Hindi 106' },
                     { value: 'Urdu 107', text: 'Urdu 107' },
                     { value: 'Maithili 108', text: 'Maithili 108' },
@@ -707,6 +714,22 @@
                 ];
             } else if (compulsorySubject1 === 'Hindi 106') {
                 options = [
+                    { value: 'NA', text: 'NA' },
+                    { value: 'English 105', text: 'English 105' },
+                    { value: 'Urdu 107', text: 'Urdu 107' },
+                    { value: 'Maithili 108', text: 'Maithili 108' },
+                    { value: 'Sanskrit 109', text: 'Sanskrit 109' },
+                    { value: 'Prakrit 110', text: 'Prakrit 110' },
+                    { value: 'Magahi 111', text: 'Magahi 111' },
+                    { value: 'Bhojpuri 112', text: 'Bhojpuri 112' },
+                    { value: 'Arabic 113', text: 'Arabic 113' },
+                    { value: 'Persian 114', text: 'Persian 114' },
+                    { value: 'Pali 115', text: 'Pali 115' },
+                    { value: 'Bangla 116', text: 'Bangla 116' }
+                ];
+            } else if (compulsorySubject1 === 'NA') {
+                options = [
+                    { value: 'NA', text: 'NA' },
                     { value: 'English 105', text: 'English 105' },
                     { value: 'Urdu 107', text: 'Urdu 107' },
                     { value: 'Maithili 108', text: 'Maithili 108' },
@@ -744,7 +767,8 @@
         { value: 'Psychology 324', text: 'Psychology 324' },
         { value: 'Sociology 325', text: 'Sociology 325' },
         { value: 'Economics 326', text: 'Economics 326' },
-        { value: 'Mathematics 327', text: 'Mathematics 327' }
+        { value: 'Mathematics 327', text: 'Mathematics 327' },
+        { value: 'NA', text: 'NA' }
     ];
     
     // Initialize the first select with subjects
@@ -760,7 +784,7 @@
     function updateSecondSelect() {
         const firstSubject = document.getElementById('electiveSubject1').value;
         const electiveSubject2 = document.getElementById('electiveSubject2');
-        electiveSubject2.innerHTML = '<option value="">-- Select Elective Subject 2 --</option>'; // Reset the second select options
+        electiveSubject2.innerHTML = '<option value="">-- Select Elective Subject 2 --</option> <option value="NA">NA</option>'; // Reset the second select options
     
         // Filter out the selected subject and populate second select
         const remainingSubjects = subjects.filter(subject => subject.value !== firstSubject);
@@ -772,7 +796,7 @@
         });
     
         // Reset the third select
-        document.getElementById('electiveSubject3').innerHTML = '<option value="">-- Select Elective Subject 3 --</option>';
+        document.getElementById('electiveSubject3').innerHTML = '<option value="">-- Select Elective Subject 3 --</option>  <option value="NA">NA</option>';
     }
     
     // Function to update the third select based on the second selection
@@ -780,7 +804,7 @@
         const firstSubject = document.getElementById('electiveSubject1').value;
         const secondSubject = document.getElementById('electiveSubject2').value;
         const electiveSubject3 = document.getElementById('electiveSubject3');
-        electiveSubject3.innerHTML = '<option value="">Select a subject</option>'; // Reset the third select options
+        electiveSubject3.innerHTML = '<option value="">Select a subject</option>  <option value="NA">NA</option>'; // Reset the third select options
     
         // Filter out the selected subjects and populate third select
         const remainingSubjects = subjects.filter(subject => subject.value !== firstSubject && subject.value !== secondSubject);
@@ -800,7 +824,8 @@
         { value: 'Chemistry 118', text: 'Chemistry 118' },
         { value: 'Biology 119', text: 'Biology 119' },
         { value: 'Agriculture 120', text: 'Agriculture 120' },
-        { value: 'Mathematics 121', text: 'Mathematics 121' }
+        { value: 'Mathematics 121', text: 'Mathematics 121' },
+        { value: 'NA', text: 'NA' }
     ];
     
     // Initialize the first select with subjects
@@ -816,7 +841,7 @@
     function updateSecondSelectSc() {
         const firstSubject = document.getElementById('electiveSubject1Sc').value;
         const electiveSubject2Sc = document.getElementById('electiveSubject2Sc');
-        electiveSubject2Sc.innerHTML = '<option value="">-- Select Elective Subject 2 --</option>'; // Reset the second select options
+        electiveSubject2Sc.innerHTML = '<option value="">-- Select Elective Subject 2 --</option> <option value="NA">NA</option>'; // Reset the second select options
     
         // Filter out the selected subject and populate second select
         const remainingSubjects = subjectsSc.filter(subject => subject.value !== firstSubject);
@@ -828,7 +853,7 @@
         });
     
         // Reset the third select
-        document.getElementById('electiveSubject3Sc').innerHTML = '<option value="">-- Select Elective Subject 3 --</option>';
+        document.getElementById('electiveSubject3Sc').innerHTML = '<option value="">-- Select Elective Subject 3 --</option> <option value="NA">NA</option>';
     }
     
     // Function to update the third select based on the second selection
@@ -836,7 +861,7 @@
         const firstSubject = document.getElementById('electiveSubject1Sc').value;
         const secondSubject = document.getElementById('electiveSubject2Sc').value;
         const electiveSubject3Sc = document.getElementById('electiveSubject3Sc');
-        electiveSubject3Sc.innerHTML = '<option value="">Select a subject</option>'; // Reset the third select options
+        electiveSubject3Sc.innerHTML = '<option value="">Select a subject</option> <option value="NA">NA</option>'; // Reset the third select options
     
         // Filter out the selected subjects and populate third select
         const remainingSubjects = subjectsSc.filter(subject => subject.value !== firstSubject && subject.value !== secondSubject);

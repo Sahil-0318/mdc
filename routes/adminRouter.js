@@ -92,6 +92,8 @@ import {
     // Inter Exam Form List
     interExamFormList,
     interExamFormExcelList,
+    interExamForm2List,
+    interExamForm2ExcelList,
 
     // UG Regular Sem 4 List
     ugRegularSem4List,
@@ -294,6 +296,11 @@ adminRouter.get('/BCA_Adm_List_Part_2', adminAuth, BCA_Adm_List_Part_2)
 adminRouter.get('/interExamFormList', adminAuth, interExamFormList)
 
 adminRouter.get('/interExamFormExcelList/:studentCategory/:faculty', adminAuth, interExamFormExcelList)
+
+adminRouter.get('/interExamForm2List', adminAuth, interExamForm2List)
+
+adminRouter.get('/interExamForm2ExcelList/:studentCategory/:faculty', adminAuth, interExamForm2ExcelList)
+
 
 // UG Regular Sem 4 Form List (2023 - 25)
 adminRouter.get('/ugRegularSem4List', adminAuth, ugRegularSem4List)
