@@ -14,7 +14,7 @@ export const signup = async (req, res) => {
             return res.render("interCompartmentSignup")
         }
         if (portal.isOn == false) {
-            return res.render('pageNotFound', { status: "Inter Compartment Exam Form (2023 - 25) has been closed. Thankyou", loginPage: "interCompartmentLogin" })
+            return res.render('pageNotFound', { status: "Inter Compartment Exam Form (2023 - 25) has been closed. Thankyou", loginPage: "interCompartmentalExamFormLogin" })
         }
     } catch (error) {
         console.log("Error in Inter Compartmental Signup Get Method =====>", error)
