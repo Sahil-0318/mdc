@@ -296,8 +296,8 @@ export const admFormPost = async (req, res) => {
             })
 
             const savedForm = await newAdmissionForm.save()
-            // await ugRegularSem1AdmissionPortal.findOneAndUpdate({ _id: user._id.toString() }, { $set: { isPaid: true } })
-            // res.redirect("ug-reg-sen-1-pay")
+            await Ug_Reg_Sem_1_25_29_User.findOneAndUpdate({ _id: user._id.toString() }, { $set: { isFormFilled: true } })
+            
             req.flash("flashMessage", ["Form filled successfully, Pay Admission fee.", "alert-warning"]);
             return res.status(404).redirect("/ug-reg-sem-1-25-29/payment/checkout");
 
