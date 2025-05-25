@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>MD College</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="images/mdcLogo.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../../stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../../stylesheets/style.css" rel="stylesheet">
+
+    <!-- E-library Links -->
+    <link href="../../stylesheets/eLibraryBookPreview.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf_viewer.min.css">
+
+    <style>
+        @keyframes popup {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(0.9);
+            }
+        }
+
+        .popup-animation {
+            animation: popup 1.2s infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+        <!-- Sign In Start -->
+        <div class="container-fluid">
+            <div class="row h-100 mt-4 justify-content-center" style="min-height: 100vh;">
+                <div class="col-12 px-4">
+
+
+                    <div class="py-3 text-center">
+                        <img class="d-block mx-auto mb-4" src="/images/logomdcollege.png" alt="" width="320px">
+                        <h2>UG Regular Sem 1 (2025-29) Admission Fee Checkout Page</h2>
+                        <hr>
+                    </div>
+                    <!-- message -->
+                    <%# include("../partials/flashMessage.ejs") %>
+
+                        <div class="col-12">
+                            <h4 class="mb-3">Details</h4>
+                            <form class="needs-validation" novalidate="" method="post"
+                                action="/ug-reg-sem-1-25-29/payment/pay">
+                                <div class="row g-3">
+                                    <div class="col-4">
+                                        <label for="studentName" class="form-label">Student's Full Name</label>
+                                        <textarea name="studentName" id="studentName" rows="1" class="form-control"
+                                            readonly><%= appliedUser.studentName %></textarea>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="mobileNumber" class="form-label">Mobile Number</label>
+                                        <textarea name="mobileNumber" id="mobileNumber" rows="1" class="form-control"
+                                            readonly><%= appliedUser.mobileNumber %></textarea>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="email" class="form-label">Email</label>
+                                        <textarea name="email" id="email" rows="1" class="form-control"
+                                            readonly><%= appliedUser.email %></textarea>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="referenceNumber" class="form-label">Reference Number</label>
+                                        <textarea name="referenceNumber" id="referenceNumber" rows="1"
+                                            class="form-control" readonly><%= appliedUser.referenceNumber %></textarea>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="course" class="form-label">Course</label>
+                                        <textarea name="course" id="course" rows="1" class="form-control"
+                                            readonly><%= user.course %></textarea>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="category" class="form-label">Category</label>
+                                        <textarea name="category" id="category" rows="1" class="form-control"
+                                            readonly><%= appliedUser.category %></textarea>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="admissionFee" class="form-label">Admission Fee</label>
+                                        <textarea name="admissionFee" id="admissionFee" rows="1" class="form-control"
+                                            readonly><%= appliedUser.admissionFee %></textarea>
+                                    </div>
+                                    <h3 class="mt-4 text-center">Total Amount : ₹ <%= appliedUser.admissionFee %> /-
+                                    </h3>
+                                    <button type="submit" class="btn btn-success">Pay Now</button>
+                            </form>
+                        </div>
+                </div>
+                <hr>
+                <div class="py-5 text-center">
+                    <h2>Are you sure you want to proceed for payment ?</h2>
+                    <li class="lead text-danger fw-bold">Do not repeat the payment if any amount has been deducted
+                        or
+                        debited from your bank account. <br>
+                        यदि आपके बैंक खाते से कोई राशि काट ली गई है या डेबिट कर दी गई है तो भुगतान दोबारा न करें।
+                    </li>
+
+                </div>
+            </div>
+        </div>
+        <!-- Sign In End -->
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../lib/chart/chart.min.js"></script>
+    <script src="../../lib/easing/easing.min.js"></script>
+    <script src="../../lib/waypoints/waypoints.min.js"></script>
+    <script src="../../lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../../lib/tempusdominus/js/moment.min.js"></script>
+    <script src="../../lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="../../javascripts/main.js"></script>
+    <script>
+        // Automatically hide the flash message after 5 seconds
+        setTimeout(() => {
+            const flashMessage = document.getElementById('flashMessage');
+            if (flashMessage) {
+                flashMessage.classList.add('d-none');
+            }
+        }, 5000); // 5000 milliseconds = 5 seconds
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
