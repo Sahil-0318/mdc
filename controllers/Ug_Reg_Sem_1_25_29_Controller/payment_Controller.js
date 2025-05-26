@@ -100,9 +100,6 @@ export const pay = async (req, res) => {
 
 export const payResponse = async (req, res) => {
     try {
-        // const {id} = req.query
-        // const user = await CertificateUser.findOne({ _id:id })
-        // console.log(user)
         console.log("🔹 Payment Response Received");
 
         // 1️⃣ Extract transaction response from request body

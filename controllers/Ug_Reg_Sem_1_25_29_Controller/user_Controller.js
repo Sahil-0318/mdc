@@ -27,7 +27,7 @@ export const registerPost = async (req, res) => {
     try {
         let { referenceNumber, mobileNumber, email } = req.body
         // console.log(referenceNumber)
-        const isExistRefNoInMeritList = await Ug_Reg_Sem_1_25_29_ML_1.findOne({ appNo: "24G0035710" })
+        const isExistRefNoInMeritList = await Ug_Reg_Sem_1_25_29_ML_1.findOne({ appNo: referenceNumber })
         // console.log(isExistRefNoInMeritList);
         if (!isExistRefNoInMeritList) {
             req.flash("flashMessage", ["Reference number not found", "alert-danger"]);
@@ -77,7 +77,7 @@ export const registerPost = async (req, res) => {
             password
         })
         await user.save()
-        req.flash("flashMessage", ["Registration successful, Credentials sent to your mobile", "alert-success"]);
+        req.flash("flashMessage", [`Registration successful, Credentials are sent to your Mobile : ${mobileNumber}`, "alert-success"]);
         return res.status(200).redirect("/ug-reg-sem-1-25-29-login");
 
     } catch (error) {
@@ -172,55 +172,6 @@ export const admFormPost = async (req, res) => {
         // console.log(appliedUser);
 
         const { studentName, fatherName, motherName, guardianName, referenceNumber, email, applicantId, dOB, gender, familyAnnualIncome, religion, category, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, examName, examBoard, examYear, examResult, obtMarks, fullMarks, obtPercent, ppuConfidentialNumber } = req.body
-
-        // let admissionFee = ""
-        // let collegeRollNo = ""
-
-        // let Physics = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Physics" })
-        // let physicsCount = Physics.length
-        // console.log("183", physicsCount)
-        // let Chemistry = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Chemistry" })
-        // let ChemistryCount = Chemistry.length
-        // console.log("186", ChemistryCount)
-        // let Zoology = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Zoology" })
-        // let ZoologyCount = Zoology.length
-        // console.log("189", ZoologyCount)
-        // let Botany = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Botany" })
-        // let BotanyCount = Botany.length
-        // console.log("192", BotanyCount)
-        // let Mathematics = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Mathematics" })
-        // let MathematicsCount = Mathematics.length
-        // console.log("195", MathematicsCount)
-
-        // let totalSciStu = physicsCount + ChemistryCount + ZoologyCount + BotanyCount + MathematicsCount
-
-        // if (paper1 === "Physics" || paper1 === "Chemistry" || paper1 === "Zoology" || paper1 === "Botany" || paper1 === "Mathematics") {
-
-        //     collegeRollNo = `BS${totalSciStu}`
-        //     const existRollNo = await Ug_reg_sem_1_25_29_adm_form.findOne({ collegeRollNo })
-
-        //     if (existRollNo != null) {
-        //         collegeRollNo = `BS${Number(existRollNo.collegeRollNo.slice(2)) + 1}`
-        //     } else {
-        //         collegeRollNo = `BS${totalSciStu + 1}`
-        //     }
-
-        // } else {
-        //     const totalStu = await Ug_reg_sem_1_25_29_adm_form.countDocuments()
-        //     console.log("212", totalStu);
-
-        //     let totalArtsStu = totalStu - totalSciStu
-        //     collegeRollNo = `BA${totalArtsStu}`
-
-        //     const existRollNo = await Ug_reg_sem_1_25_29_adm_form.findOne({ collegeRollNo })
-
-        //     if (existRollNo != null) {
-        //         collegeRollNo = `BA${Number(existRollNo.collegeRollNo.slice(2)) + 1}`
-        //     } else {
-        //         collegeRollNo = `BA${totalArtsStu + 1}`
-        //     }
-
-        // }
 
         let admissionFee = "";
         let collegeRollNo = "";
