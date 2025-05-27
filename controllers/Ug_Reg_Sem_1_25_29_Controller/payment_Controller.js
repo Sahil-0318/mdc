@@ -55,7 +55,7 @@ export const pay = async (req, res) => {
         // API Request to BillDesk
         const options = {
             method: "POST",
-            url: ORDER_API,
+            url: "https://uat1.billdesk.com/u2/payments/ve1_2/orders/create",
             headers: {
                 accept: "application/jose",
                 "content-type": "application/jose",
@@ -91,7 +91,7 @@ export const pay = async (req, res) => {
 
     } catch (error) {
         console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> payment-Controller >> pay", error);
-        console.error("❌ Payment Processing Error:", error);
+        // console.error("❌ Payment Processing Error:", error);
         console.error("❌ Payment Processing Error:", error.message);
         req.flash("flashMessage", ["Failed to process payment.", "alert-danger"]);
         return res.status(500).redirect("/ug-reg-sem-1-25-29-adm-form");
