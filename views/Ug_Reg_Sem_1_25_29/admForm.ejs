@@ -60,7 +60,8 @@
                 </div>
                 <div class="navbar-nav w-100">
                     <div class="nav-item dropdown">
-                        <a href="/ug-reg-sem-1-25-29-adm-form" class="nav-link"><i class="fa-solid fa-file-alt me-2"></i>Admission
+                        <a href="/ug-reg-sem-1-25-29-adm-form" class="nav-link"><i
+                                class="fa-solid fa-file-alt me-2"></i>Admission
                             Form</a>
                     </div>
                     <div class="nav-item dropdown">
@@ -102,7 +103,8 @@
                                 </div>
 
                                 <% if (!locals.user.isFormFilled) { %>
-                                    <form action="/ug-reg-sem-1-25-29-adm-form" method="post" enctype="multipart/form-data">
+                                    <form action="/ug-reg-sem-1-25-29-adm-form" method="post"
+                                        enctype="multipart/form-data">
                                         <div class="col-md-12 mb-3">
                                             <label for="studentName" class="form-label"><b>1. Student's Name
                                                     :</b></label>
@@ -604,37 +606,28 @@
                                                                                     class="btn btn-secondary">Reset</button>
 
                                     </form>
-                                <% } %>
+                                    <% } %>
 
                             </div>
-                            <% if (locals.appliedUser) { %>
 
-                                <% if (locals.appliedUser.isPaid==true) { %>
-                                    <!-- <button class="btn btn-success my-4" disabled><a class="text-light" href="">Pay Admission Fee</a></button> -->
+                            <% if (locals.appliedUser) { %>
+                                <% if (locals.appliedUser.isPaid) { %>
+                                    <div class="alert alert-success mt-4" role="alert" id="flashMessage">
+                                        <strong>Congratulations!</strong> You have successfully paid the admission
+                                        fee.
+                                    </div>
+
+                                    <button class="btn btn-primary my-4"><a class="text-light"
+                                            href="/ug-reg-sem-1-25-29-download-adm-form-pdf">Download Admission Form</a></button>
+
+                                    <button class="btn btn-primary my-4"><a class="text-light"
+                                            href="/ug-reg-sem-1-25-29-download-receipt-pdf">Download Receipt</a></button>
                                     <% } else { %>
                                         <button class="btn btn-success my-4"><a class="text-light"
-                                                href="/ug-reg-sem-1-25-29/payment/checkout">Pay Admission Fee</a></button>
+                                                href="/ug-reg-sem-1-25-29/payment/checkout">Pay Admission
+                                                Fee</a></button>
                                         <% } %>
                                             <% } %>
-
-                                                <% if (locals.appliedUser) { %>
-
-                                                    <% if (locals.appliedUser.isPaid==true) { %>
-                                                        <button class="btn btn-primary my-4"><a class="text-light"
-                                                                href="/ugRegularSem1Receipt">Print Receipt</a></button>
-                                                        <% } %>
-                                                            <% } %>
-
-                                                                <% if (locals.appliedUser) { %>
-
-                                                                    <% if (locals.appliedUser.isPaid==true) { %>
-                                                                        <button class="btn btn-primary my-4"><a
-                                                                                class="text-light"
-                                                                                href="/ugRegularSem1ExamForm">Print
-                                                                                Admission form</a></button>
-                                                                        <% } %>
-                                                                            <% } %>
-
 
 
                         </div>

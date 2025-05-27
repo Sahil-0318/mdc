@@ -7,6 +7,17 @@ import jwt from 'jsonwebtoken'
 import Ug_reg_sem_1_25_29_adm_form from "../../models/Ug_Reg_Sem_1_25_29_Models/adm_Form.js"
 import FileUpload from '../../fileUpload/fileUpload.js'
 
+// For download PDF Testing
+import puppeteer from 'puppeteer';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import { renderFile } from 'ejs';
+
+// ES6 __dirname equivalent
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+//
+
 export const register = async (req, res) => {
     try {
         const portal = await PortalOnOff.findOne({ portal: "ugRegularSem1_25-29" })
@@ -248,7 +259,7 @@ export const admFormPost = async (req, res) => {
 
             const savedForm = await newAdmissionForm.save()
             await Ug_Reg_Sem_1_25_29_User.findOneAndUpdate({ _id: user._id.toString() }, { $set: { isFormFilled: true } })
-            
+
             req.flash("flashMessage", ["Form filled successfully, Pay Admission fee.", "alert-warning"]);
             return res.status(404).redirect("/ug-reg-sem-1-25-29/payment/checkout");
 
@@ -260,5 +271,42 @@ export const admFormPost = async (req, res) => {
         console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> user-Controller >> admFormPost", error);
         req.flash("flashMessage", ["Something went wrong", "alert-danger"]);
         return res.status(500).redirect("/ug-reg-sem-1-25-29-adm-form");
+    }
+}
+
+export const downloadAdmFormPdf = async (req, res) => {
+    try {
+        const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id)
+        // console.log(user)
+
+        const appliedUser = await Ug_reg_sem_1_25_29_adm_form.findOne({ appliedBy: user._id.toString() })
+        // Fetch form data using req.id (adjust based on your model)
+        // Example:
+        // const formData = await AdmissionFormModel.findOne({ userId: req.id })
+
+        // Render your EJS template to HTML string
+        const html = await renderFile(
+            path.join(__dirname, '../../views/Ug_Reg_Sem_1_25_29/admFormCopy.ejs'), {
+                user: user,
+                appliedUser: appliedUser,
+                // You can pass additional data to the template if needed
+            }
+        )
+
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+
+        await page.setContent(html, { waitUntil: 'networkidle0' });
+        const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
+
+        await browser.close();
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename="admission-form.pdf"');
+
+        res.end(pdfBuffer);
+    } catch (err) {
+        console.error('Error generating PDF:', err)
+        res.status(500).send('Failed to generate PDF.')
     }
 }
