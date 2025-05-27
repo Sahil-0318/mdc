@@ -198,8 +198,8 @@ export const payResponse = async (req, res) => {
         }
 
         const transactionData = JSON.parse(decoded.payload);
-        console.log("Transaction Data >> ", transactionData)
-        const { auth_status, mercid, bdorderid, transactionid, paymode, amount, payment_method_type, transaction_date } = transactionData;
+        // console.log("Transaction Data >> ", transactionData)
+        const { auth_status, mercid, orderid, transactionid, amount, payment_method_type, transaction_date } = transactionData;
 
         // Fetch User and Applied Form
         const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id);
@@ -213,11 +213,10 @@ export const payResponse = async (req, res) => {
         // Prepare payment object
         const paymentDetails = {
             mercid,
-            orderid: bdorderid,
+            orderid,
             transactionid,
-            paymentMode: paymode,
-            amount,
             payment_method_type,
+            amount,
             date: transaction_date,
         };
 
