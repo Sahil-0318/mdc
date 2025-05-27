@@ -15,12 +15,14 @@ const userAuth = async (req, res , next)=>{
     }
 }
 
-import { checkoutPage, pay, payResponse } from '../../controllers/Ug_Reg_Sem_1_25_29_Controller/payment_Controller.js'
+import { checkoutPage, pay, payResponse, paymentSuccess } from '../../controllers/Ug_Reg_Sem_1_25_29_Controller/payment_Controller.js'
 
 Ug_Reg_Sem_1_25_29_Payment_Router.get('/ug-reg-sem-1-25-29/payment/checkout', userAuth, checkoutPage)
 
 Ug_Reg_Sem_1_25_29_Payment_Router.post('/ug-reg-sem-1-25-29/payment/pay', userAuth, pay)
 
-Ug_Reg_Sem_1_25_29_Payment_Router.post('/ug-reg-sem-1-25-29/payment/pay', userAuth, payResponse)
+Ug_Reg_Sem_1_25_29_Payment_Router.post('/ug-reg-sem-1-25-29/payment/payResponse', userAuth, payResponse)
+
+Ug_Reg_Sem_1_25_29_Payment_Router.get('/ug-reg-sem-1-25-29/payment/payment-success', userAuth, paymentSuccess)
 
 export default Ug_Reg_Sem_1_25_29_Payment_Router

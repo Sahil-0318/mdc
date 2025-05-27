@@ -124,10 +124,19 @@ export const payResponse = async (req, res) => {
         }
 
         const transactionData = JSON.parse(decoded.payload);
+        console.log("Transaction Data >> ",transactionData)
 
         // 4️⃣ Handle Transaction Status
         if (transactionData.auth_status === "0300") {
             console.log("✅ Payment Successful!");
+            // Update the database with payment success
+            const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id);
+            console.log("User details >> ",user)
+            const appliedUser = await Ug_reg_sem_1_25_29_adm_form.findOne({ appliedBy: user._id.toString() });
+            console.log("Applied User details >> ",appliedUser)
+            // user.paymentStatus = "success";
+            // await user.save();
+            return res.redirect('/ug-reg-sem-1-25-29/payment/payment-success')
 
         } else if (transactionData.auth_status === "0002") {
             console.log("⚠️ Payment Pending.");
@@ -139,10 +148,29 @@ export const payResponse = async (req, res) => {
             // Handle failure (update database, notify user, etc.)
         }
 
-        // 5️⃣ Send Response
-        res.status(200).json({ message: "Transaction processed successfully", data: transactionData });
     } catch (error) {
         console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> payment-Controller >> payResponse", error);
+        req.flash("flashMessage", ["Internal Server Error", "alert-danger"]);
+        return res.status(500).redirect("/ug-reg-sem-1-25-29-adm-form");
+    }
+}
+
+
+export const paymentSuccess = async (req, res) => {
+    try {
+        const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id);
+        const appliedUser = await Ug_reg_sem_1_25_29_adm_form.findOne({ appliedBy: user._id.toString() });
+
+        if (!appliedUser) {
+            req.flash("flashMessage", ["No admission form found for this user.", "alert-danger"]);
+            return res.status(404).redirect("/ug-reg-sem-1-25-29-adm-form");
+        }
+
+        // Render success page with user and appliedUser details
+        res.render("Ug_Reg_Sem_1_25_29/paymentSuccess", { user, appliedUser });
+
+    } catch (error) {
+        console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> payment-Controller >> paymentSuccess", error);
         req.flash("flashMessage", ["Internal Server Error", "alert-danger"]);
         return res.status(500).redirect("/ug-reg-sem-1-25-29-adm-form");
     }
