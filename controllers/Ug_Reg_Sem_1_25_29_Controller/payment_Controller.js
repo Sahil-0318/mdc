@@ -39,7 +39,7 @@ export const pay = async (req, res) => {
             order_date: billDeskFormattedDate(),
             currency: "356",
             ru: "https://mdcollegenaubatpur-pf4w.onrender.com/main/payment/testing-payResponse",
-            additional_info: { additional_info1: studentName, additional_info2: mobileNumber, additional_info3: email, additional_info4: referenceNumber, additional_info5: course, additional_info6: category },
+            additional_info: { customerName: studentName, mobileNumber: mobileNumber, email: email, referenceNumber: referenceNumber, course: course, category: category },
             itemcode: "DIRECT",
             device: {
                 init_channel: "internet",
@@ -55,7 +55,7 @@ export const pay = async (req, res) => {
         // API Request to BillDesk
         const options = {
             method: "POST",
-            url: "https://uat1.billdesk.com/u2/payments/ve1_2/orders/create",
+            url: ORDER_API,
             headers: {
                 accept: "application/jose",
                 "content-type": "application/jose",
