@@ -260,7 +260,7 @@ export const paymentSuccess = async (req, res) => {
         }
 
         // Render success page with user and appliedUser details
-        res.render("Ug_Reg_Sem_1_25_29/paymentSuccess", { user, payment: appliedUser.payment });
+        res.render("Ug_Reg_Sem_1_25_29/paymentSuccess", { user, payment: appliedUser.paymentDetails });
 
     } catch (error) {
         console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> payment-Controller >> paymentSuccess", error);
