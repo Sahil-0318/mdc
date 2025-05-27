@@ -67,7 +67,7 @@ export const pay = async (req, res) => {
 
         // Make API Request
         const response = await axios.request(options);
-        console.log("BillDesk Response:", response.data);
+        // console.log("BillDesk Response:", response.data);
 
         // Process & Verify Response Token
         const responseToken = response.data;
@@ -83,8 +83,8 @@ export const pay = async (req, res) => {
         const authHeader = verifiedPayload?.links?.[1]?.headers?.authorization || "";
         const authToken = authHeader.startsWith("OToken ") ? authHeader.split("OToken ")[1] : authHeader;
 
-        console.log("✅ Verified Payload:", verifiedPayload);
-        console.log("🔹 Cleaned Auth Token:", authToken);
+        // console.log("✅ Verified Payload:", verifiedPayload);
+        // console.log("🔹 Cleaned Auth Token:", authToken);
 
         // Render SDK Page with Payment Details
         res.render("SDK", { merchantId, bdOrderId, token: authHeader, returnUrl });
@@ -198,6 +198,7 @@ export const payResponse = async (req, res) => {
         }
 
         const transactionData = JSON.parse(decoded.payload);
+        console.log("Transaction Data >> ", transactionData)
         const { auth_status, mercid, bdorderid, transactionid, paymode, amount, payment_method_type, transaction_date } = transactionData;
 
         // Fetch User and Applied Form
@@ -225,7 +226,7 @@ export const payResponse = async (req, res) => {
                 console.log("✅ Payment Successful");
                 appliedUser.paymentDetails = { ...paymentDetails, status: "success" };
                 appliedUser.isPaid = true;
-                await Promise.all([appliedUser.save()]);
+                await appliedUser.save()
                 return res.redirect("/ug-reg-sem-1-25-29/payment/payment-success");
 
             case "0002": // ⏳ Pending
