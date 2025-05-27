@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admission Form</title>
+    <title>UG Reg Sem 1 (2025-2029) Admission Form</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
         integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css'>
@@ -372,7 +372,7 @@
                     <div class="card-body">
                         <div class=" d-flex justify-content-between">
                             <div class="mb-4">
-                                <img src="https://maltidharicollegenaubatpur.onrender.com/images/mdcLogo.png" width="70px" alt="Logo">
+                                <img src="../images/mdcLogo.png" width="70px" alt="Logo">
                             </div>
                             <div class="text-muted text-center formHead">
                                 <h2>M. D. COLLEGE, NAUBATPUR</h2>
@@ -389,12 +389,12 @@
                                                                 <% } %>
                                                                     <% } %>
                                 </h6>
-                                <h3>SESSION 2025-29, College Roll No: <%= locals.appliedUser.collegeRollNo %>
+                                <h3>SESSION 2025-29, College Roll No: <%= locals.appliedUser.collegeRollNo.replace(/^\D+/g, '') %>
                                 </h3>
                                 <div><b>College Copy</b></div>
                             </div>
                             <div class="mb-4">
-                                <img src="https://maltidharicollegenaubatpur.onrender.com/images/ppuLogo.png" width="70px" alt="Logo">
+                                <img src="../images/ppuLogo.png" width="70px" alt="Logo">
                             </div>
                         </div>
                         <hr>
@@ -471,7 +471,7 @@
                                     <div class="lowerCol3">
                                         <div>College Roll Number </div>
                                         <div class="lowerFieldNameValue">
-                                            <%= locals.appliedUser.collegeRollNo %>
+                                            <%= locals.appliedUser.collegeRollNo.replace(/^\D+/g, '') %>
                                         </div>
                                         <div>Marital Status :</div>
                                         <div class="lowerFieldNameValue">
@@ -490,12 +490,12 @@
                             </div>
                             <div class="studentInfoPicture">
                                 <div class="studentPhoto">
-                                    <img src=<%= locals.appliedUser.studentPhoto %>
-                                    alt="">
+                                    <img src="<%= locals.appliedUser.studentPhoto %>"
+                                    alt="Student Photo">
                                 </div>
                                 <div class="studentSign">
-                                    <img src=<%= locals.appliedUser.studentSign %>
-                                    alt="">
+                                    <img src="<%= locals.appliedUser.studentSign %>"
+                                    alt="Student Sign">
                                 </div>
                             </div>
                         </div>
@@ -690,8 +690,10 @@
                         <div class="d-print-none mt-4">
                             <div class="float-end">
                                 <a href="javascript:window.print()" class="btn btn-success me-1"><i
-                                        class="fa fa-print"></i></a>
-                                <a href="/ugRegularSem4AdmissionForm" class="btn btn-primary w-md">Back to Home Page</a>
+                                        class="fa fa-print"></i> Adm Form</a>
+                                <a href="/ug-reg-sem-1-25-29-download-receipt-pdf" class="btn btn-primary me-1"><i
+                                        class="fa fa-print"></i> Receipt</a>
+                                <a href="javascript:window.history.back()" class="btn btn-secondary w-md">Back</a>
                             </div>
                         </div>
                     </div>

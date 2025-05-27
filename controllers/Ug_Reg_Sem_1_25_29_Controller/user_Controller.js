@@ -280,37 +280,28 @@ export const downloadAdmFormPdf = async (req, res) => {
         // console.log(user)
 
         const appliedUser = await Ug_reg_sem_1_25_29_adm_form.findOne({ appliedBy: user._id.toString() })
-        // Fetch form data using req.id (adjust based on your model)
-        // Example:
-        // const formData = await AdmissionFormModel.findOne({ userId: req.id })
 
-        // Render your EJS template to HTML string
-        const html = await renderFile(
-            path.join(__dirname, '../../views/Ug_Reg_Sem_1_25_29/admFormCopy.ejs'), {
-            user: user,
-            appliedUser: appliedUser,
-            // You can pass additional data to the template if needed
-        }
-        )
+        res.render('Ug_Reg_Sem_1_25_29/admFormCopy', { message: req.flash("flashMessage"), user, appliedUser })
 
-        const browser = await puppeteer.launch({
-            // executablePath: '/opt/render/.cache/puppeteer/chrome/linux-136.0.7103.94/chrome-linux64/chrome',
-            headless: 'new', // use 'true' for older versions
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
-        });
-        const page = await browser.newPage();
+    } catch (error) {
+        console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> user-Controller >> downloadAdmFormPdf", error);
+        req.flash("flashMessage", ["Something went wrong", "alert-danger"]);
+        return res.status(500).redirect("ug-reg-sem-1-25-29-adm-form");
+    }
+}
 
-        await page.setContent(html, { waitUntil: 'networkidle0' });
-        const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
+export const downloadReceiptPdf = async (req, res) => {
+    try {
+        const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id)
+        // console.log(user)
 
-        await browser.close();
+        const appliedUser = await Ug_reg_sem_1_25_29_adm_form.findOne({ appliedBy: user._id.toString() })
 
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'attachment; filename="admission-form.pdf"');
+        res.render('Ug_Reg_Sem_1_25_29/receiptCopy', { message: req.flash("flashMessage"), user, appliedUser })
 
-        res.end(pdfBuffer);
-    } catch (err) {
-        console.error('Error generating PDF:', err)
-        res.status(500).send('Failed to generate PDF.')
+    } catch (error) {
+        console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> user-Controller >> downloadReceiptPdf", error);
+        req.flash("flashMessage", ["Something went wrong", "alert-danger"]);
+        return res.status(500).redirect("ug-reg-sem-1-25-29-adm-form");
     }
 }

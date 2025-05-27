@@ -3,6 +3,7 @@ import Ug_reg_sem_1_25_29_adm_form from "../../models/Ug_Reg_Sem_1_25_29_Models/
 import { generateOrderId, billDeskFormattedDate, billDeskFormattedTimestamp } from "../../Utils/utils-function.js"
 import jws from 'jws'
 import axios from 'axios'
+import { generateReceiptNumber } from "../../Utils/utils-function.js"
 
 export const checkoutPage = async (req, res) => {
     try {
@@ -225,6 +226,7 @@ export const payResponse = async (req, res) => {
                 console.log("✅ Payment Successful");
                 appliedUser.paymentDetails = { ...paymentDetails, status: "success" };
                 appliedUser.isPaid = true;
+                appliedUser.receiptNo = generateReceiptNumber(appliedUser.collegeRollNo, "SEM-1", orderid); 
                 await appliedUser.save()
                 return res.redirect("/ug-reg-sem-1-25-29/payment/payment-success");
 

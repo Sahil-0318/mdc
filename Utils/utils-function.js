@@ -51,3 +51,14 @@ export const billDeskFormattedTimestamp = () => {
     const now = new Date();
     return now.toISOString().replace(/[-T:.Z]/g, '').substring(0, 14); // YYYYMMDDHHMMSS
 }
+
+export const generateReceiptNumber = (roll, semester, orderId) => {
+    // Extract only the letters from the roll (e.g., "BA1" -> "BA")
+    const courseCode = roll.replace(/\d+/g, '').toUpperCase(); // BA1 -> BA
+
+    // Clean up semester (optional: remove "SEM-" or keep as is)
+    const sem = semester.toUpperCase(); // "SEM-1"
+
+    // Format the receipt number
+    return `${courseCode}-${sem}-${orderId}`;
+}

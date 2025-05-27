@@ -178,7 +178,10 @@ const ug_reg_sem_1_25_29_adm_form_schema = mongoose.Schema({
     paymentDetails :{
         type : Object,
         default : {}
-    }
+    },
+    receiptNo :{
+        type : String
+    },
     
 })
 
