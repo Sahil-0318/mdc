@@ -98,19 +98,90 @@ export const pay = async (req, res) => {
     }
 }
 
+// export const payResponse = async (req, res) => {
+//     try {
+//         console.log("🔹 Payment Response Received");
+
+//         // 1️⃣ Extract transaction response from request body
+//         const { transaction_response } = req.body;
+
+//         if (!transaction_response) {
+//             return res.status(400).json({ error: "No transaction response received." });
+//         }
+
+//         // 2️⃣ Verify and Decode the JWT Response
+//         const secretKey = process.env.BILLDESK_CHECKSUM_KEY; // Your BillDesk secret key
+//         const isVerified = jws.verify(transaction_response, "HS256", secretKey);
+
+//         if (!isVerified) {
+//             console.error("❌ Transaction response verification failed.");
+//             return res.status(400).json({ error: "Invalid transaction response signature." });
+//         }
+
+//         const decoded = jws.decode(transaction_response);
+//         if (!decoded || !decoded.payload) {
+//             return res.status(400).json({ error: "Failed to decode transaction response." });
+//         }
+
+//         const transactionData = JSON.parse(decoded.payload);
+//         // console.log("Transaction Data >> ", transactionData)
+
+//         // 4️⃣ Handle Transaction Status
+//         if (transactionData.auth_status === "0300") {
+//             console.log("✅ Payment Successful!");
+//             // Update the database with payment success
+//             const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id);
+//             // console.log("User details >> ", user)
+//             const appliedUser = await Ug_reg_sem_1_25_29_adm_form.findOne({ appliedBy: user._id.toString() });
+//             // console.log("Applied User details >> ", appliedUser)
+
+//             if (!appliedUser) {
+//                 req.flash("flashMessage", ["Admission form not found.", "alert-danger"]);
+//                 return res.redirect("/ug-reg-sem-1-25-29-adm-form");
+//             }
+//             // Save payment details
+//             appliedUser.payment = {
+//                 status: "success",
+//                 mercid: transactionData.mercid,
+//                 orderid: transactionData.bdorderid,
+//                 transactionid: transactionData.transactionid,
+//                 paymentMode: transactionData.paymode,
+//                 amount: transactionData.amount,
+//                 payment_method_type: transactionData.payment_method_type,
+//                 date: transactionData.transaction_date,
+//             };
+//             await appliedUser.save();
+//             user.isPaid = true;
+//             await user.save();
+//             return res.redirect('/ug-reg-sem-1-25-29/payment/payment-success')
+
+//         } else if (transactionData.auth_status === "0002") {
+//             console.log("⚠️ Payment Pending.");
+//             return res.status(200).json({ message: "Payment is pending." })
+//             // Mark as pending in database
+//         } else {
+//             console.log("❌ Payment Failed.");
+//             return res.status(400).json({ message: "Payment failed." })
+//             // Handle failure (update database, notify user, etc.)
+//         }
+
+//     } catch (error) {
+//         console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> payment-Controller >> payResponse", error);
+//         req.flash("flashMessage", ["Internal Server Error", "alert-danger"]);
+//         return res.status(500).redirect("/ug-reg-sem-1-25-29-adm-form");
+//     }
+// }
+
 export const payResponse = async (req, res) => {
     try {
         console.log("🔹 Payment Response Received");
 
-        // 1️⃣ Extract transaction response from request body
         const { transaction_response } = req.body;
-
         if (!transaction_response) {
             return res.status(400).json({ error: "No transaction response received." });
         }
 
-        // 2️⃣ Verify and Decode the JWT Response
-        const secretKey = process.env.BILLDESK_CHECKSUM_KEY; // Your BillDesk secret key
+        const secretKey = process.env.BILLDESK_CHECKSUM_KEY;
         const isVerified = jws.verify(transaction_response, "HS256", secretKey);
 
         if (!isVerified) {
@@ -119,41 +190,63 @@ export const payResponse = async (req, res) => {
         }
 
         const decoded = jws.decode(transaction_response);
-        if (!decoded || !decoded.payload) {
+        if (!decoded?.payload) {
             return res.status(400).json({ error: "Failed to decode transaction response." });
         }
 
         const transactionData = JSON.parse(decoded.payload);
-        console.log("Transaction Data >> ",transactionData)
+        const { auth_status, mercid, bdorderid, transactionid, paymode, amount, payment_method_type, transaction_date } = transactionData;
 
-        // 4️⃣ Handle Transaction Status
-        if (transactionData.auth_status === "0300") {
-            console.log("✅ Payment Successful!");
-            // Update the database with payment success
-            const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id);
-            console.log("User details >> ",user)
-            const appliedUser = await Ug_reg_sem_1_25_29_adm_form.findOne({ appliedBy: user._id.toString() });
-            console.log("Applied User details >> ",appliedUser)
-            // user.paymentStatus = "success";
-            // await user.save();
-            return res.redirect('/ug-reg-sem-1-25-29/payment/payment-success')
+        // Fetch User and Applied Form
+        const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id);
+        const appliedUser = await Ug_reg_sem_1_25_29_adm_form.findOne({ appliedBy: user?._id.toString() });
 
-        } else if (transactionData.auth_status === "0002") {
-            console.log("⚠️ Payment Pending.");
-            return res.status(200).json({ message: "Payment is pending." })
-            // Mark as pending in database
-        } else {
-            console.log("❌ Payment Failed.");
-            return res.status(400).json({ message: "Payment failed." })
-            // Handle failure (update database, notify user, etc.)
+        if (!user || !appliedUser) {
+            req.flash("flashMessage", ["User or Admission form not found.", "alert-danger"]);
+            return res.redirect("/ug-reg-sem-1-25-29-adm-form");
+        }
+
+        // Prepare payment object
+        const paymentDetails = {
+            mercid,
+            orderid: bdorderid,
+            transactionid,
+            paymentMode: paymode,
+            amount,
+            payment_method_type,
+            date: transaction_date,
+        };
+
+        switch (auth_status) {
+            case "0300": // ✅ Success
+                console.log("✅ Payment Successful");
+                appliedUser.payment = { ...paymentDetails, status: "success" };
+                user.isPaid = true;
+                await Promise.all([appliedUser.save(), user.save()]);
+                return res.redirect("/ug-reg-sem-1-25-29/payment/payment-success");
+
+            case "0002": // ⏳ Pending
+                console.log("⚠️ Payment Pending");
+                appliedUser.payment = { ...paymentDetails, status: "pending" };
+                await appliedUser.save();
+                req.flash("flashMessage", ["Payment is pending. Please check again later.", "alert-warning"]);
+                return res.redirect("/ug-reg-sem-1-25-29-adm-form");
+
+            default: // ❌ Failed
+                console.log("❌ Payment Failed");
+                appliedUser.payment = { ...paymentDetails, status: "failed" };
+                await appliedUser.save();
+                req.flash("flashMessage", ["Payment failed. Please try again.", "alert-danger"]);
+                return res.redirect("/ug-reg-sem-1-25-29-adm-form");
         }
 
     } catch (error) {
-        console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> payment-Controller >> payResponse", error);
+        console.error("❌ Error in payResponse:", error);
         req.flash("flashMessage", ["Internal Server Error", "alert-danger"]);
         return res.status(500).redirect("/ug-reg-sem-1-25-29-adm-form");
     }
-}
+};
+
 
 
 export const paymentSuccess = async (req, res) => {
@@ -167,7 +260,7 @@ export const paymentSuccess = async (req, res) => {
         }
 
         // Render success page with user and appliedUser details
-        res.render("Ug_Reg_Sem_1_25_29/paymentSuccess", { user, appliedUser });
+        res.render("Ug_Reg_Sem_1_25_29/paymentSuccess", { user, payment: appliedUser.payment });
 
     } catch (error) {
         console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> payment-Controller >> paymentSuccess", error);

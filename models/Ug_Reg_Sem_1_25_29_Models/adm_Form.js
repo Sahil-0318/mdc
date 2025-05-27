@@ -164,48 +164,20 @@ const ug_reg_sem_1_25_29_adm_form_schema = mongoose.Schema({
     admissionFee : {
         type : String
     },
-    isPaid :{
-        type : Boolean,
-        default : false
-    },
-    paymentId :{
-        type : Number
-    },
-    dateAndTimeOfPayment : {
-        type : String
-    },
     session :{
         type : String,
         default : "2025-29"
     },
-    paymentSS :{
-        type : String
-    },
-    receiptNo :{
-        type : String
-    },
-    isPracticalPaid :{
-        type : Boolean,
-        default : false
-    },
-    practicalPaymentId :{
-        type : Number
-    },
-    practicalDateAndTimeOfPayment : {
-        type : String
-    },
-    practicalPaymentSS :{
-        type : String
-    },
-    practicalReceiptNo :{
-        type : String
-    },
     collegeRollNo :{
         type : String
     },
-    isVerified : {
+    isPaid :{
         type : Boolean,
         default : false
+    },
+    paymentDetails :{
+        type : Object,
+        default : {}
     }
     
 })
