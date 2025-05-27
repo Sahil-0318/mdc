@@ -287,13 +287,17 @@ export const downloadAdmFormPdf = async (req, res) => {
         // Render your EJS template to HTML string
         const html = await renderFile(
             path.join(__dirname, '../../views/Ug_Reg_Sem_1_25_29/admFormCopy.ejs'), {
-                user: user,
-                appliedUser: appliedUser,
-                // You can pass additional data to the template if needed
-            }
+            user: user,
+            appliedUser: appliedUser,
+            // You can pass additional data to the template if needed
+        }
         )
 
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({
+            // executablePath: '/opt/render/.cache/puppeteer/chrome/linux-136.0.7103.94/chrome-linux64/chrome',
+            headless: 'new', // use 'true' for older versions
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
         const page = await browser.newPage();
 
         await page.setContent(html, { waitUntil: 'networkidle0' });
