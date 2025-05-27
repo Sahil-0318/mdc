@@ -139,6 +139,12 @@ export const loginPost = async (req, res) => {
     }
 }
 
+export const logout = async (req, res) => {
+    res.clearCookie("uid");
+    req.flash("flashMessage", ["Logout successfully !!", "alert-danger"]);
+    return res.status(201).redirect("/ug-reg-sem-1-25-29-login");
+}
+
 export const admForm = async (req, res) => {
     try {
         const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id)
