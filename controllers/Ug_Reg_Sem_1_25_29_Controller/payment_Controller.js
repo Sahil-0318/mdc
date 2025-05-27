@@ -126,21 +126,22 @@ export const pay = async (req, res) => {
 //         const transactionData = JSON.parse(decoded.payload);
 //         // console.log("Transaction Data >> ", transactionData)
 
+//         const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id);
+//         // console.log("User details >> ", user)
+//         const appliedUser = await Ug_reg_sem_1_25_29_adm_form.findOne({ appliedBy: user._id.toString() });
+//         // console.log("Applied User details >> ", appliedUser)
+
 //         // 4️⃣ Handle Transaction Status
 //         if (transactionData.auth_status === "0300") {
 //             console.log("✅ Payment Successful!");
 //             // Update the database with payment success
-//             const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id);
-//             // console.log("User details >> ", user)
-//             const appliedUser = await Ug_reg_sem_1_25_29_adm_form.findOne({ appliedBy: user._id.toString() });
-//             // console.log("Applied User details >> ", appliedUser)
 
 //             if (!appliedUser) {
 //                 req.flash("flashMessage", ["Admission form not found.", "alert-danger"]);
 //                 return res.redirect("/ug-reg-sem-1-25-29-adm-form");
 //             }
 //             // Save payment details
-//             appliedUser.payment = {
+//             appliedUser.paymentDetails = {
 //                 status: "success",
 //                 mercid: transactionData.mercid,
 //                 orderid: transactionData.bdorderid,
@@ -157,8 +158,10 @@ export const pay = async (req, res) => {
 
 //         } else if (transactionData.auth_status === "0002") {
 //             console.log("⚠️ Payment Pending.");
-//             return res.status(200).json({ message: "Payment is pending." })
-//             // Mark as pending in database
+//             appliedUser.payment = { ...paymentDetails, status: "pending" };
+//             await appliedUser.save();
+//             req.flash("flashMessage", ["Payment is pending. Please check again later.", "alert-warning"]);
+//             return res.redirect("/ug-reg-sem-1-25-29-adm-form");
 //         } else {
 //             console.log("❌ Payment Failed.");
 //             return res.status(400).json({ message: "Payment failed." })
@@ -220,21 +223,21 @@ export const payResponse = async (req, res) => {
         switch (auth_status) {
             case "0300": // ✅ Success
                 console.log("✅ Payment Successful");
-                appliedUser.payment = { ...paymentDetails, status: "success" };
-                user.isPaid = true;
-                await Promise.all([appliedUser.save(), user.save()]);
+                appliedUser.paymentDetails = { ...paymentDetails, status: "success" };
+                appliedUser.isPaid = true;
+                await Promise.all([appliedUser.save()]);
                 return res.redirect("/ug-reg-sem-1-25-29/payment/payment-success");
 
             case "0002": // ⏳ Pending
                 console.log("⚠️ Payment Pending");
-                appliedUser.payment = { ...paymentDetails, status: "pending" };
+                appliedUser.paymentDetails = { ...paymentDetails, status: "pending" };
                 await appliedUser.save();
                 req.flash("flashMessage", ["Payment is pending. Please check again later.", "alert-warning"]);
                 return res.redirect("/ug-reg-sem-1-25-29-adm-form");
 
             default: // ❌ Failed
                 console.log("❌ Payment Failed");
-                appliedUser.payment = { ...paymentDetails, status: "failed" };
+                appliedUser.paymentDetails = { ...paymentDetails, status: "failed" };
                 await appliedUser.save();
                 req.flash("flashMessage", ["Payment failed. Please try again.", "alert-danger"]);
                 return res.redirect("/ug-reg-sem-1-25-29-adm-form");
