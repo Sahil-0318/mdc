@@ -38,7 +38,7 @@ export const pay = async (req, res) => {
             amount: admissionFee,
             order_date: billDeskFormattedDate(),
             currency: "356",
-            ru: "https://mdcollegenaubatpur-pf4w.onrender.com/main/payment/testing-payResponse",
+            ru: "https://maltidharicollegenaubatpur.onrender.com/ug-reg-sem-1-25-29/payment/payResponse",
             additional_info: { customerName: studentName, mobileNumber: mobileNumber, email: email, referenceNumber: referenceNumber, course: course, category: category },
             itemcode: "DIRECT",
             device: {
