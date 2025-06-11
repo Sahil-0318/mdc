@@ -141,11 +141,16 @@
             <hr>
             <h4 class="text-success mb-3">Transaction Details</h4>
             <ul class="list-unstyled details">
-                <li><strong>Transaction ID:</strong> <%= payment.transactionid %></li>
-                <li><strong>Order ID:</strong> <%= payment.orderid %></li>
-                <li><strong>Amount Paid:</strong> ₹<%= payment.amount %></li>
-                <li><strong>Payment Mode:</strong> <%= payment.payment_method_type.toUpperCase() %></li>
-                <li><strong>Date:</strong> <%= payment.date %></li>
+                <!-- <li><strong>Transaction ID:</strong> <%# payment.transactionid %></li> -->
+                <li><strong>Payment ID:</strong> <%= appliedUser.paymentId %></li>
+                <!-- <li><strong>Order ID:</strong> <%# payment.orderid %></li> -->
+                <li><strong>Payment Receipt:</strong> <%= appliedUser.receiptNo %></li>
+                <!-- <li><strong>Amount Paid:</strong> ₹<%# payment.amount %></li> -->
+                <li><strong>Amount Paid:</strong> ₹<%= appliedUser.admissionFee %></li>
+                <!-- <li><strong>Payment Mode:</strong> <%# payment.payment_method_type.toUpperCase() %></li> -->
+                <li><strong>Payment Mode:</strong> Online</li>
+                <!-- <li><strong>Date:</strong> <%# payment.date %></li> -->
+                <li><strong>Date:</strong> <%= appliedUser.dateAndTimeOfPayment %></li>
             </ul>
 
             <a href="/ug-reg-sem-1-25-29-adm-form" class="btn btn-success btn-home">Go to Dashboard</a>

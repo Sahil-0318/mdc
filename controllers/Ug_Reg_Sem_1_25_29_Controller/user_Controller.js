@@ -1,5 +1,6 @@
 import PortalOnOff from "../../models/adminModel/portalOnOffSchema.js"
 import Ug_Reg_Sem_1_25_29_ML_1 from "../../models/adminModel/UG_Reg_Sem_1_ML/Ug_Reg_Sem_1_25_29_ML_1.js"
+import Ug_Reg_Sem_1_25_29_ML_2 from "../../models/adminModel/UG_Reg_Sem_1_ML/Ug_Reg_Sem_1_25_29_ML_2.js"
 import Ug_Reg_Sem_1_25_29_User from "../../models/Ug_Reg_Sem_1_25_29_Models/user.js"
 import { sendCredentialsOnMobile } from "../../Utils/send-credentials.js"
 import { generatePassword } from "../../Utils/utils-function.js"
@@ -8,10 +9,8 @@ import Ug_reg_sem_1_25_29_adm_form from "../../models/Ug_Reg_Sem_1_25_29_Models/
 import FileUpload from '../../fileUpload/fileUpload.js'
 
 // For download PDF Testing
-import puppeteer from 'puppeteer';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import { renderFile } from 'ejs';
 
 // ES6 __dirname equivalent
 const __filename = fileURLToPath(import.meta.url)
@@ -38,6 +37,8 @@ export const registerPost = async (req, res) => {
     try {
         let { referenceNumber, mobileNumber, email } = req.body
         // console.log(referenceNumber)
+
+        // change here for different merit list like merit list 2
         const isExistRefNoInMeritList = await Ug_Reg_Sem_1_25_29_ML_1.findOne({ appNo: referenceNumber })
         // console.log(isExistRefNoInMeritList);
         if (!isExistRefNoInMeritList) {
@@ -167,6 +168,7 @@ export const admForm = async (req, res) => {
         } else if (await Ug_Reg_Sem_1_25_29_ML_6.findOne({ appNo: user.referenceNumber })) {
             meritListStudents = await Ug_Reg_Sem_1_25_29_ML_6.findOne({ appNo: user.referenceNumber })
         }
+        // console.log(meritListStudents)
 
         const portal = await PortalOnOff.findOne({ portal: "ugRegularSem1_25-29" })
 

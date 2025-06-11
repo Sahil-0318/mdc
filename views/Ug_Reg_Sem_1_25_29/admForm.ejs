@@ -116,8 +116,8 @@
                                         <div class="col-md-12 mb-3">
                                             <label for="fatherName" class="form-label"><b>2. Father's Name
                                                     :</b></label>
-                                            <textarea id="fatherName" name="fatherName" rows="1" class="form-control"
-                                                required readonly><%= meritListStudents.fatherName.trim() %></textarea>
+                                            <input type="text" class="form-control" id="fatherName" name="fatherName"
+                                                oninput="this.value = this.value.toUpperCase()" required />
                                         </div>
 
                                         <div class="col-md-12 mb-3">
@@ -145,8 +145,8 @@
 
                                         <div class="col-md-12 mb-3">
                                             <label for="email" class="form-label">Email Id :</label>
-                                            <input type="email" class="form-control" id="email" name="email"
-                                                oninput="this.value = this.value.toLowerCase()" required />
+                                            <textarea id="email" name="email" rows="1" class="form-control" required
+                                                readonly><%= user.email %></textarea>
                                         </div>
 
                                         <div class="col-md-12 mb-3">
@@ -361,7 +361,7 @@
                                                     <select id="paper1" class="form-select" name="paper1"
                                                         onchange="updatePaper2Option()" required>
                                                         <option value="">Your Major Subject is "<%=
-                                                                locals.meritListTwoData.majorSubject %>", Select
+                                                                locals.meritListStudents.majorSubject %>", Select
                                                                 it --</option>
                                                         <option value="English">English</option>
                                                         <option value="Hindi">Hindi</option>
@@ -427,7 +427,7 @@
                                                         <select id="paper1" class="form-select" name="paper1"
                                                             onchange="updatePaper2Option()" required>
                                                             <option value="">Your Major Subject is "<%=
-                                                                    locals.meritListTwoData.majorSubject %>",
+                                                                    locals.meritListStudents.majorSubject %>",
                                                                     Select it --</option>
                                                             <option value="Physics">Physics</option>
                                                             <option value="Chemistry">Chemistry</option>
@@ -618,10 +618,12 @@
                                     </div>
 
                                     <button class="btn btn-primary my-4"><a class="text-light"
-                                            href="/ug-reg-sem-1-25-29-download-adm-form-pdf" target="_blank">Download Admission Form</a></button>
+                                            href="/ug-reg-sem-1-25-29-download-adm-form-pdf" target="_blank">Download
+                                            Admission Form</a></button>
 
                                     <button class="btn btn-primary my-4"><a class="text-light"
-                                            href="/ug-reg-sem-1-25-29-download-receipt-pdf" target="_blank">Download Receipt</a></button>
+                                            href="/ug-reg-sem-1-25-29-download-receipt-pdf" target="_blank">Download
+                                            Receipt</a></button>
                                     <% } else { %>
                                         <button class="btn btn-success my-4"><a class="text-light"
                                                 href="/ug-reg-sem-1-25-29/payment/checkout">Pay Admission

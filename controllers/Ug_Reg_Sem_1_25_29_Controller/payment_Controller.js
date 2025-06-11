@@ -5,6 +5,10 @@ import jws from 'jws'
 import axios from 'axios'
 import { generateReceiptNumber } from "../../Utils/utils-function.js"
 
+// Backup pay
+import qrcode from 'qrcode'
+import FileUpload from '../../fileUpload/fileUpload.js'
+
 export const checkoutPage = async (req, res) => {
     try {
         const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id)
@@ -13,6 +17,70 @@ export const checkoutPage = async (req, res) => {
         res.render('Ug_Reg_Sem_1_25_29/checkoutPage', { user, appliedUser })
     } catch (error) {
         console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> payment-Controller >> checkoutPage", error);
+        req.flash("flashMessage", ["Something went wrong", "alert-danger"]);
+        return res.status(500).redirect("/ug-reg-sem-1-25-29-adm-form");
+    }
+}
+
+export const payGet = async (req, res) => {
+    try {
+        const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id)
+        const appliedUser = await Ug_reg_sem_1_25_29_adm_form.findOne({ appliedBy: user._id.toString() })
+
+        qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(appliedUser.admissionFee)}&tn=${appliedUser.studentName}`, function (err, src) {
+            res.status(201).render('Ug_Reg_Sem_1_25_29/payPage', { "qrcodeUrl": src, user, appliedUser, "upiId": process.env.UPI_ID })
+        })
+    } catch (error) {
+        console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> payment-Controller >> payGet", error);
+        req.flash("flashMessage", ["Something went wrong", "alert-danger"]);
+        return res.status(500).redirect("/ug-reg-sem-1-25-29-adm-form");
+    }
+}
+
+export const payPost = async (req, res) => {
+    try {
+        const { paymentId } = req.body
+        const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id)
+        const appliedUser = await Ug_reg_sem_1_25_29_adm_form.findOne({ appliedBy: user._id.toString() })
+
+        const existPaymentId = await Ug_reg_sem_1_25_29_adm_form.findOne({ paymentId })
+
+        if (existPaymentId) {
+            return qrcode.toDataURL(`upi://pay?pa=${process.env.UPI_ID}&am=${Number(appliedUser.admissionFee)}&tn=${appliedUser.studentName}`, function (err, src) {
+                return res.status(201).render('Ug_Reg_Sem_1_25_29/payPage', {
+                    "qrcodeUrl": src,
+                    user,
+                    appliedUser,
+                    "upiId": process.env.UPI_ID,
+                    invalid: "Please enter valid UTR / Ref no. (कृपया वैध यूटीआर/रेफ नंबर दर्ज करें।)"
+                });
+            });
+        }
+
+
+        const images = req.files
+
+        // console.log(images[0].path);
+        const photoUpload = await FileUpload(images[0].path)
+        const paymentSSURL = photoUpload.secure_url
+        // console.log(paymentSSURL);
+
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const year = now.getFullYear();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const dateAndTimeOfPayment = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`
+
+        let receiptNo = generateReceiptNumber(appliedUser.collegeRollNo, "SEM-1", generateOrderId());
+
+        await Ug_reg_sem_1_25_29_adm_form.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL, dateAndTimeOfPayment, paymentId, isPaid: true, receiptNo } })
+
+        res.redirect("/ug-reg-sem-1-25-29/payment/payment-success")
+    } catch (error) {
+        console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> payment-Controller >> payPost", error);
         req.flash("flashMessage", ["Something went wrong", "alert-danger"]);
         return res.status(500).redirect("/ug-reg-sem-1-25-29-adm-form");
     }
@@ -99,83 +167,6 @@ export const pay = async (req, res) => {
     }
 }
 
-// export const payResponse = async (req, res) => {
-//     try {
-//         console.log("🔹 Payment Response Received");
-
-//         // 1️⃣ Extract transaction response from request body
-//         const { transaction_response } = req.body;
-
-//         if (!transaction_response) {
-//             return res.status(400).json({ error: "No transaction response received." });
-//         }
-
-//         // 2️⃣ Verify and Decode the JWT Response
-//         const secretKey = process.env.BILLDESK_CHECKSUM_KEY; // Your BillDesk secret key
-//         const isVerified = jws.verify(transaction_response, "HS256", secretKey);
-
-//         if (!isVerified) {
-//             console.error("❌ Transaction response verification failed.");
-//             return res.status(400).json({ error: "Invalid transaction response signature." });
-//         }
-
-//         const decoded = jws.decode(transaction_response);
-//         if (!decoded || !decoded.payload) {
-//             return res.status(400).json({ error: "Failed to decode transaction response." });
-//         }
-
-//         const transactionData = JSON.parse(decoded.payload);
-//         // console.log("Transaction Data >> ", transactionData)
-
-//         const user = await Ug_Reg_Sem_1_25_29_User.findById(req.id);
-//         // console.log("User details >> ", user)
-//         const appliedUser = await Ug_reg_sem_1_25_29_adm_form.findOne({ appliedBy: user._id.toString() });
-//         // console.log("Applied User details >> ", appliedUser)
-
-//         // 4️⃣ Handle Transaction Status
-//         if (transactionData.auth_status === "0300") {
-//             console.log("✅ Payment Successful!");
-//             // Update the database with payment success
-
-//             if (!appliedUser) {
-//                 req.flash("flashMessage", ["Admission form not found.", "alert-danger"]);
-//                 return res.redirect("/ug-reg-sem-1-25-29-adm-form");
-//             }
-//             // Save payment details
-//             appliedUser.paymentDetails = {
-//                 status: "success",
-//                 mercid: transactionData.mercid,
-//                 orderid: transactionData.bdorderid,
-//                 transactionid: transactionData.transactionid,
-//                 paymentMode: transactionData.paymode,
-//                 amount: transactionData.amount,
-//                 payment_method_type: transactionData.payment_method_type,
-//                 date: transactionData.transaction_date,
-//             };
-//             await appliedUser.save();
-//             user.isPaid = true;
-//             await user.save();
-//             return res.redirect('/ug-reg-sem-1-25-29/payment/payment-success')
-
-//         } else if (transactionData.auth_status === "0002") {
-//             console.log("⚠️ Payment Pending.");
-//             appliedUser.payment = { ...paymentDetails, status: "pending" };
-//             await appliedUser.save();
-//             req.flash("flashMessage", ["Payment is pending. Please check again later.", "alert-warning"]);
-//             return res.redirect("/ug-reg-sem-1-25-29-adm-form");
-//         } else {
-//             console.log("❌ Payment Failed.");
-//             return res.status(400).json({ message: "Payment failed." })
-//             // Handle failure (update database, notify user, etc.)
-//         }
-
-//     } catch (error) {
-//         console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> payment-Controller >> payResponse", error);
-//         req.flash("flashMessage", ["Internal Server Error", "alert-danger"]);
-//         return res.status(500).redirect("/ug-reg-sem-1-25-29-adm-form");
-//     }
-// }
-
 export const payResponse = async (req, res) => {
     try {
         console.log("🔹 Payment Response Received");
@@ -226,7 +217,7 @@ export const payResponse = async (req, res) => {
                 console.log("✅ Payment Successful");
                 appliedUser.paymentDetails = { ...paymentDetails, status: "success" };
                 appliedUser.isPaid = true;
-                appliedUser.receiptNo = generateReceiptNumber(appliedUser.collegeRollNo, "SEM-1", orderid); 
+                appliedUser.receiptNo = generateReceiptNumber(appliedUser.collegeRollNo, "SEM-1", orderid);
                 await appliedUser.save()
                 return res.redirect("/ug-reg-sem-1-25-29/payment/payment-success");
 
@@ -265,7 +256,7 @@ export const paymentSuccess = async (req, res) => {
         }
 
         // Render success page with user and appliedUser details
-        res.render("Ug_Reg_Sem_1_25_29/paymentSuccess", { user, payment: appliedUser.paymentDetails });
+        res.render("Ug_Reg_Sem_1_25_29/paymentSuccess", { user, appliedUser, payment: appliedUser.paymentDetails });
 
     } catch (error) {
         console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> payment-Controller >> paymentSuccess", error);

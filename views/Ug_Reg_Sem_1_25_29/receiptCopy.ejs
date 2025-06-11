@@ -161,14 +161,14 @@
                                     <div class="col-sm-2">
                                         <div class="text-muted">
                                             <p class="mb-1 fw-bold">Pay Mode :</p>
-                                            <p class="mb-1 fw-bold">Payment Method :</p>
+                                            <!-- <p class="mb-1 fw-bold">Payment Method :</p> -->
                                             <p class="mb-1 fw-bold">Total :</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="text-muted">
                                             <p class="mb-1">Online</p>
-                                            <p class="mb-1"><%= locals.appliedUser.paymentDetails.payment_method_type.toUpperCase() %></p>
+                                            <!-- <p class="mb-1"><%# locals.appliedUser.paymentDetails.payment_method_type.toUpperCase() %></p> -->
                                             <p class="mb-1 fw-bold">₹<%= locals.appliedUser.admissionFee %>
                                             </p>
                                         </div>
@@ -183,10 +183,12 @@
                                         <div class="text-muted text-end">
                                             <p class="mb-1">
                                                 <%# locals.appliedUser.paymentDetails.date %>
-                                                <%= new Date(appliedUser.paymentDetails.date).toISOString().replace("T", " ").substring(0, 19) %>
+                                                <%# new Date(appliedUser.paymentDetails.date).toISOString().replace("T", " ").substring(0, 19) %>
+                                                <%= locals.appliedUser.dateAndTimeOfPayment %>
                                             </p>
                                             <p class="mb-1">
-                                                <%= locals.appliedUser.paymentDetails.transactionid %>
+                                                <%# locals.appliedUser.paymentDetails.transactionid %>
+                                                <%= locals.appliedUser.paymentId %>
                                             </p>
                                         </div>
                                     </div>

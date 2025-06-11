@@ -82,25 +82,25 @@
     var ctx1 = $("#multi-bar-chart").get(0).getContext("2d");
     var myChart1 = new Chart(ctx1, {
         type: "bar",
-        data: {
-            labels: ["2020", "2021", "2022", "2023"],
-            datasets: [{
-                    label: "Students",
-                    data: [0, 0, 0, 6476],
-                    backgroundColor: "rgba(0, 156, 255, .7)"
+            data: {
+                labels: ["2020", "2021", "2022", "2023"],
+                datasets: [{
+                        label: "Students",
+                        data: [0, 0, 0, 6476],
+                        backgroundColor: "rgba(0, 156, 255, .7)"
+                    },
+                    {
+                        label: "Male",
+                        data: [0, 0, 0, 3900],
+                        backgroundColor: "rgba(0, 156, 255, .5)"
+                    },
+                    {
+                        label: "Female",
+                        data: [0, 0, 0, 2576],
+                        backgroundColor: "rgba(0, 156, 255, .3)"
+                    }
+                ]
                 },
-                {
-                    label: "Male",
-                    data: [0, 0, 0, 3900],
-                    backgroundColor: "rgba(0, 156, 255, .5)"
-                },
-                {
-                    label: "Female",
-                    data: [0, 0, 0, 2576],
-                    backgroundColor: "rgba(0, 156, 255, .3)"
-                }
-            ]
-            },
         options: {
             responsive: true
         }
