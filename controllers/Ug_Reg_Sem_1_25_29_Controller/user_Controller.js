@@ -232,17 +232,17 @@ export const admFormPost = async (req, res) => {
             if (gender === "MALE") {
                 if (user.course === "Bachelor of Science" || paper1 === "Psychology") {
                     if (category === "GENERAL" || category === "BC-2") {
-                        admissionFee = 3455
+                        admissionFee = 2880
                     } else if (category === "BC-1") {
-                        admissionFee = 2855
+                        admissionFee = 2280
                     } else {
                         admissionFee = 1200
                     }
                 } else {
                     if (category === "GENERAL" || category === "BC-2") {
-                        admissionFee = 2855
+                        admissionFee = 2280
                     } else if (category === "BC-1") {
-                        admissionFee = 2255
+                        admissionFee = 1680
                     } else {
                         admissionFee = 600
                     }
