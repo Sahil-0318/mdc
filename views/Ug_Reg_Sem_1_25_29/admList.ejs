@@ -25,11 +25,11 @@
 
                         <div class="col-sm-12 col-xl-12 pt-4 px-4">
                             <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
-                                <div class="btn btn-secondary"><a class="text-light" href="/UG_Reg_Sem_I_Adm_List">All
+                                <div class="btn btn-secondary"><a class="text-light" href="/ug-reg-sem-1-25-29-all-excelsheet">All
                                         Adm List</a></div>
 
                                 <div class="btn btn-secondary"><a class="text-light"
-                                        href="/UG_Reg_Sem_I_BA_Adm_List">Adm List B.A</a></div>
+                                        href="/ug-reg-sem-1-25-29-BA-excelsheet">Adm List B.A</a></div>
 
                                 <!-- <div class="btn btn-secondary"><a class="text-light"
                                         href="/UG_Reg_Sem_I_BA_SS_Adm_List">Adm List B.A(S.S)</a></div>
@@ -38,7 +38,7 @@
                                         href="/UG_Reg_Sem_I_BA_Hum_Adm_List">Adm List B.A(Hum.)</a></div> -->
 
                                 <div class="btn btn-secondary"><a class="text-light"
-                                        href="/UG_Reg_Sem_I_BSc_Adm_List">Adm List B.Sc</a></div>
+                                        href="/ug-reg-sem-1-25-29-BSc-excelsheet">Adm List B.Sc</a></div>
                             </div>
                         </div>
 
@@ -92,25 +92,23 @@
                                         <!-- List starts Here     -->
                                         <div class="col-12">
                                             <div class="bg-light rounded h-100 p-0">
-                                                <div class="d-flex justify-content-between align-items-center">
+                                                <div
+                                                    class="d-flex justify-content-between align-items-center flex-wrap px-3 pt-3">
                                                     <div class="d-flex gap-2 justify-content-center align-items-center">
-                                                        <h6 class="my-3 ">
+                                                        <h6 class="my-2">
                                                             <%= locals.status %> Students (<%= locals.noOfForms %>
                                                                     Forms)
                                                         </h6>
                                                     </div>
-                                                    <!-- <div class="my-3"> -->
-                                                    <form class="d-flex gap-2" action="/ugRegularSem1List"
-                                                        method="post">
+                                                    <div class="d-flex gap-2 my-2">
                                                         <input type="text" class="form-control" id="findStuRefNo"
-                                                            name="findStuRefNo" placeholder="Enter Reference Number"
+                                                            placeholder="Search Ref. No. or Mobile"
                                                             oninput="this.value = this.value.toUpperCase()" />
-                                                        <button type="submit" class="btn btn-primary">Find</button>
-                                                    </form>
-                                                    <!-- </div> -->
+                                                        <button class="btn btn-secondary"
+                                                            onclick="document.getElementById('findStuRefNo').value=''; filterTable();">Reset</button>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                </div>
+
                                                 <div class="table-responsive">
                                                     <table class="table">
                                                         <thead>
@@ -125,48 +123,48 @@
                                                                 <th scope="col">Edit Details</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody id="studentTableBody">
                                                             <% if (locals.list) { %>
                                                                 <% list.reverse().forEach((element, index)=> { %>
                                                                     <tr>
                                                                         <th scope="row">
-                                                                            <%= index + 1%>
+                                                                            <%= index + 1 %>
                                                                         </th>
                                                                         <td>
-                                                                            <%= element.studentName%>
+                                                                            <%= element.studentName %>
                                                                         </td>
                                                                         <td>
-                                                                            <%= element.referenceNumber%>
+                                                                            <%= element.referenceNumber %>
                                                                         </td>
                                                                         <td>
-                                                                            <%= element.paper1%>
+                                                                            <%= element.paper1 %>
                                                                         </td>
                                                                         <td>
-                                                                            <%= element.category%>
+                                                                            <%= element.category %>
                                                                         </td>
                                                                         <td>
-                                                                            <%= element.admissionFee%>
+                                                                            <%= element.admissionFee %>
                                                                         </td>
                                                                         <td>
                                                                             <a href="/ug-reg-sem-1-25-29-studentDetails/<%= element._id %>"
                                                                                 class="px-4 btn btn-success w-md">View</a>
                                                                         </td>
                                                                         <td>
-                                                                            <a href="/ugRegularSem1StudentEdit/<%= element._id %>"
+                                                                            <a href="/ug-reg-sem-1-25-29-editStudentDetails/<%= element._id %>"
                                                                                 class="px-4 btn btn-warning w-md">Edit</a>
                                                                         </td>
-
+                                                                        <!-- Hidden mobile number for filtering -->
+                                                                        <td style="display: none;">
+                                                                            <%= element.mobileNumber %>
+                                                                        </td>
                                                                     </tr>
                                                                     <% }); %>
                                                                         <% } %>
                                                         </tbody>
                                                     </table>
-                                                    <% if (locals.list) { %>
-                                                        <% if (locals.list.length===0) { %>
-                                                            <h3>Student not found ...</h3>
-
-                                                            <% } %>
-                                                                <% } %>
+                                                    <% if (locals.list && locals.list.length===0) { %>
+                                                        <h3 class="text-center">Student not found ...</h3>
+                                                        <% } %>
                                                 </div>
                                             </div>
                                         </div>
@@ -227,17 +225,23 @@
         </script>
 
         <script>
-            // Get the current date
-            const currentDate = new Date();
-            currentDate.setHours(currentDate.getHours() + 6);
-            currentDate.setMinutes(currentDate.getMinutes() + 30);
+            function filterTable() {
+                const input = document.getElementById("findStuRefNo").value.trim().toUpperCase();
+                const rows = document.querySelectorAll("#studentTableBody tr");
 
+                rows.forEach(row => {
+                    const refNo = row.cells[2].innerText.toUpperCase();
+                    const mobile = row.cells[8]?.innerText.toUpperCase() || ""; // 9th column is hidden mobile
 
-            // Format the date as YYYY-MM-DD (required by input type date)
-            const formattedDate = currentDate.toISOString().slice(0, 10);
+                    if (refNo.includes(input) || mobile.includes(input)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            }
 
-            // Set the value of the input field to the formatted date
-            document.getElementById("findAdmDateTo").value = formattedDate;
+            document.getElementById("findStuRefNo").addEventListener("input", filterTable);
         </script>
 
         </body>
