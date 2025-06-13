@@ -59,6 +59,7 @@ import ugRegularSem2_24_28Router from './routes/ugRegularSem2_24_28Route.js'
 import interCopmpartmentRouter from './routes/interCompartmentRouter.js'
 
 import Ug_Reg_Sem_1_25_29_Router from './routes/Ug_Reg_Sem_1_25_29_Route/user_Route.js'
+import Ug_Reg_Sem_1_25_29_Admin_Router from './routes/Ug_Reg_Sem_1_25_29_Route/admin_Route.js'  
 import Ug_Reg_Sem_1_25_29_Payment_Router from './routes/Ug_Reg_Sem_1_25_29_Route/payment_Route.js'
 
 app.use(
@@ -104,7 +105,9 @@ app.use('/', ugRegularSem4Router)
 app.use('/', ugRegSem2_24_28_Router)
 app.use('/', ugRegularSem2_24_28Router)
 app.use('/', interCopmpartmentRouter)
+
 app.use('/', Ug_Reg_Sem_1_25_29_Router)
+app.use('/', Ug_Reg_Sem_1_25_29_Admin_Router)
 app.use('/', Ug_Reg_Sem_1_25_29_Payment_Router)
 
 app.listen(port, () => {
