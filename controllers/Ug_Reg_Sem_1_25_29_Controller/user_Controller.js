@@ -193,54 +193,6 @@ export const admFormPost = async (req, res) => {
         const { studentName, fatherName, motherName, guardianName, referenceNumber, email, applicantId, dOB, gender, familyAnnualIncome, religion, category, bloodGroup, physicallyChallenged, maritalStatus, aadharNumber, mobileNumber, whatsAppNumber, address, district, policeStation, state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6, examName, examBoard, examYear, examResult, obtMarks, fullMarks, obtPercent, ppuConfidentialNumber } = req.body
 
         let admissionFee = "";
-        let collegeRollNo = "";
-
-        //Test start
-        let Physics = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Physics" })
-        let physicsCount = Physics.length
-        console.log("183", physicsCount)
-        let Chemistry = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Chemistry" })
-        let ChemistryCount = Chemistry.length
-        console.log("186", ChemistryCount)
-        let Zoology = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Zoology" })
-        let ZoologyCount = Zoology.length
-        console.log("189", ZoologyCount)
-        let Botany = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Botany" })
-        let BotanyCount = Botany.length
-        console.log("192", BotanyCount)
-        let Mathematics = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Mathematics" })
-        let MathematicsCount = Mathematics.length
-        console.log("195", MathematicsCount)
-
-        let totalSciStu = physicsCount + ChemistryCount + ZoologyCount + BotanyCount + MathematicsCount
-
-        if (paper1 === "Physics" || paper1 === "Chemistry" || paper1 === "Zoology" || paper1 === "Botany" || paper1 === "Mathematics") {
-
-            collegeRollNo = `BS${totalSciStu}`
-            const existRollNo = await Ug_reg_sem_1_25_29_adm_form.findOne({ collegeRollNo })
-
-            if (existRollNo != null) {
-                collegeRollNo = `BS${Number(existRollNo.collegeRollNo.slice(2)) + 1}`
-            } else {
-                collegeRollNo = `BS${totalSciStu + 1}`
-            }
-
-        } else {
-            const totalStu = await ugRegularSem1AdmissionForm.countDocuments()
-            console.log("212", totalStu);
-
-            let totalArtsStu = totalStu - totalSciStu
-            collegeRollNo = `BA${totalArtsStu}`
-
-            const existRollNo = await ugRegularSem1AdmissionForm.findOne({ collegeRollNo })
-
-            if (existRollNo != null) {
-                collegeRollNo = `BA${Number(existRollNo.collegeRollNo.slice(2)) + 1}`
-            } else {
-                collegeRollNo = `BA${totalArtsStu + 1}`
-            }
-
-        }
 
         if (appliedUser == null) {
             const images = req.files
@@ -277,9 +229,9 @@ export const admFormPost = async (req, res) => {
 
             } else {
                 if (user.course === "Bachelor of Science" || paper1 === "Psychology") {
-                    admissionFee = 1200
+                    admissionFee = 625
                 } else {
-                    admissionFee = 600
+                    admissionFee = 25
                 }
             }
 
@@ -288,8 +240,7 @@ export const admFormPost = async (req, res) => {
                 studentPhoto: photoURL,
                 studentSign: signURL,
                 appliedBy: user._id,
-                admissionFee,
-                collegeRollNo
+                admissionFee
             })
 
             const savedForm = await newAdmissionForm.save()

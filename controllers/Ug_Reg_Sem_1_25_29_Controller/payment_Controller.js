@@ -74,9 +74,131 @@ export const payPost = async (req, res) => {
         const seconds = String(now.getSeconds()).padStart(2, '0');
         const dateAndTimeOfPayment = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`
 
-        let receiptNo = generateReceiptNumber(appliedUser.collegeRollNo, "SEM-1", generateOrderId());
+        let receiptNo = ""
+        if (user.course === "Bachelor of Science") {
+            receiptNo = generateReceiptNumber("BS", "SEM-1", generateOrderId());
+        } else {
+            receiptNo = generateReceiptNumber("BA", "SEM-1", generateOrderId());
+        }
 
-        await Ug_reg_sem_1_25_29_adm_form.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL, dateAndTimeOfPayment, paymentId, isPaid: true, receiptNo } })
+        //Test start
+        // let collegeRollNo = "";
+
+        // let Physics = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Physics", isPaid: true })
+        // let physicsCount = Physics.length
+        // console.log("183", physicsCount)
+        // let Chemistry = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Chemistry", isPaid: true })
+        // let ChemistryCount = Chemistry.length
+        // console.log("186", ChemistryCount)
+        // let Zoology = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Zoology", isPaid: true })
+        // let ZoologyCount = Zoology.length
+        // console.log("189", ZoologyCount)
+        // let Botany = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Botany", isPaid: true })
+        // let BotanyCount = Botany.length
+        // console.log("192", BotanyCount)
+        // let Mathematics = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Mathematics", isPaid: true })
+        // let MathematicsCount = Mathematics.length
+        // console.log("195", MathematicsCount)
+
+        // let totalSciStu = physicsCount + ChemistryCount + ZoologyCount + BotanyCount + MathematicsCount
+
+        // // BA
+        // let Economics = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Economics", isPaid: true })
+        // let EconomicsCount = Economics.length
+
+        // let History = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "History", isPaid: true })
+        // let HistoryCount = History.length
+
+        // let PoliticalScience = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Political Science", isPaid: true })
+        // let PoliticalScienceCount = PoliticalScience.length
+
+        // let Psychology = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Psychology", isPaid: true })
+        // let PsychologyCount = Psychology.length
+
+        // let Sociology = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Sociology", isPaid: true })
+        // let SociologyCount = Sociology.length
+
+        // let English = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "English", isPaid: true })
+        // let EnglishCount = English.length
+
+        // let Hindi = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Hindi", isPaid: true })
+        // let HindiCount = Hindi.length
+
+        // let Urdu = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Urdu", isPaid: true })
+        // let UrduCount = Urdu.length
+
+        // let Philosophy = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Philosophy", isPaid: true })
+        // let PhilosophyCount = Philosophy.length
+
+        // let totalBAStu = EconomicsCount + HistoryCount + PoliticalScienceCount + PsychologyCount + SociologyCount + EnglishCount + HindiCount + UrduCount + PhilosophyCount
+
+        // if (appliedUser.paper1 === "Physics" || appliedUser.paper1 === "Chemistry" || appliedUser.paper1 === "Zoology" || appliedUser.paper1 === "Botany" || appliedUser.paper1 === "Mathematics") {
+
+        //     collegeRollNo = `BS${totalSciStu}`
+        //     const existRollNo = await Ug_reg_sem_1_25_29_adm_form.findOne({ collegeRollNo })
+
+        //     if (existRollNo != null) {
+        //         collegeRollNo = `BS${Number(existRollNo.collegeRollNo.slice(2)) + 1}`
+        //     } else {
+        //         collegeRollNo = `BS${totalSciStu + 1}`
+        //     }
+
+        // } else {
+        //     collegeRollNo = `BS${totalBAStu}`
+        //     const existRollNo = await Ug_reg_sem_1_25_29_adm_form.findOne({ collegeRollNo })
+
+        //     if (existRollNo != null) {
+        //         collegeRollNo = `BA${Number(existRollNo.collegeRollNo.slice(2)) + 1}`
+        //     } else {
+        //         collegeRollNo = `BA${totalBAStu + 1}`
+        //     }
+
+        // }
+        // Test
+
+        // new test
+        let collegeRollNo = "";
+
+        // Define subject groups
+        const sciSubjects = ["Physics", "Chemistry", "Zoology", "Botany", "Mathematics"];
+        const baSubjects = ["Economics", "History", "Political Science", "Psychology", "Sociology", "English", "Hindi", "Urdu", "Philosophy"];
+
+        // Fetch all paid forms grouped by paper1
+        const allPaidForms = await Ug_reg_sem_1_25_29_adm_form.aggregate([
+            { $match: { isPaid: true } },
+            { $group: { _id: "$paper1", count: { $sum: 1 } } }
+        ]);
+
+        // Create a map of subject to count
+        const subjectCountMap = {};
+        allPaidForms.forEach(item => {
+            subjectCountMap[item._id] = item.count;
+        });
+
+        // Count total students
+        const totalSciStu = sciSubjects.reduce((sum, sub) => sum + (subjectCountMap[sub] || 0), 0);
+        const totalBAStu = baSubjects.reduce((sum, sub) => sum + (subjectCountMap[sub] || 0), 0);
+
+        // Generate roll number
+        const isScience = sciSubjects.includes(appliedUser.paper1);
+
+        if (isScience) {
+            collegeRollNo = `BS${totalSciStu + 1}`;
+        } else {
+            collegeRollNo = `BA${totalBAStu + 1}`;
+        }
+
+        // Ensure uniqueness
+        const existRollNo = await Ug_reg_sem_1_25_29_adm_form.findOne({ collegeRollNo });
+
+        if (existRollNo) {
+            const prefix = isScience ? "BS" : "BA";
+            const lastNumber = parseInt(existRollNo.collegeRollNo.slice(2), 10);
+            collegeRollNo = `${prefix}${lastNumber + 1}`;
+        }
+
+        // new test
+        await Ug_reg_sem_1_25_29_adm_form.findOneAndUpdate({ appliedBy: user._id.toString() }, { $set: { paymentSS: paymentSSURL, dateAndTimeOfPayment, paymentId, isPaid: true, receiptNo, collegeRollNo } })
 
         res.redirect("/ug-reg-sem-1-25-29/payment/payment-success")
     } catch (error) {

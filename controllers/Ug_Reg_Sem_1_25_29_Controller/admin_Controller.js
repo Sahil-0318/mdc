@@ -111,9 +111,9 @@ export const ugRegSem1_25_29EditStudentDetailsPost = async (req, res) => {
 
     } else {
       if (course === "Bachelor of Science" || paper1 === "Psychology") {
-        admissionFee = 1200
+        admissionFee = 625
       } else {
-        admissionFee = 600
+        admissionFee = 25
       }
     }
 
