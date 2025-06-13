@@ -195,24 +195,51 @@ export const admFormPost = async (req, res) => {
         let admissionFee = "";
         let collegeRollNo = "";
 
-        let streamPrefix = "";
-        if (["Physics", "Chemistry", "Zoology", "Botany", "Mathematics"].includes(paper1)) {
-            streamPrefix = "BS"; // Bachelor of Science
-        } else {
-            streamPrefix = "BA"; // Bachelor of Arts
-        }
+        //Test start
+        let Physics = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Physics" })
+        let physicsCount = Physics.length
+        console.log("183", physicsCount)
+        let Chemistry = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Chemistry" })
+        let ChemistryCount = Chemistry.length
+        console.log("186", ChemistryCount)
+        let Zoology = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Zoology" })
+        let ZoologyCount = Zoology.length
+        console.log("189", ZoologyCount)
+        let Botany = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Botany" })
+        let BotanyCount = Botany.length
+        console.log("192", BotanyCount)
+        let Mathematics = await Ug_reg_sem_1_25_29_adm_form.find({ paper1: "Mathematics" })
+        let MathematicsCount = Mathematics.length
+        console.log("195", MathematicsCount)
 
-        // Find the latest roll number for the stream
-        let lastRoll = await Ug_reg_sem_1_25_29_adm_form
-            .findOne({ collegeRollNo: { $regex: `^${streamPrefix}\\d+$` } })
-            .sort({ collegeRollNo: -1 }) // Sort in descending order
-            .lean();
+        let totalSciStu = physicsCount + ChemistryCount + ZoologyCount + BotanyCount + MathematicsCount
 
-        if (lastRoll && lastRoll.collegeRollNo) {
-            let lastNumber = parseInt(lastRoll.collegeRollNo.slice(2)); // Remove "BS"/"BA" prefix
-            collegeRollNo = `${streamPrefix}${lastNumber + 1}`;
+        if (paper1 === "Physics" || paper1 === "Chemistry" || paper1 === "Zoology" || paper1 === "Botany" || paper1 === "Mathematics") {
+
+            collegeRollNo = `BS${totalSciStu}`
+            const existRollNo = await Ug_reg_sem_1_25_29_adm_form.findOne({ collegeRollNo })
+
+            if (existRollNo != null) {
+                collegeRollNo = `BS${Number(existRollNo.collegeRollNo.slice(2)) + 1}`
+            } else {
+                collegeRollNo = `BS${totalSciStu + 1}`
+            }
+
         } else {
-            collegeRollNo = `${streamPrefix}1`; // Start from 1 if no previous roll exists
+            const totalStu = await ugRegularSem1AdmissionForm.countDocuments()
+            console.log("212", totalStu);
+
+            let totalArtsStu = totalStu - totalSciStu
+            collegeRollNo = `BA${totalArtsStu}`
+
+            const existRollNo = await ugRegularSem1AdmissionForm.findOne({ collegeRollNo })
+
+            if (existRollNo != null) {
+                collegeRollNo = `BA${Number(existRollNo.collegeRollNo.slice(2)) + 1}`
+            } else {
+                collegeRollNo = `BA${totalArtsStu + 1}`
+            }
+
         }
 
         if (appliedUser == null) {
