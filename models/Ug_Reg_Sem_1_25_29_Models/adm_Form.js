@@ -183,6 +183,9 @@ const ug_reg_sem_1_25_29_adm_form_schema = mongoose.Schema({
         type : String
     },
     // Backup pay
+    paymentSS :{
+        type : String
+    },
     paymentId :{
         type : String
     },
