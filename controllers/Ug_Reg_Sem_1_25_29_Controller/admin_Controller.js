@@ -2,6 +2,9 @@ import User from "../../models/userModel/userSchema.js"
 import Ug_Reg_Sem_1_25_29_User from "../../models/Ug_Reg_Sem_1_25_29_Models/user.js"
 import Ug_reg_sem_1_25_29_adm_form from "../../models/Ug_Reg_Sem_1_25_29_Models/adm_Form.js"
 
+import Csv from 'json2csv'
+const CsvParser = Csv.Parser
+
 export const ugRegSem1_25_29Password = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.id })
@@ -132,29 +135,217 @@ export const ugRegSem1_25_29EditStudentDetailsPost = async (req, res) => {
 
 export const ugRegSem1_25_29AllExcelsheet = async (req, res) => {
   try {
-    
+    const userData = await Ug_reg_sem_1_25_29_adm_form.find({ isPaid: true }).sort({ collegeRollNo: 1 });
+
+    console.log(userData.length);
+
+    const socialSubjects = new Set(["Economics", "History", "Political Science", "Psychology", "Sociology"]);
+    const humanitiesSubjects = new Set(["English", "Hindi", "Urdu", "Philosophy"]);
+
+    const users = userData.map(admUser => {
+      const {
+        studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category,
+        aadharNumber, mobileNumber, address, district, policeStation, state, pinCode,
+        paper1, paper2, paper3, paper4, paper5, paper6,
+        ppuConfidentialNumber, studentPhoto, studentSign,
+        session, collegeRollNo, paymentSS, dateAndTimeOfPayment,
+        receiptNo, admissionFee
+      } = admUser;
+
+      let course = "Bachelor of Science";
+      if (socialSubjects.has(paper1)) {
+        course = "Bachelor of Arts (Social Science Subjects)";
+      } else if (humanitiesSubjects.has(paper1)) {
+        course = "Bachelor of Arts (Humanities Subjects)";
+      }
+
+      return {
+        'Student Name': studentName,
+        'College Roll No.': collegeRollNo?.slice(2) || "",
+        'Reference Number': referenceNumber,
+        'PPU Confidential Number': ppuConfidentialNumber,
+        'Course': course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'MJC-1': paper1,
+        'MIC-1': paper2,
+        'MDC-1': paper3,
+        'AEC-1': paper4,
+        'SEC-1': paper5,
+        'VAC-1': paper6,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        'Admission Fee': admissionFee,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment?.slice(0, 10) || "",
+        "Payment SS": paymentSS
+      };
+    });
+
+    const csvParser = new CsvParser();
+    const csvData = csvParser.parse(users);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=UG_Reg_Sem_I_All_Adm_List.csv");
+
+    res.status(200).end(csvData);
 
   } catch (error) {
-    console.log("Error in ugRegSem1_25_29AllExcelsheet", error)
+    console.error("Error in ugRegSem1_25_29AllExcelsheet", error);
+    res.redirect('/ug-reg-sem-1-25-29-list');
   }
-}
+};
+
 
 
 export const ugRegSem1_25_29BAExcelsheet = async (req, res) => {
   try {
-    
+    const baSubjects = [
+      "Economics", "History", "Political Science", "Psychology",
+      "Sociology", "English", "Hindi", "Urdu", "Philosophy"
+    ];
+
+    const userData = await Ug_reg_sem_1_25_29_adm_form.find({
+      isPaid: true,
+      paper1: { $in: baSubjects }
+    }).sort({ collegeRollNo: 1 }); // sort in DB for efficiency
+
+    const users = userData.map(admUser => {
+      const {
+        studentName, fatherName, motherName, referenceNumber, email, dOB, gender,
+        category, aadharNumber, mobileNumber, address, district, policeStation,
+        state, pinCode, paper1, paper2, paper3, paper4, paper5, paper6,
+        ppuConfidentialNumber, studentPhoto, studentSign,
+        session, collegeRollNo, paymentSS, dateAndTimeOfPayment,
+        receiptNo, admissionFee
+      } = admUser;
+
+      const socialSubjects = ["Economics", "History", "Political Science", "Psychology", "Sociology"];
+      const humanitiesSubjects = ["English", "Hindi", "Urdu", "Philosophy"];
+
+      const course = socialSubjects.includes(paper1)
+        ? "Bachelor of Arts (Social Science Subjects)"
+        : humanitiesSubjects.includes(paper1)
+        ? "Bachelor of Arts (Humanities Subjects)"
+        : "Bachelor of Science";
+
+      return {
+        'Student Name': studentName,
+        'College Roll No.': collegeRollNo?.slice(2) || "",
+        'Reference Number': referenceNumber,
+        'PPU Confidential Number': ppuConfidentialNumber,
+        'Course': course,
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'MJC-1': paper1,
+        'MIC-1': paper2,
+        'MDC-1': paper3,
+        'AEC-1': paper4,
+        'SEC-1': paper5,
+        'VAC-1': paper6,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        'Admission Fee': admissionFee,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment?.slice(0, 10) || "",
+        "Payment SS": paymentSS
+      };
+    });
+
+    const csvParser = new CsvParser();
+    const csvData = csvParser.parse(users);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=UG_Reg_Sem_I_BA_Adm_List.csv");
+
+    res.status(200).end(csvData);
 
   } catch (error) {
-    console.log("Error in ugRegSem1_25_29BAExcelsheet", error)
+    console.error("Error in ugRegSem1_25_29BAExcelsheet:", error);
+    res.redirect('/ug-reg-sem-1-25-29-list');
   }
-}
+};
+
 
 
 export const ugRegSem1_25_29BScExcelsheet = async (req, res) => {
   try {
-    
+    const bscSubjects = ["Physics", "Chemistry", "Zoology", "Botany", "Mathematics"];
+
+    // Fetch all BSc students in one query
+    const userData = await Ug_reg_sem_1_25_29_adm_form.find({
+      isPaid: true,
+      paper1: { $in: bscSubjects }
+    }).sort({ collegeRollNo: 1 }); // sort directly in query
+
+    const users = userData.map(admUser => {
+      const {
+        studentName, fatherName, motherName, referenceNumber, email, dOB, gender, category,
+        aadharNumber, mobileNumber, address, district, policeStation, state, pinCode,
+        paper1, paper2, paper3, paper4, paper5, paper6,
+        ppuConfidentialNumber, studentPhoto, studentSign,
+        session, collegeRollNo, paymentSS, dateAndTimeOfPayment,
+        receiptNo, admissionFee
+      } = admUser;
+
+      return {
+        'Student Name': studentName,
+        'College Roll No.': collegeRollNo?.slice(2) || "",
+        'Reference Number': referenceNumber,
+        'PPU Confidential Number': ppuConfidentialNumber,
+        'Course': "Bachelor of Science",
+        'Session': session,
+        'Aadhar No.': aadharNumber,
+        'DOB': dOB,
+        'Gender': gender,
+        'Category': category,
+        'MJC-1': paper1,
+        'MIC-1': paper2,
+        'MDC-1': paper3,
+        'AEC-1': paper4,
+        'SEC-1': paper5,
+        'VAC-1': paper6,
+        "Father's Name": fatherName,
+        "Mother's Name": motherName,
+        'Address': `ADDRESS - ${address}, DISTRICT - ${district}, P.S - ${policeStation}, ${state}, PIN - ${pinCode}`,
+        'Mobile No.': mobileNumber,
+        'Email': email,
+        'Admission Fee': admissionFee,
+        "Student's Photo": studentPhoto,
+        "Student's Sign": studentSign,
+        "Payment Receipt No.": receiptNo,
+        "Admission Date": dateAndTimeOfPayment?.slice(0, 10) || "",
+        "Payment SS": paymentSS
+      };
+    });
+
+    // Generate CSV
+    const csvParser = new CsvParser();
+    const csvData = csvParser.parse(users);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=UG_Reg_Sem_I_BSc_Adm_List.csv");
+
+    res.status(200).end(csvData);
 
   } catch (error) {
-    console.log("Error in ugRegSem1_25_29BScExcelsheet", error)
+    console.error("Error in ugRegSem1_25_29BScExcelsheet:", error);
+    res.redirect('/ug-reg-sem-1-25-29-list');
   }
-}
+};
