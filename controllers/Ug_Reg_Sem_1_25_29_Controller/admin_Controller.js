@@ -135,9 +135,9 @@ export const ugRegSem1_25_29EditStudentDetailsPost = async (req, res) => {
 
 export const ugRegSem1_25_29AllExcelsheet = async (req, res) => {
   try {
-    const userData = await Ug_reg_sem_1_25_29_adm_form.find({ isPaid: true }).sort({ collegeRollNo: 1 });
+    const userData = await Ug_reg_sem_1_25_29_adm_form.find({ isPaid: true })
 
-    console.log(userData.length);
+    // console.log(userData.length);
 
     const socialSubjects = new Set(["Economics", "History", "Political Science", "Psychology", "Sociology"]);
     const humanitiesSubjects = new Set(["English", "Hindi", "Urdu", "Philosophy"]);
@@ -213,10 +213,22 @@ export const ugRegSem1_25_29BAExcelsheet = async (req, res) => {
       "Sociology", "English", "Hindi", "Urdu", "Philosophy"
     ];
 
+    // const userData = await Ug_reg_sem_1_25_29_adm_form.find({
+    //   isPaid: true,
+    //   paper1: { $in: baSubjects }
+    // }).sort({ collegeRollNo: 1 }); // sort in DB for efficiency
+
     const userData = await Ug_reg_sem_1_25_29_adm_form.find({
       isPaid: true,
       paper1: { $in: baSubjects }
-    }).sort({ collegeRollNo: 1 }); // sort in DB for efficiency
+    });
+
+    userData.sort((a, b) => {
+      const rollA = parseInt(a.collegeRollNo?.replace(/\D/g, "") || "0", 10);
+      const rollB = parseInt(b.collegeRollNo?.replace(/\D/g, "") || "0", 10);
+      return rollA - rollB;
+    });
+
 
     const users = userData.map(admUser => {
       const {
@@ -234,8 +246,8 @@ export const ugRegSem1_25_29BAExcelsheet = async (req, res) => {
       const course = socialSubjects.includes(paper1)
         ? "Bachelor of Arts (Social Science Subjects)"
         : humanitiesSubjects.includes(paper1)
-        ? "Bachelor of Arts (Humanities Subjects)"
-        : "Bachelor of Science";
+          ? "Bachelor of Arts (Humanities Subjects)"
+          : "Bachelor of Science";
 
       return {
         'Student Name': studentName,
@@ -288,11 +300,18 @@ export const ugRegSem1_25_29BScExcelsheet = async (req, res) => {
   try {
     const bscSubjects = ["Physics", "Chemistry", "Zoology", "Botany", "Mathematics"];
 
-    // Fetch all BSc students in one query
+    // Fetch without sorting
     const userData = await Ug_reg_sem_1_25_29_adm_form.find({
       isPaid: true,
       paper1: { $in: bscSubjects }
-    }).sort({ collegeRollNo: 1 }); // sort directly in query
+    });
+
+    // Sort manually by numeric part of collegeRollNo
+    userData.sort((a, b) => {
+      const rollA = parseInt(a.collegeRollNo?.replace(/\D/g, "") || "0", 10);
+      const rollB = parseInt(b.collegeRollNo?.replace(/\D/g, "") || "0", 10);
+      return rollA - rollB;
+    });
 
     const users = userData.map(admUser => {
       const {
