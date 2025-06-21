@@ -213,7 +213,7 @@ export const admFormPost = async (req, res) => {
                     if (category === "GENERAL" || category === "BC-2") {
                         admissionFee = 2880
                     } else if (category === "BC-1") {
-                        admissionFee = 2280
+                        admissionFee = 2880
                     } else {
                         admissionFee = 1200
                     }
@@ -221,7 +221,7 @@ export const admFormPost = async (req, res) => {
                     if (category === "GENERAL" || category === "BC-2") {
                         admissionFee = 2280
                     } else if (category === "BC-1") {
-                        admissionFee = 1680
+                        admissionFee = 2280
                     } else {
                         admissionFee = 600
                     }
