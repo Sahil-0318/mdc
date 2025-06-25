@@ -42,6 +42,10 @@ export const clcApplyPost = async (req, res) => {
         const appliedUser = await NewClc.findOne({ appliedBy: user._id.toString() })
         const appliedUniRegNumber = await NewClc.findOne({ regNumber })
 
+        if (appliedUniRegNumber) {
+            return res.render('clcForm', { user, type, alreadysubmitted: "Already applied by Uni. Reg No." })
+        }
+
         if (appliedUniRegNumber === null) {
             const collCount = await NewClc.countDocuments()
             // console.log(collCount);
