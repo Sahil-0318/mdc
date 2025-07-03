@@ -274,7 +274,7 @@ export const downloadAdmFormPdf = async (req, res) => {
     } catch (error) {
         console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> user-Controller >> downloadAdmFormPdf", error);
         req.flash("flashMessage", ["Something went wrong", "alert-danger"]);
-        return res.status(500).redirect("ug-reg-sem-1-25-29-adm-form");
+        return res.status(500).redirect("/ug-reg-sem-1-25-29-adm-form");
     }
 }
 
@@ -290,6 +290,6 @@ export const downloadReceiptPdf = async (req, res) => {
     } catch (error) {
         console.log("Error in Ug_Reg_Sem_1_25_29_Controller >> user-Controller >> downloadReceiptPdf", error);
         req.flash("flashMessage", ["Something went wrong", "alert-danger"]);
-        return res.status(500).redirect("ug-reg-sem-1-25-29-adm-form");
+        return res.status(500).redirect("/ug-reg-sem-1-25-29-adm-form");
     }
 }

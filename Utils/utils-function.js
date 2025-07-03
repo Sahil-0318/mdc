@@ -32,6 +32,10 @@ export const generatePassword = () => {
     return password;
 }
 
+export const generateUserId = (email, mobileNumber) => {
+    return (email.slice(0, 6) + mobileNumber.slice(3, 7) + "@MDCN").toUpperCase()
+}
+
 
 // Generate Unique Order ID
 export const generateOrderId = (length = 12) => {

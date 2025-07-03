@@ -1,5 +1,5 @@
 import express from 'express'
-const Ug_Reg_Sem_1_25_29_Router = express.Router()
+const BCA_Sem_1_25_29_Router = express.Router()
 import jwt from 'jsonwebtoken'
 import multer from 'multer'
 
@@ -13,7 +13,7 @@ const userAuth = async (req, res , next)=>{
         
     } catch (error) {
         req.flash("flashMessage", ["Login to access this page", "alert-danger"]);
-        res.status(401).redirect('/ug-reg-sem-1-25-29-login')
+        res.status(401).redirect('/bca-sem-1-25-29-login')
     }
 }
 
@@ -38,6 +38,7 @@ Ug_Reg_Sem_1_25_29_Router.get('/ug-reg-sem-1-25-29-adm-form', userAuth, admForm)
 Ug_Reg_Sem_1_25_29_Router.post('/ug-reg-sem-1-25-29-adm-form', upload.array('studentPhoto'), userAuth, admFormPost)
 
 Ug_Reg_Sem_1_25_29_Router.get('/ug-reg-sem-1-25-29-download-adm-form-pdf', userAuth, downloadAdmFormPdf)
+
 Ug_Reg_Sem_1_25_29_Router.get('/ug-reg-sem-1-25-29-download-receipt-pdf', userAuth, downloadReceiptPdf)
 
 export default Ug_Reg_Sem_1_25_29_Router
