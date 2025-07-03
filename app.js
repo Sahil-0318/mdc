@@ -66,6 +66,11 @@ import Ug_Reg_Sem_1_25_29_Payment_Router from './routes/Ug_Reg_Sem_1_25_29_Route
 import BCA_2_24_27_Router from './routes/BCA_2_24_27_Route/user_Route.js'
 import BCA_2_24_27_Payment_Router from './routes/BCA_2_24_27_Route/payment_Route.js'
 
+// BCA 3 (23-26)
+import BCA_3_23_26_Router from './routes/BCA_3_23_26_Route/user_Route.js'
+import BCA_3_23_26_Payment_Router from './routes/BCA_3_23_26_Route/payment_Route.js'
+
+
 app.use(
     session({
         secret: process.env.SESSION_SECRET_KEY,
@@ -117,6 +122,11 @@ app.use('/', Ug_Reg_Sem_1_25_29_Payment_Router)
 // BCA 2 (24-27)
 app.use('/', BCA_2_24_27_Router)
 app.use('/', BCA_2_24_27_Payment_Router)
+
+// BCA 3 (23-26)
+app.use('/', BCA_3_23_26_Router)
+app.use('/', BCA_3_23_26_Payment_Router)
+
 
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`)

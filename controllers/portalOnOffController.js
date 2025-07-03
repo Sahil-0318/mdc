@@ -228,6 +228,26 @@ const bca2202427 = async (req, res) => {
     }
 }
 
+const bca3202326 = async (req, res) => {
+    try {
+        let queries = req.query
+        const user = await User.findOne({ _id: req.id })
+
+        if (queries.isOn === "true") {
+            await PortalOnOff.findOneAndUpdate({portal : "bca3_23-26"}, { $set : {isOn : false} })
+        }  
+
+        if (queries.isOn === "false") {
+            await PortalOnOff.findOneAndUpdate({portal : "bca3_23-26"}, { $set : {isOn : true} })
+        }
+
+        const portal = await PortalOnOff.findOne({portal : "bca3_23-26"})
+        res.render('portalOnOff', { url : "bca3202326", session : "BCA Part 3 (2023 - 26)", user, portal : portal.isOn })
+    } catch (error) {
+        console.log("Error in BCA Part 3 Potal 2023-26 Get Method =====>", error)
+    }
+}
+
 
 export {
     ugRegularSem1Potal202428,
@@ -240,5 +260,6 @@ export {
     ugRegularSem43Potal202327,
     ugRegularSem2Potal202428,
     ugRegSem1Potal202529,
-    bca2202427
+    bca2202427,
+    bca3202326
 }
