@@ -2,6 +2,7 @@ import PortalOnOff from "../../models/adminModel/portalOnOffSchema.js"
 import Ug_Reg_Sem_1_25_29_ML_1 from "../../models/adminModel/UG_Reg_Sem_1_ML/Ug_Reg_Sem_1_25_29_ML_1.js"
 import Ug_Reg_Sem_1_25_29_ML_2 from "../../models/adminModel/UG_Reg_Sem_1_ML/Ug_Reg_Sem_1_25_29_ML_2.js"
 import Ug_Reg_Sem_1_25_29_ML_3 from "../../models/adminModel/UG_Reg_Sem_1_ML/Ug_Reg_Sem_1_25_29_ML_3.js"
+import Ug_Reg_Sem_1_25_29_ML_4 from "../../models/adminModel/UG_Reg_Sem_1_ML/Ug_Reg_Sem_1_25_29_ML_4.js"
 import Ug_Reg_Sem_1_25_29_User from "../../models/Ug_Reg_Sem_1_25_29_Models/user.js"
 import { sendCredentialsOnMobile } from "../../Utils/send-credentials.js"
 import { generatePassword } from "../../Utils/utils-function.js"
@@ -41,7 +42,8 @@ export const registerPost = async (req, res) => {
         // change here for different merit list like merit list 4
         // const isExistRefNoInMeritList = await Ug_Reg_Sem_1_25_29_ML_1.findOne({ appNo: referenceNumber })
         // const isExistRefNoInMeritList = await Ug_Reg_Sem_1_25_29_ML_2.findOne({ appNo: referenceNumber })
-        const isExistRefNoInMeritList = await Ug_Reg_Sem_1_25_29_ML_3.findOne({ appNo: referenceNumber })
+        // const isExistRefNoInMeritList = await Ug_Reg_Sem_1_25_29_ML_3.findOne({ appNo: referenceNumber })
+        const isExistRefNoInMeritList = await Ug_Reg_Sem_1_25_29_ML_4.findOne({ appNo: referenceNumber })
         // console.log(isExistRefNoInMeritList);
         if (!isExistRefNoInMeritList) {
             req.flash("flashMessage", ["Reference number not found", "alert-danger"]);
