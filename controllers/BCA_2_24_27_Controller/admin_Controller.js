@@ -147,7 +147,7 @@ export const admList = async (req, res) => {
         const csvData = csvParser.parse(users);
 
         res.setHeader("Content-Type", "text/csv");
-        res.setHeader("Content-Disposition", "attachment; filename=BCA_Sem_2_24_27_Adm_List.csv");
+        res.setHeader("Content-Disposition", "attachment; filename=BCA_Part_2_24_27_Adm_List.csv");
 
         res.status(200).end(csvData);
     } catch (error) {
