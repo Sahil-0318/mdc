@@ -37,9 +37,9 @@ export const list = async (req, res) => {
         // console.log(bca3AdmissionList);
         res.render('BCA_2_24_27/admList', { list, status, noOfForms: list.length, user })
     } catch (error) {
-        console.log("Error in BCA_Sem_3_23_26_Controller >> admin-Controller >> list", error);
+        console.log("Error in BCA_Sem_2_24_27_Controller >> admin-Controller >> list", error);
         req.flash("flashMessage", ["Something went wrong", "alert-danger"]);
-        return res.status(500).redirect("/bca-3-23-26-list");
+        return res.status(500).redirect("/bca-2-24-27-list");
     }
 }
 
@@ -56,9 +56,9 @@ export const listPost = async (req, res) => {
             res.render('BCA_2_24_27/admList', { list: foundStudent, status: "All", formAlert: "Please, Enter Mobile No", noOfForms: foundStudent.length, user })
         }
     } catch (error) {
-        console.log("Error in BCA_Sem_3_23_26_Controller >> admin-Controller >> listPost", error);
+        console.log("Error in BCA_Sem_2_24_27_Controller >> admin-Controller >> listPost", error);
         req.flash("flashMessage", ["Something went wrong", "alert-danger"]);
-        return res.status(500).redirect("/bca-3-23-26-list");
+        return res.status(500).redirect("/bca-2-24-27-list");
     }
 }
 
@@ -71,9 +71,9 @@ export const studentDetail = async (req, res) => {
 
         res.render('BCA_2_24_27/studentDetail', { foundStudent, user })
     } catch (error) {
-        console.log("Error in BCA_Sem_3_23_26_Controller >> admin-Controller >> studentDetail", error);
+        console.log("Error in BCA_Sem_2_24_27_Controller >> admin-Controller >> studentDetail", error);
         req.flash("flashMessage", ["Something went wrong", "alert-danger"]);
-        return res.status(500).redirect("/bca-3-23-26-list");
+        return res.status(500).redirect("/bca-2-24-27-list");
     }
 }
 
@@ -84,9 +84,9 @@ export const studentEdit = async (req, res) => {
         const foundStudent = await BCA_2_24_27_Form.findOne({ _id: stuId })
         res.render("BCA_2_24_27/studentEdit", { user, foundStudent })
     } catch (error) {
-        console.log("Error in BCA_Sem_3_23_26_Controller >> admin-Controller >> studentEdit", error);
+        console.log("Error in BCA_Sem_2_24_27_Controller >> admin-Controller >> studentEdit", error);
         req.flash("flashMessage", ["Something went wrong", "alert-danger"]);
-        return res.status(500).redirect("/bca-3-23-26-list");
+        return res.status(500).redirect("/bca-2-24-27-list");
     }
 }
 
@@ -100,11 +100,11 @@ export const studentEditPost = async (req, res) => {
         const foundUserLogin = await BCA_2_24_27_Form.findOne({ _id: editId })
         await BCA_2_24_27_User.findOneAndUpdate({ _id: foundUserLogin.appliedBy }, { $set: { fullName: studentName, email, mobileNumber } })
 
-        res.redirect('/bca-3-23-26-list')
+        res.redirect('/bca-2-24-27-list')
     } catch (error) {
-        console.log("Error in BCA_Sem_3_23_26_Controller >> admin-Controller >> studentEditPost", error);
+        console.log("Error in BCA_Sem_2_24_27_Controller >> admin-Controller >> studentEditPost", error);
         req.flash("flashMessage", ["Something went wrong", "alert-danger"]);
-        return res.status(500).redirect("/bca-3-23-26-list");
+        return res.status(500).redirect("/bca-2-24-27-list");
     }
 }
 
@@ -147,12 +147,12 @@ export const admList = async (req, res) => {
         const csvData = csvParser.parse(users);
 
         res.setHeader("Content-Type", "text/csv");
-        res.setHeader("Content-Disposition", "attachment; filename=BCA_Sem_3_23_26_Adm_List.csv");
+        res.setHeader("Content-Disposition", "attachment; filename=BCA_Sem_2_24_27_Adm_List.csv");
 
         res.status(200).end(csvData);
     } catch (error) {
-        console.log("Error in BCA_Sem_3_23_26_Controller >> admin-Controller >> admList", error);
+        console.log("Error in BCA_Sem_2_24_27_Controller >> admin-Controller >> admList", error);
         req.flash("flashMessage", ["Something went wrong", "alert-danger"]);
-        return res.status(500).redirect("/bca-3-23-26-list");
+        return res.status(500).redirect("/bca-2-24-27-list");
     }
 }
