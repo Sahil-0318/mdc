@@ -72,6 +72,13 @@ import BCA_3_23_26_Router from './routes/BCA_3_23_26_Route/user_Route.js'
 import BCA_3_23_26_Payment_Router from './routes/BCA_3_23_26_Route/payment_Route.js'
 import BCA_3_23_26_Admin_Router from './routes/BCA_3_23_26_Route/admin_Router.js'
 
+// -===============New Vocational Routes===================
+// Vocational Auth Routes
+import vocational_Auth_Routes from './routes/Vocational_Course_Routes/vocationalAuthRoutes.js'
+// BCA Students Routes
+import BCA_Student_Routes from './routes/Vocational_Course_Routes/BCA_Routes/studentRoutes.js'
+import BCA_Payment_Routes from './routes/Vocational_Course_Routes/BCA_Routes/paymentRoutes.js'
+
 
 app.use(
     session({
@@ -130,6 +137,13 @@ app.use('/', BCA_2_24_27_Admin_Router)
 app.use('/', BCA_3_23_26_Router)
 app.use('/', BCA_3_23_26_Payment_Router)
 app.use('/', BCA_3_23_26_Admin_Router)
+
+// =============New Vocational Routes=================
+// Vocational Auth Routes
+app.use('/', vocational_Auth_Routes)
+// BCA Students Routes
+app.use('/', BCA_Student_Routes)
+app.use('/', BCA_Payment_Routes)
 
 
 app.listen(port, () => {

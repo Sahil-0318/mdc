@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/BCAHeader.ejs') %>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+        <!-- Spinner End -->
+
+        <!-- Sign In Start -->
+        <div class="container-fluid">
+            <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+
+                    <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
+                        <!-- message -->
+                        <%- include("../partials/flashMessage.ejs") %>
+                            <div class="d-flex flex-column gap-3 mb-3">
+                                <img class="mb-0" src="/images/logomdcollege.png" alt="MD College" style="width: 100%;">
+
+                                <h3 class="text-primary"><%= data.course.toUpperCase() %> Part-1 (<%= data.courseSession %>) Admission Portal Signup</h3>
+
+                            </div>
+                            <form action="/<%= data.course %>-<%= data.courseSession %>/signupPost" method="post">
+                                <div class="form-floating mb-4">
+                                    <input name="referenceNumber" type="text" class="form-control" id="referenceNumber"
+                                        placeholder="Enter Reference / Application Number" oninput="this.value = this.value.toUpperCase()"
+                                        required>
+                                    <label for="referenceNumber">Reference / Application Number</label>
+                                </div>
+                                <div class="form-floating mb-4">
+                                    <input name="mobileNumber" type="text" class="form-control" id="mobileNumber"
+                                        placeholder="Mobile Number" required>
+                                    <label for="mobileNumber">Mobile Number</label>
+                                </div>
+                                <div class="form-floating mb-4">
+                                    <input name="email" type="email" class="form-control" id="email" placeholder="email"
+                                        oninput="this.value = this.value.toLowerCase()" required>
+                                    <label for="email">Email</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Signup</button>
+                                <p class="text-center mb-0">Already Signup? <a href="/vocational-student/login">Login</a>
+                                </p>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Sign In End -->
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/BCAJSLibrary.ejs') %>
+</body>
+
+</html>

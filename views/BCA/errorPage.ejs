@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/BCAHeader.ejs') %>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+        <!-- Spinner End -->
+
+        <!-- Sidebar Start -->
+        <%- include('../partials/BCASidebar.ejs') %>
+        <!-- Sidebar End -->
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-2">
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <a href="" class="navbar-brand d-flex d-lg-none mx-1 me-4">
+                    <img class="mb-0" src="/images/logomdcollege.png" alt="MD College" style="width: 100%;">
+                </a>
+            </nav>
+            <!-- Navbar End -->
+
+            <!-- Form Start -->
+            <div class="container-fluid pt-4 px-4">
+                <!-- message -->
+                <%- include("../partials/flashMessage.ejs") %>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="bg-light rounded p-4" style="min-height: 70vh;">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <a href="javascript:window.history.back()" class=""><i
+                                class="fa-solid fa-arrow-left me-2"></i>Back</a>
+                                </div>
+
+                            <!-- errorPage starts here -->
+                            <section class="page_404">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-sm-12 text-center">
+                                            <div class="four_zero_four_bg">
+                                                <h1 class="text-center">404</h1>
+                                            </div>
+
+                                            <div class="contant_box_404 mt-4">
+                                                <h3 class="h2"><%= data.alertStatus %></h3>
+                                                <p class="text-muted mb-4">
+                                                    <%= data.alertDes !== 'undefined' ? data.alertDes : "The page you're looking for doesn't exist." %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <style>
+                                .page_404 {
+                                    padding: 40px 0;
+                                    background: #fff;
+                                    font-family: 'Arvo', serif;
+                                }
+
+                                .four_zero_four_bg {
+                                    background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+                                    height: 400px;
+                                    background-position: center;
+                                    background-repeat: no-repeat;
+                                    background-size: contain;
+                                }
+
+                                .four_zero_four_bg h1 {
+                                    font-size: 80px;
+                                    margin: 0;
+                                }
+
+                                .contant_box_404 h3 {
+                                    font-size: 28px;
+                                    font-weight: 600;
+                                }
+                            </style>
+                            <!-- errorPage ends here -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Form End -->
+
+            <!-- Footer Start -->
+            <%- include('../partials/BCAFooter.ejs') %>
+            <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/BCAJSLibrary.ejs') %>
+</body>
+
+</html>

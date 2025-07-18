@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/BCAHeader.ejs') %>
+
+    <!-- Print‑only CSS (half A4 portrait) -->
+    <style>
+        @media print {
+            @page { size:A4 portrait; margin:0; }
+
+            body *          { visibility:hidden; }
+            #printArea, #printArea * {
+                visibility:visible;
+            }
+
+            #printArea {
+                position:absolute;
+                top:0; left:0;
+                width:100vw;
+                height:14.85cm;   /* exactly half of A4 (29.7 cm) */
+                padding:1cm;
+                box-sizing:border-box;
+            }
+
+            .d-print-none { display:none !important; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner -->
+        <%- include('../partials/spinner.ejs') %>
+
+        <!-- Sidebar -->
+        <%- include('../partials/BCASidebar.ejs') %>
+
+        <!-- ─────────── Content ─────────── -->
+        <div class="content">
+
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-2">
+                <a href="#" class="sidebar-toggler flex-shrink-0"><i class="fa fa-bars"></i></a>
+                <a href="" class="navbar-brand d-flex d-lg-none mx-1 me-4">
+                    <img src="/images/logomdcollege.png" alt="MD College" style="width:100%;">
+                </a>
+            </nav>
+
+            <!-- Flash message -->
+            <%- include('../partials/flashMessage.ejs') %>
+
+            <!-- Main wrapper -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="bg-light rounded p-4" style="min-height:70vh;">
+
+                            <!-- Back link -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <a href="javascript:window.history.back()">
+                                    <i class="fa-solid fa-arrow-left me-2"></i>Back
+                                </a>
+
+                                <!-- Print button (hidden on print) -->
+                                <a href="javascript:window.print()" class="btn btn-success d-print-none">
+                                    <i class="fa fa-print"></i> Print Receipt
+                                </a>
+                            </div>
+
+                            <!-- Admission summary -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="mb-4">
+                                    BCA <%= data.coursePart %> (<%= data.existingStudent.courseSession %>)
+                                    Admission Form
+                                    <span class="text-primary">
+                                        <%= data.existingStudent.part1AdmForm ? "( Filled by You )" : "" %>
+                                    </span>
+                                </h4>
+                            </div>
+
+                            <!-- Form (Pay Now) -->
+                            <form class="needs-validation" novalidate method="post"
+                                  action="/ug-reg-sem-1-25-29/payment/pay">
+                                <!-- existing fixed‑height form fields here … -->
+                                <!-- (kept exactly as you had them) -->
+                                <!-- … -->
+                            </form>
+
+                            <!-- ▬▬▬▬▬▬▬ RECEIPT (Printable) ▬▬▬▬▬▬▬ -->
+                            <section id="printArea" class="mt-5">
+
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <!-- Header -->
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <img src="/images/mdcLogo.png" width="70" alt="Logo">
+                                            <div class="text-center">
+                                                <h4 class="mb-1">M. D. COLLEGE, NAUBATPUR</h4>
+                                                <small>(A Constituent Unit of Patliputra University, Patna)</small><br>
+                                                <small>PATNA, BIHAR PIN - 801109</small><br>
+                                                <small>Website: mdcollegenaubatpur.ac.in | Email: mdcollegenaubatpur@yahoo.com</small>
+                                            </div>
+                                            <img src="/images/ppuLogo.png" width="70" alt="Logo">
+                                        </div>
+
+                                        <hr>
+                                        <h5 class="text-center mb-3">
+                                            <b>Admission E‑Receipt [College Copy]</b>
+                                        </h5>
+
+                                        <!-- Student Info -->
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <p><b>Name:</b> <%= data.existingStudent.studentName %></p>
+                                                <p><b>Class:</b> BCA Part <%= data.coursePart %> (<%= data.existingStudent.part1AdmForm.courseSession %>)</p>
+                                                <p><b>Application No:</b> <%= data.existingStudent.referenceNumber %></p>
+                                                <p><b>College Roll No:</b> <%= data.existingStudent.collegeRollNo %></p>
+                                                <% if (data.existingStudent.uniRegNumber) { %>
+                                                    <p><b>Uni. Reg. No:</b> <%= data.existingStudent.uniRegNumber %></p>
+                                                <% } %>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p><b>Email:</b> <%= data.existingStudent.email %></p>
+                                                <p><b>Mobile No:</b> <%= data.existingStudent.mobileNumber %></p>
+                                                <p><b>Subject:</b> <%= data.existingStudent.subject %></p>
+                                                <p><b>Category:</b> <%= data.existingStudent.category %></p>
+                                                <% if (data.coursePart == 1) { %>
+                                                                <p><b>Receipt No:</b> <%= data.existingStudent.part1AdmForm.receiptNo %></p>
+                                                                <% } else if (data.coursePart == 2) { %>
+                                                                    <p><b>Receipt No:</b> <%= data.existingStudent.part2AdmForm.receiptNo %></p>
+                                                                    <% } else if (data.coursePart == 3) { %>
+                                                                        <p><b>Receipt No:</b> <%= data.existingStudent.part3AdmForm.receiptNo %></p>
+                                                                    
+                                                            <% } %>
+                                            </div>
+                                        </div>
+
+                                        <!-- Fee table -->
+                                        <div class="table-responsive my-3">
+                                            <table class="table table-bordered mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sl. No.</th>
+                                                        <th>Description</th>
+                                                        <th class="text-end">Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>01</td>
+                                                        <td>Admission Fee</td>
+                                                        <td class="text-end">₹<%= data.existingStudent.part1AdmForm.totalFee %></td>
+                                                    </tr>
+                                                    <% if (data.existingStudent.part1AdmForm.extraFee > 0) { %>
+                                                    <tr>
+                                                        <td>02</td>
+                                                        <td>Late Fee</td>
+                                                        <td class="text-end">₹<%= data.existingStudent.part1AdmForm.extraFee %></td>
+                                                    </tr>
+                                                    <% } %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <!-- Pay mode -->
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <p><b>Pay Mode:</b> Online</p>
+                                                <p><b>Bank:</b> UPI</p>
+                                                <p><b>Total:</b> ₹<%= data.existingStudent.part1AdmForm.totalFee %></p>
+                                            </div>
+                                            <div class="col-sm-6 text-end">
+                                                <% if (data.coursePart == 1) { %>
+                                                                <p><b>Date & Time of Payment:</b> <%= data.existingStudent.part1AdmForm.dateAndTimeOfPayment %></p>
+                                                                <% } else if (data.coursePart == 2) { %>
+                                                                    <p><b>Date & Time of Payment:</b> <%= data.existingStudent.part2AdmForm.dateAndTimeOfPayment %></p>
+                                                                    <% } else if (data.coursePart == 3) { %>
+                                                                        <p><b>Date & Time of Payment:</b> <%= data.existingStudent.part3AdmForm.dateAndTimeOfPayment %></p>
+                                                                    
+                                                            <% } %>
+                                                
+                                                <% if (data.coursePart == 1) { %>
+                                                                <p><b>Payment Id:</b> <%= data.existingStudent.part1AdmForm.paymentId %></p>
+                                                                <% } else if (data.coursePart == 2) { %>
+                                                                    <p><b>Payment Id:</b> <%= data.existingStudent.part2AdmForm.paymentId %></p>
+                                                                    <% } else if (data.coursePart == 3) { %>
+                                                                        <p><b>Payment Id:</b> <%= data.existingStudent.part3AdmForm.paymentId %></p>
+                                                                    
+                                                            <% } %>
+                                                
+                                            </div>
+                                        </div>
+
+                                        <p class="fw-bold mt-3">Online Fee Paid</p>
+                                        <p class="text-muted">This is a computer‑generated receipt and does not require signature.</p>
+                                    </div><!-- /card-body -->
+                                </div><!-- /card -->
+
+                            </section>
+                            <!-- ▬▬▬▬▬▬▬ /RECEIPT ▬▬▬▬▬▬▬ -->
+
+                        </div><!-- /bg-light -->
+                    </div><!-- /col -->
+                </div><!-- /row -->
+            </div><!-- /container-fluid -->
+
+            <!-- Footer -->
+            <%- include('../partials/BCAFooter.ejs') %>
+        </div><!-- /content -->
+
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div><!-- /container-xxl -->
+
+    <!-- JS libraries -->
+    <%- include('../partials/BCAJSLibrary.ejs') %>
+</body>
+</html>

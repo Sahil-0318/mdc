@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/BCAHeader.ejs') %>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+        <!-- Spinner End -->
+
+
+        <!-- Sidebar Start -->
+        <%- include('../partials/BCASidebar.ejs') %>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-2">
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <a href="" class="navbar-brand d-flex d-lg-none mx-1 me-4">
+                    <img class="mb-0" src="/images/logomdcollege.png" alt="MD College" style="width: 100%;">
+                </a>
+            </nav>
+            <!-- Navbar End -->
+
+            <!-- Form Start -->
+            <div class="container-fluid pt-4 px-4">
+                <!-- message -->
+                <%- include("../partials/flashMessage.ejs") %>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="bg-light rounded p-4" style="min-height: 70vh;">
+
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <a href="javascript:window.history.back()" class=""><i
+                                class="fa-solid fa-arrow-left me-2"></i>Back</a>
+                                </div>
+                                <!-- Admission Form Content -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4 class="mb-4">BCA <%= data.coursePart %> (<%= data.existingStudent.courseSession %>) Admission
+                                            Form <span class="text-primary"><%= data.existingStudent.part1AdmForm !== null ? "( Filled by You )" : "" %></span>
+                                    </h4>
+                                </div>
+
+                                <h4 class="mb-3">Fee Details :</h4>
+                            <form class="needs-validation" novalidate="" method="post"
+                                action="">
+                                <div class="row g-3">
+                                    <div class="col-4">
+                                        <label for="studentName" class="form-label">Student's Full Name</label>
+                                        <textarea name="studentName" id="studentName" rows="1" class="form-control"
+                                            readonly><%= data.existingStudent.studentName %></textarea>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="mobileNumber" class="form-label">Mobile Number</label>
+                                        <textarea name="mobileNumber" id="mobileNumber" rows="1" class="form-control"
+                                            readonly><%= data.existingStudent.mobileNumber %></textarea>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="email" class="form-label">Email</label>
+                                        <textarea name="email" id="email" rows="1" class="form-control"
+                                            readonly><%= data.existingStudent.email %></textarea>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="referenceNumber" class="form-label">Reference Number</label>
+                                        <textarea name="referenceNumber" id="referenceNumber" rows="1" class="form-control"
+                                            readonly><%= data.existingStudent.referenceNumber %></textarea>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="admissionFee" class="form-label">Admission Fee</label>
+                                        <textarea name="admissionFee" id="admissionFee" rows="1" class="form-control"
+                                            readonly><%= data.existingStudent.part1AdmForm.admissionFee %></textarea>
+                                    </div>
+                                    <% if ( data.existingStudent.part1AdmForm.extraFee >  0) { %>
+                                     <div class="col-4">
+                                        <label for="extraFee" class="form-label">Extra Fee</label>
+                                        <textarea name="extraFee" id="extraFee" rows="1" class="form-control"
+                                            readonly><%= data.existingStudent.part1AdmForm.extraFee %></textarea>
+                                    </div>
+                                    <% } %>
+                                    <h3 class="mt-4 text-center">Total Amount : ₹ <%= data.existingStudent.part1AdmForm.totalFee %> /-
+                                    </h3>
+                                    <!-- <button type="submit" class="btn btn-success">Pay Now</button> -->
+                                    <a href="/bca-<%= data.coursePart %>-<%= data.existingStudent.courseSession %>/payment" class="btn btn-success">Pay Now</a>
+                            </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <!-- Form End -->
+
+
+            <!-- Footer Start -->
+            <%- include('../partials/BCAFooter.ejs') %>
+            <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/BCAJSLibrary.ejs') %>
+</body>
+
+</html>

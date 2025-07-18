@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Head partial + extra CSS -->
+    <%- include('../partials/BCAHeader.ejs') %>
+        <link href="../stylesheets/admissionForm.css" rel="stylesheet">
+
+        <style>
+            /* ───────────── SCREEN STYLES ───────────── */
+            .card {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                background: #fff;
+                background-clip: border-box;
+            }
+
+            .card-body {
+                min-height: 1060px;
+                border: .5px solid #000;
+            }
+
+            /* … (all your screen‑only rules, unchanged) … */
+            .studentInfo {
+                display: flex;
+                gap: 7px;
+                width: 100%;
+            }
+
+            .studentInfoData {
+                width: 80%;
+            }
+
+            .studentInfoPicture {
+                width: 20%;
+            }
+
+            /*   … trimmed for brevity – keep the rest of your rules …   */
+
+            /* ───────────── PRINT STYLES ───────────── */
+            @media print {
+
+                /* A4 portrait with reliable margins */
+                @page {
+                    size: A4 portrait;
+                    margin: 0.7cm;
+                }
+
+                html,
+                body {
+                    width: 210mm;
+                    background: #fff;
+                }
+
+                .container-xxl,
+                .myCont,
+                .card {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    width: 100% !important;
+                }
+
+                /* Hide nav, buttons, etc. */
+                .sidebar-toggler,
+                .navbar,
+                .d-print-none,
+                .back-to-top,
+                .note,
+                #printArea hr:last-of-type {
+                    display: none !important;
+                }
+
+                * {
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
+                }
+
+                /* Typography scale */
+                .formHead h2 {
+                    font-size: 24px;
+                }
+
+                .formHead h6 {
+                    font-size: 17px;
+                }
+
+                .formHead h3,
+                .formHead div {
+                    font-size: 16px;
+                }
+
+                .studentInfo {
+                    padding-top: 12px;
+                }
+
+                .studentInfoDataUpper div,
+                .studentInfoDataLower div,
+                .addressInfo p,
+                .addressInputBox,
+                .courseDetail div,
+                .courseDetail p,
+                .lastExamPassed div,
+                .lastExamPassed p,
+                .officeUse div,
+                .officeUse p {
+                    font-size: 11px;
+                }
+
+                .studentPhoto img {
+                    height: 150px;
+                    object-fit: cover;
+                    object-position: center;
+                }
+
+                .studentSign {
+                    height: 70px;
+                }
+
+                .studentSign img {
+                    height: 100%;
+                    object-fit: contain;
+                    object-position: left;
+                }
+
+                /* Keep key blocks whole */
+                .card,
+                .studentInfo,
+                .addressInfo,
+                .courseDetail,
+                .lastExamPassed,
+                .officeUse,
+                .declaration {
+                    page-break-inside: avoid;
+                }
+
+                /* PRINT‑ONLY FILTER: show only #printArea */
+                body * {
+                    visibility: hidden !important;
+                }
+
+                #printArea,
+                #printArea * {
+                    visibility: visible !important;
+                }
+
+                #printArea {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                }
+            }
+        </style>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+
+        <!-- Spinner -->
+        <%- include('../partials/spinner.ejs') %>
+
+            <!-- Sidebar -->
+            <%- include('../partials/BCASidebar.ejs') %>
+
+                <!-- Content -->
+                <div class="content">
+
+                    <!-- Navbar -->
+                    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-2">
+                        <a href="#" class="sidebar-toggler flex-shrink-0"><i class="fa fa-bars"></i></a>
+                        <a href="" class="navbar-brand d-flex d-lg-none mx-1 me-4">
+                            <img src="/images/logomdcollege.png" alt="MD College" style="width:100%;">
+                        </a>
+                    </nav>
+
+                    <!-- Form wrapper -->
+                    <div class="container-fluid pt-4 px-4">
+
+                        <!-- Flash message -->
+                        <%- include('../partials/flashMessage.ejs') %>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="bg-light rounded p-4" style="min-height:70vh;">
+                                        <!-- Back link -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <a href="javascript:window.history.back()">
+                                                <i class="fa-solid fa-arrow-left me-2"></i>Back
+                                            </a>
+
+                                            <!-- Print button (hidden on print) -->
+                                            <a href="javascript:window.print()" class="btn btn-success d-print-none">
+                                                <i class="fa fa-print"></i> Print Form
+                                            </a>
+                                        </div>
+
+                                        <!-- Admission summary -->
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4 class="mb-4">
+                                                BCA <%= data.coursePart %> (<%= data.existingStudent.courseSession %>)
+                                                        Admission Form
+                                                        <span class="text-primary">
+                                                            <%= data.existingStudent.part1AdmForm ? "( Filled by You )"
+                                                                : "" %>
+                                                        </span>
+                                            </h4>
+                                        </div>
+
+                                        <!-- Main card container -->
+                                        <div class="container-fluid pt-4 px-4">
+                                            <div class="myCont">
+
+                                                <!-- ▼▼ PRINT‑ONLY AREA ▼▼ -->
+                                                <section id="printArea">
+
+                                                    <div class="card">
+                                                        <div class="card-body">
+
+                                                            <!-- Header -->
+                                                            <div class="d-flex justify-content-between">
+                                                                <img src="/images/mdcLogo.png" width="70" alt="Logo">
+                                                                <div class="text-muted text-center formHead">
+                                                                    <h2>M. D. COLLEGE, NAUBATPUR</h2>
+                                                                    <h6>ADMISSION FORM - BCA Part <%= data.coursePart %>
+                                                                    </h6>
+                                                                    <h3>SESSION <%= data.existingStudent.courseSession
+                                                                            %>, College Roll No: <%=
+                                                                                data.existingStudent.collegeRollNo %>
+                                                                    </h3>
+                                                                    <div><b>College Copy</b></div>
+                                                                </div>
+                                                                <img src="/images/ppuLogo.png" width="70" alt="Logo">
+                                                            </div>
+                                                            <hr>
+
+                                                            <!-- Student info -->
+                                                            <div class="studentInfo">
+                                                                <div class="studentInfoData">
+                                                                    <div class="studentInfoDataUpper">
+                                                                        <p><b>1. Student's Details</b></p>
+                                                                        <% const field=(n,l,v)=>`<div class="fields">
+                                                                                <div class="fieldsName"><b>${l} :</b>
+                                                                                </div>
+                                                                                <div class="fieldsNameValue">${v}</div>
+                                                                            </div>`; %>
+                                                                            <%- field(1,"Student's Name",
+                                                                                data.existingStudent.studentName) %>
+                                                                                <%- field(2,"Father's Name",
+                                                                                    data.existingStudent.fatherName) %>
+                                                                                    <%- field(3,"Mother's Name",
+                                                                                        data.existingStudent.motherName)
+                                                                                        %>
+                                                                                        <%- field(4,"Guardian's Name",
+                                                                                            data.existingStudent.guardianName)
+                                                                                            %>
+                                                                    </div>
+
+
+                                                                    <div class="studentInfoDataLower">
+                                                                        <div class="lowerCol1">
+                                                                            <div class="fw-bold">Date of Birth :</div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.dOB ?
+                                                                                    data.existingStudent.dOB.toISOString().split('T')[0]
+                                                                                    : '' %>
+                                                                            </div>
+                                                                            <div class="fw-bold">Aadhar No :</div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.aadharNumber %>
+                                                                            </div>
+                                                                            <div class="fw-bold">Family Annual Income :
+                                                                            </div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.familyAnnualIncome
+                                                                                    %>
+                                                                            </div>
+                                                                            <div class="fw-bold">Physically Challenged :
+                                                                            </div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.physicallyChallenged
+                                                                                    %>
+                                                                            </div>
+                                                                            <div class="fw-bold">College Roll Number :
+                                                                            </div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.collegeRollNo
+                                                                                    %>
+                                                                            </div>
+                                                                            <div class="fw-bold">PPU Confidential Number
+                                                                                :</div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.ppuConfidentialNumber
+                                                                                    %>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="lowerCol2">
+                                                                            <div class="fw-bold">Gender :</div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.gender %>
+                                                                            </div>
+                                                                            <div class="fw-bold">Category :</div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.category %>
+                                                                            </div>
+                                                                            <div class="fw-bold">Religion :</div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.religion %>
+                                                                            </div>
+                                                                            <div class="fw-bold">Marital Status :</div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.maritalStatus
+                                                                                    %>
+                                                                            </div>
+                                                                            <div class="fw-bold">Reference/Application
+                                                                                No :</div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.referenceNumber
+                                                                                    %>
+                                                                            </div>
+
+                                                                            <% if (data.existingStudent.uniRegNumber) {
+                                                                                %>
+                                                                                <div class="fw-bold">Uni Reg No :</div>
+                                                                                <div class="lowerFieldNameValue">
+                                                                                    <%= data.existingStudent.uniRegNumber
+                                                                                        %>
+                                                                                </div>
+                                                                                <% } %>
+                                                                        </div>
+
+                                                                        <div class="lowerCol3">
+                                                                            <div class="fw-bold">E-mail Id :</div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.email %>
+                                                                            </div>
+                                                                            <div class="fw-bold">Mobile No :</div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.mobileNumber %>
+                                                                            </div>
+                                                                            <div class="fw-bold">WhatsApp Number :</div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.whatsAppNumber
+                                                                                    %>
+                                                                            </div>
+                                                                            <div class="fw-bold">Blood Group :</div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.bloodGroup %>
+                                                                            </div>
+                                                                            <div class="fw-bold">Applicant Id :</div>
+                                                                            <div class="lowerFieldNameValue">
+                                                                                <%= data.existingStudent.applicantId %>
+                                                                            </div>
+
+                                                                            <% if (data.existingStudent.uniRollNumber) {
+                                                                                %>
+                                                                                <div class="fw-bold">Uni Roll No :</div>
+                                                                                <div class="lowerFieldNameValue">
+                                                                                    <%= data.existingStudent.uniRollNumber
+                                                                                        %>
+                                                                                </div>
+                                                                                <% } %>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Photos -->
+                                                                <div class="studentInfoPicture">
+                                                                    <div class="studentPhoto">
+                                                                        <img src="<%= data.existingStudent.studentPhoto %>"
+                                                                            alt="Student Photo">
+                                                                    </div>
+                                                                    <div class="studentSign">
+                                                                        <img src="<%= data.existingStudent.studentSign %>"
+                                                                            alt="Student Sign">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+
+                                                            <!-- Address -->
+                                                            <div class="addressInfo">
+                                                                <p><b>2. Address for Correspondence</b></p>
+                                                                <div class="addressUpper">
+                                                                    <div class="address fw-bold">
+                                                                        <p>Address</p>
+                                                                        <div class="addressInputBox">
+                                                                            <%= data.existingStudent.address %>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="district fw-bold">
+                                                                        <p>District</p>
+                                                                        <div class="addressInputBox">
+                                                                            <%= data.existingStudent.district %>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="addressUpper">
+                                                                    <div class="address fw-bold">
+                                                                        <p>Police Station</p>
+                                                                        <div class="addressInputBox">
+                                                                            <%= data.existingStudent.policeStation %>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="district fw-bold">
+                                                                        <p>State</p>
+                                                                        <div class="addressInputBox">
+                                                                            <%= data.existingStudent.state %>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="district fw-bold">
+                                                                        <p>PIN</p>
+                                                                        <div class="addressInputBox">
+                                                                            <%= data.existingStudent.pinCode %>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+
+                                                            <!-- Course details -->
+                                                            <div class="courseDetail">
+                                                                <p><b>3. Course Details</b></p>
+                                                                <div class="coursePaper">
+                                                                    <div class="coursePaperLeft">
+                                                                        <div class="paperBox">
+                                                                            <div class="paper fw-bold">Subject :</div>
+                                                                            <div class="paperName">
+                                                                                <%= data.existingStudent.subject %>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+
+                                                            <!-- Last exam passed -->
+                                                            <% let p1 %>
+                                                            <% if (data.coursePart == 1) { %>
+                                                                <% p1=data.existingStudent.part1AdmForm; %>
+                                                                <% } else if (data.coursePart == 2) { %>
+                                                                    <% p1=data.existingStudent.part2AdmForm; %>
+                                                                    <% } else if (data.coursePart == 3) { %>
+                                                                        <% p1=data.existingStudent.part3AdmForm; %>
+                                                                    
+                                                            <% } %>
+                                                                <div class="lastExamPassed">
+                                                                    <p><b>4. Last Exam Passed</b></p>
+                                                                    <div class="lastExamPassedRow">
+                                                                        <div class="lastExamPassedCol">
+                                                                            <div class="fw-bold">Exam Name :</div>
+                                                                            <div class="inputField">
+                                                                                <%= p1.examName %>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="lastExamPassedCol">
+                                                                            <div class="fw-bold">Exam Board :</div>
+                                                                            <div class="inputField">
+                                                                                <%= p1.examBoard %>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="lastExamPassedCol">
+                                                                            <div class="fw-bold">Exam Year :</div>
+                                                                            <div class="inputField">
+                                                                                <%= p1.examYear %>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="lastExamPassedCol">
+                                                                            <div class="fw-bold">Obt Marks :</div>
+                                                                            <div class="inputField">
+                                                                                <%= p1.obtMarks %>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="lastExamPassedCol">
+                                                                            <div class="fw-bold">Full Marks :</div>
+                                                                            <div class="inputField">
+                                                                                <%= p1.fullMarks %>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="lastExamPassedCol">
+                                                                            <div class="fw-bold">Obt % :</div>
+                                                                            <div class="inputField">
+                                                                                <%= p1.obtPercent %>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="lastExamPassedCol">
+                                                                            <div class="fw-bold">Result :</div>
+                                                                            <div class="inputField">
+                                                                                <%= p1.examResult %>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+
+                                                                <!-- Office Endorsement -->
+                                                                <div class="officeUse">
+                                                                    <p><b>5. Office Endorsement for Admission</b></p>
+                                                                    <div class="officeUseBox">
+                                                                        <div class="div1 fw-bold">Admission Sign of
+                                                                            Assistant :
+                                                                        </div>
+                                                                        <div class="div2 fw-bold">Allowed Sign Admn.
+                                                                            In-Charge :
+                                                                        </div>
+                                                                        <div class="div3 fw-bold">Not Allowed Sign
+                                                                            Admn. In-Charge :</div>
+                                                                        <div class="div4 fw-bold">PRINCIPAL :</div>
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+
+                                                                <!-- Declaration -->
+                                                                <div class="declaration">
+                                                                    <p>
+                                                                        1. We declare that all the information furnished
+                                                                        by me at the time of online admission is true
+                                                                        to the best of my knowledge and belief.<br>
+                                                                        2. We also declare that if any discrepancy,
+                                                                        forgery or wrong information arises or
+                                                                        mismatches
+                                                                        from the original documents at any stage, my
+                                                                        admission would automatically be treated as
+                                                                        cancelled.<br>
+                                                                        3. We will not request to change subject after
+                                                                        my admission.<br>
+                                                                        4. I shall be debarred from filling the
+                                                                        examination form if attendance is below 75%.
+                                                                    </p>
+                                                                </div>
+
+                                                                <!-- Signatures -->
+                                                                <div class="studentAndParentSign">
+                                                                    <p><b>Full Signature of the Parent/Guardian</b></p>
+                                                                    <p><b>Full Signature of the Student</b></p>
+                                                                </div>
+
+
+                                                        </div><!-- /card-body -->
+                                                    </div><!-- /card -->
+                                                </section><!-- ▲ /printArea -->
+
+                                            </div><!-- /.myCont -->
+                                        </div><!-- /container -->
+                                    </div><!-- /p-4 -->
+                                </div><!-- /col -->
+                            </div><!-- /row -->
+                    </div><!-- /container-fluid -->
+
+                    <!-- Footer -->
+                    <%- include('../partials/BCAFooter.ejs') %>
+                </div><!-- /content -->
+
+                <!-- Back‑to‑top -->
+                <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div><!-- /container‑xxl -->
+
+    <!-- JS Libraries -->
+    <%- include('../partials/BCAJSLibrary.ejs') %>
+</body>
+
+</html>

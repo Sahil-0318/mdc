@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/BCAHeader.ejs') %>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+            <!-- Spinner End -->
+
+
+            <!-- Sidebar Start -->
+            <%- include('../partials/BCASidebar.ejs') %>
+                <!-- Sidebar End -->
+
+
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-2">
+                        <a href="#" class="sidebar-toggler flex-shrink-0">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                        <a href="" class="navbar-brand d-flex d-lg-none mx-1 me-4">
+                            <img class="mb-0" src="/images/logomdcollege.png" alt="MD College" style="width: 100%;">
+                        </a>
+                    </nav>
+                    <!-- Navbar End -->
+
+                    <!-- Form Start -->
+                    <div class="container-fluid pt-4 px-4">
+                        <!-- message -->
+                        <%- include("../partials/flashMessage.ejs") %>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="bg-light rounded p-4" style="min-height: 70vh;">
+                                        <!-- Back link -->
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <a href="javascript:window.history.back()">
+                                                <i class="fa-solid fa-arrow-left me-2"></i>Back
+                                            </a>
+                                        </div>
+
+                                        <!-- Admission Form Content -->
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4 class="mb-4">BCA Part-2 (<%= data.existingStudent.courseSession %>)
+                                                    Admission
+                                                    Form <span class="text-primary">
+                                                        <%= data.existingStudent.part2AdmForm !==null
+                                                            ? "( Filled by You )" : "" %>
+                                                    </span>
+                                            </h4>
+                                        </div>
+
+
+                                        <% if (data.existingStudent.part2AdmForm===null) { %>
+                                            <form action="/bca-2-<%= data.courseSession %>/admFormPost" method="post">
+
+                                                <label class="form-label h5"><b>Student's Details :</b></label>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="referenceNumber" class="form-label"><b>Reference
+                                                                Number
+                                                                :</b></label>
+                                                        <textarea id="referenceNumber" name="referenceNumber" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.referenceNumber.trim().toUpperCase() %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="studentName" class="form-label"><b>Student's Name
+                                                                :</b></label>
+                                                        <textarea id="studentName" name="studentName" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.studentName.trim().toUpperCase() %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="collegeRollNo" class="form-label"><b>College Roll No
+                                                                :</b></label>
+                                                        <textarea id="collegeRollNo" name="collegeRollNo" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.collegeRollNo %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="mobileNumber" class="form-label"><b>Mobile
+                                                                Number :</b></label>
+                                                        <input type="number" class="form-control" id="mobileNumber"
+                                                            name="mobileNumber" readonly
+                                                            value=<%=data.existingStudent.mobileNumber %> />
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="aadharNumber" class="form-label"><b>Aadhar Number
+                                                                :</b></label>
+                                                        <textarea id="aadharNumber" name="aadharNumber" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.aadharNumber %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="whatsAppNumber" class="form-label"><b>WhatsApp
+                                                                Number
+                                                                :</b></label>
+                                                        <textarea id="whatsAppNumber" name="whatsAppNumber" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.whatsAppNumber %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="email" class="form-label"><b>Email :</b></label>
+                                                        <textarea id="email" name="email" rows="1" class="form-control"
+                                                            required
+                                                            readonly><%= data.existingStudent.email.trim().toLowerCase() %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="dOB" class="form-label"><b>Date Of Birth
+                                                                :</b></label>
+                                                        <input type="date" class="form-control" id="dOB" name="dOB"
+                                                            value="<%= data.existingStudent.dOB ? data.existingStudent.dOB.toISOString().split('T')[0] : '' %>"
+                                                            readonly required />
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="gender" class="form-label"><b>Gender :</b></label>
+                                                        <textarea id="gender" name="gender" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.gender %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="fatherName" class="form-label"><b>Father's Name
+                                                                :</b></label>
+                                                        <textarea id="fatherName" name="fatherName" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.fatherName.trim().toUpperCase() %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="motherName" class="form-label"><b>Mother's Name
+                                                                :</b></label>
+                                                        <textarea id="motherName" name="motherName" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.motherName  ? data.existingStudent.motherName.trim().toUpperCase() : "NA" %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="guardianName" class="form-label"><b>Guardian's Name
+                                                                :</b></label>
+                                                        <textarea id="guardianName" name="guardianName" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.guardianName.trim().toUpperCase() %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="applicantId" class="form-label"><b>Applicant Id
+                                                                :</b></label>
+                                                        <textarea id="applicantId" name="applicantId" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.applicantId.trim().toUpperCase() %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="religion" class="form-label"><b>Religion
+                                                                :</b></label>
+                                                        <textarea id="religion" name="religion" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.religion %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="category" class="form-label"><b>Category
+                                                                :</b></label>
+                                                        <textarea id="category" name="category" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.category %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="bloodGroup" class="form-label"><b>Blood Group
+                                                                :</b></label>
+                                                        <textarea id="bloodGroup" name="bloodGroup" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.bloodGroup %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="familyAnnualIncome" class="form-label"><b>Family
+                                                                Annual Income
+                                                                :</b></label>
+                                                        <textarea id="familyAnnualIncome" name="familyAnnualIncome"
+                                                            rows="1" class="form-control" required
+                                                            readonly><%= data.existingStudent.familyAnnualIncome %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="physicallyChallenged"
+                                                            class="form-label"><b>Physically
+                                                                Challenged :</b></label>
+                                                        <textarea id="physicallyChallenged" name="physicallyChallenged"
+                                                            rows="1" class="form-control" required
+                                                            readonly><%= data.existingStudent.physicallyChallenged %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="maritalStatus" class="form-label"><b>Marital Status
+                                                                :</b></label>
+                                                        <textarea id="maritalStatus" name="maritalStatus" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.maritalStatus %></textarea>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="col-md-12 mb-3">
+                                                        <label for="address" class="form-label h5"><b>Address Details
+                                                                :</b></label>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="address" class="form-label"><b>Address :</b></label>
+                                                        <textarea id="address" name="address" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.address %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="district" class="form-label"><b>District
+                                                                :</b></label>
+                                                        <textarea id="district" name="district" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.district %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="policeStation" class="form-label"><b>Police Station
+                                                                :</b></label>
+                                                        <textarea id="policeStation" name="policeStation" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.policeStation %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="state" class="form-label"><b>State :</b></label>
+                                                        <textarea id="state" name="state" rows="1" class="form-control"
+                                                            required
+                                                            readonly><%= data.existingStudent.state %></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="pinCode" class="form-label"><b>PIN Code
+                                                                :</b></label>
+                                                        <textarea id="pinCode" name="pinCode" rows="1"
+                                                            class="form-control" required
+                                                            readonly><%= data.existingStudent.pinCode %></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-12 mb-3">
+                                                        <label for="examResult" class="form-label h5"><b>Last Exam
+                                                                Passed Details :</b></label>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="uniRegNumber" class="form-label"><b>University
+                                                                Registration No
+                                                                :</b></label>
+                                                        <input type="text" class="form-control" id="uniRegNumber"
+                                                            name="uniRegNumber"
+                                                            oninput="this.value=this.value.toUpperCase()" required />
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="uniRollNumber" class="form-label"><b>University Roll
+                                                                No
+                                                                :</b></label>
+                                                        <input type="text" class="form-control" id="uniRollNumber"
+                                                            name="uniRollNumber"
+                                                            oninput="this.value=this.value.toUpperCase()" required />
+                                                    </div>
+
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="examResult" class="form-label"><b>Exam Result
+                                                                :</b></label>
+                                                        <select id="examResult" class="form-select" name="examResult"
+                                                            required>
+                                                            <option value="" selected disabled>Select Last Exam Result
+                                                            </option>
+                                                            <option value="1st Division">1st Division</option>
+                                                            <option value="2nd Division">2nd Division</option>
+                                                            <option value="3rd Division">3rd Division</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="obtMarks" class="form-label"><b>Obtained Marks/Gr
+                                                                :</b></label>
+                                                        <input type="number" class="form-control" id="obtMarks"
+                                                            name="obtMarks" required />
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="fullMarks" class="form-label"><b>Full Marks/Gr
+                                                                :</b></label>
+                                                        <input type="number" class="form-control" id="fullMarks"
+                                                            name="fullMarks" required />
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="obtPercent" class="form-label"><b>Obtained %
+                                                                :</b></label>
+                                                        <input type="text" class="form-control" id="obtPercent"
+                                                            name="obtPercent" required />
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="reset" class="btn btn-secondary">Reset</button>
+
+                                            </form>
+                                            <% } %>
+
+                                                <% if (data.existingStudent.part2AdmForm !==null) { %>
+                                                    <% if (data.existingStudent.part2AdmForm.isPaid) { %>
+                                                        <h3 class="text-success mb-4">🎉 Payment Successful!</h3>
+                                                        <p>Thank you, <strong>
+                                                                <%= data.existingStudent.studentName %>
+                                                            </strong>, your payment has been received.</p>
+                                                        <p>You can now proceed to access your <strong
+                                                                class="text-primary">Admission Form</strong> and
+                                                            <strong class="text-primary">Admission Receipt</strong>.
+                                                        </p>
+                                                        <% } else { %>
+                                                            <h3 class="text-danger mb-4">Admission Fee is not paid.</h3>
+                                                            <p>Please, <strong>Pay your Admission Fee</strong>, Checkout
+                                                                your
+                                                                admission fee below.</p>
+                                                            <a class="btn btn-lg btn-success"
+                                                                href="/bca-2-<%= data.existingStudent.courseSession %>/feeCheckout"><strong>Checkout
+                                                                    Fee</strong></a>
+                                                            <% } %>
+                                                                <% } %>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Form End -->
+
+
+                    <!-- Footer Start -->
+                    <%- include('../partials/BCAFooter.ejs') %>
+                        <!-- Footer End -->
+                </div>
+                <!-- Content End -->
+
+
+                <!-- Back to Top -->
+                <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/BCAJSLibrary.ejs') %>
+</body>
+
+</html>

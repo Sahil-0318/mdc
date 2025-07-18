@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/BCAHeader.ejs') %>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+            <!-- Spinner End -->
+
+
+            <!-- Sidebar Start -->
+            <%- include('../partials/BCASidebar.ejs') %>
+                <!-- Sidebar End -->
+
+
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-2">
+                        <a href="#" class="sidebar-toggler flex-shrink-0">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                        <a href="" class="navbar-brand d-flex d-lg-none mx-1 me-4">
+                            <img class="mb-0" src="/images/logomdcollege.png" alt="MD College" style="width: 100%;">
+                        </a>
+                    </nav>
+                    <!-- Navbar End -->
+
+                    <!-- Form Start -->
+                    <div class="container-fluid pt-4 px-4">
+                        <!-- message -->
+                        <%- include("../partials/flashMessage.ejs") %>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="bg-light rounded p-4" style="min-height: 70vh;">
+
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <a href="javascript:window.history.back()" class=""><i
+                                                    class="fa-solid fa-arrow-left me-2"></i>Back</a>
+                                        </div>
+                                        <!-- Admission Form Content -->
+
+                                        <div class="success-box">
+
+                                            <h2 class="mt-4 text-success"><i
+                                                    class="fas fa-check-circle success-icon"></i> Payment Successful!
+                                            </h2>
+                                            <p class="lead">Thank you, <strong>
+                                                    <%= data.existingStudent.studentName %>
+                                                </strong>, for completing your payment.</p>
+                                            <hr>
+                                            <h4 class="text-success mb-3">Transaction Details</h4>
+
+                                            <% if (data.coursePart==1) { %>
+                                                <ul class="list-unstyled details">
+                                                    <!-- <li><strong>Transaction ID:</strong> <%# payment.transactionid %></li> -->
+                                                    <li><strong>Payment ID:</strong>
+                                                        <%= data.existingStudent.part1AdmForm.paymentId %>
+                                                    </li>
+                                                    <!-- <li><strong>Order ID:</strong> <%# payment.orderid %></li> -->
+                                                    <li><strong>Payment Receipt:</strong>
+                                                        <%= data.existingStudent.part1AdmForm.receiptNo %>
+                                                    </li>
+                                                    <!-- <li><strong>Amount Paid:</strong> ₹<%# payment.amount %></li> -->
+                                                    <li><strong>Amount Paid:</strong> ₹<%=
+                                                            data.existingStudent.part1AdmForm.totalFee %>
+                                                    </li>
+                                                    <!-- <li><strong>Payment Mode:</strong> <%# payment.payment_method_type.toUpperCase() %></li> -->
+                                                    <li><strong>Payment Mode:</strong> Online</li>
+                                                    <!-- <li><strong>Date:</strong> <%# payment.date %></li> -->
+                                                    <li><strong>Date:</strong>
+                                                        <%= data.existingStudent.part1AdmForm.dateAndTimeOfPayment %>
+                                                    </li>
+                                                </ul>
+                                                <% } else if ( data.coursePart==2 ) { %>
+                                                    <ul class="list-unstyled details">
+                                                        <!-- <li><strong>Transaction ID:</strong> <%# payment.transactionid %></li> -->
+                                                        <li><strong>Payment ID:</strong>
+                                                            <%= data.existingStudent.part2AdmForm.paymentId %>
+                                                        </li>
+                                                        <!-- <li><strong>Order ID:</strong> <%# payment.orderid %></li> -->
+                                                        <li><strong>Payment Receipt:</strong>
+                                                            <%= data.existingStudent.part2AdmForm.receiptNo %>
+                                                        </li>
+                                                        <!-- <li><strong>Amount Paid:</strong> ₹<%# payment.amount %></li> -->
+                                                        <li><strong>Amount Paid:</strong> ₹<%=
+                                                                data.existingStudent.part2AdmForm.totalFee %>
+                                                        </li>
+                                                        <!-- <li><strong>Payment Mode:</strong> <%# payment.payment_method_type.toUpperCase() %></li> -->
+                                                        <li><strong>Payment Mode:</strong> Online</li>
+                                                        <!-- <li><strong>Date:</strong> <%# payment.date %></li> -->
+                                                        <li><strong>Date:</strong>
+                                                            <%= data.existingStudent.part2AdmForm.dateAndTimeOfPayment
+                                                                %>
+                                                        </li>
+                                                    </ul>
+                                                    <% } else if ( data.coursePart==3 ) { %>
+                                                        <ul class="list-unstyled details">
+                                                            <!-- <li><strong>Transaction ID:</strong> <%# payment.transactionid %></li> -->
+                                                            <li><strong>Payment ID:</strong>
+                                                                <%= data.existingStudent.part3AdmForm.paymentId %>
+                                                            </li>
+                                                            <!-- <li><strong>Order ID:</strong> <%# payment.orderid %></li> -->
+                                                            <li><strong>Payment Receipt:</strong>
+                                                                <%= data.existingStudent.part3AdmForm.receiptNo %>
+                                                            </li>
+                                                            <!-- <li><strong>Amount Paid:</strong> ₹<%# payment.amount %></li> -->
+                                                            <li><strong>Amount Paid:</strong> ₹<%=
+                                                                    data.existingStudent.part3AdmForm.totalFee %>
+                                                            </li>
+                                                            <!-- <li><strong>Payment Mode:</strong> <%# payment.payment_method_type.toUpperCase() %></li> -->
+                                                            <li><strong>Payment Mode:</strong> Online</li>
+                                                            <!-- <li><strong>Date:</strong> <%# payment.date %></li> -->
+                                                            <li><strong>Date:</strong>
+                                                                <%= data.existingStudent.part3AdmForm.dateAndTimeOfPayment
+                                                                    %>
+                                                            </li>
+                                                        </ul>
+                                                        <% } %>
+
+                                                            <a href="/bca-<%= data.coursePart %>-<%= data.courseSession %>/admReceipt"
+                                                                class="btn btn-success btn-home">Get Receipt</a>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Form End -->
+
+
+                    <!-- Footer Start -->
+                    <%- include('../partials/BCAFooter.ejs') %>
+                        <!-- Footer End -->
+                </div>
+                <!-- Content End -->
+
+
+                <!-- Back to Top -->
+                <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/BCAJSLibrary.ejs') %>
+</body>
+
+</html>

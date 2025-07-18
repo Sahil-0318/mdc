@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/BCAHeader.ejs') %>
+    <style>
+        @keyframes popup {
+          0%, 100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(0.9);
+          }
+        }
+        .popup-animation {
+          animation: popup 1.2s infinite;
+        }
+      </style>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+        <!-- Spinner End -->
+
+
+        <!-- Sidebar Start -->
+        <%- include('../partials/BCASidebar.ejs') %>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-2">
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <a href="" class="navbar-brand d-flex d-lg-none mx-1 me-4">
+                    <img class="mb-0" src="/images/logomdcollege.png" alt="MD College" style="width: 100%;">
+                </a>
+            </nav>
+            <!-- Navbar End -->
+
+            <!-- Form Start -->
+            <div class="container-fluid pt-4 px-4">
+                <!-- message -->
+                <%- include("../partials/flashMessage.ejs") %>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="bg-light rounded p-4" style="min-height: 70vh;">
+
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <a href="javascript:window.history.back()" class=""><i
+                                            class="fa-solid fa-arrow-left me-2"></i>Back</a>
+                                </div>
+                                <!-- Fee Payment Content -->
+                                <h4 class="text-secondary text-center"><%= data.pageTitle %></h4>
+
+                                <div class="bg-light rounded p-4 my-4 col-12 d-flex flex-column-reverse flex-lg-row">
+                                    <div class="col-12 col-lg-6 me-4">
+                                        <form action="/bca-<%= data.coursePart %>-<%= data.courseSession %>/paymentPost" method="post"
+                                            enctype="multipart/form-data">
+                                            <div class="col-12 mb-3">
+                                                <label for="paymentId" class="form-label">
+                                                    <strong>Enter 12 digits UTR / Ref No. below after payment.</strong>
+                                                    <br>
+                                                    <strong>भुगतान के बाद नीचे 12 अंकों का यूटीआर/रेफ नंबर दर्ज करें
+                                                        |</strong>
+                                                </label>
+                                                <input type="text" class="form-control mb-2  has-validation"
+                                                    name="paymentId" id="paymentId" maxlength="12" inputmode="numeric" pattern="\d{12}" minlength="12"
+                                                    placeholder="Enter 12 digits UTR / Ref No." required />
+
+                                                <%# if (data.invalid) { %>
+                                                    <!-- <div class="text-danger mb-2"> -->
+                                                        <%# data.invalid %>
+                                                    <!-- </div> -->
+                                                    <%# } %>
+
+                                                        <img src="/images/refNo.jpg" style="width: 40%;"
+                                                            alt="Payment Id no. example">
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="col-12 mb-3">
+                                                <label for="paymentScreenshot" class="form-label fw-bold">Upload Payment
+                                                    Screenshot.<br> भुगतान
+                                                    स्क्रीनशॉट अपलोड करें |</label>
+                                                <input class="form-control form-control-sm mb-2" name="paymentScreenshot"
+                                                    type="file" accept="image/*" id="paymentScreenshot" required>
+                                                <label class="text-center text-danger fw-bold popup-animation">Note : If
+                                                    payment
+                                                    screenshot is not valid then admission will be invalid so upload
+                                                    valid payment
+                                                    screenshot. <br> ध्यान दें: यदि भुगतान स्क्रीनशॉट वैध नहीं है तो
+                                                    प्रवेश अमान्य होगा
+                                                    इसलिए वैध भुगतान स्क्रीनशॉट अपलोड करें।</label>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
+                                    </div>
+                                    <hr>
+
+                                    <div class="col-12 col-lg-6 d-flex flex-column align-items-center mb-4 mb-lg-0">
+                                        <div style="width: 100%; max-width: 250px;">
+                                            <img src=<%= qrcodeUrl %> alt="Payment QR Code" style="width: 100%;
+                                            max-width:
+                                            250px;">
+                                        </div>
+                                        <div class="mt-3">
+                                            <p><strong>UPI ID:</strong>
+                                                <%= data.upiId %>
+                                            </p>
+                                            <p><strong>Total Amount :</strong> <span class="lead text-success fw-bold">
+                                                    <% if ( data.coursePart == 1 ) { %>
+                                                        ₹ <%= data.existingStudent.part1AdmForm.totalFee %>
+                                                     <% } else if ( data.coursePart == 2 ) { %>
+                                                        ₹ <%= data.existingStudent.part2AdmForm.totalFee %>
+                                                     <% } else if ( data.coursePart == 3 ) { %>
+                                                       ₹ <%= data.existingStudent.part3AdmForm.totalFee %>
+                                                    <% } %>
+                                                </span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="text-danger text-center fw-bold">Note: Submit hard copy of Payment Screenshot
+                                    and Payment Slip
+                                    to College. <br> नोट: भुगतान स्क्रीनशॉट और भुगतान पर्ची की हार्ड कॉपी कॉलेज में जमा
+                                    करें।</p>
+
+
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <!-- Form End -->
+
+
+            <!-- Footer Start -->
+            <%- include('../partials/BCAFooter.ejs') %>
+            <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/BCAJSLibrary.ejs') %>
+</body>
+
+</html>
