@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/MainHeader.ejs') %>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+        <!-- Spinner End -->
+
+
+        <!-- Sidebar Start -->
+        <%- include('../partials/SuperAdminSidebar.ejs') %>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-2">
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <a href="" class="navbar-brand d-flex d-lg-none mx-1 me-4">
+                    <img class="mb-0" src="/images/logomdcollege.png" alt="MD College" style="width: 100%;">
+                </a>
+            </nav>
+            <!-- Navbar End -->
+
+            <!-- Form Start -->
+            <div class="container-fluid pt-4 px-4">
+                <!-- message -->
+                <%- include("../partials/flashMessage.ejs") %>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="bg-light rounded p-4" style="min-height: 70vh;">
+
+                                <!-- <div class="container-fluid pt-4 px-4"> -->
+                                <!-- Welcome Message -->
+                                <div class="bg-primary text-white rounded p-4 mb-4 shadow-sm">
+                                    <h4 class="mb-0">Welcome, <%= data.foundUser?.fullName %> 👋
+                                    </h4>
+                                    <small>Your personal dashboard</small>
+                                </div>
+
+                                <!-- Student Info Cards -->
+                                <div class="row g-4">
+                                    <div class="col-md-6 col-xl-4">
+                                        <div class="bg-light rounded p-3 shadow-sm">
+                                            <h6 class="text-muted">Full Name</h6>
+                                            <p class="fs-5 mb-0 text-break">
+                                                <%= data.foundUser?.fullName || 'Data not available' %>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-xl-4">
+                                        <div class="bg-light rounded p-3 shadow-sm">
+                                            <h6 class="text-muted">User Id</h6>
+                                            <p class="fs-5 mb-0 text-break">
+                                                <%= data.foundUser?.userId %>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-xl-4">
+                                        <div class="bg-light rounded p-3 shadow-sm">
+                                            <h6 class="text-muted">Role</h6>
+                                            <p class="fs-5 mb-0 text-break">
+                                                <%= data.foundUser?.role.toUpperCase() %>
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <!-- </div> -->
+
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+            </div>
+
+            <!-- Form End -->
+
+
+            <!-- Footer Start -->
+            <%- include('../partials/BCAFooter.ejs') %>
+            <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/BCAJSLibrary.ejs') %>
+</body>
+
+</html>

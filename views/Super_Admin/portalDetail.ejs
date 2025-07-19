@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/MainHeader.ejs') %>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+            <!-- Spinner End -->
+
+
+            <!-- Sidebar Start -->
+            <%- include('../partials/SuperAdminSidebar.ejs') %>
+                <!-- Sidebar End -->
+
+
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-2">
+                        <a href="#" class="sidebar-toggler flex-shrink-0">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                        <a href="" class="navbar-brand d-flex d-lg-none mx-1 me-4">
+                            <img class="mb-0" src="/images/logomdcollege.png" alt="MD College" style="width: 100%;">
+                        </a>
+                    </nav>
+                    <!-- Navbar End -->
+
+                    <!-- Form Start -->
+                    <div class="container-fluid pt-4 px-4">
+                        <!-- message -->
+                        <%- include("../partials/flashMessage.ejs") %>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="bg-light rounded p-4" style="min-height: 70vh;">
+
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <a href="javascript:window.history.back()">
+                                                <i class="fa-solid fa-arrow-left me-2"></i>Back
+                                            </a>
+                                        </div>
+
+                                        <!-- <div class="bg-light rounded p-4 mb-3"> -->
+                                        <h6 class="mb-4">
+                                            (<%= data.admPortal.courseSession %>) <%= data.admPortal.degree.toUpperCase() %> Admission Portal Detail
+                                        </h6>
+
+                                        <div class="row mb-2">
+                                            <label for="courseSession" class="col-sm-3 col-md-4 col-form-label">Part 1
+                                                Portal :
+                                            </label>
+                                            <div class="col-sm-6 col-md-6">
+                                                <a href="/portalStatus/bca/1/<%= data.admPortal._id %>"
+                                                    class="px-4 btn <%= data.admPortal.isPart1Active ? " btn-success"
+                                                    : "btn-danger" %>
+                                                    w-md"><%= data.admPortal.isPart1Active ? "Active" : "Deactive" %>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-2">
+                                            <label for="courseSession" class="col-sm-3 col-md-4 col-form-label">Part 1
+                                                Admission :
+                                            </label>
+                                            <div class="col-sm-6 col-md-6">
+                                                <a href="/portalAdmStatus/bca/1/<%= data.admPortal._id %>"
+                                                    class="px-4 btn <%= data.admPortal.isPart1AdmActive ? " btn-success"
+                                                    : "btn-danger" %>
+                                                    w-md"><%= data.admPortal.isPart1AdmActive ? "Active" : "Deactive" %>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="row mb-2">
+                                            <label for="courseSession" class="col-sm-3 col-md-4 col-form-label">Part 2
+                                                Portal :
+                                            </label>
+                                            <div class="col-sm-6 col-md-6">
+                                                <a href="/portalStatus/bca/2/<%= data.admPortal._id %>"
+                                                    class="px-4 btn <%= data.admPortal.isPart2Active ? " btn-success"
+                                                    : "btn-danger" %>
+                                                    w-md"><%= data.admPortal.isPart2Active ? "Active" : "Deactive" %>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-2">
+                                            <label for="courseSession" class="col-sm-3 col-md-4 col-form-label">Part 2
+                                                Admission :
+                                            </label>
+                                            <div class="col-sm-6 col-md-6">
+                                                <a href="/portalAdmStatus/bca/2/<%= data.admPortal._id %>"
+                                                    class="px-4 btn <%= data.admPortal.isPart2AdmActive ? " btn-success"
+                                                    : "btn-danger" %>
+                                                    w-md"><%= data.admPortal.isPart2AdmActive ? "Active" : "Deactive" %>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="row mb-2">
+                                            <label for="courseSession" class="col-sm-3 col-md-4 col-form-label">Part 3
+                                                Portal :
+                                            </label>
+                                            <div class="col-sm-6 col-md-6">
+                                                <a href="/portalStatus/bca/3/<%= data.admPortal._id %>"
+                                                    class="px-4 btn <%= data.admPortal.isPart3Active ? " btn-success"
+                                                    : "btn-danger" %>
+                                                    w-md"><%= data.admPortal.isPart3Active ? "Active" : "Deactive" %>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-2">
+                                            <label for="courseSession" class="col-sm-3 col-md-4 col-form-label">Part 3
+                                                Admission :
+                                            </label>
+                                            <div class="col-sm-6 col-md-6">
+                                                <a href="/portalAdmStatus/bca/3/<%= data.admPortal._id %>"
+                                                    class="px-4 btn <%= data.admPortal.isPart3AdmActive ? " btn-success"
+                                                    : "btn-danger" %>
+                                                    w-md"><%= data.admPortal.isPart3AdmActive ? "Active" : "Deactive" %>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <hr>
+
+                                        <form action="/updateMeritList/<%= data.admPortal.degree %>" enctype="multipart/form-data"
+                                            method="post">
+
+
+                                            <div class="row mb-3">
+                                                <label for="meritListFile"
+                                                    class="col-sm-3 col-md-4 col-form-label">Upload Merit List :
+                                                </label>
+                                                <div class="col-sm-6 col-md-6">
+                                                    <input type="file" class="form-control" id="meritListFile"
+                                                        name="meritListFile" accept=".xlsx,.xls,.csv" required>
+                                                </div>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary">Update Merit List</button>
+                                        </form>
+                                        <!-- </div> -->
+
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Form End -->
+
+
+                    <!-- Footer Start -->
+                    <%- include('../partials/MainFooter.ejs') %>
+                        <!-- Footer End -->
+                </div>
+                <!-- Content End -->
+
+
+                <!-- Back to Top -->
+                <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/MainJSLibrary.ejs') %>
+</body>
+
+</html>

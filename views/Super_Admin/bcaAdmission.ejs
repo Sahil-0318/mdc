@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/MainHeader.ejs') %>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+            <!-- Spinner End -->
+
+
+            <!-- Sidebar Start -->
+            <%- include('../partials/SuperAdminSidebar.ejs') %>
+                <!-- Sidebar End -->
+
+
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-2">
+                        <a href="#" class="sidebar-toggler flex-shrink-0">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                        <a href="" class="navbar-brand d-flex d-lg-none mx-1 me-4">
+                            <img class="mb-0" src="/images/logomdcollege.png" alt="MD College" style="width: 100%;">
+                        </a>
+                    </nav>
+                    <!-- Navbar End -->
+
+                    <!-- Form Start -->
+                    <div class="container-fluid pt-4 px-4">
+                        <!-- message -->
+                        <%- include("../partials/flashMessage.ejs") %>
+
+                            <div class="row">
+                                <div class="col-12">
+
+                                    <div class="bg-light rounded p-4 mb-3">
+                                        <h6 class="mb-4">Start New BCA Admission Session</h6>
+                                        <form action="/super-admin/bcaAdmissionPost" enctype="multipart/form-data"
+                                            method="post">
+                                            <div class="row mb-3">
+                                                <label for="courseSession" class="col-sm-3 col-md-4 col-form-label">New
+                                                    Session :
+                                                </label>
+                                                <div class="col-sm-6 col-md-6">
+                                                    <input type="text" class="form-control" id="courseSession"
+                                                        name="courseSession" placeholder="Eg. 2025-2028" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-3">
+                                                <label for="meritListFile"
+                                                    class="col-sm-3 col-md-4 col-form-label">Upload Merit List :
+                                                </label>
+                                                <div class="col-sm-6 col-md-6">
+                                                    <input type="file" class="form-control" id="meritListFile"
+                                                        name="meritListFile" accept=".xlsx,.xls,.csv" required>
+                                                </div>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary">Start Admission</button>
+                                        </form>
+                                    </div>
+
+                                    <div class="row bg-light rounded justify-content-center m-0 p-2"
+                                        style="min-height: 40vh;">
+                                        <section class="section">
+                                            <div class="row">
+                                                <!-- List starts Here     -->
+                                                <div class="col-12">
+                                                    <div class="bg-light rounded h-100 p-0">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <div
+                                                                class="d-flex gap-2 justify-content-center align-items-center">
+                                                                <h6 class="my-3 ">
+                                                                    All BCA Admission Portals
+                                                                </h6>
+
+
+                                                            </div>
+                                                            <div class="my-3">
+                                                            <input type="text" class="form-control my-3" id="courseSessionFilter" placeholder="Search by Session">
+
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="table-responsive">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col">S.No.</th>
+                                                                        <th scope="col">Session</th>
+                                                                        <th scope="col">Part 1 Status</th>
+                                                                        <th scope="col">Part 2 Status</th>
+                                                                        <th scope="col">Part 3 Status</th>
+                                                                        <th scope="col">View</th>
+                                                                        <th scope="col">Delete</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <% if (data.admPortalList) { %>
+                                                                        <% data.admPortalList.reverse().forEach((element,
+                                                                            index)=> {
+                                                                            %>
+                                                                            <tr>
+                                                                                <th scope="row">
+                                                                                    <%= index + 1%>
+                                                                                </th>
+                                                                                <td>
+                                                                                    <%= element.courseSession%>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="/portalStatus/bca/1/<%= element._id %>"
+                                                                                        class="px-4 btn <%= element.isPart1Active ? " btn-success" : "btn-danger" %>
+                                                                                        w-md"><%= element.isPart1Active
+                                                                                            ? "Active" : "Deactive" %>
+                                                                                            </a>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="/portalStatus/bca/2/<%= element._id %>"
+                                                                                        class="px-4 btn <%= element.isPart2Active ? " btn-success" : "btn-danger" %>
+                                                                                        w-md"><%= element.isPart2Active
+                                                                                            ? "Active" : "Deactive" %>
+                                                                                            </a>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="/portalStatus/bca/3/<%= element._id %>"
+                                                                                        class="px-4 btn <%= element.isPart3Active ? " btn-success" : "btn-danger" %>
+                                                                                        w-md"><%= element.isPart3Active
+                                                                                            ? "Active" : "Deactive" %>
+                                                                                            </a>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="/bca/<%= element._id %>"
+                                                                                        class="px-4 btn btn-warning w-md">View</a>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="/delete/bca/<%= element._id %>"
+                                                                                        class="px-4 btn btn-primary w-md">Delete</a>
+                                                                                </td>
+
+                                                                            </tr>
+                                                                            <% }); %>
+                                                                                <% } %>
+                                                                </tbody>
+                                                            </table>
+                                                            <% if (data.admPortalList) { %>
+                                                                <% if (data.admPortalList.length===0) { %>
+                                                                    <h3>Portal not found ...</h3>
+
+                                                                    <% } %>
+                                                                        <% } %>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- List ends Here     -->
+                                            </div>
+                                        </section>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Form End -->
+
+
+                    <!-- Footer Start -->
+                    <%- include('../partials/BCAFooter.ejs') %>
+                        <!-- Footer End -->
+                </div>
+                <!-- Content End -->
+
+
+                <!-- Back to Top -->
+                <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/BCAJSLibrary.ejs') %>
+    <script>
+    document.getElementById("courseSessionFilter").addEventListener("input", function () {
+        const filter = this.value.toUpperCase();
+        const rows = document.querySelectorAll("table tbody tr");
+
+        rows.forEach(row => {
+            const sessionCell = row.children[1]; // 2nd column is courseSession
+            if (sessionCell) {
+                const text = sessionCell.textContent || sessionCell.innerText;
+                if (text.toUpperCase().includes(filter)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+
+</html>

@@ -4,7 +4,6 @@ const storage = multer.memoryStorage();
 
 export const upload = multer({ storage });
 
-
 // Upload photo and sign function
 import sharp from "sharp";
 import cloudinary from 'cloudinary';
@@ -47,4 +46,17 @@ export const uploadFile = async (filePath) => {
 
     }
 };
+
+
+// Multer setup
+const storageExcel = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './excelUploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `merit-${Date.now()}-${file.originalname}`);
+  },
+});
+
+export const uploadExcel = multer({ storage: storageExcel });
 

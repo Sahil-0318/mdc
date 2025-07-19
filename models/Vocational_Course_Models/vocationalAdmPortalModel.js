@@ -9,11 +9,11 @@ const vocationalAdmPortalSchema = mongoose.Schema({
     },
     isPart1Active: {
         type: Boolean,
-        default: false
+        default: true
     },
     isPart1AdmActive: {
         type: Boolean,
-        default: false
+        default: true
     },
     isPart2Active: {
         type: Boolean,
