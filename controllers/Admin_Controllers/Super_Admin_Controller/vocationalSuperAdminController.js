@@ -4,6 +4,7 @@ import VocationalAdmPortal from "../../../models/Vocational_Course_Models/vocati
 import XLSX from 'xlsx';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs/promises';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -61,6 +62,7 @@ export const bcaAdmissionPost = async (req, res) => {
 
         if (foundAdmPortal) {
             req.flash("flashMessage", ["Admission Portal Already started..", "alert-danger"]);
+            await fs.unlink(filePath); // Delete uploaded file
             return res.redirect(`/super-admin/bcaAdmission`);
         }
 
@@ -86,10 +88,16 @@ export const bcaAdmissionPost = async (req, res) => {
         await newVocationalAdmPortal.save();
 
         req.flash("flashMessage", ["New Admission started successfully.", "alert-success"]);
+        await fs.unlink(filePath); // ✅ Delete uploaded file after success
         return res.redirect(`/super-admin/bcaAdmission`);
     } catch (error) {
         console.error("Error in Controllers >> Admin_Controllers >> Super_Admin_Controller >> vocationalSuperAdminController >> bcaAdmissionPost :", error);
         req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
+        try {
+            await fs.unlink(filePath); // ❗Clean up even on error
+        } catch (unlinkErr) {
+            console.error("Error deleting file:", unlinkErr);
+        }
         return res.redirect(`/super-admin/bcaAdmission`);
     }
 };
@@ -165,7 +173,7 @@ export const portalAdmStatus = async (req, res) => {
         const admPortal = await VocationalAdmPortal.findById(portalId)
         if (!admPortal) {
             req.flash("flashMessage", ["Portal not found !!", "alert-danger"])
-            return res.redirect(`/${degree}/${portalId}`);
+            return res.redirect(`/portalDetail/${degree}/${portalId}`);
         }
 
         if (part == 1) {
@@ -182,10 +190,10 @@ export const portalAdmStatus = async (req, res) => {
         }
         if (part < 1 || part > 3) {
             req.flash("flashMessage", ["Invalid Part URL !!", "alert-danger"])
-            return res.redirect(`/${degree}/${portalId}`);
+            return res.redirect(`/portalDetail/${degree}/${portalId}`);
         }
         req.flash("flashMessage", [`Merit List Upadted for ${degree.toUpperCase()}`, "alert-success"])
-        res.redirect(`/${degree}/${portalId}`);
+        res.redirect(`/portalDetail/${degree}/${portalId}`);
     } catch (error) {
         console.error("Error in Controllers >> Admin_Controllers >> Super_Admin_Controller >> vocationalSuperAdminController >> portalAdmStatus :", error);
         req.flash("flashMessage", ["Something went wrong !!", "alert-danger"])
@@ -220,10 +228,16 @@ export const updateMeritList = async (req, res) => {
         }
 
         req.flash("flashMessage", ["New Admission started successfully.", "alert-success"]);
+        await fs.unlink(filePath); // Delete uploaded file
         return res.redirect(`/super-admin/${degree}Admission`);
     } catch (error) {
         console.error("Error in Controllers >> Admin_Controllers >> Super_Admin_Controller >> vocationalSuperAdminController >> updateMeritList :", error);
         req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
+        try {
+            await fs.unlink(filePath); // ❗Clean up even on error
+        } catch (unlinkErr) {
+            console.error("Error deleting file:", unlinkErr);
+        }
         return res.redirect(`/super-admin/${degree}Admission`);
     }
 };
@@ -243,6 +257,7 @@ export const deletePortal = async (req, res) => {
     } catch (error) {
         console.error("Error in Controllers >> Admin_Controllers >> Super_Admin_Controller >> vocationalSuperAdminController >> deletePortal :", error);
         req.flash("flashMessage", ["Something went wrong !!", "alert-danger"])
+        
         return res.redirect(`/super-admin/${degree}Admission`);
     }
 }

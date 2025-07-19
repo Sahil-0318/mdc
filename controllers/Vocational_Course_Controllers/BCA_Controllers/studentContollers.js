@@ -159,12 +159,6 @@ export const part2AdmForm = async (req, res) => {
         const admPortalStatus = await VocationalAdmPortal.findOne({ degree: "bca", courseSession });
         console.log(admPortalStatus)
 
-        if (!admPortalStatus || !admPortalStatus.isPart1AdmActive) {
-            data.alertStatus = 'Oops! You are late.'
-            data.alertDes = `BCA Part 2 (${courseSession}) Admission has been closed.`
-            return res.render("BCA/errorPage", { message: req.flash("flashMessage"), data });
-        }
-
         const data = {
             pageTitle: `BCA Part 2 ${courseSession} Admission Form`,
             activeTab: "Part 2",
@@ -174,6 +168,12 @@ export const part2AdmForm = async (req, res) => {
             existingStudent,
             admPortalStatus
         };
+
+        if (!admPortalStatus || !admPortalStatus.isPart2AdmActive) {
+            data.alertStatus = 'Oops! You are late.'
+            data.alertDes = `BCA Part 2 (${courseSession}) Admission has been closed.`
+            return res.render("BCA/errorPage", { message: req.flash("flashMessage"), data });
+        }
 
         return res.render("BCA/part2AdmForm", { message: req.flash("flashMessage"), data });
 
@@ -247,7 +247,7 @@ export const part3AdmForm = async (req, res) => {
             admPortalStatus
         };
 
-        if (!admPortalStatus || !admPortalStatus.isPart1AdmActive) {
+        if (!admPortalStatus || !admPortalStatus.isPart3AdmActive) {
             data.alertStatus = 'Oops! You are late.'
             data.alertDes = `BCA Part 3 (${courseSession}) Admission has been closed.`
             return res.render("BCA/errorPage", { message: req.flash("flashMessage"), data });

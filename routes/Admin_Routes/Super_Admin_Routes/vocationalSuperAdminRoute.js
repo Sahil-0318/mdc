@@ -12,7 +12,7 @@ vocational_Super_Admin_Route.get("/super-admin/bcaAdmission", superAdminAuth, bc
 
 vocational_Super_Admin_Route.post("/super-admin/bcaAdmissionPost", superAdminAuth, uploadExcel.single('meritListFile'), bcaAdmissionPost)
 
-vocational_Super_Admin_Route.get("/:degree/:portalId", superAdminAuth, portalDetail)
+vocational_Super_Admin_Route.get("/portalDetail/:degree/:portalId", superAdminAuth, portalDetail)
 
 vocational_Super_Admin_Route.get("/portalStatus/:degree/:part/:portalId", superAdminAuth, portalStatus)
 
