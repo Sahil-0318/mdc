@@ -62,7 +62,8 @@ export const bcaAdmissionPost = async (req, res) => {
 
         if (foundAdmPortal) {
             req.flash("flashMessage", ["Admission Portal Already started..", "alert-danger"]);
-            await fs.unlink(filePath); // Delete uploaded file
+            let deletedExcel = await fs.unlink(filePath); // Delete uploaded file
+            console.log(deletedExcel)
             return res.redirect(`/super-admin/bcaAdmission`);
         }
 
@@ -88,7 +89,8 @@ export const bcaAdmissionPost = async (req, res) => {
         await newVocationalAdmPortal.save();
 
         req.flash("flashMessage", ["New Admission started successfully.", "alert-success"]);
-        await fs.unlink(filePath); // ✅ Delete uploaded file after success
+        let deletedExcel = await fs.unlink(filePath); // Delete uploaded file
+        console.log(deletedExcel)
         return res.redirect(`/super-admin/bcaAdmission`);
     } catch (error) {
         console.error("Error in Controllers >> Admin_Controllers >> Super_Admin_Controller >> vocationalSuperAdminController >> bcaAdmissionPost :", error);
@@ -246,7 +248,7 @@ export const updateMeritList = async (req, res) => {
 export const deletePortal = async (req, res) => {
     try {
         const { degree, portalId } = req.params
-        const admPortal = await VocationalAdmPortal.findOneAndDelete({_id: portalId})
+        const admPortal = await VocationalAdmPortal.findOneAndDelete({ _id: portalId })
         if (!admPortal) {
             req.flash("flashMessage", ["Portal not found !!", "alert-danger"])
             return res.redirect(`/super-admin/${degree}Admission`);
@@ -257,7 +259,7 @@ export const deletePortal = async (req, res) => {
     } catch (error) {
         console.error("Error in Controllers >> Admin_Controllers >> Super_Admin_Controller >> vocationalSuperAdminController >> deletePortal :", error);
         req.flash("flashMessage", ["Something went wrong !!", "alert-danger"])
-        
+
         return res.redirect(`/super-admin/${degree}Admission`);
     }
 }
