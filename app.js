@@ -76,6 +76,7 @@ import BCA_3_23_26_Admin_Router from './routes/BCA_3_23_26_Route/admin_Router.js
 // Admin Auth Routes
 import admin_Auth_Route from './routes/Admin_Routes/adminAuthRoute.js'
 import vocational_Super_Admin_Route from './routes/Admin_Routes/Super_Admin_Routes/vocationalSuperAdminRoute.js'
+import vocational_Admin_Route from './routes/Admin_Routes/Admin_Routes/vocationalAdminRoute.js'
 
 // -===============New Vocational Routes===================
 // Vocational Auth Routes
@@ -147,6 +148,7 @@ app.use('/', BCA_3_23_26_Admin_Router)
 // Vocational Auth Routes
 app.use('/', admin_Auth_Route)
 app.use('/', vocational_Super_Admin_Route)
+app.use('/', vocational_Admin_Route)
 
 
 

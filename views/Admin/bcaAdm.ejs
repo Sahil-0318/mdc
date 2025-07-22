@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/MainHeader.ejs') %>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+            <!-- Spinner End -->
+
+
+            <!-- Sidebar Start -->
+            <%- include('../partials/adminSidebar.ejs')%>
+                <!-- Sidebar End -->
+
+
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                    <%- include('../partials/navbar.ejs')%>
+                        <!-- Navbar End -->
+
+                        <div class="col-sm-12 col-xl-12 pt-4 px-4">
+                            <%- include("../partials/flashMessage.ejs") %>
+                        </div>
+
+
+
+
+                        <div class="col-sm-12 col-xl-12 pt-4 px-4">
+                            <div>
+                                <h5 class="fw-bold text-success">Download BCA (<%= data.courseSession %>)
+                                        Admission List Excel : </h5>
+                            </div>
+                            <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
+                                <% if (data.foundPortal.isPart1Active) { %>
+                                    <div class="btn btn-success"><a class="text-light" href="/admin/bca-<%= data.courseSession %>/1/excel">BCA
+                                            Part 1</a></div>
+                                    <% } %>
+                                        <% if (data.foundPortal.isPart2Active) { %>
+                                            <div class="btn btn-success"><a class="text-light"
+                                                    href="/admin/bca-<%= data.courseSession %>/2/excel">BCA Part 2</a></div>
+                                            <% } %>
+                                                <% if (data.foundPortal.isPart3Active) { %>
+                                                    <div class="btn btn-success"><a class="text-light"
+                                                            href="/admin/bca-<%= data.courseSession %>/3/excel">BCA Part 3</a></div>
+                                                    <% } %>
+                            </div>
+                        </div>
+
+
+                        <!-- Blank Start -->
+                        <div class="container-fluid pt-4 px-4">
+
+                            <div class="row bg-light rounded justify-content-center m-0 p-2" style="min-height: 50vh;">
+                                <section class="section">
+                                    <div class="row">
+                                        <!-- List starts Here     -->
+                                        <div class="col-12">
+                                            <div class="bg-light rounded h-100 p-0">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="d-flex gap-2 justify-content-center align-items-center">
+                                                        <h6 class="my-3 ">
+                                                            (<%= data.courseSession %>) BCA Admission
+                                                        </h6>
+
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">S.No.</th>
+                                                                <th scope="col">Session</th>
+                                                                <th scope="col">Part 1 Students</th>
+                                                                <th scope="col">Part 2 Students</th>
+                                                                <th scope="col">Part 3 Students</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1.</td>
+                                                                <td>
+                                                                    <%= data.foundPortal.courseSession %>
+                                                                </td>
+                                                                <td>
+                                                                    <% if (data.foundPortal.isPart1Active) { %>
+                                                                        <a href="/admin/bca-<%= data.courseSession %>/1"
+                                                                            class="px-4 btn btn-success w-md">
+                                                                            View
+                                                                        </a>
+                                                                        <% } else { %>
+                                                                            <button class="px-4 btn btn-danger w-md"
+                                                                                disabled>
+                                                                                Not Active
+                                                                            </button>
+                                                                            <% } %>
+                                                                </td>
+                                                                <td>
+                                                                    <% if (data.foundPortal.isPart2Active) { %>
+                                                                        <a href="/admin/bca-<%= data.courseSession %>/2"
+                                                                            class="px-4 btn btn-success w-md">
+                                                                            View
+                                                                        </a>
+                                                                        <% } else { %>
+                                                                            <button class="px-4 btn btn-danger w-md"
+                                                                                disabled>
+                                                                                Not Active
+                                                                            </button>
+                                                                            <% } %>
+                                                                </td>
+                                                                <td>
+                                                                    <% if (data.foundPortal.isPart3Active) { %>
+                                                                        <a href="/admin/bca-<%= data.courseSession %>/3"
+                                                                            class="px-4 btn btn-success w-md">
+                                                                            View
+                                                                        </a>
+                                                                        <% } else { %>
+                                                                            <button class="px-4 btn btn-danger w-md"
+                                                                                disabled>
+                                                                                Not Active
+                                                                            </button>
+                                                                            <% } %>
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- List ends Here     -->
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                        <!-- Blank End -->
+
+                        <!-- Footer Start -->
+                        <%- include('../partials/MainFooter.ejs')%>
+                            <!-- Footer End -->
+
+
+
+
+
+                </div>
+                <!-- Content End -->
+
+
+
+                <!-- Back to Top -->
+                <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/MainJSLibrary.ejs')%>
+</body>
+
+</html>

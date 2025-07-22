@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/MainHeader.ejs') %>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+            <!-- Spinner End -->
+
+
+            <!-- Sidebar Start -->
+            <%- include('../partials/adminSidebar.ejs')%>
+                <!-- Sidebar End -->
+
+
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                    <%- include('../partials/navbar.ejs')%>
+                        <!-- Navbar End -->
+
+                        <div class="col-sm-12 col-xl-12 pt-4 px-4">
+                            <%- include("../partials/flashMessage.ejs") %>
+                        </div>
+
+                        <!-- Blank Start -->
+                        <div class="container-fluid pt-4 px-4">
+
+                            <div class="row bg-light rounded justify-content-center m-0 p-2" style="min-height: 70vh;">
+                                <section class="section">
+                                    <div class="row">
+                                        <!-- List starts Here     -->
+                                        <div class="col-12">
+                                            <div class="bg-light rounded h-100 p-0">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="d-flex gap-2 justify-content-center align-items-center">
+                                                        <h6 class="my-3 ">
+                                                            BCA (<%= data.courseSession %>) Part <%= data.coursePart %>
+                                                                    Students (<%= data.students.length %>)
+                                                        </h6>
+
+
+                                                    </div>
+
+                                                    <!-- find student according to mobile number -->
+
+                                                    <div>
+                                                        <input type="text" class="form-control my-3" id="searchMobile"
+                                                            placeholder="Search by Mobile No.">
+
+                                                    </div>
+                                                    <!-- find student according to mobile number -->
+
+                                                    <!-- Filter Controls -->
+                                                    <div class="d-flex gap-2 align-items-center my-3">
+                                                        <select class="form-select" id="filterCategory">
+                                                            <option value="">All Categories</option>
+                                                            <option value="GENERAL">GENERAL</option>
+                                                            <option value="BC-2">BC-2</option>
+                                                            <option value="BC-1">BC-1</option>
+                                                            <option value="SC">SC</option>
+                                                            <option value="ST">ST</option>
+                                                            <!-- Add more as needed -->
+                                                        </select>
+
+                                                        <select class="form-select" id="filterGender">
+                                                            <option value="">All Genders</option>
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                                <div>
+                                                </div>
+                                                <!-- Not Found Message -->
+                                                <div id="noResultMsg" class="text-center text-danger fw-bold"
+                                                    style="display: none;">
+                                                    Student not found ...
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">College Roll.No.</th>
+                                                                <th scope="col">Student's Name</th>
+                                                                <th scope="col">Father's Name</th>
+                                                                <th scope="col">Mobile No.</th>
+                                                                <th scope="col">Category</th>
+                                                                <th scope="col">Gender</th>
+                                                                <th scope="col">Adm Fee</th>
+                                                                <th scope="col">View</th>
+                                                                <th scope="col">Edit</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            <% if (data.students) { %>
+                                                                <% data.students.forEach((student)=> { %>
+                                                                    <tr>
+                                                                        <th scope="row">
+                                                                            <%= student.collegeRollNo ?
+                                                                                student.collegeRollNo : "NA" %>
+                                                                        </th>
+                                                                        <td>
+                                                                            <%= student.studentName%>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= student.fatherName%>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= student.mobileNumber%>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= student.category%>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= student.gender%>
+                                                                        </td>
+                                                                        <td>
+                                                                            ₹ <%= student.part1AdmForm===null ? "NA" :
+                                                                                student.part1AdmForm.totalFee %>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <a href="/admin/bca-<%= data.courseSession %>/student-detail/<%= student._id %>"
+                                                                                class="px-4 btn btn-primary w-md">View</a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="/admin/bca-<%= data.courseSession %>/student-edit/<%= student._id %>"
+                                                                                class="px-4 btn btn-warning w-md">Edit</a>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                    <% }); %>
+                                                                        <% } %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- List ends Here     -->
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                        <!-- Blank End -->
+
+                        <!-- Footer Start -->
+                        <%- include('../partials/MainFooter.ejs')%>
+                            <!-- Footer End -->
+
+
+
+
+
+                </div>
+                <!-- Content End -->
+
+
+
+                <!-- Back to Top -->
+                <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/MainJSLibrary.ejs')%>
+        <script>
+            const searchMobileInput = document.getElementById("searchMobile");
+            const filterCategory = document.getElementById("filterCategory");
+            const filterGender = document.getElementById("filterGender");
+            const rows = document.querySelectorAll("table tbody tr");
+            const noResultMsg = document.getElementById("noResultMsg");
+
+            function filterRows() {
+                const mobileVal = searchMobileInput.value.toLowerCase();
+                const categoryVal = filterCategory.value;
+                const genderVal = filterGender.value;
+                let anyVisible = false;
+
+                rows.forEach(row => {
+                    const mobile = row.cells[3].textContent.toLowerCase();
+                    const category = row.cells[4].textContent.trim();
+                    const gender = row.cells[5].textContent.trim();
+
+                    const matchMobile = mobile.includes(mobileVal);
+                    const matchCategory = !categoryVal || category === categoryVal;
+                    const matchGender = !genderVal || gender === genderVal;
+
+                    if (matchMobile && matchCategory && matchGender) {
+                        row.style.display = "";
+                        anyVisible = true;
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+
+                noResultMsg.style.display = anyVisible ? "none" : "block";
+            }
+
+            // Event listeners
+            searchMobileInput.addEventListener("keyup", filterRows);
+            filterCategory.addEventListener("change", filterRows);
+            filterGender.addEventListener("change", filterRows);
+        </script>
+
+
+
+</body>
+
+</html>
