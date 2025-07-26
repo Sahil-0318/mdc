@@ -41,7 +41,7 @@ export const part1AdmForm = async (req, res) => {
 
     try {
         const existingStudent = await BCAStudent.findOne({ _id: req.id, courseSession })
-            .populate("part1AdmForm")
+            .populate("part1AdmForm").populate("part2AdmForm").populate("part3AdmForm")
             .select("-password");
 
         if (!existingStudent) {
