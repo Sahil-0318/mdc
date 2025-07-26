@@ -31,8 +31,16 @@
                         <div class="container-fluid pt-4 px-4">
 
                             <div class="row bg-light rounded justify-content-center m-0 p-2" style="min-height: 70vh;">
+
                                 <section class="section">
+
                                     <div class="row">
+                                        <!-- Back link -->
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                                            <a href="javascript:window.history.back()">
+                                                <i class="fa-solid fa-arrow-left me-2"></i>Back
+                                            </a>
+                                        </div>
                                         <!-- List starts Here     -->
                                         <div class="col-12">
                                             <div class="bg-light rounded h-100 p-0">
@@ -125,19 +133,26 @@
                                                                         <td>
                                                                             ₹
                                                                             <% if (student.part1AdmForm) { %>
-                                                                             <%= student.part1AdmForm===null ? "NA" :
-                                                                                student.part1AdmForm.totalFee %>
-                                                                            <% } %>
+                                                                                <%= student.part1AdmForm===null ? "NA" :
+                                                                                    student.part1AdmForm.totalFee %>
+                                                                                    <% } %>
 
-                                                                            <% if (student.part2AdmForm) { %>
-                                                                             <%= student.part2AdmForm===null ? "NA" :
-                                                                                student.part2AdmForm.totalFee %>
-                                                                            <% } %>
+                                                                                        <% if (student.part2AdmForm) {
+                                                                                            %>
+                                                                                            <%= student.part2AdmForm===null
+                                                                                                ? "NA" :
+                                                                                                student.part2AdmForm.totalFee
+                                                                                                %>
+                                                                                                <% } %>
 
-                                                                            <% if (student.part3AdmForm) { %>
-                                                                             <%= student.part3AdmForm===null ? "NA" :
-                                                                                student.part3AdmForm.totalFee %>
-                                                                            <% } %>
+                                                                                                    <% if
+                                                                                                        (student.part3AdmForm)
+                                                                                                        { %>
+                                                                                                        <%= student.part3AdmForm===null
+                                                                                                            ? "NA" :
+                                                                                                            student.part3AdmForm.totalFee
+                                                                                                            %>
+                                                                                                            <% } %>
                                                                         </td>
 
                                                                         <td>
