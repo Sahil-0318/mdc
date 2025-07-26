@@ -157,7 +157,7 @@ export const part2AdmForm = async (req, res) => {
         }
 
         const admPortalStatus = await VocationalAdmPortal.findOne({ degree: "bca", courseSession });
-        console.log(admPortalStatus)
+        // console.log(admPortalStatus)
 
         const data = {
             pageTitle: `BCA Part 2 ${courseSession} Admission Form`,

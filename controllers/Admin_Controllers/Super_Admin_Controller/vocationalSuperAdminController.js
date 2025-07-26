@@ -229,7 +229,7 @@ export const updateMeritList = async (req, res) => {
             await BCAPart1MeritList.insertMany(data);
         }
 
-        req.flash("flashMessage", ["New Admission started successfully.", "alert-success"]);
+        req.flash("flashMessage", ["Merit List Updated successfully.", "alert-success"]);
         await fs.unlink(filePath); // Delete uploaded file
         return res.redirect(`/super-admin/${degree}Admission`);
     } catch (error) {

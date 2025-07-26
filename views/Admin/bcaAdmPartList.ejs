@@ -123,8 +123,20 @@
                                                                             <%= student.gender%>
                                                                         </td>
                                                                         <td>
-                                                                            ₹ <%= student.part1AdmForm===null ? "NA" :
+                                                                            <% if (student.part1AdmForm) { %>
+                                                                             ₹ <%= student.part1AdmForm===null ? "NA" :
                                                                                 student.part1AdmForm.totalFee %>
+                                                                            <% } %>
+
+                                                                            <% if (student.part2AdmForm) { %>
+                                                                             ₹ <%= student.part2AdmForm===null ? "NA" :
+                                                                                student.part2AdmForm.totalFee %>
+                                                                            <% } %>
+
+                                                                            <% if (student.part3AdmForm) { %>
+                                                                             ₹ <%= student.part3AdmForm===null ? "NA" :
+                                                                                student.part3AdmForm.totalFee %>
+                                                                            <% } %>
                                                                         </td>
 
                                                                         <td>
