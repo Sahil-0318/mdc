@@ -47,7 +47,8 @@
 
                                         <!-- <div class="bg-light rounded p-4 mb-3"> -->
                                         <h6 class="mb-4">
-                                            (<%= data.admPortal.courseSession %>) <%= data.admPortal.degree.toUpperCase() %> Admission Portal Detail
+                                            (<%= data.admPortal.courseSession %>) <%=
+                                                    data.admPortal.degree.toUpperCase() %> Admission Portal Detail
                                         </h6>
 
                                         <div class="row mb-2">
@@ -55,11 +56,17 @@
                                                 Portal :
                                             </label>
                                             <div class="col-sm-6 col-md-6">
-                                                <a href="/portalStatus/bca/1/<%= data.admPortal._id %>"
-                                                    class="px-4 btn <%= data.admPortal.isPart1Active ? " btn-success"
-                                                    : "btn-danger" %>
-                                                    w-md"><%= data.admPortal.isPart1Active ? "Active" : "Deactive" %>
-                                                </a>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="part1Status-<%= data.admPortal._id %>"
+                                                        <%=data.admPortal.isPart1Active ? 'checked' : '' %>
+                                                    onchange="location.href='/portalStatus/bca/1/<%= data.admPortal._id
+                                                        %>'">
+                                                        <label class="form-check-label"
+                                                            for="part1Status-<%= data.admPortal._id %>">
+                                                            <%= data.admPortal.isPart1Active ? 'Active' : 'Deactive' %>
+                                                        </label>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -68,11 +75,19 @@
                                                 Admission :
                                             </label>
                                             <div class="col-sm-6 col-md-6">
-                                                <a href="/portalAdmStatus/bca/1/<%= data.admPortal._id %>"
-                                                    class="px-4 btn <%= data.admPortal.isPart1AdmActive ? " btn-success"
-                                                    : "btn-danger" %>
-                                                    w-md"><%= data.admPortal.isPart1AdmActive ? "Active" : "Deactive" %>
-                                                </a>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="part1AdmStatus-<%= data.admPortal._id %>"
+                                                        <%=data.admPortal.isPart1AdmActive ? 'checked' : '' %>
+                                                    onchange="location.href='/portalAdmStatus/bca/1/<%=
+                                                        data.admPortal._id %>'">
+                                                        <label class="form-check-label"
+                                                            for="part1AdmStatus-<%= data.admPortal._id %>">
+                                                            <%= data.admPortal.isPart1AdmActive ? 'Active' : 'Deactive'
+                                                                %>
+                                                        </label>
+                                                </div>
+
                                             </div>
                                         </div>
 
@@ -83,11 +98,17 @@
                                                 Portal :
                                             </label>
                                             <div class="col-sm-6 col-md-6">
-                                                <a href="/portalStatus/bca/2/<%= data.admPortal._id %>"
-                                                    class="px-4 btn <%= data.admPortal.isPart2Active ? " btn-success"
-                                                    : "btn-danger" %>
-                                                    w-md"><%= data.admPortal.isPart2Active ? "Active" : "Deactive" %>
-                                                </a>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="part2Status-<%= data.admPortal._id %>"
+                                                        <%=data.admPortal.isPart2Active ? 'checked' : '' %>
+                                                    onchange="location.href='/portalStatus/bca/2/<%= data.admPortal._id
+                                                        %>'">
+                                                        <label class="form-check-label"
+                                                            for="part2Status-<%= data.admPortal._id %>">
+                                                            <%= data.admPortal.isPart2Active ? 'Active' : 'Deactive' %>
+                                                        </label>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -96,11 +117,18 @@
                                                 Admission :
                                             </label>
                                             <div class="col-sm-6 col-md-6">
-                                                <a href="/portalAdmStatus/bca/2/<%= data.admPortal._id %>"
-                                                    class="px-4 btn <%= data.admPortal.isPart2AdmActive ? " btn-success"
-                                                    : "btn-danger" %>
-                                                    w-md"><%= data.admPortal.isPart2AdmActive ? "Active" : "Deactive" %>
-                                                </a>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="part2AdmStatus-<%= data.admPortal._id %>"
+                                                        <%=data.admPortal.isPart2AdmActive ? 'checked' : '' %>
+                                                    onchange="location.href='/portalAdmStatus/bca/2/<%=
+                                                        data.admPortal._id %>'">
+                                                        <label class="form-check-label"
+                                                            for="part2AdmStatus-<%= data.admPortal._id %>">
+                                                            <%= data.admPortal.isPart2AdmActive ? 'Active' : 'Deactive'
+                                                                %>
+                                                        </label>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -111,11 +139,17 @@
                                                 Portal :
                                             </label>
                                             <div class="col-sm-6 col-md-6">
-                                                <a href="/portalStatus/bca/3/<%= data.admPortal._id %>"
-                                                    class="px-4 btn <%= data.admPortal.isPart3Active ? " btn-success"
-                                                    : "btn-danger" %>
-                                                    w-md"><%= data.admPortal.isPart3Active ? "Active" : "Deactive" %>
-                                                </a>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="part3Status-<%= data.admPortal._id %>"
+                                                        <%=data.admPortal.isPart3Active ? 'checked' : '' %>
+                                                    onchange="location.href='/portalStatus/bca/3/<%= data.admPortal._id
+                                                        %>'">
+                                                        <label class="form-check-label"
+                                                            for="part3Status-<%= data.admPortal._id %>">
+                                                            <%= data.admPortal.isPart3Active ? 'Active' : 'Deactive' %>
+                                                        </label>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -124,18 +158,25 @@
                                                 Admission :
                                             </label>
                                             <div class="col-sm-6 col-md-6">
-                                                <a href="/portalAdmStatus/bca/3/<%= data.admPortal._id %>"
-                                                    class="px-4 btn <%= data.admPortal.isPart3AdmActive ? " btn-success"
-                                                    : "btn-danger" %>
-                                                    w-md"><%= data.admPortal.isPart3AdmActive ? "Active" : "Deactive" %>
-                                                </a>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="part3AdmStatus-<%= data.admPortal._id %>"
+                                                        <%=data.admPortal.isPart3AdmActive ? 'checked' : '' %>
+                                                    onchange="location.href='/portalAdmStatus/bca/3/<%=
+                                                        data.admPortal._id %>'">
+                                                        <label class="form-check-label"
+                                                            for="part3AdmStatus-<%= data.admPortal._id %>">
+                                                            <%= data.admPortal.isPart3AdmActive ? 'Active' : 'Deactive'
+                                                                %>
+                                                        </label>
+                                                </div>
                                             </div>
                                         </div>
 
                                         <hr>
 
-                                        <form action="/updateMeritList/<%= data.admPortal.degree %>" enctype="multipart/form-data"
-                                            method="post">
+                                        <form action="/updateMeritList/<%= data.admPortal.degree %>"
+                                            enctype="multipart/form-data" method="post">
 
 
                                             <div class="row mb-3">

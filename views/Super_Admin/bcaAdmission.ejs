@@ -3,6 +3,7 @@
 
 <head>
     <%- include('../partials/MainHeader.ejs') %>
+    
 </head>
 
 <body>
@@ -47,9 +48,17 @@
                                                     Session :
                                                 </label>
                                                 <div class="col-sm-6 col-md-6">
-                                                    <input type="text" class="form-control" id="courseSession"
-                                                        name="courseSession" placeholder="Eg. 2025-2028" required>
+                                                    <select name="courseSession" id="courseSession" class="form-select" required>
+                                                    <option value="" selected disabled>Select Session</option>
+                                                    <option value="2025-2028">2025-2028</option>
+                                                    <option value="2025-2028">2026-2029</option>
+                                                    <option value="2025-2028">2027-2030</option>
+                                                    <option value="2025-2028">2028-2031</option>
+                                                    <option value="2025-2028">2029-2032</option>
+                                                    <option value="2025-2028">2030-2033</option>
+                                                </select>
                                                 </div>
+                                                
                                             </div>
 
                                             <div class="row mb-3">
@@ -114,25 +123,38 @@
                                                                                     <%= element.courseSession%>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <a href="/portalStatus/bca/1/<%= element._id %>"
-                                                                                        class="px-4 btn <%= element.isPart1Active ? " btn-success" : "btn-danger" %>
-                                                                                        w-md"><%= element.isPart1Active
-                                                                                            ? "Active" : "Deactive" %>
-                                                                                            </a>
+                                                                                    <div class="form-check form-switch">
+                                                                                        <input class="form-check-input" type="checkbox"
+                                                                                            id="part1Status-<%= element._id %>"
+                                                                                            <%= element.isPart1Active ? 'checked' : '' %>
+                                                                                            onchange="location.href='/portalStatus/bca/1/<%= element._id %>'">
+                                                                                        <label class="form-check-label" for="part1Status-<%= element._id %>">
+                                                                                            <%= element.isPart1Active ? 'Active' : 'Deactive' %>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    <div class="form-check form-switch">
+                                                                                        <input class="form-check-input" type="checkbox"
+                                                                                            id="part2Status-<%= element._id %>"
+                                                                                            <%= element.isPart2Active ? 'checked' : '' %>
+                                                                                            onchange="location.href='/portalStatus/bca/2/<%= element._id %>'">
+                                                                                        <label class="form-check-label" for="part2Status-<%= element._id %>">
+                                                                                            <%= element.isPart2Active ? 'Active' : 'Deactive' %>
+                                                                                        </label>
+                                                                                    </div>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <a href="/portalStatus/bca/2/<%= element._id %>"
-                                                                                        class="px-4 btn <%= element.isPart2Active ? " btn-success" : "btn-danger" %>
-                                                                                        w-md"><%= element.isPart2Active
-                                                                                            ? "Active" : "Deactive" %>
-                                                                                            </a>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <a href="/portalStatus/bca/3/<%= element._id %>"
-                                                                                        class="px-4 btn <%= element.isPart3Active ? " btn-success" : "btn-danger" %>
-                                                                                        w-md"><%= element.isPart3Active
-                                                                                            ? "Active" : "Deactive" %>
-                                                                                            </a>
+                                                                                    <div class="form-check form-switch">
+                                                                                        <input class="form-check-input" type="checkbox"
+                                                                                            id="part3Status-<%= element._id %>"
+                                                                                            <%= element.isPart3Active ? 'checked' : '' %>
+                                                                                            onchange="location.href='/portalStatus/bca/3/<%= element._id %>'">
+                                                                                        <label class="form-check-label" for="part3Status-<%= element._id %>">
+                                                                                            <%= element.isPart3Active ? 'Active' : 'Deactive' %>
+                                                                                        </label>
+                                                                                    </div>
                                                                                 </td>
                                                                                 <td>
                                                                                     <a href="/portalDetail/bca/<%= element._id %>"

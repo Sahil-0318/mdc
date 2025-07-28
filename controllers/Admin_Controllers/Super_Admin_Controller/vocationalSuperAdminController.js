@@ -116,24 +116,24 @@ export const portalStatus = async (req, res) => {
 
         if (part == 1) {
             admPortal.isPart1Active = !admPortal.isPart1Active,
-                admPortal.isPart1AdmActive = !admPortal.isPart1AdmActive
+                admPortal.isPart1AdmActive = admPortal.isPart1Active ? 'true' : 'false'
             await admPortal.save()
         }
         if (part == 2) {
             admPortal.isPart2Active = !admPortal.isPart2Active,
-                admPortal.isPart2AdmActive = !admPortal.isPart2AdmActive
+                admPortal.isPart2AdmActive = admPortal.isPart2Active ? 'true' : 'false'
             await admPortal.save()
         }
         if (part == 3) {
             admPortal.isPart3Active = !admPortal.isPart3Active,
-                admPortal.isPart3AdmActive = !admPortal.isPart3AdmActive
+                admPortal.isPart3AdmActive = admPortal.isPart3Active ? 'true' : 'false'
             await admPortal.save()
         }
         if (part < 1 || part > 3) {
             req.flash("flashMessage", ["Invalid Part URL !!", "alert-danger"])
             return res.redirect(`/super-admin/${degree}Admission`);
         }
-        req.flash("flashMessage", ["Portal status changes !!", "alert-success"])
+        req.flash("flashMessage", [`Part ${part} Portal status changes !!`, "alert-success"])
         res.redirect(`/super-admin/${degree}Admission`);
     } catch (error) {
         console.error("Error in Controllers >> Admin_Controllers >> Super_Admin_Controller >> vocationalSuperAdminController >> portalStatus :", error);
@@ -171,37 +171,40 @@ export const portalDetail = async (req, res) => {
 
 export const portalAdmStatus = async (req, res) => {
     try {
-        const { degree, part, portalId } = req.params
-        const admPortal = await VocationalAdmPortal.findById(portalId)
+        const { degree, part, portalId } = req.params;
+        const admPortal = await VocationalAdmPortal.findById(portalId);
+
         if (!admPortal) {
-            req.flash("flashMessage", ["Portal not found !!", "alert-danger"])
+            req.flash("flashMessage", ["Portal not found !!", "alert-danger"]);
             return res.redirect(`/portalDetail/${degree}/${portalId}`);
         }
 
-        if (part == 1) {
-            admPortal.isPart1AdmActive = !admPortal.isPart1AdmActive
-            await admPortal.save()
-        }
-        if (part == 2) {
-            admPortal.isPart2AdmActive = !admPortal.isPart2AdmActive
-            await admPortal.save()
-        }
-        if (part == 3) {
-            admPortal.isPart3AdmActive = !admPortal.isPart3AdmActive
-            await admPortal.save()
-        }
-        if (part < 1 || part > 3) {
-            req.flash("flashMessage", ["Invalid Part URL !!", "alert-danger"])
+        const validParts = [1, 2, 3];
+        if (!validParts.includes(Number(part))) {
+            req.flash("flashMessage", ["Invalid Part URL !!", "alert-danger"]);
             return res.redirect(`/portalDetail/${degree}/${portalId}`);
         }
-        req.flash("flashMessage", [`Merit List Upadted for ${degree.toUpperCase()}`, "alert-success"])
-        res.redirect(`/portalDetail/${degree}/${portalId}`);
+
+        const isPartActive = admPortal[`isPart${part}Active`];
+        const isPartAdmActiveKey = `isPart${part}AdmActive`;
+
+        if (!isPartActive) {
+            req.flash("flashMessage", [`Part ${part} Portal Status is De-active. Please activate it first`, "alert-warning"]);
+            return res.redirect(`/portalDetail/${degree}/${portalId}`);
+        }
+
+        admPortal[isPartAdmActiveKey] = !admPortal[isPartAdmActiveKey];
+        await admPortal.save();
+
+        req.flash("flashMessage", [`Part ${part} Admission Portal Status Updated`, "alert-success"]);
+        return res.redirect(`/portalDetail/${degree}/${portalId}`);
     } catch (error) {
-        console.error("Error in Controllers >> Admin_Controllers >> Super_Admin_Controller >> vocationalSuperAdminController >> portalAdmStatus :", error);
-        req.flash("flashMessage", ["Something went wrong !!", "alert-danger"])
+        console.error("Error in portalAdmStatus:", error);
+        req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
         return res.redirect(`/super-admin/${degree}Admission`);
     }
-}
+};
+
 
 
 export const updateMeritList = async (req, res) => {
