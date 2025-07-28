@@ -47,7 +47,7 @@
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div class="d-flex gap-2 justify-content-center align-items-center">
                                                         <h6 class="my-3 ">
-                                                            BCA (<%= data.courseSession %>) Part <%= data.coursePart %>
+                                                            BCA Part <%= data.coursePart %> (<%= data.courseSession %>)
                                                                     Students (<%= data.students.length %>)
                                                         </h6>
 
@@ -65,6 +65,12 @@
 
                                                     <!-- Filter Controls -->
                                                     <div class="d-flex gap-2 align-items-center my-3">
+                                                        <select class="form-select" id="filterFeePaid">
+                                                            <option value="">All Fee Status</option>
+                                                            <option value="true">Paid</option>
+                                                            <option value="false">Unpaid</option>
+                                                        </select>
+
                                                         <select class="form-select" id="filterCategory">
                                                             <option value="">All Categories</option>
                                                             <option value="GENERAL">GENERAL</option>
@@ -72,7 +78,6 @@
                                                             <option value="BC-1">BC-1</option>
                                                             <option value="SC">SC</option>
                                                             <option value="ST">ST</option>
-                                                            <!-- Add more as needed -->
                                                         </select>
 
                                                         <select class="form-select" id="filterGender">
@@ -81,6 +86,7 @@
                                                             <option value="Female">Female</option>
                                                         </select>
                                                     </div>
+
 
                                                 </div>
                                                 <div>
@@ -94,13 +100,14 @@
                                                     <table class="table">
                                                         <thead>
                                                             <tr>
-                                                                <th scope="col">College Roll.No.</th>
+                                                                <th scope="col">Coll R.No.</th>
                                                                 <th scope="col">Student's Name</th>
                                                                 <th scope="col">Father's Name</th>
                                                                 <th scope="col">Mobile No.</th>
                                                                 <th scope="col">Category</th>
                                                                 <th scope="col">Gender</th>
                                                                 <th scope="col">Adm Fee</th>
+                                                                <th scope="col">Fee Paid</th>
                                                                 <th scope="col">View</th>
                                                                 <th scope="col">Edit</th>
                                                             </tr>
@@ -112,55 +119,44 @@
                                                                 <% data.students.forEach((student)=> { %>
                                                                     <tr>
                                                                         <th scope="row">
-                                                                            <%= student.collegeRollNo ?
-                                                                                student.collegeRollNo : "NA" %>
+                                                                            <%= student.appliedBy.collegeRollNo ?
+                                                                                student.appliedBy.collegeRollNo : "NA"
+                                                                                %>
                                                                         </th>
                                                                         <td>
-                                                                            <%= student.studentName%>
+                                                                            <%= student.appliedBy.studentName%>
                                                                         </td>
                                                                         <td>
-                                                                            <%= student.fatherName%>
+                                                                            <%= student.appliedBy.fatherName%>
                                                                         </td>
                                                                         <td>
-                                                                            <%= student.mobileNumber%>
+                                                                            <%= student.appliedBy.mobileNumber%>
                                                                         </td>
                                                                         <td>
-                                                                            <%= student.category%>
+                                                                            <%= student.appliedBy.category%>
                                                                         </td>
                                                                         <td>
-                                                                            <%= student.gender%>
+                                                                            <%= student.appliedBy.gender%>
                                                                         </td>
                                                                         <td>
-                                                                            ₹
-                                                                            <% if (student.part1AdmForm) { %>
-                                                                                <%= student.part1AdmForm===null ? "NA" :
-                                                                                    student.part1AdmForm.totalFee %>
+                                                                            ₹ <%= student.totalFee %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <% if (student.isPaid) { %>
+                                                                                <span
+                                                                                    class="badge bg-success">Yes</span>
+                                                                                <% } else { %>
+                                                                                    <span
+                                                                                        class="badge bg-danger">No</span>
                                                                                     <% } %>
-
-                                                                                        <% if (student.part2AdmForm) {
-                                                                                            %>
-                                                                                            <%= student.part2AdmForm===null
-                                                                                                ? "NA" :
-                                                                                                student.part2AdmForm.totalFee
-                                                                                                %>
-                                                                                                <% } %>
-
-                                                                                                    <% if
-                                                                                                        (student.part3AdmForm)
-                                                                                                        { %>
-                                                                                                        <%= student.part3AdmForm===null
-                                                                                                            ? "NA" :
-                                                                                                            student.part3AdmForm.totalFee
-                                                                                                            %>
-                                                                                                            <% } %>
                                                                         </td>
 
                                                                         <td>
-                                                                            <a href="/admin/bca-<%= data.courseSession %>/student-detail/<%= student._id %>"
+                                                                            <a href="/admin/bca-<%= data.courseSession %>/part-<%= data.coursePart %>-student-detail/<%= student.appliedBy._id %>"
                                                                                 class="px-4 btn btn-primary w-md">View</a>
                                                                         </td>
                                                                         <td>
-                                                                            <a href="/admin/bca-<%= data.courseSession %>/student-edit/<%= student._id %>"
+                                                                            <a href="/admin/bca-<%= data.courseSession %>/part-<%= data.coursePart %>-student-edit/<%= student.appliedBy._id %>"
                                                                                 class="px-4 btn btn-warning w-md">Edit</a>
                                                                         </td>
 
@@ -203,6 +199,7 @@
             const searchMobileInput = document.getElementById("searchMobile");
             const filterCategory = document.getElementById("filterCategory");
             const filterGender = document.getElementById("filterGender");
+            const filterFeePaid = document.getElementById("filterFeePaid");
             const rows = document.querySelectorAll("table tbody tr");
             const noResultMsg = document.getElementById("noResultMsg");
 
@@ -210,18 +207,22 @@
                 const mobileVal = searchMobileInput.value.toLowerCase();
                 const categoryVal = filterCategory.value;
                 const genderVal = filterGender.value;
+                const feePaidVal = filterFeePaid.value; // "true", "false", or ""
+
                 let anyVisible = false;
 
                 rows.forEach(row => {
                     const mobile = row.cells[3].textContent.toLowerCase();
                     const category = row.cells[4].textContent.trim();
                     const gender = row.cells[5].textContent.trim();
+                    const feePaid = row.cells[7].querySelector("span").classList.contains("bg-success"); // true/false
 
                     const matchMobile = mobile.includes(mobileVal);
                     const matchCategory = !categoryVal || category === categoryVal;
                     const matchGender = !genderVal || gender === genderVal;
+                    const matchFeePaid = !feePaidVal || String(feePaid) === feePaidVal;
 
-                    if (matchMobile && matchCategory && matchGender) {
+                    if (matchMobile && matchCategory && matchGender && matchFeePaid) {
                         row.style.display = "";
                         anyVisible = true;
                     } else {
@@ -236,7 +237,9 @@
             searchMobileInput.addEventListener("keyup", filterRows);
             filterCategory.addEventListener("change", filterRows);
             filterGender.addEventListener("change", filterRows);
+            filterFeePaid.addEventListener("change", filterRows);
         </script>
+
 
 
 

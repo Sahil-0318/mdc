@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/MainHeader.ejs') %>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+            <!-- Spinner End -->
+
+
+            <!-- Sidebar Start -->
+            <%- include('../partials/adminSidebar.ejs')%>
+                <!-- Sidebar End -->
+
+
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                    <%- include('../partials/navbar.ejs')%>
+                        <!-- Navbar End -->
+
+                        <div class="col-sm-12 col-xl-12 pt-4 px-4">
+                            <%- include("../partials/flashMessage.ejs") %>
+                        </div>
+
+                        <!-- Blank Start -->
+                        <div class="container-fluid pt-4 px-4">
+
+                            <div class="row bg-light rounded justify-content-center m-0 p-2" style="min-height: 70vh;">
+                                <div class="row">
+                                    <!-- List starts Here     -->
+                                    <div class="col-12">
+                                        <!-- Back link -->
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                                            <a href="javascript:window.history.back()">
+                                                <i class="fa-solid fa-arrow-left me-2"></i>Back
+                                            </a>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex gap-2 justify-content-center align-items-center">
+                                                <h4 class="pb-5 ">
+                                                    Student Details
+                                                </h4>
+                                            </div>
+                                        </div>
+
+                                        <form class="row g-3">
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <img src=<%=data.student.studentPhoto%> alt="Image 1"
+                                                    class="img-fluid">
+                                                    <div class="fw-bold text-center mt-3">Student Photo</div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <img src=<%=data.student.studentSign %> alt="Image 2"
+                                                    class="img-fluid">
+                                                    <div class="fw-bold text-center mt-3">Student Sign</div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <% const form=data.student[`part${data.coursePart}AdmForm`]; %>
+                                                        <% if (form && form.paymentScreenshot) { %>
+                                                            <img src="<%= form.paymentScreenshot %>"
+                                                                alt="Payment Screenshot" class="img-fluid" />
+                                                            <div class="fw-bold text-center mt-3">Part <%=
+                                                                    data.coursePart %> Payment Screenshot</div>
+                                                            <% } else { %>
+                                                                <div class="text-center text-danger fw-bold">Payment
+                                                                    screenshot not available</div>
+                                                                <% } %>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <label for="" class="form-label fw-bold">Student's Name</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.studentName%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label fw-bold">Session</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.courseSession%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label fw-bold">Reference Number</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.referenceNumber%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label fw-bold">Applicant Id</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.applicantId%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label fw-bold">PPU Confidential Number</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.ppuConfidentialNumber%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="" class="form-label fw-bold">College Roll Number</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.collegeRollNo ? data.student.collegeRollNo : "NA" %></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="" class="form-label fw-bold">Uni. Registration
+                                                    Number</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.uniRegNumber ? data.student.uniRegNumber : "NA" %></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="" class="form-label fw-bold">Uni. Roll Number</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.uniRollNumber ? data.student.uniRollNumber : "NA" %></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="" class="form-label fw-bold">Email</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.email%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="" class="form-label fw-bold">Mobile Number</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.mobileNumber%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="" class="form-label fw-bold">Date of Birth</label>
+                                                <textarea rows="1" class="form-control" readonly><%= data.student?.dOB ? data.student.dOB.toDateString()
+                                                    : 'Data not available' %></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="" class="form-label fw-bold">Gender</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.gender%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="" class="form-label fw-bold">Category</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.category%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="" class="form-label fw-bold">Subject</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.subject%></textarea>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label fw-bold">Father's Name</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.fatherName%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label fw-bold">Mother's Name</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.motherName%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label fw-bold">Guardian's Name</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.guardianName%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label fw-bold">Applicant Aadhar No</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.aadharNumber%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label fw-bold">Blood Group</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.bloodGroup%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label fw-bold">Family Annual Income</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.familyAnnualIncome%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label fw-bold">Marital Status</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.maritalStatus%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label fw-bold">Physically Challenged</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.physicallyChallenged%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label fw-bold">Religion</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.religion%></textarea>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="col-md-8">
+                                                <label for="" class="form-label fw-bold">Address</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.address%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="" class="form-label fw-bold">District</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.district%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="" class="form-label fw-bold">Police Station</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.policeStation%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="" class="form-label fw-bold">State</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.state%></textarea>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="" class="form-label fw-bold">Pin Code</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= data.student.pinCode%></textarea>
+                                            </div>
+
+                                            <hr>
+
+                                            <h4>Part <%= data.coursePart %> Details</h4>
+
+                                            <div class="col-md-3">
+                                                <label class="form-label fw-bold">Last Exam Name</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= form.examName%></textarea>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label class="form-label fw-bold">Last Exam Board</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= form.examBoard%></textarea>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label class="form-label fw-bold">Last Exam Year</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= form.examYear%></textarea>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label class="form-label fw-bold">Last Exam Result</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= form.examResult%></textarea>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label class="form-label fw-bold">Last Exam Obt. Marks /
+                                                    Grade</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= form.obtMarks%></textarea>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label class="form-label fw-bold">Last Exam Full Marks /
+                                                    Grade</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= form.fullMarks%></textarea>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label class="form-label fw-bold">Last Exam Obt
+                                                    Percentage</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= form.obtPercent%></textarea>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label for="" class="form-label fw-bold">Admission fee</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= form.totalFee%></textarea>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label for="" class="form-label fw-bold">Payment ID</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= form.paymentId ? form.paymentId : "NA" %></textarea>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label for="" class="form-label fw-bold">Receipt No</label>
+                                                <textarea rows="1" class="form-control"
+                                                    readonly><%= form.receiptNo ? form.receiptNo : "NA" %></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- List ends Here     -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Blank End -->
+
+                        <!-- Footer Start -->
+                        <%- include('../partials/MainFooter.ejs')%>
+                            <!-- Footer End -->
+
+
+
+
+
+                </div>
+                <!-- Content End -->
+
+
+
+                <!-- Back to Top -->
+                <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/MainJSLibrary.ejs')%>
+
+</body>
+
+</html>

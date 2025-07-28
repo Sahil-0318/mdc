@@ -2,7 +2,9 @@ import express from 'express'
 
 const vocational_Admin_Route = express.Router()
 import { adminAuth } from '../../../middlewares/adminMiddleware.js'
-import { bcaAdm, bcaAdmPartList, excelDownload, studentDetail } from '../../../controllers/Admin_Controllers/Admin_Controller/vocationalAdminController.js'
+import { bcaAdmList, bcaAdm, bcaAdmPartList, excelDownload, studentDetail } from '../../../controllers/Admin_Controllers/Admin_Controller/vocationalAdminController.js'
+
+vocational_Admin_Route.get("/admin/bca-adm-list", adminAuth, bcaAdmList)
 
 vocational_Admin_Route.get("/admin/bca-:courseSession", adminAuth, bcaAdm)
 
@@ -10,6 +12,6 @@ vocational_Admin_Route.get("/admin/bca-:courseSession/:coursePart", adminAuth, b
 
 vocational_Admin_Route.get("/admin/bca-:courseSession/:coursePart/excel", adminAuth, excelDownload)
 
-vocational_Admin_Route.get("/admin/bca-:courseSession/student-detail/:studentId", adminAuth, studentDetail)
+vocational_Admin_Route.get("/admin/bca-:courseSession/part-:coursePart-student-detail/:studentId", adminAuth, studentDetail)
 
 export default vocational_Admin_Route

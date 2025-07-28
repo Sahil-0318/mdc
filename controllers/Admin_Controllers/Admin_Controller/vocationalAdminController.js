@@ -9,25 +9,44 @@ import BCAPart2AdmForm from "../../../models/Vocational_Course_Models/BCA_Models
 import BCAPart3AdmForm from "../../../models/Vocational_Course_Models/BCA_Models/part3AdmFormModel.js";
 
 
-export const bcaAdm = async (req, res) => {
-    const { courseSession } = req.params
-    try {
-        // Find the user based on request ID
-        const user = await User.findOne({ _id: req.id });
-        const foundPortal = await VocationalAdmPortal.findOne({ courseSession, degree: "bca" });
+export const bcaAdmList = async (req, res) => {
+  try {
+    // Find the user based on request ID
+    const user = await User.findOne({ _id: req.id });
+    const foundPortal = await VocationalAdmPortal.find({ degree: "bca" });
 
-        let data = {
-            pageTitle: `BCA ${courseSession} Admission`,
-            courseSession,
-            foundPortal
-        }
-
-        res.render('Admin/bcaAdm', { message: req.flash("flashMessage"), data, user })
-    } catch (error) {
-        console.error("Error in Controllers >> Admin_Controllers >> Admin_Controller >> vocationalAdminController >> bcaAdm :", error);
-        req.flash("flashMessage", ["Something went wrong !!", "alert-danger"])
-        return res.redirect(`/admin/bca-${courseSession}`);
+    let data = {
+      pageTitle: `All BCA Admission List`,
+      foundPortal
     }
+
+    res.render('Admin/bcaAdmList', { message: req.flash("flashMessage"), data, user })
+  } catch (error) {
+    console.error("Error in Controllers >> Admin_Controllers >> Admin_Controller >> vocationalAdminController >> bcaAdmList :", error);
+    req.flash("flashMessage", ["Something went wrong !!", "alert-danger"])
+    return res.redirect(`/admin/bca-adm-list`);
+  }
+}
+
+export const bcaAdm = async (req, res) => {
+  const { courseSession } = req.params
+  try {
+    // Find the user based on request ID
+    const user = await User.findOne({ _id: req.id });
+    const foundPortal = await VocationalAdmPortal.findOne({ courseSession, degree: "bca" });
+
+    let data = {
+      pageTitle: `BCA ${courseSession} Admission`,
+      courseSession,
+      foundPortal
+    }
+
+    res.render('Admin/bcaAdm', { message: req.flash("flashMessage"), data, user })
+  } catch (error) {
+    console.error("Error in Controllers >> Admin_Controllers >> Admin_Controller >> vocationalAdminController >> bcaAdm :", error);
+    req.flash("flashMessage", ["Something went wrong !!", "alert-danger"])
+    return res.redirect(`/admin/bca-${courseSession}`);
+  }
 }
 
 
@@ -41,24 +60,36 @@ export const bcaAdmPartList = async (req, res) => {
     }
 
     const data = {
-      pageTitle: `BCA ${courseSession} Part ${coursePart} Admission List`,
+      pageTitle: `BCA Part ${coursePart} ${courseSession} Admission List`,
       courseSession,
       coursePart
     };
 
     const user = await User.findOne({ _id: req.id });
 
-    const partField = `part${coursePart}AdmForm`;
+    // Dynamically select model
+    const FormModels = {
+      1: BCAPart1AdmForm,
+      2: BCAPart2AdmForm,
+      3: BCAPart3AdmForm
+    };
 
-    // Find students with the specific part form not null AND collegeRollNo not null
-    const students = await BCAStudent.find({
-      [partField]: { $ne: null },
-      collegeRollNo: { $ne: null }
-    }).populate(partField);
+    const SelectedModel = FormModels[coursePart];
+    if (!SelectedModel) {
+      req.flash("flashMessage", ["Form Model not found", "alert-danger"]);
+      return res.redirect(`/admin/bca-${courseSession}`);
+    }
 
-    // Sort students by collegeRollNo
+    const students = await SelectedModel.find({ courseSession }).populate({
+      path: "appliedBy",
+      select: "-password"
+    });
+
+    // Sort by collegeRollNo inside appliedBy
     data.students = students.sort((a, b) => {
-      return a.collegeRollNo.localeCompare(b.collegeRollNo, undefined, { numeric: true });
+      if (!a.appliedBy?.collegeRollNo) return 1;
+      if (!b.appliedBy?.collegeRollNo) return -1;
+      return a.appliedBy.collegeRollNo.localeCompare(b.appliedBy.collegeRollNo, undefined, { numeric: true });
     });
 
     res.render("Admin/bcaAdmPartList", {
@@ -67,11 +98,12 @@ export const bcaAdmPartList = async (req, res) => {
       user
     });
   } catch (error) {
-    console.error("Error in bcaAdmPartList:", error);
+    console.error("Error in Controllers >> Admin_Controllers >> Admin_Controller >> vocationalAdminController >> bcaAdmPartList:", error);
     req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
     return res.redirect(`/admin/bca-${courseSession}`);
   }
 };
+
 
 
 
@@ -160,7 +192,7 @@ export const excelDownload = async (req, res) => {
     );
     return res.status(200).end(csvData);
   } catch (error) {
-    console.error("Error in excelDownload:", error);
+    console.error("Error in Controllers >> Admin_Controllers >> Admin_Controller >> vocationalAdminController >> excelDownload:", error);
     req.flash("flashMessage", ["Something went wrong while generating Excel!", "alert-danger"]);
     return res.redirect(`/admin/bca-${courseSession}`);
   }
@@ -168,44 +200,33 @@ export const excelDownload = async (req, res) => {
 
 
 export const studentDetail = async (req, res) => {
-  const { courseSession, coursePart } = req.params;
+  const { courseSession, coursePart, studentId } = req.params;
 
   try {
     if (coursePart < 1 || coursePart > 3) {
       req.flash("flashMessage", ["Invalid Course Part", "alert-danger"]);
-      return res.redirect(`/admin/bca-${courseSession}`);
+      return res.redirect(`/admin/bca-${courseSession}/${coursePart}`);
     }
 
     const data = {
-      pageTitle: `BCA ${courseSession} Part ${coursePart} Admission List`,
+      pageTitle: `BCA Part ${coursePart} ${courseSession} Student Details`,
       courseSession,
       coursePart
     };
 
     const user = await User.findOne({ _id: req.id });
 
-    const partField = `part${coursePart}AdmForm`;
+    data.student = await BCAStudent.findById(studentId).select("-password").populate("part1AdmForm").populate("part2AdmForm").populate("part3AdmForm")
 
-    // Find students with the specific part form not null AND collegeRollNo not null
-    const students = await BCAStudent.find({
-      [partField]: { $ne: null },
-      collegeRollNo: { $ne: null }
-    }).populate(partField);
-
-    // Sort students by collegeRollNo
-    data.students = students.sort((a, b) => {
-      return a.collegeRollNo.localeCompare(b.collegeRollNo, undefined, { numeric: true });
-    });
-
-    res.render("Admin/bcaAdmPartList", {
+    res.render("Admin/bcaStudentDetail", {
       message: req.flash("flashMessage"),
       data,
       user
     });
   } catch (error) {
-    console.error("Error in studentDetail:", error);
+    console.error("Error in Controllers >> Admin_Controllers >> Admin_Controller >> vocationalAdminController >> studentDetail:", error);
     req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
-    return res.redirect(`/admin/bca-${courseSession}`);
+    return res.redirect(`/admin/bca-${courseSession}/${coursePart}`);
   }
 };
 

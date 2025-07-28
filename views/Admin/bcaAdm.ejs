@@ -27,26 +27,32 @@
                             <%- include("../partials/flashMessage.ejs") %>
                         </div>
 
-
-
-
-                        <div class="col-sm-12 col-xl-12 pt-4 px-4">
+                        <div class="col-sm-12 col-xl-12 pt-0 px-4">
+                            <!-- Back link -->
+                            <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                                <a href="javascript:window.history.back()">
+                                    <i class="fa-solid fa-arrow-left me-2"></i>Back
+                                </a>
+                            </div>
                             <div>
                                 <h5 class="fw-bold text-success">Download BCA (<%= data.courseSession %>)
                                         Admission List Excel : </h5>
                             </div>
                             <div class="bg-light rounded h-100 p-3 d-flex flex-wrap gap-2">
                                 <% if (data.foundPortal.isPart1Active) { %>
-                                    <div class="btn btn-success"><a class="text-light" href="/admin/bca-<%= data.courseSession %>/1/excel">BCA
+                                    <div class="btn btn-success"><a class="text-light"
+                                            href="/admin/bca-<%= data.courseSession %>/1/excel">BCA
                                             Part 1</a></div>
                                     <% } %>
                                         <% if (data.foundPortal.isPart2Active) { %>
                                             <div class="btn btn-success"><a class="text-light"
-                                                    href="/admin/bca-<%= data.courseSession %>/2/excel">BCA Part 2</a></div>
+                                                    href="/admin/bca-<%= data.courseSession %>/2/excel">BCA Part 2</a>
+                                            </div>
                                             <% } %>
                                                 <% if (data.foundPortal.isPart3Active) { %>
                                                     <div class="btn btn-success"><a class="text-light"
-                                                            href="/admin/bca-<%= data.courseSession %>/3/excel">BCA Part 3</a></div>
+                                                            href="/admin/bca-<%= data.courseSession %>/3/excel">BCA Part
+                                                            3</a></div>
                                                     <% } %>
                             </div>
                         </div>
@@ -75,7 +81,6 @@
                                                     <table class="table">
                                                         <thead>
                                                             <tr>
-                                                                <th scope="col">S.No.</th>
                                                                 <th scope="col">Session</th>
                                                                 <th scope="col">Part 1 Students</th>
                                                                 <th scope="col">Part 2 Students</th>
@@ -84,7 +89,6 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td>1.</td>
                                                                 <td>
                                                                     <%= data.foundPortal.courseSession %>
                                                                 </td>
