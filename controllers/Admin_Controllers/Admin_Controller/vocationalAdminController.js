@@ -167,4 +167,46 @@ export const excelDownload = async (req, res) => {
 };
 
 
+export const studentDetail = async (req, res) => {
+  const { courseSession, coursePart } = req.params;
+
+  try {
+    if (coursePart < 1 || coursePart > 3) {
+      req.flash("flashMessage", ["Invalid Course Part", "alert-danger"]);
+      return res.redirect(`/admin/bca-${courseSession}`);
+    }
+
+    const data = {
+      pageTitle: `BCA ${courseSession} Part ${coursePart} Admission List`,
+      courseSession,
+      coursePart
+    };
+
+    const user = await User.findOne({ _id: req.id });
+
+    const partField = `part${coursePart}AdmForm`;
+
+    // Find students with the specific part form not null AND collegeRollNo not null
+    const students = await BCAStudent.find({
+      [partField]: { $ne: null },
+      collegeRollNo: { $ne: null }
+    }).populate(partField);
+
+    // Sort students by collegeRollNo
+    data.students = students.sort((a, b) => {
+      return a.collegeRollNo.localeCompare(b.collegeRollNo, undefined, { numeric: true });
+    });
+
+    res.render("Admin/bcaAdmPartList", {
+      message: req.flash("flashMessage"),
+      data,
+      user
+    });
+  } catch (error) {
+    console.error("Error in studentDetail:", error);
+    req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
+    return res.redirect(`/admin/bca-${courseSession}`);
+  }
+};
+
 
