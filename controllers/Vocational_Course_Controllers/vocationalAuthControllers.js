@@ -107,30 +107,44 @@ export const signupPost = async (req, res) => {
 
 
 export const login = async (req, res) => {
+  try {
+    const sessionArray = [];
 
-    try {
-        let sessionArray = []
-        const smallest = await VocationalAdmPortal.findOne().sort({ courseSession: 1 }).select("courseSession").lean();
-        const greatest = await VocationalAdmPortal.findOne().sort({ courseSession: -1 }).select("courseSession").lean();
+    const smallest = await VocationalAdmPortal.findOne()
+      .sort({ courseSession: 1 })
+      .select("courseSession")
+      .lean();
 
-        const startYear = parseInt(smallest.courseSession.split("-")[0]);
-        const endYear = parseInt(greatest.courseSession.split("-")[0]);
+    const greatest = await VocationalAdmPortal.findOne()
+      .sort({ courseSession: -1 })
+      .select("courseSession")
+      .lean();
 
-        for (let year = startYear; year <= endYear; year++) {
-            sessionArray.push(`${year}-${year + 3}`);
-        }
+    if (smallest && greatest) {
+      const startYear = parseInt(smallest.courseSession.split("-")[0]);
+      const endYear = parseInt(greatest.courseSession.split("-")[0]);
 
-        let data = {
-            pageTitle: `Vocational Student Login`,
-            sessionArray
-        }
-        res.render("vocationalCommonPages/login", { message: req.flash("flashMessage"), data })
-    } catch (error) {
-        console.error("Error in Controllers >> Vocational_Course_Controllers >> vocationalAuthControllers >> login :", error);
-        req.flash("flashMessage", ["Something went wrong !!", "alert-danger"])
-        return res.redirect(`/vocational-student/login`);
+      for (let year = startYear; year <= endYear; year++) {
+        sessionArray.push(`${year}-${year + 3}`);
+      }
     }
-}
+
+    const data = {
+      pageTitle: "Vocational Student Login",
+      sessionArray
+    };
+
+    res.render("vocationalCommonPages/login", {
+      message: req.flash("flashMessage"),
+      data
+    });
+  } catch (error) {
+    console.error("Error in Controllers >> Vocational_Course_Controllers >> vocationalAuthControllers >> login :", error);
+    req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
+    return res.redirect("/vocational-student/login");
+  }
+};
+
 
 
 export const loginPost = async (req, res) => {

@@ -201,22 +201,28 @@ export const excelDownload = async (req, res) => {
 
 export const studentDetail = async (req, res) => {
   const { courseSession, coursePart, studentId } = req.params;
+  const partNumber = Number(coursePart);
+
+  if (![1, 2, 3].includes(partNumber)) {
+    req.flash("flashMessage", ["Invalid Course Part", "alert-danger"]);
+    return res.redirect(`/admin/bca-${courseSession}/${coursePart}`);
+  }
 
   try {
-    if (coursePart < 1 || coursePart > 3) {
-      req.flash("flashMessage", ["Invalid Course Part", "alert-danger"]);
-      return res.redirect(`/admin/bca-${courseSession}/${coursePart}`);
-    }
+    const user = await User.findById(req.id);
+
+    const student = await BCAStudent.findById(studentId)
+      .select("-password")
+      .populate("part1AdmForm")
+      .populate("part2AdmForm")
+      .populate("part3AdmForm");
 
     const data = {
-      pageTitle: `BCA Part ${coursePart} ${courseSession} Student Details`,
+      pageTitle: `BCA Part ${partNumber} ${courseSession} Student Details`,
       courseSession,
-      coursePart
+      coursePart: partNumber,
+      student
     };
-
-    const user = await User.findOne({ _id: req.id });
-
-    data.student = await BCAStudent.findById(studentId).select("-password").populate("part1AdmForm").populate("part2AdmForm").populate("part3AdmForm")
 
     res.render("Admin/bcaStudentDetail", {
       message: req.flash("flashMessage"),
@@ -224,10 +230,106 @@ export const studentDetail = async (req, res) => {
       user
     });
   } catch (error) {
-    console.error("Error in Controllers >> Admin_Controllers >> Admin_Controller >> vocationalAdminController >> studentDetail:", error);
+    console.error("Error in studentDetail controller:", error);
     req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
     return res.redirect(`/admin/bca-${courseSession}/${coursePart}`);
   }
 };
+
+
+
+export const studentEdit = async (req, res) => {
+  const { courseSession, coursePart, studentId } = req.params;
+
+  try {
+    const part = parseInt(coursePart);
+    if (![1, 2, 3].includes(part)) {
+      req.flash("flashMessage", ["Invalid Course Part", "alert-danger"]);
+      return res.redirect(`/admin/bca-${courseSession}/${coursePart}`);
+    }
+
+    const user = await User.findById(req.id).lean();
+
+    const student = await BCAStudent.findById(studentId)
+      .select("-password")
+      .populate("part1AdmForm")
+      .populate("part2AdmForm")
+      .populate("part3AdmForm")
+      .lean();
+
+    if (!student) {
+      req.flash("flashMessage", ["Student not found", "alert-warning"]);
+      return res.redirect(`/admin/bca-${courseSession}/${coursePart}`);
+    }
+
+    const data = {
+      pageTitle: `Edit Student Details BCA Part ${part} ${courseSession}`,
+      courseSession,
+      coursePart: part,
+      student,
+    };
+
+    res.render("Admin/bcaStudentEdit", {
+      message: req.flash("flashMessage"),
+      data,
+      user,
+    });
+  } catch (error) {
+    console.error("Error in studentEdit:", error);
+    req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
+    return res.redirect(`/admin/bca-${courseSession}/${coursePart}`);
+  }
+};
+
+
+
+export const studentEditPost = async (req, res) => {
+  const { courseSession, coursePart, studentId } = req.params;
+  const {
+    studentName, referenceNumber, applicantId, ppuConfidentialNumber, collegeRollNo,
+    uniRegNumber, uniRollNumber, email, mobileNumber, dOB, gender, category,
+    subject, fatherName, motherName, guardianName, aadharNumber, bloodGroup,
+    familyAnnualIncome, maritalStatus, physicallyChallenged, religion,
+    address, district, policeStation, state, pinCode,
+    examName, examBoard, examYear, examResult, obtMarks, fullMarks, obtPercent,
+    totalFee, paymentId, receiptNo
+  } = req.body;
+
+  try {
+    // Update common student info
+    await BCAStudent.findByIdAndUpdate(studentId, {
+      studentName, referenceNumber, applicantId, ppuConfidentialNumber, collegeRollNo,
+      uniRegNumber, uniRollNumber, email, mobileNumber, dOB, gender, category,
+      subject, fatherName, motherName, guardianName, aadharNumber, bloodGroup,
+      familyAnnualIncome, maritalStatus, physicallyChallenged, religion,
+      address, district, policeStation, state, pinCode
+    }, { new: true });
+
+    // Define part-specific models
+    const partForms = {
+      1: BCAPart1AdmForm,
+      2: BCAPart2AdmForm,
+      3: BCAPart2AdmForm // If Part 3 uses the same model as Part 2
+    };
+
+    // Update admission form for the current part
+    const AdmFormModel = partForms[coursePart];
+    if (AdmFormModel) {
+      await AdmFormModel.findOneAndUpdate({ appliedBy: studentId }, {
+        examName, examBoard, examYear, examResult,
+        obtMarks, fullMarks, obtPercent,
+        totalFee, paymentId, receiptNo
+      }, { new: true });
+    }
+
+    req.flash("flashMessage", ["Student data updated successfully!", "alert-success"]);
+    return res.redirect(`/admin/bca-${courseSession}/part-${coursePart}-student-detail/${studentId}`);
+  } catch (error) {
+    console.error("Error in studentEditPost:", error);
+    req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
+    return res.redirect(`/admin/bca-${courseSession}/${coursePart}`);
+  }
+};
+
 
 

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/MainHeader.ejs') %>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+            <!-- Spinner End -->
+
+
+            <!-- Sidebar Start -->
+            <%- include('../partials/adminSidebar.ejs')%>
+                <!-- Sidebar End -->
+
+
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                    <%- include('../partials/navbar.ejs')%>
+                        <!-- Navbar End -->
+
+                        <div class="col-sm-12 col-xl-12 pt-4 px-4">
+                            <%- include("../partials/flashMessage.ejs") %>
+                        </div>
+
+                        <!-- Blank Start -->
+                        <div class="container-fluid pt-4 px-4">
+
+                            <div class="row bg-light rounded justify-content-center m-0 p-2" style="min-height: 70vh;">
+                                <div class="row">
+                                    <!-- List starts Here     -->
+                                    <div class="col-12">
+                                        <!-- Back link -->
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                                            <a href="javascript:window.history.back()">
+                                                <i class="fa-solid fa-arrow-left me-2"></i>Back
+                                            </a>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex gap-2 justify-content-center align-items-center">
+                                                <h4 class="pb-5 ">
+                                                    Edit Student's Details
+                                                </h4>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <img src=<%=data.student.studentPhoto%> alt="Image 1"
+                                                    class="img-fluid">
+                                                    <div class="fw-bold text-center mt-3">Student Photo</div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <img src=<%=data.student.studentSign %> alt="Image 2"
+                                                    class="img-fluid">
+                                                    <div class="fw-bold text-center mt-3">Student Sign</div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <% const form=data.student[`part${data.coursePart}AdmForm`]; %>
+                                                        <% if (form && form.paymentScreenshot) { %>
+                                                            <img src="<%= form.paymentScreenshot %>"
+                                                                alt="Payment Screenshot" class="img-fluid" />
+                                                            <div class="fw-bold text-center mt-3">Part <%=
+                                                                    data.coursePart %> Payment Screenshot</div>
+                                                            <% } else { %>
+                                                                <div class="text-center text-danger fw-bold">Payment
+                                                                    screenshot not available</div>
+                                                                <% } %>
+                                                </div>
+                                            </div>
+
+                                            <form class="row g-3"
+                                                action="/admin/bca-<%= data.courseSession%>/part-<%= data.coursePart%>-student-edit/<%= data.student._id%>"
+                                                method="post">
+                                                <div class="col-md-12">
+                                                    <label for="" class="form-label fw-bold">Student's Name</label>
+                                                    <textarea name="studentName" rows="1"
+                                                        class="form-control"><%= data.student.studentName%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">Session</label>
+                                                    <textarea name="courseSession" rows="1"
+                                                        class="form-control"><%= data.student.courseSession%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">Reference Number</label>
+                                                    <textarea name="referenceNumber" rows="1"
+                                                        class="form-control"><%= data.student.referenceNumber%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">Applicant Id</label>
+                                                    <textarea name="applicantId" rows="1"
+                                                        class="form-control"><%= data.student.applicantId%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">PPU Confidential Number</label>
+                                                    <textarea name="ppuConfidentialNumber" rows="1"
+                                                        class="form-control"><%= data.student.ppuConfidentialNumber%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label fw-bold">College Roll Number</label>
+                                                    <textarea name="collegeRollNo" rows="1"
+                                                        class="form-control"><%= data.student.collegeRollNo ? data.student.collegeRollNo : "NA" %></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label fw-bold">Uni. Registration
+                                                        Number</label>
+                                                    <textarea name="uniRegNumber" rows="1"
+                                                        class="form-control"><%= data.student.uniRegNumber ? data.student.uniRegNumber : "NA" %></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label fw-bold">Uni. Roll Number</label>
+                                                    <textarea name="uniRollNumber" rows="1"
+                                                        class="form-control"><%= data.student.uniRollNumber ? data.student.uniRollNumber : "NA" %></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label fw-bold">Email</label>
+                                                    <textarea name="email" rows="1"
+                                                        class="form-control"><%= data.student.email%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label fw-bold">Mobile Number</label>
+                                                    <textarea name="mobileNumber" rows="1"
+                                                        class="form-control"><%= data.student.mobileNumber%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label fw-bold">Date of Birth</label>
+                                                    <input type="date" name="dOB" class="form-control"
+                                                        value="<%= data.student?.dOB ? data.student.dOB.toISOString().split('T')[0] : '' %>">
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label fw-bold">Gender</label>
+
+                                                    <select id="gender" class="form-select" name="gender">
+                                                        <option value="Male" <%=data.student.gender==='Male'
+                                                            ? 'selected' : "" %> >Male</option>
+                                                        <option value="Female" <%=data.student.gender==='Female'
+                                                            ? 'selected' : "" %> >Female</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label fw-bold">Category</label>
+                                                    <select id="category" class="form-select" name="category">
+                                                        <option value="GENERAL" <%=data.student.category==='GENERAL'
+                                                            ? 'selected' : "" %> >GENERAL</option>
+                                                        <option value="BC-2" <%=data.student.category==='BC-2'
+                                                            ? 'selected' : "" %> >BC-2</option>
+                                                        <option value="BC-1" <%=data.student.category==='BC-1'
+                                                            ? 'selected' : "" %> >BC-1</option>
+                                                        <option value="SC" <%=data.student.category==='SC' ? 'selected'
+                                                            : "" %> >SC</option>
+                                                        <option value="ST" <%=data.student.category==='ST' ? 'selected'
+                                                            : "" %> >ST</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label fw-bold">Subject</label>
+                                                    <textarea name="subject" rows="1"
+                                                        class="form-control"><%= data.student.subject%></textarea>
+                                                </div>
+
+                                                <hr>
+
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">Father's Name</label>
+                                                    <textarea name="fatherName" rows="1"
+                                                        class="form-control"><%= data.student.fatherName%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">Mother's Name</label>
+                                                    <textarea name="motherName" rows="1"
+                                                        class="form-control"><%= data.student.motherName%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">Guardian's Name</label>
+                                                    <textarea name="guardianName" rows="1"
+                                                        class="form-control"><%= data.student.guardianName%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">Applicant Aadhar No</label>
+                                                    <textarea name="aadharNumber" rows="1"
+                                                        class="form-control"><%= data.student.aadharNumber%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">Blood Group</label>
+
+                                                    <select id="bloodGroup" class="form-select" name="bloodGroup">
+                                                        <option value="A+" <%=data.student.bloodGroup==='A+'
+                                                            ? 'selected' : "" %> >A+</option>
+                                                        <option value="A-" <%=data.student.bloodGroup==='A-'
+                                                            ? 'selected' : "" %> >A-</option>
+                                                        <option value="B+" <%=data.student.bloodGroup==='B+'
+                                                            ? 'selected' : "" %> >B+</option>
+                                                        <option value="B-" <%=data.student.bloodGroup==='B-'
+                                                            ? 'selected' : "" %> >B-</option>
+                                                        <option value="AB+" <%=data.student.bloodGroup==='AB+'
+                                                            ? 'selected' : "" %> >AB+</option>
+                                                        <option value="AB-" <%=data.student.bloodGroup==='AB-'
+                                                            ? 'selected' : "" %> >AB-</option>
+                                                        <option value="O+" <%=data.student.bloodGroup==='O+'
+                                                            ? 'selected' : "" %> >O+</option>
+                                                        <option value="O-" <%=data.student.bloodGroup==='O-'
+                                                            ? 'selected' : "" %> >O-</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">Family Annual Income</label>
+                                                    <textarea name="familyAnnualIncome" rows="1"
+                                                        class="form-control"><%= data.student.familyAnnualIncome%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">Marital Status</label>
+
+                                                    <select id="maritalStatus" class="form-select" name="maritalStatus">
+                                                        <option value="UNMARRIED"
+                                                            <%=data.student.maritalStatus==='UNMARRIED' ? 'selected'
+                                                            : "" %> >UNMARRIED</option>
+                                                        <option value="MARRIED"
+                                                            <%=data.student.maritalStatus==='MARRIED' ? 'selected' : ""
+                                                            %> >MARRIED</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">Physically Challenged</label>
+
+                                                    <select id="physicallyChallenged" class="form-select"
+                                                        name="physicallyChallenged">
+                                                        <option value="NO" <%=data.student.physicallyChallenged==='NO'
+                                                            ? 'selected' : "" %> >NO</option>
+                                                        <option value="YES" <%=data.student.physicallyChallenged==='YES'
+                                                            ? 'selected' : "" %> >YES</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">Religion</label>
+
+                                                    <select id="religion" class="form-select" name="religion">
+                                                        <option value="Hindu" <%=data.student.religion==='Hindu'
+                                                            ? 'selected' : "" %> >Hindu</option>
+                                                        <option value="Muslim" <%=data.student.religion==='Muslim'
+                                                            ? 'selected' : "" %> >Muslim</option>
+                                                        <option value="Sikh" <%=data.student.religion==='Sikh'
+                                                            ? 'selected' : "" %> >Sikh</option>
+                                                        <option value="Christian" <%=data.student.religion==='Christian'
+                                                            ? 'selected' : "" %> >Christian</option>
+                                                        <option value="Other" <%=data.student.religion==='Other'
+                                                            ? 'selected' : "" %> >Other</option>
+                                                    </select>
+                                                </div>
+
+                                                <hr>
+
+                                                <div class="col-md-8">
+                                                    <label for="" class="form-label fw-bold">Address</label>
+                                                    <textarea name="address" rows="1"
+                                                        class="form-control"><%= data.student.address%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label fw-bold">District</label>
+                                                    <textarea name="district" rows="1"
+                                                        class="form-control"><%= data.student.district%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label fw-bold">Police Station</label>
+                                                    <textarea name="policeStation" rows="1"
+                                                        class="form-control"><%= data.student.policeStation%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label fw-bold">State</label>
+                                                    <textarea name="state" rows="1"
+                                                        class="form-control"><%= data.student.state%></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label fw-bold">Pin Code</label>
+                                                    <textarea name="pinCode" rows="1"
+                                                        class="form-control"><%= data.student.pinCode%></textarea>
+                                                </div>
+
+                                                <hr>
+
+                                                <h4>Part <%= data.coursePart %> Details</h4>
+
+                                                <div class="col-md-3">
+                                                    <label class="form-label fw-bold">Last Exam Name</label>
+
+                                                    <select id="examName" class="form-select" name="examName">
+                                                        <option value="I.A (10+2)" <%=form.examName==='I.A (10+2)'
+                                                            ? 'selected' : "" %>
+                                                            >I.A (10+2)
+                                                        </option>
+                                                        <option value="I.COM (10+2)" <%=form.examName==='I.COM (10+2)'
+                                                            ? 'selected' : "" %> >I.COM
+                                                            (10+2)
+                                                        </option>
+                                                        <option value="I.SC (10+2)" <%=form.examName==='I.SC (10+2)'
+                                                            ? 'selected' : "" %> >I.SC (10+2)
+                                                        </option>
+                                                        <option value="BCA Part 1" <%=form.examName==='BCA Part 1'
+                                                            ? 'selected' : "" %> >BCA Part 1
+                                                        </option>
+                                                        <option value="BCA Part 2" <%=form.examName==='BCA Part 2'
+                                                            ? 'selected' : "" %> >BCA Part 2
+                                                        </option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label class="form-label fw-bold">Last Exam Board</label>
+
+                                                    <select id="examBoard" class="form-select" name="examBoard">
+                                                        <option value="BSEB" <%=form.examBoard==='BSEB' ? 'selected'
+                                                            : "" %> >BSEB</option>
+                                                        <option value="CBSE" <%=form.examBoard==='CBSE' ? 'selected'
+                                                            : "" %> >CBSE</option>
+                                                        <option value="OTHER" <%=form.examBoard==='OTHER' ? 'selected'
+                                                            : "" %> >OTHER</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label class="form-label fw-bold">Last Exam Year</label>
+                                                    <input type="text" class="form-control" id="examYear"
+                                                        name="examYear" value="<%= form.examYear%>" inputmode="numeric"
+                                                        pattern="\d{4}" minlength="4" maxlength="4" />
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label class="form-label fw-bold">Last Exam Result</label>
+
+                                                    <select id="examResult" class="form-select" name="examResult">
+                                                        <option value="1st Division" <%=form.examResult==='1st Division'
+                                                            ? 'selected' : "" %> >1st Division</option>
+                                                        <option value="2nd Division" <%=form.examResult==='2nd Division'
+                                                            ? 'selected' : "" %> >2nd Division</option>
+                                                        <option value="3rd Division" <%=form.examResult==='3rd Division'
+                                                            ? 'selected' : "" %> >3rd Division</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label class="form-label fw-bold">Last Exam Obt. Marks /
+                                                        Grade</label>
+                                                    <textarea name="obtMarks" rows="1"
+                                                        class="form-control"><%= form.obtMarks%></textarea>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label class="form-label fw-bold">Last Exam Full Marks /
+                                                        Grade</label>
+                                                    <textarea name="fullMarks" rows="1"
+                                                        class="form-control"><%= form.fullMarks%></textarea>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label class="form-label fw-bold">Last Exam Obt
+                                                        Percentage</label>
+                                                    <textarea name="obtPercent" rows="1"
+                                                        class="form-control"><%= form.obtPercent%></textarea>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="" class="form-label fw-bold">Admission fee</label>
+                                                    <textarea name="totalFee" rows="1"
+                                                        class="form-control"><%= form.totalFee%></textarea>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="" class="form-label fw-bold">Payment ID</label>
+                                                    <textarea name="paymentId" rows="1"
+                                                        class="form-control"><%= form.paymentId ? form.paymentId : "NA" %></textarea>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="" class="form-label fw-bold">Receipt No</label>
+                                                    <textarea name="receiptNo" rows="1"
+                                                        class="form-control"><%= form.receiptNo ? form.receiptNo : "NA" %></textarea>
+                                                </div>
+
+                                                <button type="submit" class="btn btn-primary">Update</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- List ends Here     -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Blank End -->
+
+                        <!-- Footer Start -->
+                        <%- include('../partials/MainFooter.ejs')%>
+                            <!-- Footer End -->
+
+
+
+
+
+                </div>
+                <!-- Content End -->
+
+
+
+                <!-- Back to Top -->
+                <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/MainJSLibrary.ejs')%>
+
+</body>
+
+</html>

@@ -314,6 +314,9 @@
                                                 <textarea rows="1" class="form-control"
                                                     readonly><%= form.receiptNo ? form.receiptNo : "NA" %></textarea>
                                             </div>
+
+                                            <a href="/admin/bca-<%= data.courseSession %>/part-<%= data.coursePart %>-student-edit/<%= data.student._id %>"
+                                                class="btn btn-primary">Edit details</a>
                                         </form>
                                     </div>
                                     <!-- List ends Here     -->
