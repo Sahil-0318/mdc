@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/MainHeader.ejs') %>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+            <!-- Spinner End -->
+
+
+            <!-- Sidebar Start -->
+            <%- include('../partials/adminSidebar.ejs')%>
+                <!-- Sidebar End -->
+
+
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                    <%- include('../partials/navbar.ejs')%>
+                        <!-- Navbar End -->
+
+                        <div class="col-sm-12 col-xl-12 pt-4 px-4">
+                            <%- include("../partials/flashMessage.ejs") %>
+                        </div>
+
+                        <!-- Blank Start -->
+                        <div class="container-fluid pt-4 px-4">
+
+                            <div class="row bg-light rounded justify-content-center m-0 p-2" style="min-height: 70vh;">
+                                <div class="row">
+                                    <!-- List starts Here     -->
+
+                                    <div class="container mt-4">
+                                        <h3>Grievance Details</h3>
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th>Student Name</th>
+                                                <td>
+                                                    <%= data.grievance.studentName %>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Roll / Registration Number</th>
+                                                <td>
+                                                    <%= data.grievance.rollNo %>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Program</th>
+                                                <td>
+                                                    <%= data.grievance.program %>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Department</th>
+                                                <td>
+                                                    <%= data.grievance.department %>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Address</th>
+                                                <td>
+                                                    <%= data.grievance.address %>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Contact</th>
+                                                <td>
+                                                    <%= data.grievance.contact %>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Email</th>
+                                                <td>
+                                                    <%= data.grievance.email %>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Grievance Against</th>
+                                                <td>
+                                                    <%= data.grievance.grievanceAgainst %>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Grievance Details</th>
+                                                <td>
+                                                    <%= data.grievance.details %>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Submitted At</th>
+                                                <td>
+                                                    <%= data.grievance.submittedAt.toDateString() %>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Status</th>
+                                                <td>
+
+                                                    <form action="/grievance/status/<%= data.grievance._id %>"
+                                                        method="POST">
+                                                        <select class="form-select" name="status"
+                                                            onchange="this.form.submit()">
+                                                            <option value="Pending" <%=data.grievance.status==="Pending"
+                                                                ? "selected" : "" %>>Pending</option>
+                                                            <option value="In Progress"
+                                                                <%=data.grievance.status==="In Progress" ? "selected"
+                                                                : "" %>>In Progress
+                                                            </option>
+                                                            <option value="Resolved"
+                                                                <%=data.grievance.status==="Resolved" ? "selected" : ""
+                                                                %>>Resolved</option>
+                                                        </select>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <a href="/admin/grievance-list" class="btn btn-secondary">Back to List</a>
+                                    </div>
+                                    <!-- List ends Here     -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Blank End -->
+
+                        <!-- Footer Start -->
+                        <%- include('../partials/MainFooter.ejs')%>
+                            <!-- Footer End -->
+
+
+
+
+
+                </div>
+                <!-- Content End -->
+
+
+
+                <!-- Back to Top -->
+                <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/MainJSLibrary.ejs')%>
+
+</body>
+
+</html>
