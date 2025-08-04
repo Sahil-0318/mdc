@@ -9,6 +9,7 @@ import bca1UserModel from "../models/userModel/BCA-1/user.js"
 import bca2UserModel from "../models/userModel/BCA-2/user.js"
 import InterExamFormList from "../models/adminModel/interExamFormList.js"
 import ugRegularSem4User from "../models/userModel/UG-Regular-Sem-4/user.js"
+import ugRegularSem_2_24_28_Adm from '../models/userModel/ugRegSem_2_24_28.js'
 
 const login = (req, res) => {
     res.render('login')
@@ -193,6 +194,10 @@ const forgotPassword = async (req, res) => {
             registerRoute = "ugRegularSem4Signup"
         }
 
+        if (portal === "ugRegularSem2_24_28") {
+            registerRoute = "ugRegularSem2_24_28_Signup"
+        }
+
         res.render("forgotPassword", { portal, registerRoute })
 
     } catch (error) {
@@ -257,6 +262,16 @@ const forgotPasswordPost = async (req, res) => {
                 password = foundUser.password
             }
             redirectLink = "ugRegularSem4Login"
+        }
+
+        if (portal === "ugRegularSem2_24_28") {
+            foundUser = await ugRegularSem_2_24_28_Adm.findOne({ mobileNumber })
+            registerRoute = "ugRegularSem2_24_28_Signup"
+            if (foundUser !== null) {
+                userId = foundUser.userId
+                password = foundUser.password
+            }
+            redirectLink = "ugRegularSem2_24_28_Login"
         }
 
 
