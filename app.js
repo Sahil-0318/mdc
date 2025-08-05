@@ -72,14 +72,17 @@ import BCA_3_23_26_Router from './routes/BCA_3_23_26_Route/user_Route.js'
 import BCA_3_23_26_Payment_Router from './routes/BCA_3_23_26_Route/payment_Route.js'
 import BCA_3_23_26_Admin_Router from './routes/BCA_3_23_26_Route/admin_Router.js'
 
-// -===============New Admin Routes===================
+// -===============New Admins Routes===================
 // Admin Auth Routes
 import admin_Auth_Route from './routes/Admin_Routes/adminAuthRoute.js'
-import vocational_Super_Admin_Route from './routes/Admin_Routes/Super_Admin_Routes/vocationalSuperAdminRoute.js'
 import vocational_Admin_Route from './routes/Admin_Routes/Admin_Routes/vocationalAdminRoute.js'
 import grievance_Admin_Route from './routes/Admin_Routes/Admin_Routes/grievanceAdminRoute.js'
 
-// -===============New Vocational Routes===================
+// Super Admin Auth Routes
+import vocational_Super_Admin_Route from './routes/Admin_Routes/Super_Admin_Routes/vocationalSuperAdminRoute.js'
+import ug_Regular_Super_Admin_Route from './routes/Admin_Routes/Super_Admin_Routes/ugRegularSuperAdminRoute.js'
+
+// ===============New Vocational Routes===================
 // Vocational Auth Routes
 import vocational_Auth_Routes from './routes/Vocational_Course_Routes/vocationalAuthRoutes.js'
 // BCA Students Routes
@@ -145,12 +148,15 @@ app.use('/', BCA_3_23_26_Router)
 app.use('/', BCA_3_23_26_Payment_Router)
 app.use('/', BCA_3_23_26_Admin_Router)
 
-// =============New Vocational Routes=================
-// Vocational Auth Routes
+// =============New Admins Routes=================
+// Admin Routes
 app.use('/', admin_Auth_Route)
-app.use('/', vocational_Super_Admin_Route)
 app.use('/', vocational_Admin_Route)
 app.use('/', grievance_Admin_Route)
+
+// Super Admin Routes
+app.use('/', vocational_Super_Admin_Route)
+app.use('/', ug_Regular_Super_Admin_Route)
 
 
 
