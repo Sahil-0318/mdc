@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/MainHeader.ejs') %>
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <%- include('../partials/spinner.ejs') %>
+            <!-- Spinner End -->
+
+
+            <!-- Sidebar Start -->
+            <%- include('../partials/SuperAdminSidebar.ejs') %>
+                <!-- Sidebar End -->
+
+
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-2">
+                        <a href="#" class="sidebar-toggler flex-shrink-0">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                        <a href="" class="navbar-brand d-flex d-lg-none mx-1 me-4">
+                            <img class="mb-0" src="/images/logomdcollege.png" alt="MD College" style="width: 100%;">
+                        </a>
+                    </nav>
+                    <!-- Navbar End -->
+
+                    <!-- Form Start -->
+                    <div class="container-fluid pt-4 px-4">
+                        <!-- message -->
+                        <%- include("../partials/flashMessage.ejs") %>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="bg-light rounded p-4" style="min-height: 70vh;">
+
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <a href="javascript:window.history.back()">
+                                                <i class="fa-solid fa-arrow-left me-2"></i>Back
+                                            </a>
+                                        </div>
+
+                                        <!-- <div class="bg-light rounded p-4 mb-3"> -->
+                                        <h6 class="mb-4">
+                                            (<%= data.admPortal.courseSession %>) Admission Portal Detail
+                                        </h6>
+
+                                        <% for (let sem=1; sem <=8; sem++) { %>
+                                            <!-- Semester <%= sem %> Portal Toggle -->
+                                             <hr>
+                                            <div class="row mb-2">
+                                                <label for="semester<%= sem %>Status"
+                                                    class="col-sm-3 col-md-4 col-form-label">
+                                                    Semester <%= sem %> Portal :
+                                                </label>
+                                                <div class="col-sm-6 col-md-6">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="semester<%= sem %>Status-<%= data.admPortal._id %>"
+                                                            <%=data.admPortal[`sem${sem}Portal`] ? 'checked' : '' %>
+                                                        onchange="location.href='/super-admin/updatePortalStatus/<%= sem
+                                                            %>/<%= data.admPortal._id %>'"
+                                                                >
+                                                                <label class="form-check-label"
+                                                                    for="semester<%= sem %>Status-<%= data.admPortal._id %>">
+                                                                    <%= data.admPortal[`sem${sem}Portal`] ? 'Active'
+                                                                        : 'Deactive' %>
+                                                                </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Semester <%= sem %> Admission Toggle -->
+                                            <div class="row mb-3">
+                                                <label for="semester<%= sem %>AdmStatus"
+                                                    class="col-sm-3 col-md-4 col-form-label">
+                                                    Semester <%= sem %> Admission :
+                                                </label>
+                                                <div class="col-sm-6 col-md-6">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="semester<%= sem %>AdmStatus-<%= data.admPortal._id %>"
+                                                            <%=data.admPortal[`sem${sem}AdmPortal`] ? 'checked' : '' %>
+                                                        onchange="location.href='/super-admin/updateAdmPortalStatus/<%=
+                                                            sem %>/<%= data.admPortal._id %>'"
+                                                                >
+                                                                <label class="form-check-label"
+                                                                    for="semester<%= sem %>AdmStatus-<%= data.admPortal._id %>">
+                                                                    <%= data.admPortal[`sem${sem}AdmPortal`] ? 'Active'
+                                                                        : 'Deactive' %>
+                                                                </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% } %>
+
+
+
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Form End -->
+
+
+                    <!-- Footer Start -->
+                    <%- include('../partials/MainFooter.ejs') %>
+                        <!-- Footer End -->
+                </div>
+                <!-- Content End -->
+
+
+                <!-- Back to Top -->
+                <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <%- include('../partials/MainJSLibrary.ejs') %>
+</body>
+
+</html>

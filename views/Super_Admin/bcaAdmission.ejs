@@ -3,7 +3,7 @@
 
 <head>
     <%- include('../partials/MainHeader.ejs') %>
-    
+
 </head>
 
 <body>
@@ -48,17 +48,18 @@
                                                     Session :
                                                 </label>
                                                 <div class="col-sm-6 col-md-6">
-                                                    <select name="courseSession" id="courseSession" class="form-select" required>
-                                                    <option value="" selected disabled>Select Session</option>
-                                                    <option value="2025-2028">2025-2028</option>
-                                                    <option value="2025-2028">2026-2029</option>
-                                                    <option value="2025-2028">2027-2030</option>
-                                                    <option value="2025-2028">2028-2031</option>
-                                                    <option value="2025-2028">2029-2032</option>
-                                                    <option value="2025-2028">2030-2033</option>
-                                                </select>
+                                                    <select name="courseSession" id="courseSession" class="form-select"
+                                                        required>
+                                                        <option value="" selected disabled>Select Session</option>
+                                                        <option value="2025-2028">2025-2028</option>
+                                                        <option value="2026-2029">2026-2029</option>
+                                                        <option value="2027-2030">2027-2030</option>
+                                                        <option value="2028-2031">2028-2031</option>
+                                                        <option value="2029-2032">2029-2032</option>
+                                                        <option value="2030-2033">2030-2033</option>
+                                                    </select>
                                                 </div>
-                                                
+
                                             </div>
 
                                             <div class="row mb-3">
@@ -92,11 +93,13 @@
 
                                                             </div>
                                                             <div class="my-3">
-                                                            <input type="text" class="form-control my-3" id="courseSessionFilter" placeholder="Search by Session">
+                                                                <input type="text" class="form-control my-3"
+                                                                    id="courseSessionFilter"
+                                                                    placeholder="Search by Session">
 
                                                             </div>
                                                         </div>
-                                                        
+
                                                         <div class="table-responsive">
                                                             <table class="table">
                                                                 <thead>
@@ -124,37 +127,44 @@
                                                                                 </td>
                                                                                 <td>
                                                                                     <div class="form-check form-switch">
-                                                                                        <input class="form-check-input" type="checkbox"
-                                                                                            id="part1Status-<%= element._id %>"
-                                                                                            <%= element.isPart1Active ? 'checked' : '' %>
-                                                                                            onchange="location.href='/portalStatus/bca/1/<%= element._id %>'">
-                                                                                        <label class="form-check-label" for="part1Status-<%= element._id %>">
-                                                                                            <%= element.isPart1Active ? 'Active' : 'Deactive' %>
-                                                                                        </label>
-                                                                                    </div>
+    <input class="form-check-input"
+        type="checkbox"
+        id="part1Status-<%= element._id %>"
+        <%= element.isPart1Active ? 'checked' : '' %>
+        onchange="location.href='/portalStatus/bca/1/<%= element._id %>'">
+    <label class="form-check-label" for="part1Status-<%= element._id %>">
+        <%= element.isPart1Active ? 'Active' : 'Deactive' %>
+    </label>
+</div>
+
+                                                                                    
                                                                                 </td>
 
                                                                                 <td>
                                                                                     <div class="form-check form-switch">
-                                                                                        <input class="form-check-input" type="checkbox"
-                                                                                            id="part2Status-<%= element._id %>"
-                                                                                            <%= element.isPart2Active ? 'checked' : '' %>
-                                                                                            onchange="location.href='/portalStatus/bca/2/<%= element._id %>'">
-                                                                                        <label class="form-check-label" for="part2Status-<%= element._id %>">
-                                                                                            <%= element.isPart2Active ? 'Active' : 'Deactive' %>
-                                                                                        </label>
-                                                                                    </div>
+    <input class="form-check-input"
+        type="checkbox"
+        id="part2Status-<%= element._id %>"
+        <%= element.isPart2Active ? 'checked' : '' %>
+        onchange="location.href='/portalStatus/bca/2/<%= element._id %>'">
+    <label class="form-check-label" for="part2Status-<%= element._id %>">
+        <%= element.isPart2Active ? 'Active' : 'Deactive' %>
+    </label>
+</div>
+
                                                                                 </td>
                                                                                 <td>
                                                                                     <div class="form-check form-switch">
-                                                                                        <input class="form-check-input" type="checkbox"
-                                                                                            id="part3Status-<%= element._id %>"
-                                                                                            <%= element.isPart3Active ? 'checked' : '' %>
-                                                                                            onchange="location.href='/portalStatus/bca/3/<%= element._id %>'">
-                                                                                        <label class="form-check-label" for="part3Status-<%= element._id %>">
-                                                                                            <%= element.isPart3Active ? 'Active' : 'Deactive' %>
-                                                                                        </label>
-                                                                                    </div>
+    <input class="form-check-input"
+        type="checkbox"
+        id="part3Status-<%= element._id %>"
+        <%= element.isPart3Active ? 'checked' : '' %>
+        onchange="location.href='/portalStatus/bca/3/<%= element._id %>'">
+    <label class="form-check-label" for="part3Status-<%= element._id %>">
+        <%= element.isPart3Active ? 'Active' : 'Deactive' %>
+    </label>
+</div>
+
                                                                                 </td>
                                                                                 <td>
                                                                                     <a href="/portalDetail/bca/<%= element._id %>"
@@ -168,6 +178,13 @@
                                                                             </tr>
                                                                             <% }); %>
                                                                                 <% } %>
+                                                                                    <tr id="noDataRow"
+                                                                                        style="display: none;">
+                                                                                        <td colspan="11"
+                                                                                            class="text-center text-danger fw-bold">
+                                                                                            No data found for the
+                                                                                            selected session.</td>
+                                                                                    </tr>
                                                                 </tbody>
                                                             </table>
                                                             <% if (data.admPortalList) { %>
@@ -206,24 +223,38 @@
 
     <!-- JavaScript Libraries -->
     <%- include('../partials/BCAJSLibrary.ejs') %>
-    <script>
-    document.getElementById("courseSessionFilter").addEventListener("input", function () {
-        const filter = this.value.toUpperCase();
-        const rows = document.querySelectorAll("table tbody tr");
+        <script>
+            document.getElementById("courseSessionFilter").addEventListener("input", function () {
+                const filter = this.value.toUpperCase();
+                const rows = document.querySelectorAll("table tbody tr");
+                let matchFound = false;
 
-        rows.forEach(row => {
-            const sessionCell = row.children[1]; // 2nd column is courseSession
-            if (sessionCell) {
-                const text = sessionCell.textContent || sessionCell.innerText;
-                if (text.toUpperCase().includes(filter)) {
-                    row.style.display = "";
+                rows.forEach(row => {
+                    const sessionCell = row.children[1]; // 2nd column is courseSession
+                    // Skip the "no data" row
+                    if (row.id === "noDataRow") return;
+
+                    if (sessionCell) {
+                        const text = sessionCell.textContent || sessionCell.innerText;
+                        if (text.toUpperCase().includes(filter)) {
+                            row.style.display = "";
+                            matchFound = true;
+                        } else {
+                            row.style.display = "none";
+                        }
+                    }
+                });
+
+                // Show or hide the "No Data" row
+                const noDataRow = document.getElementById("noDataRow");
+                if (!matchFound) {
+                    noDataRow.style.display = "";
                 } else {
-                    row.style.display = "none";
+                    noDataRow.style.display = "none";
                 }
-            }
-        });
-    });
-</script>
+            });
+        </script>
+
 
 </body>
 
