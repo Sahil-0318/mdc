@@ -77,6 +77,7 @@ import BCA_3_23_26_Admin_Router from './routes/BCA_3_23_26_Route/admin_Router.js
 import admin_Auth_Route from './routes/Admin_Routes/adminAuthRoute.js'
 import vocational_Admin_Route from './routes/Admin_Routes/Admin_Routes/vocationalAdminRoute.js'
 import grievance_Admin_Route from './routes/Admin_Routes/Admin_Routes/grievanceAdminRoute.js'
+import gallery_Admin_Route from './routes/Admin_Routes/Admin_Routes/galleryAdminRoute.js'
 
 // Super Admin Auth Routes
 import vocational_Super_Admin_Route from './routes/Admin_Routes/Super_Admin_Routes/vocationalSuperAdminRoute.js'
@@ -153,6 +154,7 @@ app.use('/', BCA_3_23_26_Admin_Router)
 app.use('/', admin_Auth_Route)
 app.use('/', vocational_Admin_Route)
 app.use('/', grievance_Admin_Route)
+app.use('/', gallery_Admin_Route)
 
 // Super Admin Routes
 app.use('/', vocational_Super_Admin_Route)
@@ -168,6 +170,6 @@ app.use('/', BCA_Student_Routes)
 app.use('/', BCA_Payment_Routes)
 
 
-app.listen(port, () => {
-  console.log(`Example app listening on http://localhost:${port}`)
+app.listen(port, "0.0.0.0",  () => {
+  console.log(`Example app listening on http://0.0.0.0:${port}`)
 })
