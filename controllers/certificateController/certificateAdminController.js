@@ -122,7 +122,7 @@ export const downloadclc = async (req, res) => {
         });
 
         firstPage.moveTo(350, 444);
-        firstPage.drawText(`${foundclc.course}`, {
+        firstPage.drawText(`${foundclc.course} - ${foundclc.courseSemesterPart ? foundclc.courseSemesterPart : ""}`, {
             font: courierBoldFont,
             size: 12,
         });
@@ -274,7 +274,7 @@ export const downloadCCInCLC = async (req, res) => {
 
 
         firstPage.moveTo(248, 192);
-        firstPage.drawText(`${foundcc.course}`, {
+        firstPage.drawText(`${foundcc.course} - ${foundcc.courseSemesterPart ? foundcc.courseSemesterPart : ""}`, {
             font: courierBoldFont,
             size: 18,
         });
@@ -438,7 +438,7 @@ export const downloadcc = async (req, res) => {
 
 
         firstPage.moveTo(248, 192);
-        firstPage.drawText(`${foundcc.courseName}`, {
+        firstPage.drawText(`${foundcc.courseName} - ${foundcc.courseSemesterPart ? foundcc.courseSemesterPart : ""}`, {
             font: courierBoldFont,
             size: 18,
         });

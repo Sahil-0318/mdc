@@ -37,7 +37,7 @@ export const clcApplyPost = async (req, res) => {
         const { type } = req.query
         console.log("Line 30 type in clcApplyPost", type)
         const user = await User.findOne({ _id: req.id })
-        const { fullName, fatherName, motherName, aadharNumber, parmanentAddress, dOB, course, session, dOAdm, classRollNumber, yearOfExam, resultDivision, regNumber, uniRollNumber } = req.body
+        const { fullName, fatherName, motherName, aadharNumber, parmanentAddress, dOB, course, courseSemesterPart, session, dOAdm, classRollNumber, yearOfExam, resultDivision, regNumber, uniRollNumber } = req.body
 
         const appliedUser = await NewClc.findOne({ appliedBy: user._id.toString() })
         const appliedUniRegNumber = await NewClc.findOne({ regNumber })
@@ -61,7 +61,7 @@ export const clcApplyPost = async (req, res) => {
             let studentId = "MDC/" + uniRollNumber
 
             const newCLCForm = new NewClc({
-                fullName: fullName.trim(), fatherName: fatherName.trim(), motherName: motherName.trim(), aadharNumber, parmanentAddress: parmanentAddress.trim(), dOB, course, session, dOAdm, classRollNumber: classRollNumber.trim(), yearOfExam, resultDivision, regNumber: regNumber.trim(), uniRollNumber: uniRollNumber.trim(),
+                fullName: fullName.trim(), fatherName: fatherName.trim(), motherName: motherName.trim(), aadharNumber, parmanentAddress: parmanentAddress.trim(), dOB, course, courseSemesterPart, session, dOAdm, classRollNumber: classRollNumber.trim(), yearOfExam, resultDivision, regNumber: regNumber.trim(), uniRollNumber: uniRollNumber.trim(),
                 serialNo,
                 studentId,
                 appliedBy: user._id,
@@ -212,7 +212,7 @@ export const ccForm = async (req, res) => {
 export const ccFormPost = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.id })
-        const { fullName, fatherName, motherName, courseName, session, collegeRollNumber } = req.body
+        const { fullName, fatherName, motherName, courseName, courseSemesterPart, session, collegeRollNumber } = req.body
 
         const appliedUser = await CC.findOne({ appliedBy: user._id.toString() })
         const appliedCollegeRollNumber = await CC.findOne({ collegeRollNumber })
@@ -226,7 +226,7 @@ export const ccFormPost = async (req, res) => {
             let serialNo = characterCertificateCount + 1
 
             const newCCForm = new CC({
-                fullName: fullName.trim(), fatherName: fatherName.trim(), motherName: motherName.trim(), courseName, session: session.trim(), collegeRollNumber: collegeRollNumber.trim(), appliedBy: user._id, serialNo, studentId: `MDC-${generateRandom4DigitNumber()}${collegeRollNumber}`
+                fullName: fullName.trim(), fatherName: fatherName.trim(), motherName: motherName.trim(), courseName, courseSemesterPart, session: session.trim(), collegeRollNumber: collegeRollNumber.trim(), appliedBy: user._id, serialNo, studentId: `MDC-${generateRandom4DigitNumber()}${collegeRollNumber}`
             })
 
             await newCCForm.save()

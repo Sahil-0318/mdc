@@ -131,10 +131,12 @@
                                     
                                     <% if (locals.extraInfo.certificateType === "CC") { %>
                                         <p class="mb-1 fw-bold">Course :&nbsp; &nbsp; &nbsp; <%= locals.appliedUser.courseName %></p>
+                                        <p class="mb-1 fw-bold">Course Part / Semester :&nbsp; &nbsp; &nbsp; <%= locals.appliedUser.courseSemesterPart %></p>
                                     <% } %>
 
                                     <% if (locals.extraInfo.certificateType === "clc") { %>
                                         <p class="mb-1 fw-bold">Course :&nbsp; &nbsp; &nbsp; <%= locals.appliedUser.course %></p>
+                                        <p class="mb-1 fw-bold">Course Part / Semester :&nbsp; &nbsp; &nbsp; <%= locals.appliedUser.courseSemesterPart %></p>
                                     <% } %>
                                     
                                     <% if (locals.extraInfo.certificateType === "clc") { %>

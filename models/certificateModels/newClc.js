@@ -30,6 +30,9 @@ const newClcSchema = new mongoose.Schema({
         type : String,
         required : true,
     },
+    courseSemesterPart: {
+        type : String
+    },
     session: {
         type : String,
         required : true,
