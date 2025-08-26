@@ -90,6 +90,9 @@ import vocational_Auth_Routes from './routes/Vocational_Course_Routes/vocational
 import BCA_Student_Routes from './routes/Vocational_Course_Routes/BCA_Routes/studentRoutes.js'
 import BCA_Payment_Routes from './routes/Vocational_Course_Routes/BCA_Routes/paymentRoutes.js'
 
+// UG Regular Sem 5 2023-2027 Students Routes
+import Ug_Reg_Sem_5_23_27_Router from './routes/Ug_Reg_Sem_5_23_27_Route/user_Route.js'
+
 
 app.use(
     session({
@@ -168,6 +171,10 @@ app.use('/', vocational_Auth_Routes)
 // BCA Students Routes
 app.use('/', BCA_Student_Routes)
 app.use('/', BCA_Payment_Routes)
+
+
+// UG Regular Sem 5 2023-2027 Students Routes
+app.use('/', Ug_Reg_Sem_5_23_27_Router)
 
 
 app.listen(port, "0.0.0.0",  () => {
