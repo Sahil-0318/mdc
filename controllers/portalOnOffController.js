@@ -248,6 +248,26 @@ const bca3202326 = async (req, res) => {
     }
 }
 
+const ugRegSem5Potal202327 = async (req, res) => {
+    try {
+        let queries = req.query
+        const user = await User.findOne({ _id: req.id })
+
+        if (queries.isOn === "true") {
+            await PortalOnOff.findOneAndUpdate({portal : "ugRegularSem5_23-27"}, { $set : {isOn : false} })
+        }  
+
+        if (queries.isOn === "false") {
+            await PortalOnOff.findOneAndUpdate({portal : "ugRegularSem5_23-27"}, { $set : {isOn : true} })
+        }
+
+        const portal = await PortalOnOff.findOne({portal : "ugRegularSem5_23-27"})
+        res.render('portalOnOff', { url : "ugRegSem5Potal202327", session : "UG Regular Sem 5 (2023 - 27)", user, portal : portal.isOn })
+    } catch (error) {
+        console.log("Error in UG Regular Sem 5 Potal 2023-27 Get Method =====>", error)
+    }
+}
+
 
 export {
     ugRegularSem1Potal202428,
@@ -261,5 +281,6 @@ export {
     ugRegularSem2Potal202428,
     ugRegSem1Potal202529,
     bca2202427,
-    bca3202326
+    bca3202326,
+    ugRegSem5Potal202327
 }

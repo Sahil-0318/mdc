@@ -23,7 +23,7 @@ export const register = async (req, res) => {
             res.render('Ug_Reg_Sem_5_23_27/register', { message: req.flash("flashMessage") })
         }
         if (portal.isOn == false) {
-            return res.render('pageNotFound', { status: "UG Regular Sem 5 (2023 - 27) admission has been closed.", loginPage: "ug-reg-sem-5-23-27-login" })
+            return res.render('pageNotFound', { status: "UG Regular Sem 5 (2023 - 27) admission has not been started.", loginPage: "ug-reg-sem-5-23-27-login" })
         }
     } catch (error) {
         console.log("Error in Ug_Reg_Sem_5-23-27_Controller >> user-Controller >> register", error);
