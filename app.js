@@ -96,6 +96,7 @@ import Ug_Reg_Sem_5_23_27_Admin_Router from './routes/Ug_Reg_Sem_5_23_27_Route/a
 
 // UG Regular Sem 5 2023-2027 Students Routes
 import Ug_Reg_Sem_3_24_28_Router from './routes/Ug_Reg_Sem_3_24_28_Route/user_Route.js'
+import Ug_Reg_Sem_3_24_28_Admin_Router from './routes/Ug_Reg_Sem_3_24_28_Route/admin_Route.js'
 
 app.use(
     session({
@@ -182,7 +183,7 @@ app.use('/', Ug_Reg_Sem_5_23_27_Admin_Router)
 
 // UG Regular Sem 3 2024-2028 Students Routes
 app.use('/', Ug_Reg_Sem_3_24_28_Router)
-// app.use('/', Ug_Reg_Sem_3_24_28_Admin_Router)
+app.use('/', Ug_Reg_Sem_3_24_28_Admin_Router)
 
 
 app.listen(port, "0.0.0.0",  () => {

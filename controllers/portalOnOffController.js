@@ -268,6 +268,26 @@ const ugRegSem5Potal202327 = async (req, res) => {
     }
 }
 
+const ugRegSem3Potal202428 = async (req, res) => {
+    try {
+        let queries = req.query
+        const user = await User.findOne({ _id: req.id })
+
+        if (queries.isOn === "true") {
+            await PortalOnOff.findOneAndUpdate({portal : "ugRegularSem3_24-28"}, { $set : {isOn : false} })
+        }  
+
+        if (queries.isOn === "false") {
+            await PortalOnOff.findOneAndUpdate({portal : "ugRegularSem3_24-28"}, { $set : {isOn : true} })
+        }
+
+        const portal = await PortalOnOff.findOne({portal : "ugRegularSem3_24-28"})
+        res.render('portalOnOff', { url : "ugRegSem3Potal202428", session : "UG Regular Sem 3 (2024 - 28)", user, portal : portal.isOn })
+    } catch (error) {
+        console.log("Error in UG Regular Sem 3 Potal 2024-28 Get Method =====>", error)
+    }
+}
+
 
 export {
     ugRegularSem1Potal202428,
@@ -282,5 +302,6 @@ export {
     ugRegSem1Potal202529,
     bca2202427,
     bca3202326,
-    ugRegSem5Potal202327
+    ugRegSem5Potal202327,
+    ugRegSem3Potal202428
 }
