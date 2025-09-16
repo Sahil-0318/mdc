@@ -13,7 +13,7 @@ const userAuth = async (req, res , next)=>{
         
     } catch (error) {
         req.flash("flashMessage", ["Login to access this page", "alert-danger"]);
-        res.status(401).redirect('/ug-reg-sem-1-25-29-login')
+        res.status(401).redirect('/ug-reg-sem-5-23-27-login')
     }
 }
 
