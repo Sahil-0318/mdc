@@ -50,6 +50,60 @@ export const bcaAdmission = async (req, res) => {
     }
 }
 
+// export const bcaAdmissionPost = async (req, res) => {
+//     const { courseSession } = req.body;
+//     const filePath = req.file.path;
+//     const workbook = XLSX.readFile(filePath);
+//     const sheetName = workbook.SheetNames[0];
+//     let data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+
+//     try {
+//         const foundAdmPortal = await VocationalAdmPortal.findOne({ courseSession, degree: "bca" });
+
+//         if (foundAdmPortal) {
+//             req.flash("flashMessage", ["Admission Portal Already started..", "alert-danger"]);
+//             let deletedExcel = await fs.unlink(filePath); // Delete uploaded file
+//             console.log(deletedExcel)
+//             return res.redirect(`/super-admin/bcaAdmission`);
+//         }
+
+//         // Convert dOB from "01-Jan-2006" to "2006-01-01T00:00:00.000Z"
+//         data = data.map(item => {
+//             if (item.dOB) {
+//                 const parsedDate = new Date(item.dOB);
+//                 if (!isNaN(parsedDate)) {
+//                     item.dOB = parsedDate.toISOString(); // "2006-01-01T00:00:00.000Z"
+//                 }
+//             }
+//             return item;
+//         });
+
+//         await BCAPart1MeritList.deleteMany({});
+//         await BCAPart1MeritList.insertMany(data);
+
+//         const newVocationalAdmPortal = new VocationalAdmPortal({
+//             courseSession,
+//             degree: "bca"
+//         });
+
+//         await newVocationalAdmPortal.save();
+
+//         req.flash("flashMessage", ["New Admission started successfully.", "alert-success"]);
+//         let deletedExcel = await fs.unlink(filePath); // Delete uploaded file
+//         console.log(deletedExcel)
+//         return res.redirect(`/super-admin/bcaAdmission`);
+//     } catch (error) {
+//         console.error("Error in Controllers >> Admin_Controllers >> Super_Admin_Controller >> vocationalSuperAdminController >> bcaAdmissionPost :", error);
+//         req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
+//         try {
+//             await fs.unlink(filePath); // ❗Clean up even on error
+//         } catch (unlinkErr) {
+//             console.error("Error deleting file:", unlinkErr);
+//         }
+//         return res.redirect(`/super-admin/bcaAdmission`);
+//     }
+// };
+
 export const bcaAdmissionPost = async (req, res) => {
     const { courseSession } = req.body;
     const filePath = req.file.path;
@@ -58,21 +112,34 @@ export const bcaAdmissionPost = async (req, res) => {
     let data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
     try {
-        const foundAdmPortal = await VocationalAdmPortal.findOne({ courseSession, degree: "bca" });
+        const foundAdmPortal = await VocationalAdmPortal.findOne({
+            courseSession,
+            degree: "bca",
+        });
 
         if (foundAdmPortal) {
             req.flash("flashMessage", ["Admission Portal Already started..", "alert-danger"]);
-            let deletedExcel = await fs.unlink(filePath); // Delete uploaded file
-            console.log(deletedExcel)
+            await fs.unlink(filePath); // Delete uploaded file
             return res.redirect(`/super-admin/bcaAdmission`);
         }
 
-        // Convert dOB from "01-Jan-2006" to "2006-01-01T00:00:00.000Z"
-        data = data.map(item => {
+        // ✅ Convert dOB like "01-Jan-2006" → "2006-01-01T00:00:00.000Z" (no timezone shift)
+        data = data.map((item) => {
             if (item.dOB) {
-                const parsedDate = new Date(item.dOB);
-                if (!isNaN(parsedDate)) {
-                    item.dOB = parsedDate.toISOString(); // "2006-01-01T00:00:00.000Z"
+                // Split on dash, slash or space
+                const [day, mon, year] = item.dOB.split(/[-\/\s]/);
+                const months = {
+                    Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+                    Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
+                };
+
+                if (year && months[mon] !== undefined && day) {
+                    const dateUTC = new Date(Date.UTC(
+                        parseInt(year, 10),
+                        months[mon],
+                        parseInt(day, 10)
+                    ));
+                    item.dOB = dateUTC.toISOString(); // e.g. "2006-01-01T00:00:00.000Z"
                 }
             }
             return item;
@@ -83,27 +150,27 @@ export const bcaAdmissionPost = async (req, res) => {
 
         const newVocationalAdmPortal = new VocationalAdmPortal({
             courseSession,
-            degree: "bca"
+            degree: "bca",
         });
-
         await newVocationalAdmPortal.save();
 
         req.flash("flashMessage", ["New Admission started successfully.", "alert-success"]);
-        let deletedExcel = await fs.unlink(filePath); // Delete uploaded file
-        console.log(deletedExcel)
+        await fs.unlink(filePath); // Delete uploaded file
         return res.redirect(`/super-admin/bcaAdmission`);
     } catch (error) {
-        console.error("Error in Controllers >> Admin_Controllers >> Super_Admin_Controller >> vocationalSuperAdminController >> bcaAdmissionPost :", error);
+        console.error(
+            "Error in Controllers >> Admin_Controllers >> Super_Admin_Controller >> vocationalSuperAdminController >> bcaAdmissionPost :",
+            error
+        );
         req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
         try {
-            await fs.unlink(filePath); // ❗Clean up even on error
+            await fs.unlink(filePath); // Clean up even on error
         } catch (unlinkErr) {
             console.error("Error deleting file:", unlinkErr);
         }
         return res.redirect(`/super-admin/bcaAdmission`);
     }
 };
-
 
 export const portalStatus = async (req, res) => {
     try {
@@ -207,27 +274,77 @@ export const portalAdmStatus = async (req, res) => {
 
 
 
+// export const updateMeritList = async (req, res) => {
+//     const { degree } = req.params
+//     const filePath = req.file.path;
+//     const workbook = XLSX.readFile(filePath);
+//     const sheetName = workbook.SheetNames[0];
+//     let data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+
+//     try {
+
+//         // Convert dOB from "01-Jan-2006" to "2006-01-01T00:00:00.000Z"
+//         data = data.map(item => {
+//             if (item.dOB) {
+//                 const parsedDate = new Date(item.dOB);
+//                 if (!isNaN(parsedDate)) {
+//                     item.dOB = parsedDate.toISOString(); // "2006-01-01T00:00:00.000Z"
+//                 }
+//             }
+//             return item;
+//         });
+
+//         if (degree === 'bca') {
+//             await BCAPart1MeritList.deleteMany({});
+//             await BCAPart1MeritList.insertMany(data);
+//         }
+
+//         req.flash("flashMessage", ["Merit List Updated successfully.", "alert-success"]);
+//         await fs.unlink(filePath); // Delete uploaded file
+//         return res.redirect(`/super-admin/${degree}Admission`);
+//     } catch (error) {
+//         console.error("Error in Controllers >> Admin_Controllers >> Super_Admin_Controller >> vocationalSuperAdminController >> updateMeritList :", error);
+//         req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
+//         try {
+//             await fs.unlink(filePath); // ❗Clean up even on error
+//         } catch (unlinkErr) {
+//             console.error("Error deleting file:", unlinkErr);
+//         }
+//         return res.redirect(`/super-admin/${degree}Admission`);
+//     }
+// };
+
 export const updateMeritList = async (req, res) => {
-    const { degree } = req.params
+    const { degree } = req.params;
     const filePath = req.file.path;
     const workbook = XLSX.readFile(filePath);
     const sheetName = workbook.SheetNames[0];
     let data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
     try {
-
-        // Convert dOB from "01-Jan-2006" to "2006-01-01T00:00:00.000Z"
+        // ✅ Convert dOB like "01-Jan-2006" → "2006-01-01T00:00:00.000Z" without timezone shift
         data = data.map(item => {
             if (item.dOB) {
-                const parsedDate = new Date(item.dOB);
-                if (!isNaN(parsedDate)) {
-                    item.dOB = parsedDate.toISOString(); // "2006-01-01T00:00:00.000Z"
+                // Split on dash, slash or space
+                const [day, mon, year] = item.dOB.split(/[-\/\s]/);
+                const months = {
+                    Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+                    Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
+                };
+
+                if (year && months[mon] !== undefined && day) {
+                    const dateUTC = new Date(Date.UTC(
+                        parseInt(year, 10),
+                        months[mon],
+                        parseInt(day, 10)
+                    ));
+                    item.dOB = dateUTC.toISOString(); // e.g. "2006-01-01T00:00:00.000Z"
                 }
             }
             return item;
         });
 
-        if (degree === 'bca') {
+        if (degree === "bca") {
             await BCAPart1MeritList.deleteMany({});
             await BCAPart1MeritList.insertMany(data);
         }
@@ -236,17 +353,19 @@ export const updateMeritList = async (req, res) => {
         await fs.unlink(filePath); // Delete uploaded file
         return res.redirect(`/super-admin/${degree}Admission`);
     } catch (error) {
-        console.error("Error in Controllers >> Admin_Controllers >> Super_Admin_Controller >> vocationalSuperAdminController >> updateMeritList :", error);
+        console.error(
+            "Error in Controllers >> Admin_Controllers >> Super_Admin_Controller >> vocationalSuperAdminController >> updateMeritList :",
+            error
+        );
         req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
         try {
-            await fs.unlink(filePath); // ❗Clean up even on error
+            await fs.unlink(filePath); // ❗ Clean up even on error
         } catch (unlinkErr) {
             console.error("Error deleting file:", unlinkErr);
         }
         return res.redirect(`/super-admin/${degree}Admission`);
     }
 };
-
 
 export const deletePortal = async (req, res) => {
     try {
