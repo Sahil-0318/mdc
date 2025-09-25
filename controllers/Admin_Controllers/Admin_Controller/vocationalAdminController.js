@@ -332,4 +332,20 @@ export const studentEditPost = async (req, res) => {
 };
 
 
+export const studentCredentials = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.id })
+    const userIdAndPasswordList = await BCAStudent
+      .find({})
+      .select('userId password courseSession mobileNumber studentName');
+
+    res.render("Admin/bcaStudentCredentials", { list: userIdAndPasswordList, status: "All", noOfForms: userIdAndPasswordList.length, user })
+  } catch (error) {
+    console.error("Error in studentCredentials:", error);
+    req.flash("flashMessage", ["Something went wrong !!", "alert-danger"]);
+    return res.redirect(req.originalUrl);
+  }
+};
+
+
 
